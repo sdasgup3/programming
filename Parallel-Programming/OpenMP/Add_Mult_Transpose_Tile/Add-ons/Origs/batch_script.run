@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -l walltime=00:10:00
+#PBS -l nodes=1:ppn=12
+#PBS -N mp1
+#PBS -j oe
+
+# Move to your mp0 directory
+cd /home/"netid"/MP1
+
+echo "Running MP1 Routine:" >> out_addition.txt
+
+# Run MP0 and direct the screen output to a text file.
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./addition >> out_addition.txt
+done
+

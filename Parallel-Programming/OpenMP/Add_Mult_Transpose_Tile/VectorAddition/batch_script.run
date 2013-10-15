@@ -1,0 +1,111 @@
+#!/bin/bash
+#PBS -l walltime=00:10:00
+#PBS nodes=1:ppn=12
+#PBS -N mp1
+#PBS -j oe
+
+# Move to your mp0 directory
+cd /home/sdasgup3/sdasgup3/mp1/VectorAddition
+
+
+# Run MP0 and direct the screen output to a text file.
+rm -rf out_addition.txt
+
+for x in 1 2 3 4 5 6 7 8 9 10
+do
+./addition 
+done
+
+echo;
+
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for 
+	done
+	echo;
+done
+
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for_nowait 
+	done
+	echo;
+done
+
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for_schedule_static_exp1 
+	done
+	echo;
+done
+
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for_schedule_static_exp2
+	done
+	echo;
+done
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for_schedule_dynamic_chunk_10000 
+	done
+	echo;
+done
+
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for_schedule_dynamic_chunk_1000 
+	done
+	echo;
+done
+
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for_schedule_dynamic_chunk_100 
+	done
+	echo;
+done
+
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for_schedule_dynamic_chunk_1 
+	done
+	echo;
+done
+
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	for x in 1 2 3 4 5 6 7 8 9 10
+	do
+		./addition_parallel_for_schedule_guided 
+	done
+	echo;
+done
+
+echo "optimized addition"
+./optimized_addition

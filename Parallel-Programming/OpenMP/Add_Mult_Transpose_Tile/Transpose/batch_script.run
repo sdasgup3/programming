@@ -1,0 +1,43 @@
+#!/bin/bash
+#PBS -l walltime=00:10:00
+#PBS nodes=1:ppn=12
+#PBS -N mp1
+#PBS -j oe
+
+# Move to your mp0 directory
+cd /home/sdasgup3/sdasgup3/mp1/Transpose
+
+
+echo "Transpose serial"
+./transpose
+
+echo "thread outer"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./transpose_parallel_outer_for
+done
+
+echo "thread inner"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./transpose_parallel_inner_for
+done
+
+echo "thread inner ver2"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./transpose_parallel_inner_for_ver2
+done
+
+echo "thread collapse"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+        ./transpose_parallel_collapse_1
+done
+
+echo "optimized collapse"
+./optimized_transpose

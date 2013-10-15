@@ -1,0 +1,2 @@
+https://computing.llnl.gov/tutorials/openMP/
+https://computing.llnl.gov/tutorials/openMP/exercise.html

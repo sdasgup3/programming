@@ -1,0 +1,82 @@
+#!/bin/bash
+#PBS -l walltime=00:10:00
+#PBS nodes=1:ppn=12
+#PBS -N mp1
+#PBS -j oe
+
+# Move to your mp0 directory
+cd /home/sdasgup3/sdasgup3/mp1/MatrixMultipy
+
+
+echo "Serial"
+./multiply
+
+echo "loopinterchange ijk"
+./multiply_loop_interchange_ijk
+
+echo "loopinterchange ikj"
+./multiply_loop_interchange_ikj
+
+echo "loopinterchange jik"
+./multiply_loop_interchange_jik
+
+echo "loopinterchange jki"
+./multiply_loop_interchange_jki
+
+echo "loopinterchange kij"
+./multiply_loop_interchange_kij
+
+echo "loopinterchange kji"
+./multiply_loop_interchange_kji
+
+echo "threads"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./multiply_parallel_outer_for
+done
+
+echo "threads collapse 1"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./multiply_forloop_collapse_1
+done
+
+echo "threads collapse 2"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./multiply_forloop_collapse_2
+done
+
+echo "threads collapse 3"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./multiply_forloop_collapse_3
+done
+
+echo "threads middle"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./multiply_parallel_middle_for
+done
+
+echo "threads inner"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./multiply_parallel_inner_for
+#done
+
+echo "threads inner"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./multiply_parallel_inner_for
+#done
+
+echo "optimized multiply"
+./optimized_multiply

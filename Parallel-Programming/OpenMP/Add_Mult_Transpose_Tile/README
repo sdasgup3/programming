@@ -1,0 +1,56 @@
+Directory structure
+----------------------
+   mp1
+    |____ README
+    |____ sdasgup3_mp1.pdf                    : The final report of all the analysis. Mentions how the best performance is achieved 
+    |                                           and gives suitable explanation at each stage of development. 
+    |____ VectorAddition
+    |          |_______ addition.c           : serial implementation
+    |          |
+    |          |_______ optimized_addition.c : The most optimized version obtained after applying all 
+    |          |                               the serial/parallel optimizations.
+    |          | 
+    |          |_______ *.c                  : All implementations used for analysis and testing of 
+    |                                          different optimizations.
+    |       
+    |____ MatrixMultipy
+    |          |
+    |          |_______ multiply.c           : serial implementation
+    |          |
+    |          |_______ optimized_multiply.c : The most optimized version obtained after applying all
+    |          |                               the serial/parallel optimizations.
+    |          | 
+    |          |_______ *.c                  : All implementation used for analysis and testing of 
+    |                                          different optimizations.
+    |
+    |____ Transpose
+    |          |
+    |          |_______ transpose.c           : serial implementation
+    |          |
+    |          |_______ optimized_transpose.c : The most optimized version obtained after applying all
+    |          |                                the serial/parallel optimizations.
+    |          | 
+    |          |_______ *.c                   : All implementation used for analysis and testing of 
+    |                                           different optimizations.
+    |       
+    |____ Tiled
+    |          |
+    |          |_______ tiled.c              : serial implementation
+    |          |
+    |          |_______ optimized_tiled.c    : The most optimized version obtained after applying all
+    |          |                               the serial/parallel optimizations.
+    |          | 
+    |          |_______ *.c                  : All implementation used for analysis and testing of 
+    |                                           different optimizations.
+    |
+    |____ TiledTranspose
+              |
+              |_______ tiled_transpose.c              : serial implementation
+              |
+              |_______ optimized_tiled_transpose.c    : The most optimized version obtained after applying all
+              |                                         the serial/parallel optimizations.
+              | 
+              |_______ *.c                            : All other implementation used for analysis and testing of 
+                                                        different optimizations.
+    
+

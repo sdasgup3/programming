@@ -1,0 +1,87 @@
+#!/bin/bash
+#PBS -l walltime=00:10:00
+#PBS -l nodes=1:ppn=12
+#PBS -N mp1
+#PBS -j oe
+
+# Move to your mp0 directory
+cd /home/sdasgup3/sdasgup3/mp1/Tiled
+
+echo "Serial"
+./tiled
+
+echo "Serial Opt"
+./tiled_serial_optimization
+
+echo "thread ii"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./tiled_parallel_outer_for_ii 
+done
+
+echo "thread jj"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./tiled_parallel_outer_for_jj 
+done
+
+#echo "thread kk"
+#for procs in 1 2 4 6 12
+#do
+#	export OMP_NUM_THREADS=${procs}
+#	./tiled_parallel_outer_for_kk 
+#done
+
+echo "thread i"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./tiled_parallel_outer_for_i 
+done
+
+echo "thread j"
+for procs in 1 2 4 6 12
+do
+	export OMP_NUM_THREADS=${procs}
+	./tiled_parallel_outer_for_j
+done
+
+#echo "thread k"
+#for procs in 1 2 4 6 12
+#do
+#	export OMP_NUM_THREADS=${procs}
+#	./tiled_parallel_outer_for_k
+#done
+
+echo "thread collapse(1)"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+        ./tiled_collapse_1
+done
+
+echo "thread collapse(2)"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+        ./tiled_collapse_2
+done
+
+echo "thread collapse(3)"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+        ./tiled_collapse_3
+done
+
+echo "block size experiment "
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+        ./tiled_block_size_exp
+done
+
+echo "Optimized tiled"
+./optimized_tiled

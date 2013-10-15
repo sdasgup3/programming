@@ -1,0 +1,63 @@
+#!/bin/bash
+#PBS -l walltime=00:10:00
+#PBS nodes=1:ppn=12
+#PBS -N mp1
+#PBS -j oe
+
+# Move to your mp0 directory
+cd /home/sdasgup3/sdasgup3/mp1/TiledTranspose
+
+
+echo "Serial"
+./tiled_transpose
+
+echo "block exp"
+./tiled_transpose_exp_with_block_size 
+
+echo "serial optimization"
+./tiled_transpose_with_loop_unroll 
+
+echo "parallel_for_ii"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+	./tiled_transpose_with_loop_unroll_parallel_for_ii 
+done
+
+echo "parallel_for_jj"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+	./tiled_transpose_with_loop_unroll_parallel_for_jj 
+done
+
+echo "parallel_for_i"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+	./tiled_transpose_with_loop_unroll_parallel_for_i 
+done
+
+echo "parallel_for_j"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+	./tiled_transpose_with_loop_unroll_parallel_for_j 
+done
+
+echo "parallel_for_collapse_1"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+	./tiled_transpose_with_loop_unroll_parallel_for_ii_collapse_1
+done
+
+echo "parallel_for_collapse_2"
+for procs in 1 2 4 6 12
+do
+        export OMP_NUM_THREADS=${procs}
+	./tiled_transpose_with_loop_unroll_parallel_for_ii_collapse_2
+done
+
+echo "optimized tiled transpose"
+./optimized_tiled_transpose
