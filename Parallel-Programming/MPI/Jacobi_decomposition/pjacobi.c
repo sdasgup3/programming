@@ -319,8 +319,8 @@ int main(int argc, char* argv[]) {
         i_end ++;
 
     if(r >= i_start && r <= i_end) {
-        printf("Results:\n");
-        printf("Running time=%12.8lf\n",ttotal);
+        //printf("Results:\n");
+        //printf("Running time=%12.8lf\n",ttotal);
         printf("Value at (R,C)=%12.8lf\n",a[r][c]);
     }
 

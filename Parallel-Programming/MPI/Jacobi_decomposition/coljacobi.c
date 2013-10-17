@@ -294,9 +294,9 @@ int main(int argc, char* argv[]) {
             }
          
             if(0 != rank && (numprocessors -1) != rank )
-                MPI_Waitall(2* (numprocessors + 2 ), reqs, WaitAllStatus);
+                MPI_Waitall(2* (n + 2 ), reqs, WaitAllStatus);
             else
-                MPI_Waitall(numprocessors + 2 , reqs, WaitAllStatus);
+                MPI_Waitall(n + 2 , reqs, WaitAllStatus);
         }
 
         // Compute new grid values
@@ -336,7 +336,7 @@ int main(int argc, char* argv[]) {
     if(c >= j_start && c <= j_end) {
         //printf("Results:\n");
         //printf("Running time=%12.8lf\n",ttotal);
-        //printf("Value at (R,C)=%12.8lf\n",a[r][c]);
+        printf("Value at (R,C)=%12.8lf\n",a[r][c]);
     }
     
 
@@ -386,7 +386,7 @@ if(MASTER == rank) {
     //printf("Running time=%12.8lf\n",ttotal);
     //printf("Value at (R,C)=%12.8lf\n",a[r][c]);
     //printf("Value at (R,C)=%12.8lf\n",query_result);
-    print_grid(a,0,n+2);
+    //print_grid(a,0,n+2);
     } 
   
     MPI_Finalize();
