@@ -108,8 +108,8 @@ int main(int argc, char* argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD,&numprocessors);
 
     MPI_Status status;
-    MPI_Status WaitAllStatus[2*numprocessors];
-    MPI_Request reqs[2*numprocessors];
+    MPI_Status WaitAllStatus[2*(n + 2 )];
+    MPI_Request reqs[2* ( n + 2 )];
 
     //We assumed that N is evenly divisible by the number of processors P.
     if (0 != n % numprocessors) {
@@ -248,27 +248,27 @@ int main(int argc, char* argv[]) {
                     #ifdef DEBUG  
                     printf("%d sending (%d,%d) to %d with tag %d\n", rank,i, rightmost_colm_of_sender ,  rank+1, SENDING_RIGHT);
                     #endif 
-                    MPI_Send( &a[i][rightmost_colm_of_sender], 1, MPI_DOUBLE, rank + 1, SENDING_RIGHT, MPI_COMM_WORLD );        
+                    MPI_Isend( &a[i][rightmost_colm_of_sender], 1, MPI_DOUBLE, rank + 1, SENDING_RIGHT, MPI_COMM_WORLD, &reqs[i] );        
                 }
             } else if((numprocessors - 1) == rank) {
                 for(i = 0 ; i < n+2 ; i++) {
                     #ifdef DEBUG
                     printf("%d sending (%d,%d) to %d with tag %d\n", rank,i, leftmost_colm_of_sender ,  rank-1, SENDING_LEFT);
                     #endif
-                    MPI_Send( &a[i][leftmost_colm_of_sender], 1, MPI_DOUBLE, rank - 1, SENDING_LEFT , MPI_COMM_WORLD );
+                    MPI_Isend( &a[i][leftmost_colm_of_sender], 1, MPI_DOUBLE, rank - 1, SENDING_LEFT , MPI_COMM_WORLD, &reqs[i] );
                 }
             } else {
                 for(i = 0 ; i < n+2 ; i++) {
                     #ifdef DEBUG  
                     printf("%d sending (%d,%d) to %d with tag %d\n", rank,i, leftmost_colm_of_sender ,  rank-1, SENDING_LEFT);
                     #endif
-                    MPI_Send( &a[i][leftmost_colm_of_sender], 1, MPI_DOUBLE, rank - 1, SENDING_LEFT , MPI_COMM_WORLD );        
+                    MPI_Isend( &a[i][leftmost_colm_of_sender], 1, MPI_DOUBLE, rank - 1, SENDING_LEFT , MPI_COMM_WORLD, &reqs[i] );        
                 }
-                for(i = 0 ; i < n+2 ; i++) {
+                for(j = 0 ; j < n+2 ; j++) {
                     #ifdef DEBUG  
-                    printf("%d sending (%d,%d) to %d with tag %d\n", rank,i, rightmost_colm_of_sender ,  rank+1, SENDING_RIGHT);
+                    printf("%d sending (%d,%d) to %d with tag %d\n", rank,j, rightmost_colm_of_sender ,  rank+1, SENDING_RIGHT);
                     #endif 
-                    MPI_Send( &a[i][rightmost_colm_of_sender], 1, MPI_DOUBLE, rank + 1, SENDING_RIGHT, MPI_COMM_WORLD );        
+                    MPI_Isend( &a[j][rightmost_colm_of_sender], 1, MPI_DOUBLE, rank + 1, SENDING_RIGHT, MPI_COMM_WORLD , &reqs[i+j]);        
                 }
             } 
 
@@ -294,9 +294,9 @@ int main(int argc, char* argv[]) {
             }
          
             if(0 != rank && (numprocessors -1) != rank )
-                MPI_Waitall(2, reqs, WaitAllStatus);
+                MPI_Waitall(2* (numprocessors + 2 ), reqs, WaitAllStatus);
             else
-                MPI_Waitall(1, reqs, WaitAllStatus);
+                MPI_Waitall(numprocessors + 2 , reqs, WaitAllStatus);
         }
 
         // Compute new grid values
