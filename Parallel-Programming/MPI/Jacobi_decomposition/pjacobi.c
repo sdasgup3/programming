@@ -319,9 +319,9 @@ int main(int argc, char* argv[]) {
         i_end ++;
 
     if(r >= i_start && r <= i_end) {
-        //printf("Results:\n");
-        //printf("Running time=%12.8lf\n",ttotal);
-        //printf("Value at (R,C)=%12.8lf\n",a[r][c]);
+        printf("Results:\n");
+        printf("Running time=%12.8lf\n",ttotal);
+        printf("Value at (R,C)=%12.8lf\n",a[r][c]);
     }
 
     /******************* For Debug Purposes **************************
@@ -369,7 +369,7 @@ int main(int argc, char* argv[]) {
     //printf("Tolerance=%12.10lf\n",maxdiff);
     //printf("Running time=%12.8lf\n",ttotal);
     //printf("Value at (R,C)=%12.8lf\n",a[r][c]);
-    print_grid(a,0,n+2);
+    //print_grid(a,0,n+2);
     } 
   
     MPI_Finalize();
