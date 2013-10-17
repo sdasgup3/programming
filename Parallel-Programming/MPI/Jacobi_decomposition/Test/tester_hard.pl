@@ -4,14 +4,14 @@ use warnings;
 use strict;
 
 
-my @sizes = (144, 288, 432);
+my @sizes = (720, 1440, 4320);
 my @cores = (1,12,24,36,48);
 #my @cores = (1,2,4);
 
 
 #foreach my $size (@sizes) {
 #        print "Running Jacobi on size $size\n";
-#        system("./jacobi $size 1000 1 1 > gold_$size");
+#        system("../jacobi $size 1000 1 1 > gold_$size");
 #}
 #
 foreach my $size (@sizes) {

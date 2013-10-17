@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -l walltime=00:10:00
+#PBS -l nodes=4:ppn=12
+#PBS -N mp2
+#PBS -j oe
+
+# Move to your mp0 directory
+cd /home/"netid"/MP2
+
+for gsize in 720 1440 4320
+do
+
+	for cores in 1 12 24 36 48
+	do
+
+		echo "Running with n=${gsize} p=${cores}" >> out_mp2_test.txt
+
+		# Run MP2
+		mpirun -n $cores ./pjacobi $gsize 1000 1 1 >> out_mp2_test.txt 
+
+	done
+
+done
+

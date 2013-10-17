@@ -92,7 +92,6 @@ int main(int argc, char* argv[]) {
 
     int rank, numprocessors, i_start, i_end;
     int top_row_of_sender, top_row_rank_plus_one, bottom_row_rank_minus_one, bottom_row_of_sender; 
-    MPI_Status status;
 
     if (argc != ARGS) {
         fprintf(stderr,"Wrong # of arguments.\nUsage: %s N I R C\n", argv[0]);
@@ -107,6 +106,10 @@ int main(int argc, char* argv[]) {
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&numprocessors);
+
+    MPI_Status status;
+    MPI_Status WaitAllStatus[2];
+    MPI_Request reqs[2];
 
     //We assumed that N is evenly divisible by the number of processors P.
     if (0 != n % numprocessors) {
@@ -158,13 +161,13 @@ int main(int argc, char* argv[]) {
 
     // Output initial grid
     #ifdef DEBUG
-    if(0 == rank)
-        print_grid(a,0,n+2);
+  //  if(0 == rank)
+  //      print_grid(a,0,n+2);
 
-    sleep(1);
-    printf ("\n");
-    if(1 == rank)
-        print_grid(a,0,n+2);
+  //  sleep(1);
+  //  printf ("\n");
+  //  if(1 == rank)
+  //      print_grid(a,0,n+2);
     #endif
 
 
@@ -229,33 +232,57 @@ int main(int argc, char* argv[]) {
         //of process rank + 1 
         bottom_row_rank_minus_one =  proc_boundary[rank-1].i_last - 1 ;
         top_row_rank_plus_one     =  proc_boundary[rank+1].i_first;
-    
-        //For process 0, send own bottom row and receive first row of P1
-        //For process P - 1  , send own top row and receive bottom row of P - 2
-        if(0 != rank) {
-            #ifdef DEBUG  
-              printf("%d sending %d to %d with tag %d\n", rank, top_row_of_sender,  rank-1, SENDING_UP);
-            #endif
-            MPI_Send( a[top_row_of_sender], n + 2, MPI_DOUBLE, rank - 1, SENDING_UP , MPI_COMM_WORLD );        
-        }
-        if((numprocessors - 1) != rank) {
-            #ifdef DEBUG  
-              printf("%d sending %d to %d with tag %d\n", rank,bottom_row_of_sender, rank+1, SENDING_DOWN);
-            #endif 
-            MPI_Send( a[bottom_row_of_sender], n + 2, MPI_DOUBLE, rank + 1, SENDING_DOWN, MPI_COMM_WORLD );        
-        }
 
-        if(0 != rank) {
-            #ifdef DEBUG  
-              printf("%d receiveing %d from %d with tag %d\n", rank, bottom_row_rank_minus_one, rank-1, SENDING_DOWN );
-            #endif
-            MPI_Recv( a[bottom_row_rank_minus_one],  n + 2 , MPI_DOUBLE, rank - 1, SENDING_DOWN, MPI_COMM_WORLD, &status );
-        }
-        if((numprocessors - 1) != rank) {
-            #ifdef DEBUG  
+        int is_only_one_proc = (0 == numprocessors - 1 );
+    
+        if(0 == is_only_one_proc) {
+            //For process 0,            send own bottom row 
+            //For process 1,2,...,P-2,  send own top row
+            //For process 1,2,...,P-2,  send own bottom row 
+            //For process P-1,          send own top row 
+            if(0 == rank) {
+                #ifdef DEBUG  
+                  printf("%d sending %d to %d with tag %d\n", rank,bottom_row_of_sender, rank+1, SENDING_DOWN);
+                #endif 
+                MPI_Isend( a[bottom_row_of_sender], n + 2, MPI_DOUBLE, rank + 1, SENDING_DOWN, MPI_COMM_WORLD, &reqs[0] );
+            } else if ((numprocessors - 1) == rank) {
+                #ifdef DEBUG  
+                  printf("%d sending %d to %d with tag %d\n", rank, top_row_of_sender,  rank-1, SENDING_UP);
+                #endif
+                MPI_Isend( a[top_row_of_sender], n + 2, MPI_DOUBLE, rank - 1, SENDING_UP , MPI_COMM_WORLD, &reqs[0]);        
+            } else {
+                #ifdef DEBUG  
+                  printf("%d sending %d to %d with tag %d\n", rank, top_row_of_sender,  rank-1, SENDING_UP);
+                #endif
+                MPI_Isend( a[top_row_of_sender], n + 2, MPI_DOUBLE, rank - 1, SENDING_UP , MPI_COMM_WORLD, &reqs[0]);        
+                #ifdef DEBUG  
+                  printf("%d sending %d to %d with tag %d\n", rank,bottom_row_of_sender, rank+1, SENDING_DOWN);
+                #endif 
+                MPI_Isend( a[bottom_row_of_sender], n + 2, MPI_DOUBLE, rank + 1, SENDING_DOWN, MPI_COMM_WORLD, &reqs[1] );        
+
+            }
+
+            //For process 0,            receive top row of P1
+            //For process 1,2,...,P-2,  receive bottom row of P(rank + 1)
+            //For process 1,2,...,P-2,  receive top row of P(rank - 1)
+            //For process P-1,          receive bottom row of P-2
+            if(0 != rank) {
+                #ifdef DEBUG  
+                  printf("%d receiveing %d from %d with tag %d\n", rank, bottom_row_rank_minus_one, rank-1, SENDING_DOWN );
+                #endif
+                MPI_Recv( a[bottom_row_rank_minus_one],  n + 2 , MPI_DOUBLE, rank - 1, SENDING_DOWN, MPI_COMM_WORLD, &status);
+            }
+            if((numprocessors - 1) != rank) {
+                #ifdef DEBUG  
               printf("%d receiveing %d from %d with tag %d\n", rank, top_row_rank_plus_one, rank+1, SENDING_UP);
-            #endif 
-            MPI_Recv( a[top_row_rank_plus_one],      n + 2, MPI_DOUBLE, rank + 1, SENDING_UP , MPI_COMM_WORLD, &status );
+                #endif 
+                MPI_Recv( a[top_row_rank_plus_one],      n + 2, MPI_DOUBLE, rank + 1, SENDING_UP , MPI_COMM_WORLD, &status);
+            }
+
+            if(0 != rank && (numprocessors -1) != rank )
+                MPI_Waitall(2, reqs, WaitAllStatus);
+            else 
+                MPI_Waitall(1, reqs, WaitAllStatus);
         }
 
         // Compute new grid values
