@@ -365,7 +365,6 @@ int main(int argc, char* argv[]) {
     ** processes will communicate their columns to process 0, which
     ** will print the entire array, to be matched with the serial
     ** results.
-    ******************************************************************/
     if(MASTER != rank) {
       int j_start = proc_boundary[rank].j_first;
       int j_end = proc_boundary[rank].j_last -1;
@@ -406,6 +405,7 @@ if(MASTER == rank) {
     //printf("Value at (R,C)=%12.8lf\n",query_result);
     //print_grid(a,0,n+2);
     } 
+    ******************************************************************/
   
     MPI_Finalize();
 
