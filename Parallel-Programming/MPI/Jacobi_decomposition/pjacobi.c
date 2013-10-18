@@ -108,8 +108,8 @@ int main(int argc, char* argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD,&numprocessors);
 
     MPI_Status status;
-    MPI_Status WaitAllStatus[2];
-    MPI_Request reqs[2];
+    MPI_Status WaitAllStatus[4];
+    MPI_Request reqs[4];
 
     //We assumed that N is evenly divisible by the number of processors P.
     if (0 != n % numprocessors) {
@@ -266,23 +266,31 @@ int main(int argc, char* argv[]) {
             //For process 1,2,...,P-2,  receive bottom row of P(rank + 1)
             //For process 1,2,...,P-2,  receive top row of P(rank - 1)
             //For process P-1,          receive bottom row of P-2
-            if(0 != rank) {
+            if(0 == rank) {
+                #ifdef DEBUG  
+                printf("%d receiveing %d from %d with tag %d\n", rank, top_row_rank_plus_one, rank+1, SENDING_UP);
+                #endif 
+                MPI_Irecv( a[top_row_rank_plus_one],      n + 2, MPI_DOUBLE, rank + 1, SENDING_UP , MPI_COMM_WORLD, &reqs[1]);
+            } else if ((numprocessors - 1) == rank) {
                 #ifdef DEBUG  
                   printf("%d receiveing %d from %d with tag %d\n", rank, bottom_row_rank_minus_one, rank-1, SENDING_DOWN );
                 #endif
-                MPI_Recv( a[bottom_row_rank_minus_one],  n + 2 , MPI_DOUBLE, rank - 1, SENDING_DOWN, MPI_COMM_WORLD, &status);
-            }
-            if((numprocessors - 1) != rank) {
+                MPI_Irecv( a[bottom_row_rank_minus_one],  n + 2 , MPI_DOUBLE, rank - 1, SENDING_DOWN, MPI_COMM_WORLD, &reqs[1]);
+            } else {
                 #ifdef DEBUG  
-              printf("%d receiveing %d from %d with tag %d\n", rank, top_row_rank_plus_one, rank+1, SENDING_UP);
+                  printf("%d receiveing %d from %d with tag %d\n", rank, bottom_row_rank_minus_one, rank-1, SENDING_DOWN );
+                #endif
+                MPI_Irecv( a[bottom_row_rank_minus_one],  n + 2 , MPI_DOUBLE, rank - 1, SENDING_DOWN, MPI_COMM_WORLD, &reqs[2]);
+                #ifdef DEBUG  
+                printf("%d receiveing %d from %d with tag %d\n", rank, top_row_rank_plus_one, rank+1, SENDING_UP);
                 #endif 
-                MPI_Recv( a[top_row_rank_plus_one],      n + 2, MPI_DOUBLE, rank + 1, SENDING_UP , MPI_COMM_WORLD, &status);
+                MPI_Irecv( a[top_row_rank_plus_one],      n + 2, MPI_DOUBLE, rank + 1, SENDING_UP , MPI_COMM_WORLD, &reqs[3]);
             }
 
             if(0 != rank && (numprocessors -1) != rank )
-                MPI_Waitall(2, reqs, WaitAllStatus);
+                MPI_Waitall(4, reqs, WaitAllStatus);
             else 
-                MPI_Waitall(1, reqs, WaitAllStatus);
+                MPI_Waitall(2, reqs, WaitAllStatus);
         }
 
         // Compute new grid values
@@ -319,8 +327,8 @@ int main(int argc, char* argv[]) {
         i_end ++;
 
     if(r >= i_start && r <= i_end) {
-        //printf("Results:\n");
-        //printf("Running time=%12.8lf\n",ttotal);
+        printf("Results:\n");
+        printf("Running time=%12.8lf\n",ttotal);
         printf("Value at (R,C)=%12.8lf\n",a[r][c]);
     }
 
@@ -331,7 +339,6 @@ int main(int argc, char* argv[]) {
     ** processes will communicate their rows to process 0, which
     ** will print the entire array, to be matched with the serial
     ** results.
-    ******************************************************************/
     if(MASTER != rank) {
       int i_start = proc_boundary[rank].i_first;
       int i_end = proc_boundary[rank].i_last -1;
@@ -360,8 +367,6 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-
-
     if(MASTER == rank) {
     // Results
     //printf("Results:\n");
@@ -371,6 +376,9 @@ int main(int argc, char* argv[]) {
     //printf("Value at (R,C)=%12.8lf\n",a[r][c]);
     //print_grid(a,0,n+2);
     } 
+    ******************************************************************/
+
+
   
     MPI_Finalize();
 
