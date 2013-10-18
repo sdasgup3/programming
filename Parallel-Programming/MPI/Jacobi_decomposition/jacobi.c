@@ -159,10 +159,10 @@ int main(int argc, char* argv[]) {
 	//printf("Final grid:\n");
 
 	// Results
-	//printf("Results:\n");
-	//printf("Iterations=%d\n",iteration);
-	//printf("Tolerance=%12.10lf\n",maxdiff);
-	//printf("Running time=%12.8lf\n",ttotal);
+	printf("Results:\n");
+	printf("Iterations=%d\n",iteration);
+	printf("Tolerance=%12.10lf\n",maxdiff);
+	printf("Running time=%12.8lf\n",ttotal);
 	printf("Value at (R,C)=%12.8lf\n",a[r][c]);
 	//print_grid(a,0,n+2);
 

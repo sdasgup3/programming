@@ -108,8 +108,8 @@ int main(int argc, char* argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD,&numprocessors);
 
     MPI_Status status;
-    MPI_Status WaitAllStatus[2*(n + 2 )];
-    MPI_Request reqs[2* ( n + 2 )];
+    MPI_Status WaitAllStatus[4*(n + 2 )];
+    MPI_Request reqs[4* ( n + 2 )];
 
     //We assumed that N is evenly divisible by the number of processors P.
     if (0 != n % numprocessors) {
@@ -276,27 +276,43 @@ int main(int argc, char* argv[]) {
             //For process 1,2,...,P-2,  receive leftmost column of P(rank + 1)
             //For process 1,2,...,P-2,  receive rightmost column of P(rank - 1)
             //For process P-1,          receive rightmost column of P-2
-            if(0 != rank) {
-                for(i = 0 ; i < n+2 ; i++) {
-                    #ifdef DEBUG  
-                    printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,rightmost_colm_rank_minus_one, rank-1, SENDING_RIGHT );
-                    #endif
-                    MPI_Recv( &a[i][rightmost_colm_rank_minus_one],  1 , MPI_DOUBLE, rank - 1, SENDING_RIGHT, MPI_COMM_WORLD, &status );
-                }
-            }
-            if((numprocessors - 1) != rank) {
+            if(0 == rank) {
+                int curr_index_in_reqs = n+2;
                 for(i = 0 ; i < n+2 ; i++) {
                     #ifdef DEBUG  
                     printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,leftmost_colm_rank_plus_one, rank+1, SENDING_LEFT );
                     #endif
-                    MPI_Recv( &a[i][leftmost_colm_rank_plus_one],  1 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &status );
+                    MPI_Irecv( &a[i][leftmost_colm_rank_plus_one],  1 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[curr_index_in_reqs + i] );
                 }
-            }
+            } else if((numprocessors - 1) == rank) {
+                int curr_index_in_reqs = n+2;
+                for(i = 0 ; i < n+2 ; i++) {
+                    #ifdef DEBUG  
+                    printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,rightmost_colm_rank_minus_one, rank-1, SENDING_RIGHT );
+                    #endif
+                    MPI_Irecv( &a[i][rightmost_colm_rank_minus_one],  1 , MPI_DOUBLE, rank - 1, SENDING_RIGHT, MPI_COMM_WORLD , &reqs[curr_index_in_reqs + i] );
+                }
+            } else {
+                int curr_index_in_reqs = 2*(n+2);
+                for(i = 0 ; i < n+2 ; i++) {
+                    #ifdef DEBUG  
+                    printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,rightmost_colm_rank_minus_one, rank-1, SENDING_RIGHT );
+                    #endif
+                    MPI_Irecv( &a[i][rightmost_colm_rank_minus_one],  1 , MPI_DOUBLE, rank - 1, SENDING_RIGHT, MPI_COMM_WORLD , &reqs[curr_index_in_reqs + i] );
+                }
+                curr_index_in_reqs = 3*(n+2);
+                for(i = 0 ; i < n+2 ; i++) {
+                    #ifdef DEBUG  
+                    printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,leftmost_colm_rank_plus_one, rank+1, SENDING_LEFT );
+                    #endif
+                    MPI_Irecv( &a[i][leftmost_colm_rank_plus_one],  1 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[curr_index_in_reqs + i] );
+                }
+            } 
          
             if(0 != rank && (numprocessors -1) != rank )
-                MPI_Waitall(2* (n + 2 ), reqs, WaitAllStatus);
+                MPI_Waitall(4* (n + 2 ), reqs, WaitAllStatus);
             else
-                MPI_Waitall(n + 2 , reqs, WaitAllStatus);
+                MPI_Waitall(2*(n + 2) , reqs, WaitAllStatus);
         }
 
         // Compute new grid values
@@ -334,8 +350,10 @@ int main(int argc, char* argv[]) {
         j_end ++;
 
     if(c >= j_start && c <= j_end) {
-        //printf("Results:\n");
-        //printf("Running time=%12.8lf\n",ttotal);
+        printf("Results:\n");
+        printf("Iterations=%d\n",iteration);
+        printf("Tolerance=%12.10lf\n",gmaxdiff);
+        printf("Running time=%12.8lf\n",ttotal);
         printf("Value at (R,C)=%12.8lf\n",a[r][c]);
     }
     

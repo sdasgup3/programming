@@ -328,6 +328,8 @@ int main(int argc, char* argv[]) {
 
     if(r >= i_start && r <= i_end) {
         printf("Results:\n");
+        printf("Iterations=%d\n",iteration);
+        printf("Tolerance=%12.10lf\n",gmaxdiff);
         printf("Running time=%12.8lf\n",ttotal);
         printf("Value at (R,C)=%12.8lf\n",a[r][c]);
     }
