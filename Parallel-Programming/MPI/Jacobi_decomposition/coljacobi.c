@@ -108,8 +108,12 @@ int main(int argc, char* argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD,&numprocessors);
 
     MPI_Status status;
-    MPI_Status WaitAllStatus[4*(n + 2 )];
-    MPI_Request reqs[4* ( n + 2 )];
+    MPI_Status WaitAllStatus[4];
+    MPI_Request reqs[4];
+    double send_buffer1[n+2];
+    double send_buffer2[n+2];
+    double recv_buffer1[n+2];
+    double recv_buffer2[n+2];
 
     //We assumed that N is evenly divisible by the number of processors P.
     if (0 != n % numprocessors) {
@@ -245,31 +249,23 @@ int main(int argc, char* argv[]) {
             //For process P-1,          send own leftmost column 
             if(0 == rank) {
                 for(i = 0 ; i < n+2 ; i++) {
-                    #ifdef DEBUG  
-                    printf("%d sending (%d,%d) to %d with tag %d\n", rank,i, rightmost_colm_of_sender ,  rank+1, SENDING_RIGHT);
-                    #endif 
-                    MPI_Isend( &a[i][rightmost_colm_of_sender], 1, MPI_DOUBLE, rank + 1, SENDING_RIGHT, MPI_COMM_WORLD, &reqs[i] );        
+                    send_buffer1[i] = a[i][rightmost_colm_of_sender];
                 }
+                MPI_Isend( send_buffer1, n+2, MPI_DOUBLE, rank + 1, SENDING_RIGHT, MPI_COMM_WORLD, &reqs[0] );        
             } else if((numprocessors - 1) == rank) {
                 for(i = 0 ; i < n+2 ; i++) {
-                    #ifdef DEBUG
-                    printf("%d sending (%d,%d) to %d with tag %d\n", rank,i, leftmost_colm_of_sender ,  rank-1, SENDING_LEFT);
-                    #endif
-                    MPI_Isend( &a[i][leftmost_colm_of_sender], 1, MPI_DOUBLE, rank - 1, SENDING_LEFT , MPI_COMM_WORLD, &reqs[i] );
+                    send_buffer1[i] = a[i][leftmost_colm_of_sender];
                 }
+                MPI_Isend( send_buffer1, n+2, MPI_DOUBLE, rank - 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[0] );
             } else {
                 for(i = 0 ; i < n+2 ; i++) {
-                    #ifdef DEBUG  
-                    printf("%d sending (%d,%d) to %d with tag %d\n", rank,i, leftmost_colm_of_sender ,  rank-1, SENDING_LEFT);
-                    #endif
-                    MPI_Isend( &a[i][leftmost_colm_of_sender], 1, MPI_DOUBLE, rank - 1, SENDING_LEFT , MPI_COMM_WORLD, &reqs[i] );        
+                    send_buffer1[i] = a[i][leftmost_colm_of_sender];
                 }
-                for(j = 0 ; j < n+2 ; j++) {
-                    #ifdef DEBUG  
-                    printf("%d sending (%d,%d) to %d with tag %d\n", rank,j, rightmost_colm_of_sender ,  rank+1, SENDING_RIGHT);
-                    #endif 
-                    MPI_Isend( &a[j][rightmost_colm_of_sender], 1, MPI_DOUBLE, rank + 1, SENDING_RIGHT, MPI_COMM_WORLD , &reqs[i+j]);        
+                MPI_Isend( send_buffer1, n+2, MPI_DOUBLE, rank - 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[0] );
+                for(i = 0 ; i < n+2 ; i++) {
+                    send_buffer2[i] = a[i][rightmost_colm_of_sender];
                 }
+                MPI_Isend( send_buffer2, n+2, MPI_DOUBLE, rank + 1, SENDING_RIGHT, MPI_COMM_WORLD, &reqs[1] );        
             } 
 
             //For process 0,            receive leftmost column of P1
@@ -277,42 +273,35 @@ int main(int argc, char* argv[]) {
             //For process 1,2,...,P-2,  receive rightmost column of P(rank - 1)
             //For process P-1,          receive rightmost column of P-2
             if(0 == rank) {
-                int curr_index_in_reqs = n+2;
-                for(i = 0 ; i < n+2 ; i++) {
-                    #ifdef DEBUG  
-                    printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,leftmost_colm_rank_plus_one, rank+1, SENDING_LEFT );
-                    #endif
-                    MPI_Irecv( &a[i][leftmost_colm_rank_plus_one],  1 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[curr_index_in_reqs + i] );
-                }
+                MPI_Irecv( recv_buffer1,  n+2 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[1] );
             } else if((numprocessors - 1) == rank) {
-                int curr_index_in_reqs = n+2;
-                for(i = 0 ; i < n+2 ; i++) {
-                    #ifdef DEBUG  
-                    printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,rightmost_colm_rank_minus_one, rank-1, SENDING_RIGHT );
-                    #endif
-                    MPI_Irecv( &a[i][rightmost_colm_rank_minus_one],  1 , MPI_DOUBLE, rank - 1, SENDING_RIGHT, MPI_COMM_WORLD , &reqs[curr_index_in_reqs + i] );
-                }
+                MPI_Irecv( recv_buffer1,  n+2 , MPI_DOUBLE, rank - 1, SENDING_RIGHT, MPI_COMM_WORLD, &reqs[1] );
             } else {
-                int curr_index_in_reqs = 2*(n+2);
-                for(i = 0 ; i < n+2 ; i++) {
-                    #ifdef DEBUG  
-                    printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,rightmost_colm_rank_minus_one, rank-1, SENDING_RIGHT );
-                    #endif
-                    MPI_Irecv( &a[i][rightmost_colm_rank_minus_one],  1 , MPI_DOUBLE, rank - 1, SENDING_RIGHT, MPI_COMM_WORLD , &reqs[curr_index_in_reqs + i] );
-                }
-                curr_index_in_reqs = 3*(n+2);
-                for(i = 0 ; i < n+2 ; i++) {
-                    #ifdef DEBUG  
-                    printf("%d receiveing (%d,%d) from %d with tag %d\n", rank, i,leftmost_colm_rank_plus_one, rank+1, SENDING_LEFT );
-                    #endif
-                    MPI_Irecv( &a[i][leftmost_colm_rank_plus_one],  1 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[curr_index_in_reqs + i] );
-                }
+                MPI_Irecv( recv_buffer1,  n+2 , MPI_DOUBLE, rank - 1, SENDING_RIGHT, MPI_COMM_WORLD, &reqs[2] );
+                MPI_Irecv( recv_buffer2,  n+2 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[3] );
             } 
          
             if(0 != rank && (numprocessors -1) != rank )
-                MPI_Waitall(4* (n + 2 ), reqs, WaitAllStatus);
+                MPI_Waitall(4, reqs, WaitAllStatus);
             else
-                MPI_Waitall(2*(n + 2) , reqs, WaitAllStatus);
+                MPI_Waitall(2, reqs, WaitAllStatus);
+
+            if(0 == rank) {
+                for(i = 0 ; i < n+2 ; i++) {
+                    a[i][leftmost_colm_rank_plus_one] =  recv_buffer1[i];
+                }
+            } else if((numprocessors - 1) == rank) {
+                for(i = 0 ; i < n+2 ; i++) {
+                    a[i][rightmost_colm_rank_minus_one] =  recv_buffer1[i];
+                }
+            } else {
+                for(i = 0 ; i < n+2 ; i++) {
+                    a[i][rightmost_colm_rank_minus_one] =  recv_buffer1[i];
+                }
+                for(i = 0 ; i < n+2 ; i++) {
+                    a[i][leftmost_colm_rank_plus_one] =  recv_buffer2[i];
+                }
+            } 
         }
 
         // Compute new grid values
@@ -395,15 +384,8 @@ int main(int argc, char* argv[]) {
 
 
 
-if(MASTER == rank) {
-    // Results
-    //printf("Results:\n");
-    //printf("Iterations=%d\n",iteration);
-    //printf("Tolerance=%12.10lf\n",maxdiff);
-    //printf("Running time=%12.8lf\n",ttotal);
-    //printf("Value at (R,C)=%12.8lf\n",a[r][c]);
-    //printf("Value at (R,C)=%12.8lf\n",query_result);
-    //print_grid(a,0,n+2);
+    if(MASTER == rank) {
+        print_grid(a,0,n+2);
     } 
     ******************************************************************/
   
