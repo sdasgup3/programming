@@ -241,6 +241,7 @@ int main(int argc, char* argv[]) {
         leftmost_colm_rank_plus_one   =  proc_boundary[rank+1].j_first;
     
         int is_only_one_proc = (0 == numprocessors - 1 );
+        maxdiff = 0.0;
 
         if(0 == is_only_one_proc) {
             //For process 0,            send own rightmost column 
@@ -280,6 +281,21 @@ int main(int argc, char* argv[]) {
                 MPI_Irecv( recv_buffer1,  n+2 , MPI_DOUBLE, rank - 1, SENDING_RIGHT, MPI_COMM_WORLD, &reqs[2] );
                 MPI_Irecv( recv_buffer2,  n+2 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[3] );
             } 
+
+            // Do Jacobi iteration on the interior of each block
+            j_start = proc_boundary[rank].j_first;
+            j_end   = proc_boundary[rank].j_last;
+            if(0 != rank )
+                j_start ++;
+            if((numprocessors -1) != rank )
+                j_end --;
+            for(i = 1;i < n+1; i++) {
+                for(j = j_start; j < j_end; j++) {
+                    b[i][j] = 0.2*( a[i][j] + a[i-1][j]  +  a[i+1][j] +  a[i][j-1]  +  a[i][j+1]);
+                    if(fabs(b[i][j]-a[i][j])>maxdiff)
+                        maxdiff = fabs(b[i][j]-a[i][j]);
+                }
+            } 
          
             if(0 != rank && (numprocessors -1) != rank )
                 MPI_Waitall(4, reqs, WaitAllStatus);
@@ -302,17 +318,36 @@ int main(int argc, char* argv[]) {
                     a[i][leftmost_colm_rank_plus_one] =  recv_buffer2[i];
                 }
             } 
-        }
 
-        // Compute new grid values
-        maxdiff = 0.0;
-        j_start = proc_boundary[rank].j_first;
-        j_end   = proc_boundary[rank].j_last;
-        for(i = 1;i < n+1; i++) {
-            for(j = j_start; j < j_end; j++) {
-                b[i][j] = 0.2*( a[i][j] + a[i-1][j]  +  a[i+1][j] +  a[i][j-1]  +  a[i][j+1]);
-                if(fabs(b[i][j]-a[i][j])>maxdiff)
-                    maxdiff = fabs(b[i][j]-a[i][j]);
+            // Do Jacobi iteration along the perimeter of each block
+            if(0 != rank) {
+                j_start = proc_boundary[rank].j_first;
+                for(i=1;i<n+1;i++) {
+                    b[i][j_start] = 0.2*( a[i][j_start] + a[i-1][j_start]  +  a[i+1][j_start] +  a[i][j_start-1]  +  a[i][j_start+1]);
+                    if(fabs(b[i][j_start]-a[i][j_start])>maxdiff)
+                        maxdiff = fabs(b[i][j_start]-a[i][j_start]);
+                }
+            }
+            if((numprocessors -1) != rank) {
+                j_end   = proc_boundary[rank].j_last;
+                j_end --;
+                for(i=1;i<n+1;i++) {
+                    b[i][j_end] = 0.2*( a[i][j_end] + a[i-1][j_end]  +  a[i+1][j_end] +  a[i][j_end-1]  +  a[i][j_end+1]);
+                    if(fabs(b[i][j_end]-a[i][j_end])>maxdiff)
+                        maxdiff = fabs(b[i][j_end]-a[i][j_end]);
+                }
+            }
+
+        } else {
+            // Compute new grid values
+            j_start = proc_boundary[rank].j_first;
+            j_end   = proc_boundary[rank].j_last;
+            for(i = 1;i < n+1; i++) {
+                for(j = j_start; j < j_end; j++) {
+                    b[i][j] = 0.2*( a[i][j] + a[i-1][j]  +  a[i+1][j] +  a[i][j-1]  +  a[i][j+1]);
+                    if(fabs(b[i][j]-a[i][j])>maxdiff)
+                        maxdiff = fabs(b[i][j]-a[i][j]);
+                }
             }
         }
 

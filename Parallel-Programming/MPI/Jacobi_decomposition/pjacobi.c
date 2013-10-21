@@ -234,6 +234,7 @@ int main(int argc, char* argv[]) {
         top_row_rank_plus_one     =  proc_boundary[rank+1].i_first;
 
         int is_only_one_proc = (0 == numprocessors - 1 );
+        maxdiff = 0.0;
     
         if(0 == is_only_one_proc) {
             //For process 0,            send own bottom row 
@@ -286,24 +287,57 @@ int main(int argc, char* argv[]) {
                 #endif 
                 MPI_Irecv( a[top_row_rank_plus_one],      n + 2, MPI_DOUBLE, rank + 1, SENDING_UP , MPI_COMM_WORLD, &reqs[3]);
             }
+ 
+            // Do Jacobi iteration on the interior of each block
+            i_start = proc_boundary[rank].i_first;
+            i_end   = proc_boundary[rank].i_last;
+            if(0 != rank )
+                i_start ++;
+            if((numprocessors -1) != rank )
+                i_end --;
+            for(i=i_start;i<i_end;i++) {
+                for(j=1;j<n+1;j++) {
+                    b[i][j] = 0.2*( a[i][j] + a[i-1][j]  +  a[i+1][j] +  a[i][j-1]  +  a[i][j+1]);
+                    if(fabs(b[i][j]-a[i][j])>maxdiff)
+                        maxdiff = fabs(b[i][j]-a[i][j]);
+                }
+            }
 
             if(0 != rank && (numprocessors -1) != rank )
                 MPI_Waitall(4, reqs, WaitAllStatus);
             else 
                 MPI_Waitall(2, reqs, WaitAllStatus);
-        }
 
-        // Compute new grid values
-        maxdiff = 0.0;
-        i_start = proc_boundary[rank].i_first;
-        i_end   = proc_boundary[rank].i_last;
-        for(i=i_start;i<i_end;i++) {
-            for(j=1;j<n+1;j++) {
-                b[i][j] = 0.2*( a[i][j] + a[i-1][j]  +  a[i+1][j] +  a[i][j-1]  +  a[i][j+1]);
-                if(fabs(b[i][j]-a[i][j])>maxdiff)
-                    maxdiff = fabs(b[i][j]-a[i][j]);
+            // Do Jacobi iteration along the perimeter of each block
+            if(0 != rank) {
+                i_start = proc_boundary[rank].i_first;
+                for(j=1;j<n+1;j++) {
+                    b[i_start][j] = 0.2*( a[i_start][j] + a[i_start-1][j]  +  a[i_start+1][j] +  a[i_start][j-1]  +  a[i_start][j+1]);
+                        if(fabs(b[i_start][j]-a[i_start][j])>maxdiff)
+                        maxdiff = fabs(b[i_start][j]-a[i_start][j]);
+                }
             }
-        }
+            if((numprocessors -1) != rank) {
+                i_end   = proc_boundary[rank].i_last;
+                i_end --;
+                for(j=1;j<n+1;j++) {
+                    b[i_end][j] = 0.2*( a[i_end][j] + a[i_end-1][j]  +  a[i_end+1][j] +  a[i_end][j-1]  +  a[i_end][j+1]);
+                    if(fabs(b[i_end][j]-a[i_end][j])>maxdiff)
+                        maxdiff = fabs(b[i_end][j]-a[i_end][j]);
+                }
+            }
+        } else {
+            i_start = proc_boundary[rank].i_first;
+            i_end   = proc_boundary[rank].i_last;
+            for(i=i_start;i<i_end;i++) {
+                for(j=1;j<n+1;j++) {
+                    b[i][j] = 0.2*( a[i][j] + a[i-1][j]  +  a[i+1][j] +  a[i][j-1]  +  a[i][j+1]);
+                    if(fabs(b[i][j]-a[i][j])>maxdiff)
+                        maxdiff = fabs(b[i][j]-a[i][j]);
+                }
+            }
+       }
+
 
         // Copy b to a
         swap_matrix(&a,&b);    
@@ -370,17 +404,9 @@ int main(int argc, char* argv[]) {
         }
     }
     if(MASTER == rank) {
-    // Results
-    //printf("Results:\n");
-    //printf("Iterations=%d\n",iteration);
-    //printf("Tolerance=%12.10lf\n",maxdiff);
-    //printf("Running time=%12.8lf\n",ttotal);
-    //printf("Value at (R,C)=%12.8lf\n",a[r][c]);
-    //print_grid(a,0,n+2);
+        print_grid(a,0,n+2);
     } 
     ******************************************************************/
-
-
   
     MPI_Finalize();
 
