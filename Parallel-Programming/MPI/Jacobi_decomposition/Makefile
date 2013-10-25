@@ -4,25 +4,25 @@ CC=gcc
 CCFLAGS = -O0
 MPICC=mpicc
 
-CMD = jacobi pjacobi coljacobi
+CMD = jacobi_serial jacobi coljacobi
 SRC = $(CMD:=.c)
 OBJ = $(SRC:.c=.o) 
 
 all: $(CMD)
 
-jacobi: jacobi.o
+jacobi_serial: jacobi_serial.o
 	$(CC) $(CCFLAGS) -o $@ $< -lm
 
-pjacobi: pjacobi.o
+jacobi: jacobi.o
 	$(MPICC) $(CCFLAGS) -o $@ $<
 
 coljacobi: coljacobi.o
 	$(MPICC) $(CCFLAGS) -o $@ $<
 
-jacobi.o: jacobi.c
+jacobi_serial.o: jacobi_serial.c
 	$(CC) $(CCFLAGS) -c $<
 
-pjacobi.o: pjacobi.c
+jacobi.o: jacobi.c
 	$(MPICC) $(CCFLAGS) -c $<
 
 coljacobi.o: coljacobi.c

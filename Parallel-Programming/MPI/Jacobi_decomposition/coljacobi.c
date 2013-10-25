@@ -282,7 +282,7 @@ int main(int argc, char* argv[]) {
                 MPI_Irecv( recv_buffer2,  n+2 , MPI_DOUBLE, rank + 1, SENDING_LEFT, MPI_COMM_WORLD, &reqs[3] );
             } 
 
-            // Do Jacobi iteration on the interior of each block
+            //Do Jacobi iteration on the interior of each block: Overlapping computation with communication
             j_start = proc_boundary[rank].j_first;
             j_end   = proc_boundary[rank].j_last;
             if(0 != rank )
@@ -297,11 +297,13 @@ int main(int argc, char* argv[]) {
                 }
             } 
          
+            //Wait for the communication to finish
             if(0 != rank && (numprocessors -1) != rank )
                 MPI_Waitall(4, reqs, WaitAllStatus);
             else
                 MPI_Waitall(2, reqs, WaitAllStatus);
 
+            //Copy from the receive buffer to the corresponding boundary columns
             if(0 == rank) {
                 for(i = 0 ; i < n+2 ; i++) {
                     a[i][leftmost_colm_rank_plus_one] =  recv_buffer1[i];
