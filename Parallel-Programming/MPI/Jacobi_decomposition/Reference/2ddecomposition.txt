@@ -1,0 +1,15 @@
+The data
+volume to be communicated is proportional to the overall area of the domain cuts.
+Comparing the two alternatives for 2D domain decomposition of an n × n grid to N
+workers in Figure 5.3, one arrives at a communication cost of O (n(N − 1)) for stripe
+domains, √
+whereas an optimal decomposition into square subdomains leads to a cost
+of O 2n( N − 1) . Hence, for large N the optimal decomposition has an advantage
+√
+in communication cost of O 2/ N . Whether this difference is significant or not
+in reality depends on the problem size and other factors, of course. Communication
+must be counted as overhead that reduces a program’s performance. In practice one
+should thus try to minimize boundary area as far as possible unless there are very
+good reasons to do otherwise. See Section 10.4.1 for a more general discussion.
+
+
