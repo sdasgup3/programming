@@ -1,0 +1,2 @@
+mpicc *.c
+mpirun -n N ./a.out
