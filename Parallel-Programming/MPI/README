@@ -1,2 +1,2 @@
-mpicc *.c
+mpicc -O0 *.c
 mpirun -n N ./a.out
