@@ -4,7 +4,7 @@ CC=gcc
 CCFLAGS = -O0
 MPICC=mpicc
 
-CMD = 1 2 5 6 8 9
+CMD = 1 2 5 6 8 9 fairness
 SRC = $(CMD:=.c)
 OBJ = $(SRC:.c=.o) 
 
@@ -33,6 +33,10 @@ all: $(CMD)
 9: 9.o
 	$(MPICC) $(CCFLAGS) -o $@ $< -lm
 9.o: 9.c
+	$(MPICC) $(CCFLAGS) -c $<
+fairness: fairness.o
+	$(MPICC) $(CCFLAGS) -o $@ $< -lm
+fairness.o: fairness.c
 	$(MPICC) $(CCFLAGS) -c $<
 clean:
 	rm $(OBJ) $(CMD)
