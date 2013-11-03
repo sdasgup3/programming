@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <mpi.h>
 #define SEED 100
-#define OUTPUT 0
+#define OUTPUT 1
 #define CHECK 1
 //Sequential sampleSort.  
 //Assume size is a multiple of nbuckets*nbuckets
@@ -76,6 +76,10 @@ int main(int argc, char *argv[]) {
           check ^= elmnts[i];
         }
         #endif
+      for(i=0;i<size;i++) {
+          printf("%llu ",elmnts[i]);
+      }
+      printf("\n");
     }
     MPI_Bcast(&size, 1, MPI_INT, 0, MPI_COMM_WORLD);
     local_size = size/numprocs;
@@ -229,13 +233,11 @@ int main(int argc, char *argv[]) {
           }
       }
       printf("The bitwise xor is %llu\n",check);
-      exit(0);
       checkMax = true;
       for(i=0;i < nbuckets - 1 ; i++) {
           int last_elem_of_bkt_i          =  (2 * local_size) * i + 
                                             output_buffer[((2 * local_size) * i)];
           int first_elem_of_bkt_i_plus_1  =  (2 * local_size) * (i+1) +1;
-          printf("%d (%llu) %d (%llu)\n", last_elem_of_bkt_i,  output_buffer[last_elem_of_bkt_i], first_elem_of_bkt_i_plus_1, output_buffer[first_elem_of_bkt_i_plus_1]);
           if(output_buffer[last_elem_of_bkt_i] > output_buffer[first_elem_of_bkt_i_plus_1]) {
               checkMax = false;
           }
@@ -255,14 +257,15 @@ int main(int argc, char *argv[]) {
       }
 
       for(i=0;i<size;i++) {
-          printf("%llu\n",elmnts[i]);
+          printf("%llu ",elmnts[i]);
       }
+      printf("\n");
       #endif
       free(output_buffer);
+      free(elmnts);
     }
 
     free(splitters);
-    free(elmnts);
     free(local_elmnts);
     free(sample);
     free(buckets);
