@@ -77,11 +77,12 @@ int main(int argc, char *argv[]) {
         }
         #endif
     }
-    MPI_Bcast(&size, i, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&size, 1, MPI_INT, 0, MPI_COMM_WORLD);
     local_size = size/numprocs;
     local_elmnts = (unsigned long long*)mymalloc(sizeof(unsigned long long)*local_size);
 
     /* Distribute size/numprocs elements to each process */
+
     MPI_Scatter(elmnts, local_size, MPI_UNSIGNED_LONG_LONG, local_elmnts, 
         local_size, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
 
@@ -91,12 +92,27 @@ int main(int argc, char *argv[]) {
 
     /* Do local sorting */
     qsort(local_elmnts,local_size,sizeof(unsigned long long), compare);
-
+    /*
+    printf("%d\n",myrank);
+    for(i = 0 ; i < local_size; i++) {
+      printf("%llu ", local_elmnts[i]);
+    }
+    printf("\n\n");
+*/
     /* Select local splitters */
     splitters = (unsigned long long*)mymalloc(sizeof(unsigned long long)*numprocs);
     for(i=0;i<nbuckets-1;i++) {
         splitters[i] = local_elmnts[local_size/numprocs*(i+1)];
     }
+
+    /*
+    printf("%d\n",myrank);
+    for(i = 0 ; i < nbuckets-1; i++) {
+      printf("%llu ", splitters[i]);
+    }
+    printf("\n\n");
+    exit(0);
+    */
 
     /* Collect all the local splitters at the root to form the sample*/
     sample = (unsigned long long*)mymalloc(
@@ -107,6 +123,14 @@ int main(int argc, char *argv[]) {
     /* Sorting the sample at rank 0 and choosing global splitters */
     if (0 == myrank){
       qsort (sample, numprocs*(numprocs-1), sizeof(unsigned long long), compare);
+
+      /*
+    printf("sample" );
+    for(i = 0 ; i < nbuckets*(nbuckets -1); i++) {
+      printf("%llu ", sample[i]);
+    }
+    printf("\n\n");
+*/
       for(i=1;i<numprocs;i++) {
           splitters[i-1] = sample[i*(nbuckets-1)];
       }
@@ -116,6 +140,15 @@ int main(int argc, char *argv[]) {
     /* Broadcasting the global splitters */
     MPI_Bcast (splitters, numprocs-1, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
 
+    /*
+    if(0 == myrank) {
+    printf("global splitters");
+    for(i = 0 ; i < nbuckets; i++) {
+      printf("%llu ", splitters[i]);
+    }
+    printf("\n\n");
+    }
+    */
 
     /* Creating local buckets and  put into buckets based on splitters */
 
@@ -173,6 +206,7 @@ int main(int argc, char *argv[]) {
     qsort (&local_buckets[1], local_buckets[0], 
         sizeof(unsigned long long), compare);
 
+
     t2 = get_clock();
 
     /* Collecting the sorted buckets at rank 0 */
@@ -184,47 +218,48 @@ int main(int argc, char *argv[]) {
     MPI_Gather (local_buckets, 2*local_size, MPI_UNSIGNED_LONG_LONG, 
           output_buffer, 2*local_size, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    printf("Time: %lf\n",(t2-t1));
-    #if CHECK
-    count = 0;
-    for(i=0;i<nbuckets;i++) {
-        k = 1;
-        for(j=0;j < output_buffer[(2 * local_size) * i];j++) {
-            check ^= output_buffer[(2*local_size) * j + k++];
-        }
-    }
-    printf("The bitwise xor is %llu\n",check);
+    if(0 == myrank) {
+      printf("Time: %lf\n",(t2-t1));
+      #if CHECK
+      count = 0;
+      for(i=0;i<nbuckets;i++) {
+          k = 1;
+          for(j=0;j < output_buffer[(2 * local_size) * i];j++) {
+              check ^= output_buffer[(2 * local_size) * i + k++];
+          }
+      }
+      printf("The bitwise xor is %llu\n",check);
+      exit(0);
+      checkMax = true;
+      for(i=0;i < nbuckets - 1 ; i++) {
+          int last_elem_of_bkt_i          =  (2 * local_size) * i + 
+                                            output_buffer[((2 * local_size) * i)];
+          int first_elem_of_bkt_i_plus_1  =  (2 * local_size) * (i+1) +1;
+          printf("%d (%llu) %d (%llu)\n", last_elem_of_bkt_i,  output_buffer[last_elem_of_bkt_i], first_elem_of_bkt_i_plus_1, output_buffer[first_elem_of_bkt_i_plus_1]);
+          if(output_buffer[last_elem_of_bkt_i] > output_buffer[first_elem_of_bkt_i_plus_1]) {
+              checkMax = false;
+          }
+      }
+      printf("The max of each bucket is not greater than the min of the next:    %s\n",
+          checkMax ? "true" : "false");
+      #endif
 
-    checkMax = true;
-    for(i=0;i<nbuckets-1;i++) {
-        int last_elem_of_bkt_i          =  (2 * local_size) * i + 
-                                          output_buffer[((2 * local_size) * i)];
-        int first_elem_of_bkt_i_plus_1  =  (2 * local_size) * (i+1) +1;
-        if(output_buffer[last_elem_of_bkt_i] > 
-            output_buffer[first_elem_of_bkt_i_plus_1]) {
-            checkMax = false;
-        }
-    }
-    printf("The max of each bucket is not greater than the min of the next:    %s\n",
-        checkMax ? "true" : "false");
-    #endif
+      #if OUTPUT
+      /* Createing the ultimate output */
+      count = 0;
+      for(i=0; i<numprocs; i++){
+          k = 1;
+          int offset = (2 * local_size) * i;
+          for(j=0; j<output_buffer[offset]; j++) 
+              elmnts[count++] = output_buffer[offset + k++];
+      }
 
-    #if OUTPUT
-    /* Createing the ultimate output */
-    if (0 == myrank){
-        count = 0;
-	for(i=0; i<numprocs; i++){
-            k = 1;
-            int offset = (2 * local_size) * i;
-      	    for(j=0; j<output_buffer[offset]; j++) 
-	        elmnts[count++] = output_buffer[offset + k++];
-    	}
+      for(i=0;i<size;i++) {
+          printf("%llu\n",elmnts[i]);
+      }
+      #endif
+      free(output_buffer);
     }
-
-    for(i=0;i<size;i++) {
-        printf("%llu\n",elmnts[i]);
-    }
-    #endif
 
     free(splitters);
     free(elmnts);
@@ -232,9 +267,10 @@ int main(int argc, char *argv[]) {
     free(sample);
     free(buckets);
     free(local_buckets);
-    free(output_buffer);
     free(rearranged_bucket);
     
+    /**** Finalize ****/
+    MPI_Finalize();
     return 0;
 }
 
