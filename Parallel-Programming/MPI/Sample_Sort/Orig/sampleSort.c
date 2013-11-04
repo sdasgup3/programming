@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
-	nbuckets = 12;
+	nbuckets = 4;
 	size = atoi(argv[1]);
 	splitters = (unsigned long long*)malloc(sizeof(unsigned long long)*nbuckets);
 	elmnts = (unsigned long long*)malloc(sizeof(unsigned long long)*size);
