@@ -93,9 +93,6 @@ int main(int argc, char *argv[]) {
     MPI_Scatter(elmnts, local_size, MPI_UNSIGNED_LONG_LONG, local_elmnts, 
         local_size, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    //printf("Here\n\n");
-    //exit(0);
-
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = get_clock();
 
@@ -140,13 +137,6 @@ int main(int argc, char *argv[]) {
     /*Rank 0 broadcast the initial splitters */
     MPI_Bcast (splitters, nbuckets, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    /*
-    for(i=0;i<nbuckets;i++) {
-            printf("%llu ", splitters[i]);
-        }
-        printf("\n");
-        */
-
     /* Create local histogram*/
     hist = (int*)mymalloc(sizeof(int)*nbuckets);
     cumulative = (int*)mymalloc(sizeof(int)*nbuckets);
@@ -175,41 +165,14 @@ int main(int argc, char *argv[]) {
         /*Applying reduce scatter, such that hist[0] entries from all processes
           are added up to rank 0, and soon.
         */
-
-        /*
-        for(i=0;i<nbuckets;i++) {
-            printf("%d ", hist[i]);
-        }
-        printf("\n");
-        exit(0);
-        */
-
         int hist_buffer;
         MPI_Reduce_scatter (hist, &hist_buffer, recvcounts, 
             MPI_INT,MPI_SUM,MPI_COMM_WORLD);
-
-        //printf("%d -> %d \n", myrank, hist_buffer);
-        //exit(0);
 
         int cumulative_buffer;
         MPI_Scan ( &hist_buffer, &cumulative_buffer, 1, MPI_INT , MPI_SUM , MPI_COMM_WORLD);
         MPI_Allgather ( &cumulative_buffer, 1, MPI_INT , cumulative, 1, MPI_INT ,
                        MPI_COMM_WORLD );
-
-        /*
-        for(i=0;i<nbuckets;i++) {
-            printf("%d ", cumulative[i]);
-        }
-        printf("\n");
-        exit(0);
-
-        printf("Crdentials sliter ");
-        for(i = 0 ; i < nbuckets ; i ++) {
-            printf("%d ", cumulative[i]);
-        }
-        printf("\n\n");
-        */
-
 
         //Check the global histogram for goodness of split
         if(myrank == nbuckets-1) {
@@ -246,29 +209,10 @@ int main(int argc, char *argv[]) {
 
         MPI_Allgather ( &nsplitters[myrank], 1, MPI_UNSIGNED_LONG_LONG , 
             splitters, 1, MPI_UNSIGNED_LONG_LONG , MPI_COMM_WORLD );
-        /*
-        printf("Iter splitters");
-        for(i = 0 ; i < nbuckets ; i ++) {
-            printf("%llu ", splitters[i]);
-        }
-        printf("\n\n");
-        exit(0);
-        */
 
         MPI_Allreduce ( &local_repeat, &repeat, 1,
                           MPI_INT , MPI_LOR, MPI_COMM_WORLD  );
     }
-
-    /*
-     printf("Final splitters");
-        for(i = 0 ; i < nbuckets ; i ++) {
-            printf("%llu ", splitters[i]);
-        }
-        printf("\n\n");
-        exit(0);
-        */
-
-
 
     /* Creating local buckets and  put into buckets based on splitters */
     buckets = (unsigned long long*)mymalloc(
@@ -349,8 +293,7 @@ int main(int argc, char *argv[]) {
                 checkMax = false;
             }
       }
-      printf("The max of each bucket is not greater than the min of the next:    %s\n",
-          checkMax ? "true" : "false");
+      printf("The max of each bucket is not greater than the min of the next:    %s\n", checkMax ? "true" : "false");
       #endif
 
       #if OUTPUT
