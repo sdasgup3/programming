@@ -83,7 +83,6 @@ int main(int argc, char *argv[]) {
     local_elmnts = (unsigned long long*)mymalloc(sizeof(unsigned long long)*local_size);
 
     /* Distribute size/numprocs elements to each process */
-
     MPI_Scatter(elmnts, local_size, MPI_UNSIGNED_LONG_LONG, local_elmnts, 
         local_size, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
 
