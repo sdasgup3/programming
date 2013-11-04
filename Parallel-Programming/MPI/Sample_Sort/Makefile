@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 
 CC=gcc
-CCFLAGS = -O0
+CCFLAGS = -O0 -Wall
 MPICC=mpicc
 
 CMD = sampleSort psampleSort histogramSort phistogramSort
