@@ -18,16 +18,16 @@ double get_clock() {
 }
 
 int compare(const void *num1, const void *num2) {
-    unsigned long long* n1 = (unsigned long long*)num1;
-    unsigned long long* n2 = (unsigned long long*)num2;
+    long long* n1 = (long long*)num1;
+    long long* n2 = (long long*)num2;
     return (*n1 > *n2) - (*n1 < *n2);
 }
 
 int main(int argc, char *argv[]) {
     int i,j,k,size,nbuckets,count;
     double t1,t2;
-    unsigned long long *splitters,*elmnts,*sample,**buckets,*nsplitters;
-    unsigned long long tol, error, maxval, minval, check;
+    long long *splitters,*elmnts,*sample,**buckets,*nsplitters;
+    long long tol, error, maxval, minval, check;
     int *bucket_sizes,*hist,*cumulative,*ideal;
     bool repeat,checkMax;
 
@@ -39,15 +39,15 @@ int main(int argc, char *argv[]) {
 
     size = atoi(argv[1]);
     nbuckets = 12;
-    tol = .3*((unsigned long long)size)/nbuckets;
+    tol = .3*((long long)size)/nbuckets;
 
-    splitters = (unsigned long long*)malloc(sizeof(unsigned long long)*nbuckets);
-    nsplitters = (unsigned long long*)malloc(sizeof(unsigned long long)*nbuckets);
-    elmnts = (unsigned long long*)malloc(sizeof(unsigned long long)*size);
-    sample = (unsigned long long*)malloc(sizeof(unsigned long long)*size);
-    buckets = (unsigned long long**)malloc(sizeof(unsigned long long*)*nbuckets);
+    splitters = (long long*)malloc(sizeof(long long)*nbuckets);
+    nsplitters = (long long*)malloc(sizeof(long long)*nbuckets);
+    elmnts = (long long*)malloc(sizeof(long long)*size);
+    sample = (long long*)malloc(sizeof(long long)*size);
+    buckets = (long long**)malloc(sizeof(long long*)*nbuckets);
     for(i=0;i<nbuckets;i++) {
-        buckets[i] = (unsigned long long*)malloc(sizeof(unsigned long long)*size);
+        buckets[i] = (long long*)malloc(sizeof(long long)*size);
     }
     bucket_sizes = (int*)malloc(sizeof(int)*nbuckets);
     hist = (int*)malloc(sizeof(int)*nbuckets);
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
 
     //sort each bucket individually
     for(i=0;i<nbuckets;i++) {
-        qsort(&elmnts[i*size/nbuckets],size/nbuckets,sizeof(unsigned long long),
+        qsort(&elmnts[i*size/nbuckets],size/nbuckets,sizeof(long long),
             compare);
     }
 
@@ -132,7 +132,7 @@ int main(int argc, char *argv[]) {
                 //update probe by scaled linear interpolation
                 if(error > tol) {
                     k = i-1;
-                    while(cumulative[k] > ideal[i] && k > -1) {
+                    while(k > -1 && cumulative[k] > ideal[i]) {
                         k--;
                     }
                 } else {
@@ -144,11 +144,11 @@ int main(int argc, char *argv[]) {
 
                 if(k > -1) {
                     nsplitters[i] += (splitters[k]-splitters[i])*
-                        abs(ideal[i]-cumulative[i])/
-                        abs(cumulative[k]-cumulative[i]);
+                        (double)abs(ideal[i]-cumulative[i])/
+                        (double)abs(cumulative[k]-cumulative[i]);
                 } else {
-                    nsplitters[i] += (splitters[k]-minval)*
-                        ideal[i]/cumulative[i];
+                    nsplitters[i] += (minval-splitters[i])*
+                        (double)ideal[i]/(double)cumulative[i];
                 }
             }
         }
@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
 
     //sort the buckets
     for(i=0;i<nbuckets;i++) {
-        qsort(buckets[i],bucket_sizes[i],sizeof(unsigned long long),compare);
+        qsort(buckets[i],bucket_sizes[i],sizeof(long long),compare);
     }
 
     t2 = get_clock();

@@ -30,17 +30,17 @@ void* mymalloc(size_t alloc_size)
 }
 
 int compare(const void *num1, const void *num2) {
-    unsigned long long* n1 = (unsigned long long*)num1;
-    unsigned long long* n2 = (unsigned long long*)num2;
+     long long* n1 = ( long long*)num1;
+     long long* n2 = ( long long*)num2;
     return (*n1 > *n2) - (*n1 < *n2);
 }
 
 int main(int argc, char *argv[]) {
     int i,j,k,size,nbuckets, numprocs, count, local_size, myrank;
     double t1,t2;
-    unsigned long long *splitters,*elmnts,*buckets,*nsplitters,
+     long long *splitters,*elmnts,*buckets,*nsplitters,
                   *rearranged_bucket,*local_elmnts, *local_buckets, *output_buffer, *first_last_elem_of_bkt_buffer ;
-    unsigned long long tol, error, maxval, minval, check, local_check, global_check;
+     long long tol, error, maxval, minval, check, local_check, global_check;
     int *bucket_sizes,*hist,*cumulative,*ideal, *recvcounts;
     bool checkMax;
     int repeat,local_repeat;
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 	    exit(0);
       }
       
-      elmnts = (unsigned long long*)mymalloc(sizeof(unsigned long long)*size);
+      elmnts = ( long long*)mymalloc(sizeof( long long)*size);
 
       //Fill elmnts with random numbers
       srand(SEED);
@@ -85,25 +85,25 @@ int main(int argc, char *argv[]) {
 
     MPI_Bcast(&size, 1, MPI_INT, 0, MPI_COMM_WORLD);
     local_size = size/numprocs;
-    tol = .3*((unsigned long long)size)/nbuckets;
+    tol = .3*(( long long)size)/nbuckets;
 
-    local_elmnts = (unsigned long long*)mymalloc(sizeof(unsigned long long)*local_size);
+    local_elmnts = ( long long*)mymalloc(sizeof( long long)*local_size);
 
     /* Distribute size/numprocs elements to each process */
-    MPI_Scatter(elmnts, local_size, MPI_UNSIGNED_LONG_LONG, local_elmnts, 
-        local_size, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Scatter(elmnts, local_size, MPI_LONG_LONG, local_elmnts, 
+        local_size, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = get_clock();
 
-    qsort(local_elmnts,local_size,sizeof(unsigned long long), compare);
+    qsort(local_elmnts,local_size,sizeof( long long), compare);
 
     /*Colllect all the indivdal sorted arrays at Rank 0*/
-    MPI_Gather(local_elmnts, local_size , MPI_UNSIGNED_LONG_LONG,
-        elmnts, local_size, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Gather(local_elmnts, local_size , MPI_LONG_LONG,
+        elmnts, local_size, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    splitters = (unsigned long long*)mymalloc(sizeof(unsigned long long)*nbuckets);
-    nsplitters = (unsigned long long*)mymalloc(sizeof(unsigned long long)*nbuckets);
+    splitters = ( long long*)mymalloc(sizeof( long long)*nbuckets);
+    nsplitters = ( long long*)mymalloc(sizeof( long long)*nbuckets);
     recvcounts = (int *) mymalloc(sizeof(int)*numprocs);
     for (i=0; i<nbuckets; i++)
         recvcounts[i] = 1;
@@ -133,9 +133,9 @@ int main(int argc, char *argv[]) {
     }
 
     /*Rank 0 broadcast the minval  */
-    MPI_Bcast (&minval, 1, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Bcast (&minval, 1, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
     /*Rank 0 broadcast the initial splitters */
-    MPI_Bcast (splitters, nbuckets, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Bcast (splitters, nbuckets, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
     /* Create local histogram*/
     hist = (int*)mymalloc(sizeof(int)*nbuckets);
@@ -186,7 +186,7 @@ int main(int argc, char *argv[]) {
                 //update probe by scaled linear interpolation
                 if(error > tol) {
                     k = myrank-1;
-                    while(cumulative[k] > ideal[myrank] && k > -1) {
+                    while(k > -1 && cumulative[k] > ideal[myrank]) {
                         k--;
                     }
                 } else {
@@ -198,25 +198,25 @@ int main(int argc, char *argv[]) {
 
                 if(k > -1) {
                     nsplitters[myrank] += (splitters[k]-splitters[myrank])*
-                        abs(ideal[myrank]-cumulative[myrank])/
-                        abs(cumulative[k]-cumulative[myrank]);
+                        (double)abs(ideal[myrank]-cumulative[myrank])/
+                        (double)abs(cumulative[k]-cumulative[myrank]);
                 } else {
-                    nsplitters[myrank] += (splitters[k+1]-minval)*
-                        ideal[myrank]/cumulative[myrank];
+                    nsplitters[myrank] += (minval - splitters[myrank])*
+                        (double)ideal[myrank]/(double)cumulative[myrank];
                 }
             }
         }
 
-        MPI_Allgather ( &nsplitters[myrank], 1, MPI_UNSIGNED_LONG_LONG , 
-            splitters, 1, MPI_UNSIGNED_LONG_LONG , MPI_COMM_WORLD );
+        MPI_Allgather ( &nsplitters[myrank], 1, MPI_LONG_LONG , 
+            splitters, 1, MPI_LONG_LONG , MPI_COMM_WORLD );
 
         MPI_Allreduce ( &local_repeat, &repeat, 1,
                           MPI_INT , MPI_LOR, MPI_COMM_WORLD  );
     }
 
     /* Creating local buckets and  put into buckets based on splitters */
-    buckets = (unsigned long long*)mymalloc(
-        sizeof(unsigned long long)*(size + numprocs));
+    buckets = ( long long*)mymalloc(
+        sizeof( long long)*(size + numprocs));
 
     //put into buckets based on splitters
     j = 0;
@@ -244,16 +244,16 @@ int main(int argc, char *argv[]) {
        than splitters[0], and soon.
     */
 
-    rearranged_bucket = (unsigned long long*)mymalloc(
-        sizeof(unsigned long long)*(size + numprocs));
-    MPI_Alltoall (buckets, local_size + 1, MPI_UNSIGNED_LONG_LONG, 
-        rearranged_bucket, local_size + 1, MPI_UNSIGNED_LONG_LONG, MPI_COMM_WORLD);
+    rearranged_bucket = ( long long*)mymalloc(
+        sizeof( long long)*(size + numprocs));
+    MPI_Alltoall (buckets, local_size + 1, MPI_LONG_LONG, 
+        rearranged_bucket, local_size + 1, MPI_LONG_LONG, MPI_COMM_WORLD);
 
     /*Removing the metadata like element count from the rearranged_bucket*/
     //the size of each bucket is guaranteed to be less than
     //2*size/nbuckets becuase of the way we choose the sample
-    local_buckets = (unsigned long long*)mymalloc(
-        sizeof(unsigned long long)*2*local_size);
+    local_buckets = ( long long*)mymalloc(
+        sizeof( long long)*2*local_size);
 
     count = 1;
 
@@ -268,14 +268,14 @@ int main(int argc, char *argv[]) {
 
     //sort the local buckets
     qsort (&local_buckets[1], local_buckets[0], 
-        sizeof(unsigned long long), compare);
+        sizeof( long long), compare);
 
 
     t2 = get_clock();
 
     if(0 == myrank) {
         printf("Time: %lf\n",(t2-t1));
-        first_last_elem_of_bkt_buffer =  (unsigned long long*) mymalloc ( sizeof(unsigned long long) * 2 * numprocs);
+        first_last_elem_of_bkt_buffer =  ( long long*) mymalloc ( sizeof( long long) * 2 * numprocs);
     }
         
     #if CHECK
@@ -283,18 +283,18 @@ int main(int argc, char *argv[]) {
     for(j = 1 ; j <= local_buckets[0]; j ++) {
       local_check ^= local_buckets[j];
     }
-    MPI_Reduce ( &local_check, &global_check, 1, MPI_UNSIGNED_LONG_LONG , MPI_BXOR, 0, MPI_COMM_WORLD);
+    MPI_Reduce ( &local_check, &global_check, 1, MPI_LONG_LONG , MPI_BXOR, 0, MPI_COMM_WORLD);
 
     if(0 == myrank) {
       check ^= global_check;
       printf("The bitwise xor is %llu\n",check);
     }
 
-    unsigned long long first_last_elem_of_bkt[2];
+     long long first_last_elem_of_bkt[2];
     first_last_elem_of_bkt[0]           =  local_buckets[1];
     first_last_elem_of_bkt[1]           =  local_buckets[local_buckets[0]];  
 
-    MPI_Gather(first_last_elem_of_bkt, 2, MPI_UNSIGNED_LONG_LONG, first_last_elem_of_bkt_buffer, 2, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Gather(first_last_elem_of_bkt, 2, MPI_LONG_LONG, first_last_elem_of_bkt_buffer, 2, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
     if(0 == myrank) {
         checkMax = true;
@@ -309,12 +309,12 @@ int main(int argc, char *argv[]) {
 
     /* Collecting the sorted buckets at rank 0 */
     if(0 == myrank) {
-        output_buffer = (unsigned long long*) mymalloc (
-            sizeof(unsigned long long) * 2 * size);
+        output_buffer = ( long long*) mymalloc (
+            sizeof( long long) * 2 * size);
     }
 
-    MPI_Gather (local_buckets, 2*local_size, MPI_UNSIGNED_LONG_LONG, 
-          output_buffer, 2*local_size, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Gather (local_buckets, 2*local_size, MPI_LONG_LONG, 
+          output_buffer, 2*local_size, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
     if(0 == myrank) {
       #if OUTPUT
