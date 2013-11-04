@@ -39,8 +39,8 @@ int main(int argc, char *argv[]) {
     int i, j, k, size, nbuckets, numprocs, count, local_size, myrank;
     double t1,t2;
     unsigned long long *splitters, *elmnts,*sample,*buckets, *rearranged_bucket,  
-                  *local_elmnts, *local_buckets, *output_buffer;
-    unsigned long long check;
+                  *local_elmnts, *local_buckets, *output_buffer, *first_last_elem_of_bkt_buffer;
+    unsigned long long check, local_check, global_check;
     bool checkMax;
 
     if (argc != 2) {
@@ -177,38 +177,50 @@ int main(int argc, char *argv[]) {
 
     t2 = get_clock();
 
+    if(0 == myrank) {
+        printf("Time: %lf\n",(t2-t1));
+        first_last_elem_of_bkt_buffer =  (unsigned long long*) mymalloc ( sizeof(unsigned long long) * 2 * numprocs);
+    }
+        
+    #if CHECK
+    local_check =  0 ;
+    for(j = 1 ; j <= local_buckets[0]; j ++) {
+      local_check ^= local_buckets[j];
+    }
+    MPI_Reduce ( &local_check, &global_check, 1, MPI_UNSIGNED_LONG_LONG , MPI_BXOR, 0, MPI_COMM_WORLD);
+
+    if(0 == myrank) {
+      check ^= global_check;
+      printf("The bitwise xor is %llu\n",check);
+    }
+
+    unsigned long long first_last_elem_of_bkt[2];
+    first_last_elem_of_bkt[0]           =  local_buckets[1];
+    first_last_elem_of_bkt[1]           =  local_buckets[local_buckets[0]];  
+
+    MPI_Gather(first_last_elem_of_bkt, 2, MPI_UNSIGNED_LONG_LONG, first_last_elem_of_bkt_buffer, 2, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
+
+    if(0 == myrank) {
+        checkMax = true;
+        for(i=1;i < nbuckets - 1 ; i++) {
+          if(first_last_elem_of_bkt_buffer[2*i - 1 ] > first_last_elem_of_bkt_buffer[2*i]) {
+              checkMax = false;
+          }
+      }
+      printf("The max of each bucket is not greater than the min of the next:    %s\n", checkMax ? "true" : "false");
+    }
+    #endif
+
     /* Collecting the sorted buckets at rank 0 */
     if(0 == myrank) {
         output_buffer = (unsigned long long*) mymalloc (
             sizeof(unsigned long long) * 2 * size);
     }
-        
+
     MPI_Gather (local_buckets, 2*local_size, MPI_UNSIGNED_LONG_LONG, 
           output_buffer, 2*local_size, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
 
     if(0 == myrank) {
-      printf("Time: %lf\n",(t2-t1));
-      #if CHECK
-      count = 0;
-      for(i=0;i<nbuckets;i++) {
-          k = 1;
-          for(j=0;j < output_buffer[(2 * local_size) * i];j++) {
-              check ^= output_buffer[(2 * local_size) * i + k++];
-          }
-      }
-      printf("The bitwise xor is %llu\n",check);
-      checkMax = true;
-      for(i=0;i < nbuckets - 1 ; i++) {
-          int last_elem_of_bkt_i          =  (2 * local_size) * i + 
-                                            output_buffer[((2 * local_size) * i)];
-          int first_elem_of_bkt_i_plus_1  =  (2 * local_size) * (i+1) +1;
-          if(output_buffer[last_elem_of_bkt_i] > output_buffer[first_elem_of_bkt_i_plus_1]) {
-              checkMax = false;
-          }
-      }
-      printf("The max of each bucket is not greater than the min of the next:    %s\n", checkMax ? "true" : "false");
-      #endif
-
       #if OUTPUT
       /* Createing the ultimate output */
       count = 0;
@@ -225,6 +237,7 @@ int main(int argc, char *argv[]) {
       #endif
       free(output_buffer);
       free(elmnts);
+      free(first_last_elem_of_bkt_buffer);
     }
 
     free(splitters);
