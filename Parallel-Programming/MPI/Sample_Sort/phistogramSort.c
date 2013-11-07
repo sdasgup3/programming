@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
      long long *splitters,*elmnts,*buckets,*nsplitters,
                   *rearranged_bucket,*local_elmnts, *local_buckets, *output_buffer, *first_last_elem_of_bkt_buffer ;
      long long tol, error, maxval, minval, check, local_check, global_check;
-    int *bucket_sizes,*hist,*cumulative,*ideal, *recvcounts;
+    int *hist,*cumulative,*ideal, *recvcounts;
     bool checkMax;
     int repeat,local_repeat;
 
@@ -51,7 +51,6 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    MPI_Status  status;
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
