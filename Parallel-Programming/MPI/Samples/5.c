@@ -14,6 +14,8 @@ void func(void* data, int count, MPI_Datatype datatype, int root, MPI_Comm comm)
 
         MPI_Comm_rank(comm, &rank);  
         MPI_Comm_size(comm, &size);
+
+        printf("Rankk %d\n", rank);
     
         if (rank == root) {    
           for (i = 0; i < size; i++) {      
