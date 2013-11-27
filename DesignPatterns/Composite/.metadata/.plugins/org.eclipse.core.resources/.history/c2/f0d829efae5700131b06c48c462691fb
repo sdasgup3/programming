@@ -1,0 +1,9 @@
+public abstract class songcomponent {
+	public void add (songcomponent newsongcomponent);
+	public void remove (songcomponent newsongcomponent);
+	public songcomponent  getcomponent(int index);
+	public String getsongname();
+	public String getbandname();
+	public int getreleaseyear();
+	public void getsongInfo();
+}

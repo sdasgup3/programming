@@ -1,0 +1,5 @@
+public abstract class songcomponent {
+	public void add (songcomponent newsongcomponent);
+	public void remove (songcomponent newsongcomponent);
+
+}
