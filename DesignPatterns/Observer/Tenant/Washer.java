@@ -1,3 +1,4 @@
+import java.util.List;
 class Washer {
         private List<Listener> listeners;
         public void addListener(Listener l) {

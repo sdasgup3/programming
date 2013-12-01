@@ -3,7 +3,7 @@ class Tenant implements Listener {
   public void updateonFinish() {}
 
   private Washer W;
-  Tenant (private Washer w) {
+  Tenant (Washer w) {
      this.W = w;
      W.addListener(this);
   }
