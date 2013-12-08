@@ -14,3 +14,6 @@ $DIFF $LEFT $RIGHT
 
 # Return an errorcode of 0 if no differences were detected, 1 if some were.
 # Any other errorcode will be treated as fatal.
+# Add the following to $HOME/.subversion/config file
+# [helpers]
+# diff-cmd = /home/matt/bin/diffwrap.sh
