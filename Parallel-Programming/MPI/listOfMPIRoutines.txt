@@ -27,7 +27,7 @@ arg_list_3 = (void* buffer, int size_in_bytes)
   MPI_Attach  
   MPI_Detach  
 
-arg_list_4 = arg_list_1 - (MPI_Comm comm) + MPI_Comm comm - (MPI_Comm comm)  + (MPI_Comm comm) + (MPI_Status* status) 
+arg_list_4 = arg_list_1 - (MPI_Comm comm) +  arg_list_1 - (MPI_Comm comm)  + (MPI_Comm comm) + (MPI_Status* status) 
                   (for sender)                   (for receiver)  
   MPI_Sendrecv
 
@@ -85,6 +85,40 @@ arg_list_3 = (void *sendbuf, void *recvbuf, int *recvcnts, MPI_Datatype datatype
   MPI_Reduce_scatter
     recvcounts - integer array specifying the number of elements in result distributed to each process.  
     Array must be identical on all  call- ing processes.  
+
+    MPI_REDUCE_SCATTER first does an element-wise reduction on vector of
+    count  = sigma(i) {recvcnts(i)} elements in the send buffer defined by sendbuf, count and datatype. Next,
+    the resulting vector of results is split into n disjoint segments, where n
+    is the number of members in the group. Segment i contains recvcounts[i]
+    elements. The ith segment is sent to process i and stored in the receive
+    buffer defined by recvbuf, recvcounts[i] and datatype.
+
+    The MPI_REDUCE_SCATTER routine is functionally equivalent to: A MPI_REDUCE
+    operation function with count equal to the sum of recvcounts[i] followed by
+    MPI_SCATTERV with sendcounts equal to recvcounts. However, a direct
+    implementation may run faster. 
+
+    Let recvcnts[3] = {2,2,1}
+    So there will be 3 prcesses each having 2+2+1= 5 elements's vector
+    P0  P1  P2
+    x1  x2  x2
+    y1  y2  y2
+    z1  z2  z2
+    p1  p2  p2
+    q1  q2  q2
+
+    After reduce
+    P0
+    sigma x
+    sigma y
+    sigma z
+    sigma p
+    sigma q
+
+    After scatter
+    P0          P1      P2
+    sigma x   sigma z  sigma q 
+    sigma y   sigma p
 
 arg_list_4 =  (void *sendbuf, int send_count, MPI_Datatype send_type, void *recvbuf, int recv_count, MPI_Datatype recv_type, int root, MPI_Comm comm )    
   MPI_Gather
