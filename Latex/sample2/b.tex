@@ -1,0 +1,405 @@
+\newcommand{\SQA}{
+\question \QuestionTitle{Software Quality Assurance and XP}
+
+\begin{parts}
+% YES
+\part[2] In the lecture on Software Quality Assurance (SQA), we
+mentioned that one of the goals of measuring metrics is to be able to
+answer the question: \textit{``How accurate are our estimates?''}  In
+this context, \textbf{what does the term ``velocity'' mean} in an XP
+process?
+
+\begin{solution}[1.25in]
+   How many units or user stories can you implement in each unit of time? 
+\end{solution}
+
+\part A crucial issue that arises in software development
+is how to know whether the code that the developers are writing will
+result in software that the customer actually needs.
+
+\begin{subparts}
+
+% YES
+\subpart[2] In this context, briefly describe the \textbf{two} terms,
+\textbf{Verification} and \textbf{Validation}.
+
+\begin{solution}[1.25in]
+   Verification - Did we build the product right? Code is correct with
+   respect to some requirements/spec. Building code the right way.
+
+   Validation - Did we build the right product? Code results in
+   software that customers want. Does the spec for the software match
+   what the customer really wants?
+\end{solution}
+
+% YES
+\subpart[2] \textbf{Describe one} XP practice that can be used to improve the
+chances that the software being developed will meet customer needs.
+
+\begin{solution}[1.25in]
+   XP solution - Customer on site, Short iterations, Customer tests
+\end{solution}
+\end{subparts}
+\end{parts}
+}
+
+\newcommand{\XP}{
+\question \QuestionTitle{XP Project Management}
+
+\begin{parts}
+\part During Iteration 1 of the course project, your team could
+submit a ``spike'' as a deliverable.
+
+\begin{subparts}
+
+% YES - MULTIPLE
+\subpart[2] Which of these correctly describe an XP spike? \CircleAll{}
+\begin{enumerate}
+\item A spike may be used to try out a tough design.
+\item A spike is another name for a major milestone.
+%\item A spike helps to reduce uncertainty in an estimate.
+%\item A spike results in a \textit{complete} analysis of a new
+%  technology to present to the client.
+\item A spike is a way to quickly try out an unfamiliar technology.
+\item A spike must be done at the beginning of every XP project.
+\item A first attempt at a solution which may be thrown away.
+\end{enumerate}
+
+\begin{solution}[0.1in]
+1,3,5 (Any 2 of these 3 will get full points)
+\end{solution}
+
+% YES - PROJECT
+\subpart[2] In terms of testing\Comment{ and refactoring}, how is working
+on a spike different from regular XP iterations?  \Comment{Describe how your
+later iterations differed from the initial spike.}
+
+\begin{solution}[1.25in]
+Spike is likely to involve no testing and no refactoring.
+\end{solution}
+
+\end{subparts}
+\part \Choose{Planning Game}{Refactoring}
+
+\begin{subparts}
+% YES
+\subpart[2] Why is that practice advocated in XP?
+\begin{solution}[1.25in]
+\end{solution}
+
+% YES - PROJECT
+\subpart[2] How did your team follow the practice during the course project?
+\begin{solution}[1.25in]
+\end{solution}
+\end{subparts}
+
+% YES
+\part[2] In MP4,\Comment{ we gave some suggestions for writing a good user story.}
+you learned that some development groups write their user stories on physical
+3inch~X~5inch index cards (called ``bits of plain card'' on the web site given
+for MP4).  Why are user stories written on such small cards?
+
+\begin{solution}[1.5 in]
+This serves as  a physical constraint which limits the possible length of the story. That's because user story should be concise, with short but clear goals.
+\end{solution}
+\end{parts}
+}
+
+
+\newcommand{\Mistakes}{
+\question \QuestionTitle{Testing Mistakes}
+
+\begin{parts} 
+\part  In ``Classic Testing Mistakes'', Brian Marick writes about
+ some common pitfalls in the way many organizations approach software
+testing.  For each of the following, \textbf{describe one reason} why
+it is considered a ``Testing Mistake'', according to the reading and
+the lecture on this topic.
+
+\begin{subparts}
+% YES
+\subpart[1] ``Sticking stubbornly to the test plan''.  (Hint: We saw
+a related video during a lecture.)
+
+\begin{solution}[1.5 in]
+Selective Attention could make the testers miss important things
+outside of the scope of the test plan.
+\end{solution}
+
+% YES
+\subpart[1] ``The testing team is the only team responsible for
+assuring software quality''.
+
+\begin{solution}[1.6 in]
+Reason:
+
+ The testers usually have no authority to prevent poor quality
+   software from being shipped.  
+
+ The testers sometimes can't really improve quality, they can
+   usually only measure it, especially when testing starts too late.
+
+ Telling developers that software quality is someone Else job
+   tends to make them sloppy about the code that they write.
+
+\end{solution}
+
+% YES
+\subpart[1] ``Over-reliance on beta testing''.
+
+\begin{solution}[1.6 in]
+\begin{enumerate}
+\item  The customers probably aren't that representative. 
+
+\item  Even of those beta users who actually use the product, most will 
+not use it seriously.
+
+\item  Beta users - just like customers in general - don't report usability
+problems unless prompted. They simply silently decide they won't buy
+the final version.
+
+\item  Beta users - just like customers in general - often won't report a
+bug, especially if they're not sure what they did to cause it, or if
+they think it is obvious enough that someone else must have already
+reported it.
+
+\item  When beta users report a bug, the bug report is often unusable. It
+costs much more time and effort to handle a user bug report than one
+generated internally.
+
+\end{enumerate}
+\end{solution}
+
+\end{subparts}
+
+% YES
+\part[2] One of the ``Classic Testing Mistakes'' is \textbf{Attempting to 
+automate every test}. Describe \textbf{two} cases when manual testing
+is better than automated testing.  Similarly, describe \textbf{two}
+cases when automated testing is better than manual testing.
+
+\begin{solution}[1.6 in]
+
+Manual testing is appropriate when: 
+
+\begin{itemize} 
+
+\item tests need to be run once 
+\item tester doesn't know how to program 
+\item the test is expensive to automate 
+\item When writing some kinds of GUI tests, for example 
+\end{itemize}
+
+Automated testing is appropriate when:
+\begin{itemize}
+
+\item the tests need to be run over and over as the software evolves 
+or is changed
+\item when we want to use them as documentation.
+\item The Main Advantage with Automated Testing is that you can do
+regression testing quickly.  Developer can verify previous
+functionality, if it is working fine or not after adding new
+functionality into the System.
+\end{itemize}
+
+\end{solution}
+
+\Comment{
+\begin{subparts}
+
+\subpart Provide a cost-based justification of why some tests should
+be manual.
+
+\begin{solution}[1.5 in]
+If a manual test costs x hours each time it is run, changing this
+to an automated test is justified if the much higher one-time cost is
+less than x times the number of times the manual test is likely to be
+run.
+\end{solution}
+}
+
+\end{parts}
+}% End of \Mistakes
+
+\Comment{add a question about MOCK testing; it's in the book (look for
+SCAFFOLDING/STUB) and was mentioned on the final review slides}
+
+\Comment{add a question about GUI testing, because they all worked with GUI
+in their projects}
+
+\newcommand{\Advocacy}{
+
+\question \QuestionTitle{Bug Advocacy}
+
+\begin{parts}
+
+% YES
+\part[2] The lecture and slides on Bug Advocacy talked about a process
+called \textbf{Bug Triage}. Why is this process needed during software
+development?
+
+\begin{solution}[2.1 in]
+Bug Triage helps developers to decide which bugs to fix, and which
+ones to leave in the software product.
+\end{solution}
+
+\Noo{
+\part[3] This question concerns the analogy between bug advocacy and sales. 
+In bug advocacy, (i) \textbf{what are you trying to sell?}, (ii) \textbf{why do
+you have to sell it?}, and (iii) \textbf{to whom do you have to sell it?}
+
+\begin{solution}[1.5 in]
+\begin {enumerate}
+\item Trying to sell: bugs 
+\item Selling to: developers who are in a position to fix them 
+\item Reason for selling: need to give the developers a reason to
+choose to fix this bug among all the bug reports that they get.
+\end {enumerate}
+\end{solution}
+}
+
+\Maybe{
+\part[2] Describe \textbf{two reasons} that you might use to motivate the
+developers to fix a bug that you found in their software. (Hint:
+Remember the slide on ``Motivating the bug fixer.'')
+
+\begin{solution}[1.25in]
+-- It looks really bad.
+-- It will affect lots of people. % FROM DARKO: how can it affect a lot of people if defined as ``extremely unlikely''?
+-- Getting to it is trivially easy.
+-- It is a breach of contract.
+-- A bug like it has embarrassed the company, or a competitor.
+-- It looks like an interesting puzzle and piques the programmer’s
+   curiosity.
+-- Management (that is, someone with influence) has said that they
+   really want it fixed
+-- You said you want this particular bug fixed, and the programmer
+   likes you, trusts your judgment is susceptible to flattery from you
+   or owes you a favor.
+\end{solution}
+}
+\end{parts}
+}% End of \Advocacy
+
+\newcommand{\Reuse}{
+\question[3] \QuestionTitle{Components and Reuse}
+
+% YES - PROJECT
+For your final projects, we highly recommended that you extend an
+existing Jenkins plug-in instead of creating one from scratch.  The
+lecture on ``Components and Reuse'' mentioned that such reuse
+should only be done when the benefits of reuse outweigh the costs of
+reuse.  Describe \textbf{two benefits} and \textbf{one drawback} of
+reusing an existing Jenkins plug-in for your course project instead of
+building one from scratch.
+
+\begin{solution}[1.5in]
+Benefits include saving time when the existing plug-in provides a lot
+of functionality needed, existing plug-ins usually have some tests,
+existing plug-ins help avoid duplicate work, existing plug-ins have
+support...
+
+Drawbacks include a potentially high learning curve for functionality
+that could have been implemented easily
+\end{solution}
+
+\Maybe{
+\part[2] Libraries provide one way to achieve software reuse.  \textbf{Choose one} of the following alternative approaches
+to software reuse and \textbf{describe it}: \textit{Components},
+\textit{Framework}
+
+\begin{solution}[1.5 in]
+\end{solution}   
+Frameworks: Encapsulate both design and code that can be reused
+in different scenarios. Developers have to understand the implementation in order to reuse them.
+
+Components: Enable the reuse of code only, and developers do not have to understand the internals to reuse them.
+}
+} % End \Reuse
+
+
+%%%%% SAM, SUE AND ALEX %%%%%%%%%%%%%%%%%%%%%%
+\Comment{
+\question \textbf{Components and Reuse.} 
+
+\begin{parts}
+
+% NEWER VERSION
+\part[3] Sue and Alex are software architects who are discussing how 
+they enable software reuse in their different companies. Sue
+says, \textbf{``We try to enable the reuse of not just code, but
+design as well.  Generic designs are implemented as abstract and
+concrete classes so that developers can reuse the design in different
+scenarios.''}  Alex explains, \textbf{``Each team writes code that can
+be reused by other teams by just calling an API, without needing to
+understand how the code works.''}  Which of these architects is
+referring to the ``Frameworks'' that you learned about in the lecture
+on ``Components and reuse''?
+
+
+% OLDER VERSION 
+\part[3] Sam, Sue and Alex are software architects. They meet at a 
+conference and each talks about how they enable software reuse in
+their different companies. Sam says, \textbf{``We simply provide a set of math
+functions like \texttt{min}, \texttt{sin} that developers can simply
+call in their own programs''}. Sue responds, \textbf{``We try to enable the
+reuse of not just code, but design as well.  We try to have generic
+designs, implemented in the form of abstract and concrete classes so
+that developers can easily adapt the design to different scenarios.''}
+Finally, Alex explains.  \textbf{``Each team writes code such that they can be
+reused by other teams by just calling an API, without needing to
+undestand how the code works.''}  These architects are talking
+about \textbf{components}, \textbf{libraries} and \textbf{frameworks}.
+Based on the slides on ``Components and Reuse'' and the reading on
+``Frameworks'', match the architects to the more technical term that
+they are talking about.
+
+}
+
+
+
+% This question is to be removed. % FROM DARKO: I DON'T UNDERSTAND WHO
+% SAID THAT THIS SHOULD BE REMOVED; IF OWOLABI, THEN PLEASE MARK YOUR
+% BACKUP QUESTIONS AS SUCH AND LIST THEM LOWER.
+\Comment{explain ``this''. Alternatively ask how to test thick vs. thin GUIs.  
+Lecture after break on testing GUI for Jenkins
+\question GUI Testing
+
+\begin{parts}
+
+\part[2] In class and during the course project, we often suggested 
+that a good way to test your GUI is to put as little code in the GUI
+layer itself, so that you can write automated tests for the business
+logic and then do manual testing for the GUI. Describe \textbf{one reason}
+why this does not work well in practice.
+
+\begin{solution}
+Most GUIs end up as ``thick GUIs'' which do more than handling the
+presentation of the software, but rather also contain some business
+logic. Manual testing may not uncover some of the problems with
+business logic written as part of the GUI.
+\end{solution}
+
+\end{parts}
+}
+\Comment{
+\subpart In \textbf{one sentence}, explain what a ``Spike'' is.
+
+\begin{solution}[1.5 in]
+A first attempt at a solution to a problem which may be thrown away.
+\end{solution}
+
+\subpart \textbf{Describe one reason} why projects which follow XP process 
+might want to use a Spike \textit{as a way to help in making better
+estimates of future work}.  In other words, describe one circumstance
+which may necessitate the use of a Spike during an XP project. (Hint:
+Think about why you used a Spike for your course project.)
+
+\begin{solution} [1.5 in]
+ - The developers may be unfamiliar with a technology and may need a
+   Spike to learn it.
+ - You may need a Spike to try out some tough design 
+\end{solution}
+}
+
+% LocalWords:  XP SQA refactoring Marick GUIs

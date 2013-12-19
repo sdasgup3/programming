@@ -1,0 +1,190 @@
+\documentclass[11pt]{exam}
+\usepackage{listings}
+\lstset{numbers=left, numberstyle=\tiny, tabsize=2, numbersep=5pt, captionpos=b,
+basicstyle=\footnotesize, showstringspaces=false,
+emphstyle=\color{LightMagenta}\bfseries, language=Java, frame=single}
+
+\usepackage{color} 
+\definecolor{LightMagenta}{cmyk}{0.1,0.8,0,0.1}
+
+\usepackage{enumerate}
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+    colorlinks,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=blue
+}
+\usepackage{multicol}
+% This is now the recommended way for checking for PDFLaTeX:
+\usepackage{ifpdf}
+
+\ifpdf 
+\usepackage{subfigure} 
+\usepackage[pdftex]{graphicx} \else 
+\usepackage{graphicx} \fi
+
+%  Update these values for running headers
+\headrule \lhead[CS 427]{CS427 (Continued)} \chead{\textbf{Final Exam}}
+\rhead{netid: \hbox to 0.75 in{}}
+
+\footrule \lfoot{} \cfoot{Page \thepage\ of \numpages} \rfoot{\iflastpage{End of
+exam.}{Please go on to the next page\ldots}}
+
+% Add the total points in the exam
+\addpoints \boxedpoints \pointsinmargin
+
+% Change the layout of the solution
+\renewcommand{\solutiontitle}{
+\noindent\textbf{Solution:}\par
+\noindent}
+
+\newcommand{\Noo}[1]{}
+\newcommand{\Maybe}[1]{}
+\newcommand{\Comment}[1]{}
+\newcommand{\Ch}[1]{Chapter #1 of Code Complete~2}
+\newcommand{\Book}[1]{Chapter #1 of the book \emph{Object-Oriented 
+Reengineering Patterns (OORP)}}
+\newcommand{\CodeIn}[1]{\begin{small}\texttt{#1}\end{small}}
+\newcommand{\ClassMethod}[2]{\CodeIn{#1.#2}} % you can replace . with :: or whatever looks the best in the end
+\newcommand{\CodeToDoGeneral}{\CodeToDo{CODE}}
+\newcommand{\AnswerToDoGeneral}{\CodeToDo{ANSWER}}
+\newcommand{\CodeToDo}[1]{\CodeIn{\textbf{// [TODO] WRITE YOUR #1 BELOW}}}
+\newcommand{\CodeInstruction}[1]{\textbf{Write #1 in the space provided underneath the comment in the code below.}}
+
+\newcommand{\CircleAll}{(Circle \textbf{ALL} that apply.)}
+\newcommand{\CircleOne}{(Circle \textbf{One} that applies.)}
+
+\newcommand{\QuestionTitle}[1]{\textsc{#1}}
+%\widowpenalties 1 10000
+%\raggedbottom
+
+\newcommand{\Refactoring}[1]{\textsc{#1}}
+\newcommand{\IntroduceParameterObject}{\Refactoring{Introduce Parameter Object}}
+\newcommand{\DuplicatedCode}{\Refactoring{Duplicated Code}}
+
+\newcommand{\Choose}[2]{Circle \textbf{one} of \textbf{#1} or
+\textbf{#2} and answer the following.}
+
+\begin{document}
+
+\lstset{language=Java,numbers=none,tabsize=4,escapeinside={\%*}{*)}}  \begin{coverpages}
+\coverheader{}{\Large \textbf{University of Illinois at
+Urbana-Champaign\\Department of Computer Science}}{} \begin{center}
+{\Large\textbf{Final Exam}}
+
+ \vspace{0.1 in}
+
+CS 427: Software Engineering I\\ Fall 2013
+
+ \vspace{0.1 in}
+
+December 18, 2013
+
+ \vspace{0.1 in}
+
+TIME LIMIT = 3 Hours \\ COVER PAGE + \numpages\ PAGES \end{center}
+
+ \noindent Write your name and netid neatly in the space provided below; \textbf{write
+your netid} in the upper right corner of \textbf{every page}.
+
+ \vspace{0.1 in}
+
+ \hbox to 3 in{Name:\enspace\hrulefill} \hbox to 3 in{Netid:\enspace\hrulefill}
+
+ \vspace{0.1 in}
+
+ \noindent \emph{This is a closed book, closed notes examination. You may not
+use calculators or any other electronic devices. Any sort of cheating on the
+examination will result in a zero grade.}
+
+ \vspace{0.1 in}
+
+ \noindent \textbf{We cannot give any clarifications about the exam questions
+during the test}. If you are unsure of the meaning of a specific question, write
+down your assumptions and proceed to answer the question on that basis.
+
+ \vspace{0.1 in}
+
+ \noindent Do all the problems in this booklet. Do your work inside this
+booklet, using the backs of pages if needed. The problems are of varying degrees
+of difficulty so please pace yourself carefully, and answer the questions in the
+order which best suits you. \textbf{Answers to essay-type questions should be as brief
+as possible.} If the grader cannot understand your handwriting, you will get 0
+points.
+
+ \vspace{0.1 in}
+
+ \noindent There are \numquestions\ questions on this exam and the maximum grade
+on this exam is \numpoints\ points.
+
+ \vspace{0.2 in}
+
+	\begin{multicols*}{2}
+		\begin{center}			
+		\partialgradetable{firsttable}[v][pages] 
+		\end{center}
+		
+		\begin{center}			
+		\partialgradetable{secondtable}[v][pages] 
+		\end{center}
+	\end{multicols*}
+	 
+
+\end{coverpages}
+
+% Questions start here:
+\begin{questions}
+
+\include{a}
+\include{b}
+\include{c}
+\include{d}
+
+\newcommand{\Coding}[1]{#1}
+
+\newpage
+\begingradingrange{firsttable} 
+\XP{}
+\newpage
+\SQA{}
+\Advocacy{}
+\newpage
+\Mistakes{}
+\newpage
+\OOMetrics{}
+\newpage
+\Reuse{}
+\Testing{}
+\newpage
+\Coding{\TestingXiaoyu{}}
+%\newpage
+\ReverseEngineering{}
+\CodeSmells{}
+\endgradingrange{firsttable}
+\newpage
+\begingradingrange{secondtable} 
+\Coding{\IPO{}}
+%\Coding{\RDC{}}
+\newpage
+\Jenkins{}
+\VersionControl{}
+\newpage
+\Documentation{}
+\Patterns{}
+\newpage
+\Coding{\Iterators{}}
+\Coding{\Visitor{}}
+%\Coding{\Observer{}}
+\endgradingrange{secondtable}
+\end{questions}
+\end{document}
+
+% LocalWords:  tabsize Urbana Champaign netid eXtreme XP MP4 3x5 refactorings
+% LocalWords:  refactoring doesn MPs MP1 JUnit MP2 CodingTracker cs225 boolean
+% LocalWords:  newElement PDF IDEs gedit lookup APIs IDE SCM dummied API MP3 OO
+% LocalWords:  resequenced reengineering unbundle javadoc codebase refactor txt
+% LocalWords:  saveLibrary loadLibrary LibraryTest createLibrary loadedLibrary
+% LocalWords:  saveLibraryToFile assertEquals fileName escapeinside
+% LocalWords:  firsttable secondtable

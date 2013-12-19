@@ -1,0 +1,209 @@
+\newcommand{\OOMetricsXiaoyu}{
+\question \QuestionTitle{OO Metrics}
+
+\begin{parts}
+
+% Or, even better, you can create a multiple-choice question that asks
+% which of these is good or bad, e.g., something like this:
+% \item High coupling among independent modules makes reuse easier
+% \item Many dependencies among modules make reuse easier
+% \item Low cohension within a module is desirable
+
+% From Xiaoyu: I gave the code to clarify the dependency.
+ \part[2] In the OO Design Quality Metrics by Robert Martin, he gave
+ an example program:
+
+\lstinputlisting[language=Java]{code/KeyBoard.java}
+
+Consider a new program that copies keyboard characters to a disk file.
+The \CodeIn{Copy} module cannot be reused because it depends on the
+\CodeIn{Printer} and \CodeIn{KeyBoard} classes. According to Robert Martin, a better way of doing
+this should be that the \CodeIn{Copy} module copies from an abstract class
+named \CodeIn{Reader} to an abstract class named \CodeIn{Writer}. Use these two abstract
+classes to rewrite the code.
+
+\begin{solution} [2.5 in] The "Copy" module is not reusable in any
+context which does not involve a keyboard or a printer due to the
+dependency it has to the other two modules. No, we can have a "Copy"
+class which contains an abstract "Reader" class and an abstract
+"Writer" class. We can have keyboard and printer class extend from
+Reader and Writer.
+
+\lstinputlisting[language=Java]{code/KeyBoardSolution.java}
+
+\end{solution}
+\end{parts}
+} % End OOMetricsXiaoyu
+
+\newcommand{\Repeat}[2]{
+	\subpart Which directory should have the \emph{#1}? \CircleOne{}
+
+	1. trunk\ \ \ 2. branches\ \ \ 3. tags
+	\begin{solution}
+	#2
+	\end{solution}
+}
+
+\newpage
+\newcommand{\VersionControl}{
+\question \QuestionTitle{Version Control}
+
+\begin{parts}
+
+% YES
+\part[2]
+Briefly describe \textbf{two reasons} why one should not commit
+compiled code (such as \CodeIn{.class} files) to a version-control
+repository.
+
+\begin{solution}[1.5in]
+Merge conflicts cannot be resolved. Another way of saying the same thing is that binary files are not diffable (by the standard text-based diff algorithms).
+Binary files such as .o files are architecture-dependent and may not be useful to others.
+Binary files may contain information such as timestamps that is guaranteed to create a conflict even if generated from the same source code by others.
+If there is a check-in without compiling, then they can be inconsistent with the source code.
+\end{solution}
+
+% YES
+\part[2]
+While it is generally not recommended to commit automatically generated
+files into version control, there are situations when it is useful.  If you
+encountered such a situation in your project, \textbf{describe the situation and
+give one reason} why it was useful to commit such files.  If you did
+not encounter such a situation in your project, \textbf{describe two
+situations} when it could be useful to commit such files.
+
+\begin{solution}[1.5in]
+% FROM DARKO: why don't we use something like Maven to manage those libraries?
+% from Xiaoyu: The libaries could be something they developed themselves.
+There are some cases where the code automatically generates some libraries that will be needed for some other code. The libraries won't change during commits and in this case we should commit the library.
+% FROM DARKO: The second reason doesn't sound very strong.  If you
+% can't answer this well, it'll be hard to grade.  So either you think
+% more of better answers, or you revise the question.
+
+% From Xiaoyu: I changed the requirement in the question to only answer one situation, since this kind of situation maybe hard to think of two.
+Another case can be the automatically generated file of the code is actually text file, and can be diff to see the changes between different versions.
+
+% Here I added more situations:
+Suppose there are two parts of code that one team worked on. The second part depends on the automatically generated output from the first part. If the first part of the code is complete, which means there should not be any changes to the output, the output can be committed to the SVN to avoid building the first part of code every time.
+\end{solution}
+
+% FROM DARKO: try using subparts to merge the next subquestions under
+% this same intro paragraph about tags/branches/trunk
+
+\part[3]
+In the MPs and course projects, we used SVN for version control.
+Typically, an SVN repository has three directories:
+\CodeIn{trunk}, \CodeIn{tags}, and \CodeIn{branches}.
+Answer the following questions according to the Software
+Configuration Management Patterns reference cards (from the assigned
+reading).
+
+\begin{subparts}
+\Repeat{active development line}{1}
+\Repeat{task branch}{2}
+\Repeat{release line}{3}
+\end{subparts}
+
+\Maybe{
+\begin{subparts}
+\subpart[2]
+Give \textbf{one reason} why using \CodeIn{tags} is good and \textbf{one reason} why
+using \CodeIn{branches} is good.
+
+\begin{solution} [2 in]
+The trunk is where the main line of development should be put in a SVN repository.
+A branch is a side-line of development created to make larger, experimental or disrupting work without annoying users of the trunk version. Also, branches can be used to create development lines for multiple versions of the same product, like having a place to back-port bug fixes into a stable release.
+Finally, tags are markers to highlight notable revisions in the history of the repository, usually things like "this was released as 1.0".
+
+Using the tags directory, each team can tag the code as the result for a specific iteration while still adding and modifying in the trunk directory. 
+Using the branch directory, each team could have several large parallel experimental versions going on, and maybe consider merging in some future versions.
+\end{solution}
+
+% YES - MULTIPLE
+\subpart[3] Answer the following questions according to the Software
+Configuration Management Patterns reference cards (from the assigned
+reading).
+
+\Repeat{active development line}{1}
+\Repeat{task branch}{2}
+\Repeat{release line}{3}
+\end{subparts}
+}
+\end {parts}
+} % End VersionControl
+
+
+\newcommand{\Method}{\CodeIn{result}}
+\newcommand{\TestingXiaoyu}{
+\question[4] \QuestionTitle{JUnit and Branch Coverage}
+
+Consider the simple class \CodeIn{Student} with a method that gets a
+\CodeIn{result} based on the \CodeIn{score}.
+
+\lstinputlisting[language=Java]{code/Student.java}
+
+Write a JUnit test class with several tests for \Method.  All tests
+together should cover \textbf{all} branches for the \Method{} method,
+but each test should call \Method{} only once.  Use boundary values as
+appropriate.  Do \textbf{not} duplicate code among tests but use
+helper methods or \CodeIn{@Before}.
+
+\lstinputlisting[language=Java]{code/TestResult.java}
+
+\begin{solution}[0.0in]
+\lstinputlisting[language=Java]{code/TestResultSolution.java}
+\end{solution}
+
+\Comment{
+\part[2]  Suppose you are implementing \CodeIn{Hashmap} that takes in 
+integer key and String value as below. To be specific, for
+each \textless key,value \textgreater pair, it will map to a certain
+position in an array based on a hash function on the key. Same keys
+will map to the same location. Inserting duplicate keys will result in
+replacing the original value. The maximum size of it will double once
+the current size reaches 3/4 of the current maximum
+size. Write \textbf{at least three} JUnit test cases that you can think
+of to test \textbf{different functionality} of your Hashmap.
+
+\lstinputlisting[language=Java]{code/MyHashMap.java}
+
+\begin{solution} 
+\lstinputlisting[language=Java]{code/MyHashMapSolution.java}
+\end{solution}
+}
+} % End TestingXiaoyu
+
+\newcommand{\Jenkins}{
+% YES
+\question[1] \QuestionTitle{Jenkins}
+
+When you graduate and join a software development organization, will you
+champion using (not necessarily extending) Jenkins or a similar continuous integration system?
+Describe why or why not.
+\begin{solution}[1.25in]
+\end{solution}
+
+\Comment{
+\part[1] Should Jenkins (or a similar system that allows students to
+view the results of their test runs) be used in an introductory course
+on programming. (Think of a course such as cs125 or cs225 if you took
+those courses as an undergraduate student, or just think of a generic
+``101'' course on programming.)  Describe why or why not.
+\begin{solution}[2in]
+\end{solution}
+}
+
+\Maybe{
+\part[2]
+Automated build is one component of software configuration management.
+Eclipse can automatically build projects that have \CodeIn{.classpath}.
+Maven can automatically build projects that have \CodeIn{pom.xml}.  Can
+Jenkins easily build projects that have \CodeIn{.classpath}?  Can Jenkins
+easily build projects that have \CodeIn{pom.xml}?  Describe why.
+
+\begin{solution}[2in]
+\end{solution}
+}
+} % End Jenkins
+
+% LocalWords: OO KeyBoard diffable SVN MPs JUnit Hashmap classpath xml

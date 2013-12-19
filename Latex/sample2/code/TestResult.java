@@ -1,0 +1,37 @@
+public class ResultTest {
+  %* \CodeToDoGeneral{} *)
+
+	
+	
+	
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+}
