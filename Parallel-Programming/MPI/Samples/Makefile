@@ -4,7 +4,7 @@ CC=gcc
 CCFLAGS = -O0
 MPICC=mpicc
 
-CMD = 1 2 5 6 8 9 fairness all_gather reduce prefix_sum exm_1 exm_2
+CMD = 1 2 5 6 8 9 fairness all_gather reduce prefix_sum exm_1 exm_2  samplesort
 SRC = $(CMD:=.c)
 OBJ = $(SRC:.c=.o) 
 
@@ -57,6 +57,10 @@ exm_1.o: exm_1.c
 exm_2: exm_2.o
 	$(MPICC) $(CCFLAGS) -o $@ $< -lm
 exm_2.o: exm_2.c
+	$(MPICC) $(CCFLAGS) -c $<
+samplesort: samplesort.o
+	$(MPICC) $(CCFLAGS) -o $@ $< -lm
+samplesort.o: samplesort.c
 	$(MPICC) $(CCFLAGS) -c $<
 clean:
 	rm $(OBJ) $(CMD)

@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -l walltime=00:10:00
+#PBS -l nodes=1:ppn=12
+#PBS -N mp3
+#PBS -j oe
+
+# Move to your mp3 directory
+cd /home/"netid"/MP3
+
+module load mpi
+
+for gsize in 1200000 12000000 120000000
+do
+
+	for cores in 2 6 12
+	do
+
+		echo "Running with n=${gsize} p=${cores}" >> out_mp3.txt
+
+		# Run MP3
+		mpirun -n $cores ./psampleSort $gsize >> out_mp3.txt
+	
+	done
+
+done
+
