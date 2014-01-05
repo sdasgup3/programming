@@ -6,12 +6,12 @@ class Washer {
         }
         public void  notifystart() {
            for (Listener l : listeners) {
-             l.updateonStart();
+             l.updateOnStart();
            }
         }
         public void notifyfinish() {  
            for (Listener l : listeners) {
-             l.updateonFinish();
+             l.updateOnFinish();
            }
         }
       }

@@ -44,7 +44,7 @@ public class SongsOfThe80s implements SongIterator{
 	// NEW By adding this method I'll be able to treat all
 	// collections the same
 		
-	@Override
+	//@Override
 	public Iterator createIterator() {
 		// TODO Auto-generated method stub
 		return Arrays.asList(bestSongs).iterator();	

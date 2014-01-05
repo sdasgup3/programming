@@ -35,6 +35,7 @@ public class DiscJockey {
 		
 	}
 	
+        /*
 	public void showTheSongs(){
 		
 		// Because the SongInfo Objects are stored in different
@@ -84,6 +85,7 @@ public class DiscJockey {
 	    }
 		
 	}
+        */
 	
 	// Now that I can treat everything as an Iterator it cleans up
 	// the code while allowing me to treat all collections as 1

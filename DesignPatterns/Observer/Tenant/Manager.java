@@ -1,10 +1,8 @@
-class Manager implements Listener {
-        public void updateonStart() {}
-        public void updateonFinish() {}
+class Manager extends Listener {
+        public void updateOnStart() {}
+        public void updateOnFinish() {}
 
-        private Washer W;
         Manager (Washer w) {
-          this.W = w;
-          W.addListener(this);
+          registerForWasher(w);
         }
       }
