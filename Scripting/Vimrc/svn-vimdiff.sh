@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Configure your favorite diff program here.
-DIFF="/usr/bin/gvimdiff"
+DIFF="/usr/bin/meld"
 
 # Subversion provides the paths we need as the sixth and seventh
 # parameters.
