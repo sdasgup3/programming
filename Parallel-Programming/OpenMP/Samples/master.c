@@ -1,5 +1,8 @@
-// omp_master.cpp
-// compile with: /openmp 
+//The MASTER directive specifies a region that is to be executed only by the
+//master thread of the team. All other threads on the team skip this section of
+//code There is no implied barrier associated with this directive 
+//It is illegal to branch into or out of MASTER block. 
+
 #include <omp.h>
 #include <stdio.h>
 

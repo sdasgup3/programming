@@ -1,0 +1,16 @@
+  omp_get_num_threads()
+  omp_set_num_threads()
+  omp_get_thread_num()
+
+
+  The following OpenMP directives do not accept clauses:
+
+    MASTER
+    CRITICAL
+    BARRIER
+    ATOMIC
+    FLUSH
+    ORDERED
+    THREADPRIVATE
+  
+  

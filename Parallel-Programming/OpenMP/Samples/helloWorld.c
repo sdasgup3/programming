@@ -1,24 +1,26 @@
 #include<stdio.h>
 #include<omp.h>
 
-void main()
+int main()
 {
 
-	int ID;
-	#pragma omp parallel  \
+  int ID;
+  #pragma omp parallel  \
                             default (none) \
                           private(ID)
-	{
-		ID = omp_get_thread_num();
-		//U may have int ID to avoid private ID
-		printf ("hello(%d)", ID);
-		printf ("world(%d)\n", ID);
+  {
+    ID = omp_get_thread_num();
+    //U may have int ID to avoid private ID
 
-		#pragma omp barrier
-		if(ID == 0 ) {
-		int nThreads = omp_get_num_threads ();	
-		printf ("\n\nWe are %d in number\n\n", nThreads);
-		}
+    printf ("hello(%d)", ID);
+    printf ("world(%d)\n", ID);
 
-	}
+    #pragma omp barrier
+    if(ID == 0 ) {
+      int nThreads = omp_get_num_threads ();  
+      printf ("\n\nWe are %d in number\n\n", nThreads);
+    }
+
+  }
+   return 0;
 }

@@ -30,6 +30,6 @@ int main( )
     test(a,b,c, SIZE);
 
     for (i=0; i<SIZE; i++)
-        printf_s("%d, %d, %d\n", a[i], b[i], c[i]);
+        printf("%d, %d, %d\n", a[i], b[i], c[i]);
 }
 
