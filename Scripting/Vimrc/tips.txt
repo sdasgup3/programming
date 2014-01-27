@@ -9,3 +9,34 @@ Formatting
 gq}
 gg=G
 
+On windows
+===========
+Even when installing from "Vim without Cream", the normal place for a
+vimrc is what Vim regards as $HOME, and that is normally not under
+"Program Files" but under that particular user's personal directory -- see
+
+        :echo $HOME
+
+when running Vim.
+
+However, if Vim finds no $HOME/_vimrc and no $HOME/.vimrc, on Windows it
+will also look for $VIM/_vimrc, and that indeed ussssssually  means
+C:\Program Files\Vim\_vimrc. If that's where your _vimrc is now, try the
+following:
+
+        :view $VIM/_vimrc
+        :saveas $HOME/_vimrc
+
+The file should not be readonly anymore, and you ought to be able to
+edit it normally using Vim, or any other editor for that matter. Also, a
+_vimrc in $HOME will be preferred to one in $VIM so you don't need to
+delete that other version (which would require administrator's
+privileges, and on Vista, IIUC, even an administrator's account does
+_not_ have those privileges until or unless you explicitly ask for
+them), unless that $VIM/_vimrc shouldn't be available to all users.
+
+Note that regardless of whether or not a $HOME/_vimrc is present, Vim
+looks first for a $VIM/vimrc (with no underscxore or dot prepended) and
+sources it if found. (This is called a "system vimrc".) Only then does
+it look for $HOME/_vimrc, sources it if found, and looks for it at other
+places if not found.
