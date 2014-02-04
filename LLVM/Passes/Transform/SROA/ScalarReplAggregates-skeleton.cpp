@@ -31,8 +31,8 @@
 #include "llvm/ADT/Statistic.h"
 using namespace llvm;
 
-STATISTIC(NumReplaced,  "Number of aggregate allocas broken up");
-STATISTIC(NumPromoted,  "Number of scalar allocas promoted to register");
+//STATISTIC(NumReplaced,  "Number of aggregate allocas broken up");
+//STATISTIC(NumPromoted,  "Number of scalar allocas promoted to register");
 
 namespace {
   struct SROA : public FunctionPass {
@@ -54,10 +54,10 @@ namespace {
 }
 
 char SROA::ID = 0;
-static RegisterPass<SROA> X("scalarrepl-netid",
-			    "Scalar Replacement of Aggregates (by <netid>)",
-			    false /* does not modify the CFG */,
-			    false /* transformation, not just analysis */);
+static RegisterPass<SROA> X("scalarrepl-sdasgup3",
+                            "Scalar Replacement of Aggregates (by sdasgup3)",
+                            false /* does not modify the CFG */,
+                            false /* transformation, not just analysis */);
 
 
 // Public interface to create the ScalarReplAggregates pass.
@@ -72,7 +72,7 @@ FunctionPass *createMyScalarReplAggregatesPass() { return new SROA(); }
 // Function runOnFunction:
 // Entry point for the overall ScalarReplAggregates function pass.
 // This function is incomplete.
-// 
+//
 bool SROA::runOnFunction(Function &F) {
 
   bool Changed = false;
