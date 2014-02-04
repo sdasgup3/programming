@@ -23,6 +23,7 @@
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/Function.h"
+#include "llvm/IR/Dominators.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/Pass.h"
@@ -32,7 +33,7 @@
 using namespace llvm;
 
 //STATISTIC(NumReplaced,  "Number of aggregate allocas broken up");
-//STATISTIC(NumPromoted,  "Number of scalar allocas promoted to register");
+STATISTIC(NumPromoted,  "Number of scalar allocas promoted to register");
 
 namespace {
   struct SROA : public FunctionPass {
@@ -42,14 +43,18 @@ namespace {
     // Entry point for the overall scalar-replacement pass
     bool runOnFunction(Function &F);
 
+    //The following mem2reg step promotes some scalar memory locations
+    bool PromoteAllocas(Function &);
+
+
     // getAnalysisUsage - List passes required by this pass.  We also know it
     // will not alter the CFG, so say so.
     virtual void getAnalysisUsage(AnalysisUsage &AU) const {
       AU.setPreservesCFG();
+      AU.addRequired<DominatorTreeWrapperPass>();
     }
 
-  private:
-    // Add fields and helper functions for this pass here.
+
   };
 }
 
@@ -60,23 +65,51 @@ static RegisterPass<SROA> X("scalarrepl-sdasgup3",
                             false /* transformation, not just analysis */);
 
 
-// Public interface to create the ScalarReplAggregates pass.
-// This function is provided to you.
-FunctionPass *createMyScalarReplAggregatesPass() { return new SROA(); }
+/*************************************************************
+ * Function : createMyScalarReplAggregatesPass
+ * Purpose  : Public interface to create the ScalarReplAggregates pass.
+**************************************************************/
+FunctionPass *createMyScalarReplAggregatesPass() { 
+  return new SROA(); 
+}
 
 
-//===----------------------------------------------------------------------===//
-//                      SKELETON FUNCTION TO BE IMPLEMENTED
-//===----------------------------------------------------------------------===//
-//
-// Function runOnFunction:
-// Entry point for the overall ScalarReplAggregates function pass.
-// This function is incomplete.
-//
+/*******************************************************************
+ * Function :   runOnFunction:
+ * Purpose  :   Entry point for the overall ScalarReplAggregates function pass.
+********************************************************************/
 bool SROA::runOnFunction(Function &F) {
 
-  bool Changed = false;
+  bool Changed = PromoteAllocas(F);
 
+  return Changed;
+}
+
+bool SROA::PromoteAllocas(Function &F)
+{
+  bool Changed  = false;
+  std::vector<AllocaInst*> Allocas;
+
+  BasicBlock &BB = F.getEntryBlock();  
+  DominatorTree &DT = getAnalysis<DominatorTreeWrapperPass>().getDomTree();
+  
+  while(1) {
+    Allocas.clear();
+
+    for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
+      if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {       
+        if (isAllocaPromotable(AI)) {
+          Allocas.push_back(AI);  
+        }
+      }
+    }
+
+    if (Allocas.empty()) break;
+
+    PromoteMemToReg(Allocas, DT);
+    NumPromoted += Allocas.size();
+    Changed = true;
+  }
   return Changed;
 }
 
