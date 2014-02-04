@@ -44,7 +44,9 @@ namespace {
     bool runOnFunction(Function &F);
 
     //The following mem2reg step promotes some scalar memory locations
-    bool PromoteAllocas(Function &);
+    bool PromoteAllocasToRegs(Function &);
+
+    bool isAllocaPromotable(const AllocaInst*);
 
 
     // getAnalysisUsage - List passes required by this pass.  We also know it
@@ -80,12 +82,12 @@ FunctionPass *createMyScalarReplAggregatesPass() {
 ********************************************************************/
 bool SROA::runOnFunction(Function &F) {
 
-  bool Changed = PromoteAllocas(F);
+  bool Changed = PromoteAllocasToRegs(F);
 
   return Changed;
 }
 
-bool SROA::PromoteAllocas(Function &F)
+bool SROA::PromoteAllocasToRegs(Function &F)
 {
   bool Changed  = false;
   std::vector<AllocaInst*> Allocas;
@@ -113,3 +115,14 @@ bool SROA::PromoteAllocas(Function &F)
   return Changed;
 }
 
+bool SROA::isAllocaPromotable(const AllocaInst* AI)
+{
+  Type* AIType = AI->getType(); 
+  
+  if(false == AIType->isFPOrFPVectorTy() && false == AIType->isIntOrIntVectorTy() && 
+      false == AIType->isPtrOrPtrVectorTy()) {
+    return false;
+  }
+  
+  return true;
+}
