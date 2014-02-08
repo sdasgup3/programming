@@ -46,15 +46,16 @@ namespace {
     //The following mem2reg step promotes some scalar memory locations
     bool PromoteAllocasToRegs(Function &);
 
-    bool isAllocaPromotable(const AllocaInst*);
-
-
     // getAnalysisUsage - List passes required by this pass.  We also know it
     // will not alter the CFG, so say so.
     virtual void getAnalysisUsage(AnalysisUsage &AU) const {
-      AU.setPreservesCFG();
       AU.addRequired<DominatorTreeWrapperPass>();
+      AU.setPreservesCFG();
     }
+
+    private:
+      bool isAllocaPromotable(const AllocaInst*);
+
 
 
   };
@@ -88,8 +89,9 @@ bool SROA::runOnFunction(Function &F) {
 }
 
 /*******************************************************************
- *  Function :   SROA::PromoteAllocasToRegs
- *  Purpose  :   
+ *  Function :  SROA::PromoteAllocasToRegs
+ *  Purpose  :  Promote allocas to registers, which can enable more 
+ *              scalar replacement.
 ********************************************************************/
 bool SROA::PromoteAllocasToRegs(Function &F)
 {
@@ -133,7 +135,7 @@ bool SROA::PromoteAllocasToRegs(Function &F)
  ***************************************************************/ 
 bool SROA::isAllocaPromotable(const AllocaInst* AI)
 {
-  Type* AIType = AI->getType(); 
+  Type* AIType = AI->getAllocatedType(); 
   
   if(false == AIType->isFPOrFPVectorTy() && false == AIType->isIntOrIntVectorTy() && 
       false == AIType->isPtrOrPtrVectorTy()) {
@@ -141,11 +143,10 @@ bool SROA::isAllocaPromotable(const AllocaInst* AI)
   }
 
   for (Value::const_use_iterator UI = AI->use_begin(), UE = AI->use_end(); UI != UE; ++UI) { 
-    const User *U = *UI;
-    if (const LoadInst *LI = dyn_cast<LoadInst>(U)) {
+    if (const LoadInst *LI = dyn_cast<LoadInst>(*UI)) {
       if (LI->isVolatile())
         return false;
-    } else if (const StoreInst *SI = dyn_cast<StoreInst>(U)) {
+    } else if (const StoreInst *SI = dyn_cast<StoreInst>(*UI)) {
       if (SI->getOperand(0) == AI)
         return false; 
       if (SI->isVolatile())
