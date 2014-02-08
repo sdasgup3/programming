@@ -77,7 +77,7 @@ FunctionPass *createMyScalarReplAggregatesPass() {
 
 
 /*******************************************************************
- * Function :   runOnFunction:
+ * Function :   SROA::runOnFunction
  * Purpose  :   Entry point for the overall ScalarReplAggregates function pass.
 ********************************************************************/
 bool SROA::runOnFunction(Function &F) {
@@ -87,6 +87,10 @@ bool SROA::runOnFunction(Function &F) {
   return Changed;
 }
 
+/*******************************************************************
+ *  Function :   SROA::PromoteAllocasToRegs
+ *  Purpose  :   
+********************************************************************/
 bool SROA::PromoteAllocasToRegs(Function &F)
 {
   bool Changed  = false;
@@ -115,6 +119,18 @@ bool SROA::PromoteAllocasToRegs(Function &F)
   return Changed;
 }
 
+/*******************************************************************************************
+ *  Function: SROA::isAllocaPromotable
+ *  Purpose : To check if the Alloca instructions, AI is promotable
+ *            An object allocated using an alloca instruction is promotable to live in a 
+ *            register if the alloca satisfies all these requirements:
+ *
+ *            (P1)  The alloca is a “first-class” type, which you can approximate conservatively with
+ *                  isFPOrFPVectorTy() || isIntOrIntVectorTy() || isPtrOrPtrVectorTy.
+ *            (P2)  The alloca is only used as the pointer argument of a load or store instruction (i.e., not the value being
+ *                  stored), and the instruction satisfies !isVolatile().
+ *
+ ***************************************************************/ 
 bool SROA::isAllocaPromotable(const AllocaInst* AI)
 {
   Type* AIType = AI->getType(); 
@@ -123,6 +139,18 @@ bool SROA::isAllocaPromotable(const AllocaInst* AI)
       false == AIType->isPtrOrPtrVectorTy()) {
     return false;
   }
-  
+
+  for (Value::const_use_iterator UI = AI->use_begin(), UE = AI->use_end(); UI != UE; ++UI) { 
+    const User *U = *UI;
+    if (const LoadInst *LI = dyn_cast<LoadInst>(U)) {
+      if (LI->isVolatile())
+        return false;
+    } else if (const StoreInst *SI = dyn_cast<StoreInst>(U)) {
+      if (SI->getOperand(0) == AI)
+        return false; 
+      if (SI->isVolatile())
+        return false;
+    }
+  }
   return true;
 }
