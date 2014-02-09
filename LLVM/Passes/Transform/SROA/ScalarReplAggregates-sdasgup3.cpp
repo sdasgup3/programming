@@ -30,6 +30,8 @@
 #include "llvm/Transforms/Utils/PromoteMemToReg.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/ADT/Statistic.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/ADT/SmallVector.h"
 using namespace llvm;
 
 //STATISTIC(NumReplaced,  "Number of aggregate allocas broken up");
@@ -56,17 +58,16 @@ namespace {
     }
 
     private:
-      bool isAllocaPromotable(const AllocaInst*);
+      bool isAllocaPromotable(AllocaInst*);
       void cleanUnusedAllocas(Function&);
       bool isAllocaExpandable(AllocaInst*);
       bool test_U1(GetElementPtrInst*);
       bool test_U2(ICmpInst*);
       bool checkFormat(GetElementPtrInst*);
-      bool isSafeLoad_or_Store(Instruction*);
+      bool isSafeLoad_or_Store(Instruction*, Value*);
       bool test_U1_or_U2(Instruction*);
       bool test_U1(Instruction*);
       bool test_U2(Instruction*);
-      bool checkFormat(GetElementPtrInst* G);
   };
 }
 
@@ -100,7 +101,7 @@ bool SROA::runOnFunction(Function &F) {
   BasicBlock &BB = F.getEntryBlock();  
   for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
     if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {       
-      Allocas.push_back(AI);  
+      Allocas->push_back(AI);  
     }
   }
 
@@ -112,7 +113,7 @@ bool SROA::runOnFunction(Function &F) {
       break; 
     }
 
-    performPromotion(F);
+    promoteAllocasToRegs(F);
     Changed = true;
   }
   
@@ -168,7 +169,7 @@ bool SROA::promoteAllocasToRegs(Function &F)
  *                  stored), and the instruction satisfies !isVolatile().
  *
  ***************************************************************/ 
-bool SROA::isAllocaPromotable(const AllocaInst* AI)
+bool SROA::isAllocaPromotable(AllocaInst* AI)
 {
   Type* AIType = AI->getAllocatedType(); 
   
@@ -181,7 +182,7 @@ bool SROA::isAllocaPromotable(const AllocaInst* AI)
         UI != UE; ++UI) {
     Instruction *I = cast<Instruction>(*UI);
     
-    if(isSafeLoad_or_Store(I)) {
+    if(isSafeLoad_or_Store(I, AI)) {
       continue;
     }
     return false;
@@ -190,14 +191,14 @@ bool SROA::isAllocaPromotable(const AllocaInst* AI)
   return true;
 }
 
-bool SROA::isSafeLoad_or_Store(Instruction* I)
+bool SROA::isSafeLoad_or_Store(Instruction* I, Value* P)
 {
-  if (LoadInst *LI = dyn_cast<LoadInst>(*I)) {
+  if (LoadInst *LI = dyn_cast<LoadInst>(I)) {
     if (LI->isVolatile()) {
         return false;
     } 
-  } else if (StoreInst *SI = dyn_cast<StoreInst>(*I)) {
-    if (SI->getOperand(0) == I) {
+  } else if (StoreInst *SI = dyn_cast<StoreInst>(I)) {
+    if (SI->getOperand(0) == P) {
         return false; 
     }
     if (SI->isVolatile()) {
@@ -216,7 +217,7 @@ SmallVector<AllocaInst*, 32>* SROA::performSROA(
   for(SmallVector<AllocaInst*, 32>::iterator AI = Allocas->begin(), 
       E = Allocas->end(); AI != E; ++AI)  {
     if(isAllocaExpandable(*AI)) {
-      err() << "\n\nExpandable:: " << *AI << "\n\n";
+      errs()<< "\n\nExpandable:: " << *AI << "\n\n";
       //expandAlloca(*AI, newAllocas);
       //isExpanded = true;
     }
@@ -257,7 +258,7 @@ bool SROA::test_U1_or_U2(Instruction *AI)
         continue;
     }
 
-    return false
+    return false;
   }
   return true;
 }
@@ -265,9 +266,9 @@ bool SROA::test_U1_or_U2(Instruction *AI)
 //It is of the form: getelementptr ptr, 0, constant[, ... constant].
 bool SROA::test_U1(Instruction* AI)
 {
-  GetElementPtrInst* G = dyn_cast<GetElementPtrInst>(*AI);
+  GetElementPtrInst* G = dyn_cast<GetElementPtrInst>(AI);
   if(!G) {  
-    retrun false;
+    return false;
   }
 
   errs() << "GEP: " << *G << "\n";  
@@ -284,7 +285,7 @@ bool SROA::test_U1(Instruction* AI)
       continue;
     }
     
-    if(isSafeLoad_or_Store(I)) {
+    if(isSafeLoad_or_Store(I, G)) {
       continue;
     }
     
@@ -312,8 +313,8 @@ bool SROA::checkFormat(GetElementPtrInst* G)
   }
 
   // the second onwards is constant
-  for (unsigned I = 2; I <= NumIndices; ++I) {
-    if(!isa<ConstantInt>(Inst->getOperand(I))) {
+  for (unsigned i = 2; i <= NumIndices; ++i) {
+    if(!isa<ConstantInt>(G->getOperand(i))) {
       return false;
     }
   }
@@ -323,9 +324,9 @@ bool SROA::checkFormat(GetElementPtrInst* G)
 
 bool SROA::test_U2(Instruction* AI) 
 {
-  ICmpInst*  I = dyn_cast<ICmpInst>(*AI);
+  ICmpInst*  I = dyn_cast<ICmpInst>(AI);
   if(!I) {
-    retrun false;
+    return false;
   }
 
   if(Constant *V = dyn_cast<Constant>(I->getOperand(0)))  {
