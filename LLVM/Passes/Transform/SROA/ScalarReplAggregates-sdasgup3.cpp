@@ -32,9 +32,10 @@
 #include "llvm/ADT/Statistic.h"
 #include "llvm/IR/Constants.h"
 #include "llvm/ADT/SmallVector.h"
+#include "llvm/Transforms/Utils/BasicBlockUtils.h"
 using namespace llvm;
 
-//STATISTIC(NumReplaced,  "Number of aggregate allocas broken up");
+STATISTIC(NumReplaced,  "Number of aggregate allocas broken up");
 STATISTIC(NumPromoted,  "Number of scalar allocas promoted to register");
 
 namespace {
@@ -68,6 +69,8 @@ namespace {
       bool test_U1_or_U2(Instruction*);
       bool test_U1(Instruction*);
       bool test_U2(Instruction*);
+      void expandAlloca(AllocaInst *, SmallVector<AllocaInst*, 32>* );
+      bool replaceUses(Instruction* AI, unsigned offset, Value* newAlloca);
   };
 }
 
@@ -137,12 +140,14 @@ bool SROA::promoteAllocasToRegs(Function &F)
   BasicBlock &BB = F.getEntryBlock();  
   DominatorTree &DT = getAnalysis<DominatorTreeWrapperPass>().getDomTree();
   
+  errs() << "Promoted Alloca\n";
   while(1) {
     Allocas.clear();
 
     for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
       if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {       
         if (isAllocaPromotable(AI)) {
+          errs() << "\t" << *AI << "\n";
           Allocas.push_back(AI);  
         }
       }
@@ -154,21 +159,25 @@ bool SROA::promoteAllocasToRegs(Function &F)
     NumPromoted += Allocas.size();
     Changed = true;
   }
+  errs() << "\n\n\n";
   return Changed;
 }
 
-/*******************************************************************************************
+/*************************************************************************
  *  Function: SROA::isAllocaPromotable
  *  Purpose : To check if the Alloca instructions, AI is promotable
- *            An object allocated using an alloca instruction is promotable to live in a 
- *            register if the alloca satisfies all these requirements:
+ *            An object allocated using an alloca instruction is 
+ *            promotable to live in a register if the alloca satisfies 
+ *            all these requirements:
  *
- *            (P1)  The alloca is a “first-class” type, which you can approximate conservatively with
- *                  isFPOrFPVectorTy() || isIntOrIntVectorTy() || isPtrOrPtrVectorTy.
- *            (P2)  The alloca is only used as the pointer argument of a load or store instruction (i.e., not the value being
- *                  stored), and the instruction satisfies !isVolatile().
+ *            (P1)  The alloca is a “first-class” type, which you can 
+ *            approximate conservatively with
+ *              isFPOrFPVectorTy() || isIntOrIntVectorTy() || isPtrOrPtrVectorTy.
+ *            (P2)  The alloca is only used as the pointer argument of 
+ *            a load or store instruction (i.e., not the value being stored), 
+ *            and the instruction satisfies !isVolatile().
  *
- ***************************************************************/ 
+ ***********************************************************************/ 
 bool SROA::isAllocaPromotable(AllocaInst* AI)
 {
   Type* AIType = AI->getAllocatedType(); 
@@ -218,7 +227,7 @@ SmallVector<AllocaInst*, 32>* SROA::performSROA(
       E = Allocas->end(); AI != E; ++AI)  {
     if(isAllocaExpandable(*AI)) {
       errs()<< "\n\nExpandable:: " << *AI << "\n\n";
-      //expandAlloca(*AI, newAllocas);
+      expandAlloca(*AI, newAllocas);
       //isExpanded = true;
     }
   }
@@ -233,12 +242,13 @@ SmallVector<AllocaInst*, 32>* SROA::performSROA(
 
 bool SROA::isAllocaExpandable(AllocaInst *AI) 
 {
-  errs()<< "isAllocaExpandable Processing ... " << *AI << "\n\n";
+  errs()<< "isAllocaExpandable Processing ... " << *AI << "\n";
 
   //Only need to consider alloca instructions that 
   //allocate an object of a structure type.
   if(!AI->getAllocatedType()->isStructTy())
     return false;
+  errs()<< "isAllocaExpandable struct test pass ... " << *AI << "\n";
 
   //Are the Uses Safe
   return test_U1_or_U2(AI);
@@ -251,11 +261,13 @@ bool SROA::test_U1_or_U2(Instruction *AI)
     Instruction *I = cast<Instruction>(*UI);
 
     if(test_U1(I)) {
+      errs()<< "test_U1_or_U2 U1 pass ... " << *I << "\n";
       continue;
     } 
 
     if(test_U2(I)) {
-        continue;
+      errs()<< "test_U1_or_U2 U2 pass ... " << *I << "\n";
+      continue;
     }
 
     return false;
@@ -353,4 +365,39 @@ void SROA::cleanUnusedAllocas(Function &F) {
       } 
     }
   }
+}
+
+void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas) {
+  NumReplaced ++;
+  
+  StructType *T = cast<StructType>(AI->getAllocatedType());
+  
+  for(unsigned i=0 ; i< T->getNumElements() ; i++) {
+    
+    Type *TT = T->getElementType(i);
+    AllocaInst *ai = new AllocaInst(TT);
+    ai->insertBefore(AI);
+    
+    replaceUses(AI, i, ai);
+    
+    if(TT->isStructTy()) {
+      newAllocas->push_back(ai);
+    }
+  }
+}
+
+bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue) 
+{
+  bool valueUsed = false;
+  for (Value::use_iterator ii = OrigInst->use_begin(), e = OrigInst->use_end(); 
+        ii != e; ++ii) {
+    if (GetElementPtrInst *Inst = dyn_cast<GetElementPtrInst>(*ii)) {
+      if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
+        BasicBlock::iterator ii(Inst);
+        ReplaceInstWithValue(Inst->getParent()->getInstList(), ii, newValue);
+        valueUsed = true;
+      }
+    }
+  }
+  return valueUsed;
 }
