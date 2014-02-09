@@ -44,7 +44,9 @@ namespace {
     bool runOnFunction(Function &F);
 
     //The following mem2reg step promotes some scalar memory locations
-    bool PromoteAllocasToRegs(Function &);
+    bool promoteAllocasToRegs(Function &);
+
+    SmallVector<AllocaInst*, 32>* performSROA(SmallVector<AllocaInst*, 32> *);
 
     // getAnalysisUsage - List passes required by this pass.  We also know it
     // will not alter the CFG, so say so.
@@ -55,9 +57,11 @@ namespace {
 
     private:
       bool isAllocaPromotable(const AllocaInst*);
-
-
-
+      void cleanUnusedAllocas(Function&);
+      bool isAllocaExpandable(AllocaInst*);
+      bool test_U1(GetElementPtrInst*);
+      bool test_U2(ICmpInst*);
+      bool SROA::checkFormat(GetElementPtrInst*)
   };
 }
 
@@ -83,17 +87,42 @@ FunctionPass *createMyScalarReplAggregatesPass() {
 ********************************************************************/
 bool SROA::runOnFunction(Function &F) {
 
-  bool Changed = PromoteAllocasToRegs(F);
+  bool Changed = promoteAllocasToRegs(F);
 
+  //Collect the initial set of allocas instructions
+  SmallVector<AllocaInst*, 32> *Allocas;
+  BasicBlock &BB = F.getEntryBlock();  
+  for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
+    if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {       
+      Allocas.push_back(AI);  
+    }
+  }
+
+  while (!Allocas->empty()) {
+
+    Allocas = performSROA(Allocas);
+
+    if (NULL == Allocas) {
+      break; 
+    }
+
+    performPromotion(F);
+    Changed = true;
+  }
+  
+  if(Changed) {
+    //cleanUnusedAllocas(F);
+  }
+  
   return Changed;
 }
 
 /*******************************************************************
- *  Function :  SROA::PromoteAllocasToRegs
+ *  Function :  SROA::promoteAllocasToRegs
  *  Purpose  :  Promote allocas to registers, which can enable more 
  *              scalar replacement.
 ********************************************************************/
-bool SROA::PromoteAllocasToRegs(Function &F)
+bool SROA::promoteAllocasToRegs(Function &F)
 {
   bool Changed  = false;
   std::vector<AllocaInst*> Allocas;
@@ -142,16 +171,179 @@ bool SROA::isAllocaPromotable(const AllocaInst* AI)
     return false;
   }
 
-  for (Value::const_use_iterator UI = AI->use_begin(), UE = AI->use_end(); UI != UE; ++UI) { 
-    if (const LoadInst *LI = dyn_cast<LoadInst>(*UI)) {
-      if (LI->isVolatile())
+  for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
+        UI != UE; ++UI) {
+    Instruction *I = cast<Instruction>(*UI);
+    
+    if(isSafeLoad_or_Store(I)) {
+      continue;
+    }
+    return false;
+  }
+
+  return true;
+}
+
+bool SROA::isSafeLoad_or_Store(Instruction* I)
+{
+  if (LoadInst *LI = dyn_cast<LoadInst>(*I)) {
+    if (LI->isVolatile()) {
         return false;
-    } else if (const StoreInst *SI = dyn_cast<StoreInst>(*UI)) {
-      if (SI->getOperand(0) == AI)
+    } 
+  } else if (StoreInst *SI = dyn_cast<StoreInst>(*I)) {
+    if (SI->getOperand(0) == I) {
         return false; 
-      if (SI->isVolatile())
+    }
+    if (SI->isVolatile()) {
         return false;
     }
   }
   return true;
+}
+
+SmallVector<AllocaInst*, 32>* SROA::performSROA(
+    SmallVector<AllocaInst*, 32> *Allocas)
+{
+  SmallVector<AllocaInst*, 32> *newAllocas = new SmallVector<AllocaInst*, 32>();
+  bool isExpanded = false;
+
+  for(SmallVector<AllocaInst*, 32>::iterator AI = Allocas->being(), 
+      E = Allocas->end(); AI != E; ++AI)  {
+    if(isAllocaExpandable(*AI)) {
+      err() << "\n\nExpandable:: " << *AI << "\n\n";
+      //expandAlloca(*AI, newAllocas);
+      //isExpanded = true;
+    }
+  }
+
+  if(true == isExpanded) {
+    return newAllocas;
+  } else {
+    return NULL;
+  }
+
+}
+
+bool isAllocaExpandable(AllocaInst *AI) 
+{
+  errs()<< "Processing ... " << *AI << "\n\n";
+
+  //Only need to consider alloca instructions that 
+  //allocate an object of a structure type.
+  if(!AI->getAllocatedType()->isStructTy())
+    return false;
+
+  //Are the Uses Safe
+  return test_U1_or_U2(AI);
+}
+
+bool SROA::test_U1_or_U2(AllocaInst *AI)
+{
+  for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
+        UI != UE; ++UI) {
+    Instruction *I = cast<Instruction>(*UI);
+
+    if(test_U1(I)) {
+      continue;
+    } 
+
+    if(test_U2(Icmpi)) {
+        continue;
+    }
+
+    return false
+  }
+  return true;
+}
+
+//It is of the form: getelementptr ptr, 0, constant[, ... constant].
+bool SROA::test_U1(Instruction* AI)
+{
+  GetElementPtrInst* G = dyn_cast<GetElementPtrInst>(*AI);
+  if(!G) {  
+    retrun false;
+  }
+
+  errs() << "GEP: " << *G << "\n";  
+  
+  if(!checkFormat(G)) {
+    return false;
+  }
+
+  for (Value::use_iterator UI = G->use_begin(), UE = G->use_end(); 
+        UI != UE; ++UI) {
+    Instruction *I = cast<Instruction>(*UI);
+    
+    if(test_U1_or_U2(I)) {
+      continue;
+    }
+    
+    if(isSafeLoad_or_Store(I)) {
+      continue;
+    }
+    
+    return false;
+  }
+  return true;
+}
+
+bool SROA::checkFormat(GetElementPtrInst* G)
+{
+   // two indices
+  unsigned NumIndices = G.getNumIndices();
+  if(NumIndices != 2)
+    return false;
+  
+  PointerType* PtrTy = dyn_cast<PointerType>(G->getPointerOperandType());
+  if (!PtrTy) {
+    return false;
+  }
+  // the first is zero
+  if(ConstantInt *OP = dyn_cast<ConstantInt>(G->getOperand(1))) {
+    if(!OP->isZero()) {
+      return false;
+    }
+  }
+
+  // the second is constant
+  for (unsigned I = 2; I <= NumIndices; ++I) {
+    if(!isa<ConstantInt>(Inst->getOperand(I))) {
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+bool test_U2(Instruction* AI) 
+{
+  ICmpInst*  I = dyn_cast<ICmpInst>(*AI);
+  if(!ICmpInst) {
+    retrun false;
+  }
+
+  if(Constant *V = dyn_cast<Constant>(I->getOperand(0)))  {
+    if(V->isNullValue())  { 
+      return true;
+    }
+  }
+  
+  if(Constant *V = dyn_cast<Constant>(I->getOperand(1))) {
+    if(V->isNullValue()) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+void SROA::cleanUnusedAllocas(Function &F) {
+  BasicBlock &BB = F.getEntryBlock();
+  for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
+    if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {
+      if(AI->getNumUses() == 0) {
+        AI->eraseFromParent();
+      } 
+    }
+  }
 }
