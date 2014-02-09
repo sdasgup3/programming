@@ -61,7 +61,12 @@ namespace {
       bool isAllocaExpandable(AllocaInst*);
       bool test_U1(GetElementPtrInst*);
       bool test_U2(ICmpInst*);
-      bool SROA::checkFormat(GetElementPtrInst*)
+      bool checkFormat(GetElementPtrInst*);
+      bool isSafeLoad_or_Store(Instruction*);
+      bool test_U1_or_U2(Instruction*);
+      bool test_U1(Instruction*);
+      bool test_U2(Instruction*);
+      bool checkFormat(GetElementPtrInst* G);
   };
 }
 
@@ -91,6 +96,7 @@ bool SROA::runOnFunction(Function &F) {
 
   //Collect the initial set of allocas instructions
   SmallVector<AllocaInst*, 32> *Allocas;
+
   BasicBlock &BB = F.getEntryBlock();  
   for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
     if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {       
@@ -207,7 +213,7 @@ SmallVector<AllocaInst*, 32>* SROA::performSROA(
   SmallVector<AllocaInst*, 32> *newAllocas = new SmallVector<AllocaInst*, 32>();
   bool isExpanded = false;
 
-  for(SmallVector<AllocaInst*, 32>::iterator AI = Allocas->being(), 
+  for(SmallVector<AllocaInst*, 32>::iterator AI = Allocas->begin(), 
       E = Allocas->end(); AI != E; ++AI)  {
     if(isAllocaExpandable(*AI)) {
       err() << "\n\nExpandable:: " << *AI << "\n\n";
@@ -224,9 +230,9 @@ SmallVector<AllocaInst*, 32>* SROA::performSROA(
 
 }
 
-bool isAllocaExpandable(AllocaInst *AI) 
+bool SROA::isAllocaExpandable(AllocaInst *AI) 
 {
-  errs()<< "Processing ... " << *AI << "\n\n";
+  errs()<< "isAllocaExpandable Processing ... " << *AI << "\n\n";
 
   //Only need to consider alloca instructions that 
   //allocate an object of a structure type.
@@ -237,7 +243,7 @@ bool isAllocaExpandable(AllocaInst *AI)
   return test_U1_or_U2(AI);
 }
 
-bool SROA::test_U1_or_U2(AllocaInst *AI)
+bool SROA::test_U1_or_U2(Instruction *AI)
 {
   for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
         UI != UE; ++UI) {
@@ -247,7 +253,7 @@ bool SROA::test_U1_or_U2(AllocaInst *AI)
       continue;
     } 
 
-    if(test_U2(Icmpi)) {
+    if(test_U2(I)) {
         continue;
     }
 
@@ -290,7 +296,7 @@ bool SROA::test_U1(Instruction* AI)
 bool SROA::checkFormat(GetElementPtrInst* G)
 {
    // two indices
-  unsigned NumIndices = G.getNumIndices();
+  unsigned NumIndices = G->getNumIndices();
   if(NumIndices != 2)
     return false;
   
@@ -305,7 +311,7 @@ bool SROA::checkFormat(GetElementPtrInst* G)
     }
   }
 
-  // the second is constant
+  // the second onwards is constant
   for (unsigned I = 2; I <= NumIndices; ++I) {
     if(!isa<ConstantInt>(Inst->getOperand(I))) {
       return false;
@@ -315,10 +321,10 @@ bool SROA::checkFormat(GetElementPtrInst* G)
   return true;
 }
 
-bool test_U2(Instruction* AI) 
+bool SROA::test_U2(Instruction* AI) 
 {
   ICmpInst*  I = dyn_cast<ICmpInst>(*AI);
-  if(!ICmpInst) {
+  if(!I) {
     retrun false;
   }
 
