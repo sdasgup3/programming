@@ -62,8 +62,6 @@ namespace {
       bool isAllocaPromotable(AllocaInst*);
       void cleanUnusedAllocas(Function&);
       bool isAllocaExpandable(AllocaInst*);
-      bool test_U1(GetElementPtrInst*);
-      bool test_U2(ICmpInst*);
       bool checkFormat(GetElementPtrInst*);
       bool isSafeLoad_or_Store(Instruction*, Value*);
       bool test_U1_or_U2(Instruction*);
