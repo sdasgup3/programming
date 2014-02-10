@@ -1,0 +1,56 @@
+\documentclass[10pt,twoside]{article}
+\usepackage{url}
+
+\newcommand{\doctitle}{%
+Approximations for the Feedback Vertex Set Problem}
+
+\pagestyle{myheadings}
+\markboth{\hfill\doctitle}{\doctitle\hfill}
+
+\bibliographystyle{siam}
+
+\addtolength{\textwidth}{1.00in}
+\addtolength{\textheight}{1.00in}
+\addtolength{\evensidemargin}{-1.00in}
+\addtolength{\oddsidemargin}{-0.00in}
+\addtolength{\topmargin}{-.50in}
+
+\hyphenation{in-de-pen-dent}
+
+%\title{\textbf{\doctitle}\\
+\title{\textbf{ CS533 Initial Project Proposal}}
+
+\author{Dhawal Seth\thanks{Electronic address: \texttt{dseth3@illinois.edu}}
+\qquad Karthik GR\thanks{Electronic address: \texttt{gooli2@illinois.edu}}
+\qquad  Sandeep Dasgupta \thanks{Electronic address:
+\texttt{sdasgup3@illinois.edu}}} 
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\maketitle
+
+We want to use Charm++ \url{[http://charm.cs.uiuc.edu/]} adaptive runtime system to maximize performance of
+parallel applications under a given power budget. Newer systems such as Intel
+Sandybridge allows user to constrain the power consumption by its compute cores
+and DRAM. This facilitates software controlled, optimized power allocation to
+the compute nodes based on the application running on them. We want to pursue a
+project in this direction.  
+
+Following is a specific idea that we are planning to
+explore: 
+It has been empirically observed that under the same power cap,
+different nodes yield different application performance. This can be due to
+several design factors: difference in chip designs, different in component
+assembly by the machine vendor, location of the node in the data center,
+difference in component design such as fans, etc. This difference in the design
+causes load imbalance across nodes despite same allocated power and equal
+compute load. Charm++ is based on over-decomposition and allows dynamic object
+migration across processes. We want to use this feature of Charm++ to achieve
+load balance in the presence of such heterogeneity in the nodes.
+
+%\nocite{*}
+%\bibliography{CS533_project_proposal}
+
+\end{document}
