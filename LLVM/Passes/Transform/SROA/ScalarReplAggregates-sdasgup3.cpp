@@ -20,7 +20,7 @@
 //===----------------------------------------------------------------------===//
 
 #define DEBUG_TYPE "scalarrepl"
-//#define MYDEBUG 
+#define MYDEBUG 
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/Function.h"
@@ -50,7 +50,7 @@ namespace {
     //The following mem2reg step promotes some scalar memory locations
     bool promoteAllocasToRegs(Function &);
 
-    SmallVector<AllocaInst*, 32>* performSROA(SmallVector<AllocaInst*, 32> *);
+    SmallVector<AllocaInst*, 32>* performScalarExpansion(SmallVector<AllocaInst*, 32> *);
 
     // getAnalysisUsage - List passes required by this pass.  We also know it
     // will not alter the CFG, so say so.
@@ -99,9 +99,8 @@ bool SROA::runOnFunction(Function &F) {
   bool Changed = promoteAllocasToRegs(F);
 
   //Collect the initial set of allocas instructions
-  /*
-  SmallVector<AllocaInst*, 32> *Allocas;
-
+  SmallVector<AllocaInst*, 32> *Allocas =  
+                  new SmallVector<AllocaInst*, 32>();
   BasicBlock &BB = F.getEntryBlock();  
   for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
     if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {       
@@ -109,12 +108,13 @@ bool SROA::runOnFunction(Function &F) {
     }
   }
 
-  while (!Allocas->empty()) {
+  //while (!Allocas->empty()) {
+  if (!Allocas->empty()) {
 
-    Allocas = performSROA(Allocas);
+    Allocas = performScalarExpansion(Allocas);
 
     if (NULL == Allocas) {
-      break; 
+      //break; 
     }
 
     promoteAllocasToRegs(F);
@@ -124,7 +124,6 @@ bool SROA::runOnFunction(Function &F) {
   if(Changed) {
     //cleanUnusedAllocas(F);
   }
-  */
   
   return Changed;
 }
@@ -150,13 +149,7 @@ bool SROA::promoteAllocasToRegs(Function &F)
 
     for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
       if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {       
-#ifdef MYDEBUG
-        errs() << "Processing" << *AI << "\n";
-#endif  
         if (isAllocaPromotable(AI)) {
-#ifdef MYDEBUG
-          errs() << "\tPromotion Done" << "\n";
-#endif  
           Allocas.push_back(AI);  
         }
       }
@@ -168,10 +161,12 @@ bool SROA::promoteAllocasToRegs(Function &F)
     NumPromoted += Allocas.size();
     Changed = true;
 #ifdef MYDEBUG
-          errs() << "\t=================================" << "\n";
+          errs() << "\t=====Iter============================" << "\n";
 #endif  
   }
-  errs() << "\n\n\n";
+#ifdef MYDEBUG
+  errs() << "\t=====mem2reg Ends============================" << "\n\n";
+#endif  
   return Changed;
 }
 
@@ -192,10 +187,16 @@ bool SROA::promoteAllocasToRegs(Function &F)
  ***********************************************************************/ 
 bool SROA::isAllocaPromotable(AllocaInst* AI)
 {
+#ifdef MYDEBUG
+  errs() << "isAllocaPromotable : Processing" << *AI << "\n";
+#endif  
   Type* AIType = AI->getAllocatedType(); 
   
   if(false == AIType->isFPOrFPVectorTy() && false == AIType->isIntOrIntVectorTy() && 
       false == AIType->isPtrOrPtrVectorTy()) {
+#ifdef MYDEBUG
+  errs() << "isAllocaPromotable : NOT OK" << *AI << "\n\n";
+#endif  
     return false;
   }
 
@@ -224,9 +225,15 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
         continue;
       }
     }
+#ifdef MYDEBUG
+  errs() << "isAllocaPromotable : NOT OK" << *AI << "\n\n";
+#endif  
     return false;
   }
 
+#ifdef MYDEBUG
+  errs() << "isAllocaPromotable : OK" << *AI << "\n\n";
+#endif  
   return true;
 }
 
@@ -273,7 +280,14 @@ bool SROA::isSafeStore(StoreInst* SI, Value* AI)
   return true;
 }
 
-SmallVector<AllocaInst*, 32>* SROA::performSROA(
+/*************************************************************************
+ *  Function: SROA::performScalarExpansion
+ *  Purpose : Checks if the elements of the "Alloca" vector is expandible.
+ *            If so, then expand it. This acticity may spawn more allocas
+ *            which could be expanded or promoted to reg.
+ *
+ ***********************************************************************/ 
+SmallVector<AllocaInst*, 32>* SROA::performScalarExpansion(
     SmallVector<AllocaInst*, 32> *Allocas)
 {
   SmallVector<AllocaInst*, 32> *newAllocas = new SmallVector<AllocaInst*, 32>();
@@ -281,10 +295,11 @@ SmallVector<AllocaInst*, 32>* SROA::performSROA(
 
   for(SmallVector<AllocaInst*, 32>::iterator AI = Allocas->begin(), 
       E = Allocas->end(); AI != E; ++AI)  {
+
     if(isAllocaExpandable(*AI)) {
-      errs()<< "\n\nExpandable:: " << *AI << "\n\n";
-      expandAlloca(*AI, newAllocas);
+      //expandAlloca(*AI, newAllocas);
       //isExpanded = true;
+      isExpanded = false;
     }
   }
 
@@ -296,54 +311,121 @@ SmallVector<AllocaInst*, 32>* SROA::performSROA(
 
 }
 
+/*************************************************************************
+ *  Function: SROA::isAllocaExpandable
+ *  Purpose : An alloca instrucion AI is expandible if all of the following is *            true:
+ *            1) Allocate an object of a structure type.
+ *            2) The uses of the alloca must abide by test_U1_or_U2
+ *
+ ***********************************************************************/ 
 bool SROA::isAllocaExpandable(AllocaInst *AI) 
 {
+#ifdef MYDEBUG
   errs()<< "isAllocaExpandable Processing ... " << *AI << "\n";
+#endif      
 
-  //Only need to consider alloca instructions that 
-  //allocate an object of a structure type.
-  if(!AI->getAllocatedType()->isStructTy())
+  if(!AI->getAllocatedType()->isStructTy()) {
     return false;
-  errs()<< "isAllocaExpandable struct test pass ... " << *AI << "\n";
+  }
 
-  //Are the Uses Safe
-  return test_U1_or_U2(AI);
-}
+#ifdef MYDEBUG
+  errs()<< "\tAlloca of struct test pass ... " << "\n";
+#endif      
 
-bool SROA::test_U1_or_U2(Instruction *AI)
-{
   for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
         UI != UE; ++UI) {
     Instruction *I = cast<Instruction>(*UI);
-
-    if(test_U1(I)) {
-      errs()<< "test_U1_or_U2 U1 pass ... " << *I << "\n";
-      continue;
-    } 
-
-    if(test_U2(I)) {
-      errs()<< "test_U1_or_U2 U2 pass ... " << *I << "\n";
+    if(test_U1_or_U2(I)) {
+#ifdef MYDEBUG
+  errs()<< "\tAlloca Use test Pass on: " << *I << "\n\n";
+#endif      
       continue;
     }
-
+#ifdef MYDEBUG
+  errs()<< "isAllocaExpandable NOT OK ... " << *AI << "\n";
+#endif      
     return false;
   }
+
+#ifdef MYDEBUG
+  errs()<< "isAllocaExpandable OK ... " << *AI << "\n";
+#endif      
   return true;
 }
 
-//It is of the form: getelementptr ptr, 0, constant[, ... constant].
+/*************************************************************************
+ *  Function: SROA::test_U1_or_U2
+ *  Purpose : Tests an instrucion I follows test_U1 or test_U2. 
+ *
+ ***********************************************************************/ 
+bool SROA::test_U1_or_U2(Instruction *I)
+{
+
+#ifdef MYDEBUG
+  errs()<< "Processing Use: " << *I << "\n";
+#endif      
+
+  if(test_U1(I)) {
+#ifdef MYDEBUG
+    errs()<< "test_U1_or_U2: U1 pass ... " << *I << "\n";
+#endif      
+    return true;
+  } 
+#ifdef MYDEBUG
+    else {
+      errs()<< "test_U1_or_U2: U1 fail ... " << *I << "\n";
+    }
+#endif      
+
+
+  if(test_U2(I)) {
+#ifdef MYDEBUG
+    errs()<< "test_U1_or_U2: U2 pass ... " << *I << "\n";
+#endif      
+    return true;
+  }
+#ifdef MYDEBUG
+  else {
+    errs()<< "test_U1_or_U2: U2 fail ... " << *I << "\n";
+  }
+#endif      
+
+  return false;
+}
+
+/*************************************************************************
+ *  Function: SROA::test_U1
+ *  Purpose : Tests if alloca instrucion AI follow all the conditions 
+ *            below:
+ *            1. The type should be getelementptr
+ *            2. The instrucion should have a fixed format.
+ *            2. The result of getelementptr instrucion should follow
+ *                    test_U1 or
+ *                    test_U2 or
+ *                    isSafeLoad or
+ *                    isSafeStore. 
+ *
+ ***********************************************************************/ 
 bool SROA::test_U1(Instruction* AI)
 {
+#ifdef MYDEBUG
+  errs() << "\t\ttesting U1" << "\n";  
+#endif
+
   GetElementPtrInst* G = dyn_cast<GetElementPtrInst>(AI);
   if(!G) {  
     return false;
   }
-
-  errs() << "GEP: " << *G << "\n";  
+#ifdef MYDEBUG
+  errs() << "\t\t\tIs a GEP instruction" << "\n";  
+#endif
   
   if(!checkFormat(G)) {
     return false;
   }
+#ifdef MYDEBUG
+  errs() << "\t\t\tFormat OK " << "\n";  
+#endif
 
   for (Value::use_iterator UI = G->use_begin(), UE = G->use_end(); 
         UI != UE; ++UI) {
@@ -353,6 +435,9 @@ bool SROA::test_U1(Instruction* AI)
       continue;
     }
     
+#ifdef MYDEBUG
+  errs() << "\t\t\ttesting Ld/St  " << "\n";  
+#endif
     if (LoadInst *LI = dyn_cast<LoadInst>(*UI)) {
       if(isSafeLoad(LI)) {
         continue;
@@ -397,8 +482,17 @@ bool SROA::checkFormat(GetElementPtrInst* G)
   return true;
 }
 
+/*************************************************************************
+ *  Function: SROA::test_U2
+ *  Purpose : Tests if instrucion AI is of type comparison (’eq’ or ’ne’) 
+ *            where the other operand is the NULL pointer value.
+ *
+ ***********************************************************************/ 
 bool SROA::test_U2(Instruction* AI) 
 {
+#ifdef MYDEBUG
+  errs() << "\t\ttesting U2" << "\n";  
+#endif
   ICmpInst*  I = dyn_cast<ICmpInst>(AI);
   if(!I) {
     return false;
@@ -464,25 +558,3 @@ bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue)
   }
   return valueUsed;
 }
-
-/*
-bool SROA::isSafeLoad_or_Store(Instruction* I, Value* P)
-{
-  if (LoadInst *LI = dyn_cast<LoadInst>(I)) {
-    if (LI->isVolatile()) {
-        return false;
-    } 
-
-  for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
-        UI != UE; ++UI) {
-    Instruction *I = cast<Instruction>(*UI);
-    
-    if(isSafeLoad_or_Store(I, AI)) {
-      continue;
-    }
-    return false;
-  }
-
-  return true;
-}
-*/
