@@ -297,9 +297,8 @@ SmallVector<AllocaInst*, 32>* SROA::performScalarExpansion(
       E = Allocas->end(); AI != E; ++AI)  {
 
     if(isAllocaExpandable(*AI)) {
-      //expandAlloca(*AI, newAllocas);
-      //isExpanded = true;
-      isExpanded = false;
+      expandAlloca(*AI, newAllocas);
+      isExpanded = true;
     }
   }
 
@@ -454,6 +453,12 @@ bool SROA::test_U1(Instruction* AI)
   return true;
 }
 
+/*************************************************************************
+ *  Function: SROA::checkFormat
+ *  Purpose : Tests if getelementptr instrucion G is of the the format
+ *            getelementptr ptr, 0, constant[, ... constant]
+ *
+ ***********************************************************************/ 
 bool SROA::checkFormat(GetElementPtrInst* G)
 {
    // two indices
@@ -513,17 +518,6 @@ bool SROA::test_U2(Instruction* AI)
   return false;
 }
 
-void SROA::cleanUnusedAllocas(Function &F) {
-  BasicBlock &BB = F.getEntryBlock();
-  for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
-    if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {
-      if(AI->getNumUses() == 0) {
-        AI->eraseFromParent();
-      } 
-    }
-  }
-}
-
 void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas) {
   NumReplaced ++;
   
@@ -543,18 +537,51 @@ void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas
   }
 }
 
+/*
 bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue) 
 {
   bool valueUsed = false;
-  for (Value::use_iterator ii = OrigInst->use_begin(), e = OrigInst->use_end(); 
-        ii != e; ++ii) {
+  for (Value::use_iterator UI = OrigInst->use_begin(), E = OrigInst->use_end(); 
+        UI != E; ++UI) {
+    if (GetElementPtrInst *Inst = dyn_cast<GetElementPtrInst>(*UI)) {
+      if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
+        BasicBlock::iterator BI(Inst);
+        errs() <<"WHAT";
+        ReplaceInstWithValue(Inst->getParent()->getInstList(), BI, newValue);
+        valueUsed = true;
+      }
+    }
+    break;
+  }
+  return valueUsed;
+}
+*/
+bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue) {
+  bool valueUsed = false;
+  for (Value::use_iterator ii = OrigInst->use_begin(), e = OrigInst->use_end(); ii != e; ++ii) {
     if (GetElementPtrInst *Inst = dyn_cast<GetElementPtrInst>(*ii)) {
       if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
+        // replace GEP with newValue
         BasicBlock::iterator ii(Inst);
         ReplaceInstWithValue(Inst->getParent()->getInstList(), ii, newValue);
         valueUsed = true;
       }
     }
-  }
+    }
   return valueUsed;
 }
+
+
+
+
+void SROA::cleanUnusedAllocas(Function &F) {
+  BasicBlock &BB = F.getEntryBlock();
+  for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
+    if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {
+      if(AI->getNumUses() == 0) {
+        AI->eraseFromParent();
+      } 
+    }
+  }
+}
+
