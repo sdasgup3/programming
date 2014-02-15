@@ -20,7 +20,7 @@
 //===----------------------------------------------------------------------===//
 
 #define DEBUG_TYPE "scalarrepl"
-#define MYDEBUG 
+//#define MYDEBUG 
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/Function.h"
@@ -50,7 +50,7 @@ namespace {
     //The following mem2reg step promotes some scalar memory locations
     bool promoteAllocasToRegs(Function &);
 
-    SmallVector<AllocaInst*, 32>* performScalarExpansion(SmallVector<AllocaInst*, 32> *);
+    SmallVector<AllocaInst*, 32>* performScalarExpansion(SmallVector<AllocaInst*, 32> *, Function&);
 
     // getAnalysisUsage - List passes required by this pass.  We also know it
     // will not alter the CFG, so say so.
@@ -67,8 +67,9 @@ namespace {
       bool test_U1_or_U2(Instruction*);
       bool test_U1(Instruction*);
       bool test_U2(Instruction*);
-      void expandAlloca(AllocaInst *, SmallVector<AllocaInst*, 32>* );
+      void expandAlloca(AllocaInst *, SmallVector<AllocaInst*, 32>*, Function& );
       bool replaceUses(Instruction* AI, unsigned offset, Value* newAlloca);
+      //bool replaceUses(Instruction* , unsigned ,Instruction* );
       bool isSafeStore(StoreInst*, Value*  );
       bool isSafeLoad(LoadInst*);
   };
@@ -108,13 +109,12 @@ bool SROA::runOnFunction(Function &F) {
     }
   }
 
-  //while (!Allocas->empty()) {
-  if (!Allocas->empty()) {
+  while (!Allocas->empty()) {
 
-    Allocas = performScalarExpansion(Allocas);
+    Allocas = performScalarExpansion(Allocas, F);
 
     if (NULL == Allocas) {
-      //break; 
+      break; 
     }
 
     promoteAllocasToRegs(F);
@@ -122,7 +122,7 @@ bool SROA::runOnFunction(Function &F) {
   }
   
   if(Changed) {
-    //cleanUnusedAllocas(F);
+    cleanUnusedAllocas(F);
   }
   
   return Changed;
@@ -288,7 +288,7 @@ bool SROA::isSafeStore(StoreInst* SI, Value* AI)
  *
  ***********************************************************************/ 
 SmallVector<AllocaInst*, 32>* SROA::performScalarExpansion(
-    SmallVector<AllocaInst*, 32> *Allocas)
+    SmallVector<AllocaInst*, 32> *Allocas, Function& F)
 {
   SmallVector<AllocaInst*, 32> *newAllocas = new SmallVector<AllocaInst*, 32>();
   bool isExpanded = false;
@@ -297,7 +297,7 @@ SmallVector<AllocaInst*, 32>* SROA::performScalarExpansion(
       E = Allocas->end(); AI != E; ++AI)  {
 
     if(isAllocaExpandable(*AI)) {
-      expandAlloca(*AI, newAllocas);
+      expandAlloca(*AI, newAllocas, F);
       isExpanded = true;
     }
   }
@@ -518,7 +518,7 @@ bool SROA::test_U2(Instruction* AI)
   return false;
 }
 
-void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas) {
+void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas, Function& F) {
   NumReplaced ++;
   
   StructType *T = cast<StructType>(AI->getAllocatedType());
@@ -526,61 +526,65 @@ void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas
   for(unsigned i=0 ; i< T->getNumElements() ; i++) {
     
     Type *TT = T->getElementType(i);
+    Instruction* First = F.getEntryBlock().begin();
+
     AllocaInst *ai = new AllocaInst(TT);
-    ai->insertBefore(AI);
+    //ai->insertBefore(AI);
+    ai->insertBefore(First);
     
     replaceUses(AI, i, ai);
     
     if(TT->isStructTy()) {
+#ifdef MYDEBUG
+      errs() << "Adding new\n";
+#endif
       newAllocas->push_back(ai);
     }
   }
 }
 
-/*
 bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue) 
 {
+#ifdef MYDEBUG  
+ errs() <<"=============" << "\n";;
+ errs() <<"Orig Instruction:" << *OrigInst << "\n";;
+ errs() <<"New Instruction:" << *newValue << "\n";;
+ errs() <<"Offset:" << offset << "\n";;
+ errs() <<"=============" << "\n";;
+#endif 
+
   bool valueUsed = false;
-  for (Value::use_iterator UI = OrigInst->use_begin(), E = OrigInst->use_end(); 
-        UI != E; ++UI) {
-    if (GetElementPtrInst *Inst = dyn_cast<GetElementPtrInst>(*UI)) {
+  for (Value::use_iterator UI = OrigInst->use_begin(); UI != OrigInst->use_end();) {
+    if (GetElementPtrInst *Inst = dyn_cast_or_null<GetElementPtrInst>(*UI)) {
       if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
         BasicBlock::iterator BI(Inst);
-        errs() <<"WHAT";
+        ++UI;
         ReplaceInstWithValue(Inst->getParent()->getInstList(), BI, newValue);
+        //Inst->replaceAllUsesWith(newValue);
+        //Inst->eraseFromParent();
         valueUsed = true;
+      } else {
+        ++UI;
       }
     }
-    break;
   }
   return valueUsed;
 }
-*/
-bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue) {
-  bool valueUsed = false;
-  for (Value::use_iterator ii = OrigInst->use_begin(), e = OrigInst->use_end(); ii != e; ++ii) {
-    if (GetElementPtrInst *Inst = dyn_cast<GetElementPtrInst>(*ii)) {
-      if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
-        // replace GEP with newValue
-        BasicBlock::iterator ii(Inst);
-        ReplaceInstWithValue(Inst->getParent()->getInstList(), ii, newValue);
-        valueUsed = true;
-      }
-    }
-    }
-  return valueUsed;
-}
-
 
 
 
 void SROA::cleanUnusedAllocas(Function &F) {
   BasicBlock &BB = F.getEntryBlock();
-  for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
+  for (BasicBlock::iterator I = (&BB)->begin(), E = (&BB)->end(); I != E; ) {
     if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {
       if(AI->getNumUses() == 0) {
+        ++I;
         AI->eraseFromParent();
-      } 
+      } else {
+        ++I;
+      }
+    } else {
+      ++I;
     }
   }
 }
