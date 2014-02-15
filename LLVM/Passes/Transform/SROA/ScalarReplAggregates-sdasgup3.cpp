@@ -20,6 +20,7 @@
 //===----------------------------------------------------------------------===//
 
 #define DEBUG_TYPE "scalarrepl"
+//#define MYDEBUG 
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/Function.h"
@@ -63,12 +64,13 @@ namespace {
       void cleanUnusedAllocas(Function&);
       bool isAllocaExpandable(AllocaInst*);
       bool checkFormat(GetElementPtrInst*);
-      bool isSafeLoad_or_Store(Instruction*, Value*);
       bool test_U1_or_U2(Instruction*);
       bool test_U1(Instruction*);
       bool test_U2(Instruction*);
       void expandAlloca(AllocaInst *, SmallVector<AllocaInst*, 32>* );
       bool replaceUses(Instruction* AI, unsigned offset, Value* newAlloca);
+      bool isSafeStore(StoreInst*, Value*  );
+      bool isSafeLoad(LoadInst*);
   };
 }
 
@@ -97,6 +99,7 @@ bool SROA::runOnFunction(Function &F) {
   bool Changed = promoteAllocasToRegs(F);
 
   //Collect the initial set of allocas instructions
+  /*
   SmallVector<AllocaInst*, 32> *Allocas;
 
   BasicBlock &BB = F.getEntryBlock();  
@@ -121,6 +124,7 @@ bool SROA::runOnFunction(Function &F) {
   if(Changed) {
     //cleanUnusedAllocas(F);
   }
+  */
   
   return Changed;
 }
@@ -138,14 +142,21 @@ bool SROA::promoteAllocasToRegs(Function &F)
   BasicBlock &BB = F.getEntryBlock();  
   DominatorTree &DT = getAnalysis<DominatorTreeWrapperPass>().getDomTree();
   
+#ifdef MYDEBUG
   errs() << "Promoted Alloca\n";
+#endif  
   while(1) {
     Allocas.clear();
 
     for (BasicBlock::iterator I = BB.begin(), E = --BB.end(); I != E; ++I) {
       if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {       
+#ifdef MYDEBUG
+        errs() << "Processing" << *AI << "\n";
+#endif  
         if (isAllocaPromotable(AI)) {
-          errs() << "\t" << *AI << "\n";
+#ifdef MYDEBUG
+          errs() << "\tPromotion Done" << "\n";
+#endif  
           Allocas.push_back(AI);  
         }
       }
@@ -156,6 +167,9 @@ bool SROA::promoteAllocasToRegs(Function &F)
     PromoteMemToReg(Allocas, DT);
     NumPromoted += Allocas.size();
     Changed = true;
+#ifdef MYDEBUG
+          errs() << "\t=================================" << "\n";
+#endif  
   }
   errs() << "\n\n\n";
   return Changed;
@@ -185,12 +199,30 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
     return false;
   }
 
+#ifdef MYDEBUG
+  if(true == AIType->isFPOrFPVectorTy()) {
+    errs() << "\t\tIs FP or FP vector" << "\n";
+  }
+  if(true == AIType->isIntOrIntVectorTy()) {
+    errs() << "\t\tIs Int or Int vector" << "\n";
+  }
+  if(true == AIType->isPtrOrPtrVectorTy()) {
+    errs() << "\t\tIs Ptr or Ptr vector" << "\n";
+  }
+#endif  
+
   for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
         UI != UE; ++UI) {
-    Instruction *I = cast<Instruction>(*UI);
     
-    if(isSafeLoad_or_Store(I, AI)) {
-      continue;
+    if (LoadInst *LI = dyn_cast<LoadInst>(*UI)) {
+      if(isSafeLoad(LI)) {
+        continue;
+      }
+    }
+    if (StoreInst *SI = dyn_cast<StoreInst>(*UI)) {
+      if(isSafeStore(SI, AI)) {
+        continue;
+      }
     }
     return false;
   }
@@ -198,19 +230,45 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
   return true;
 }
 
-bool SROA::isSafeLoad_or_Store(Instruction* I, Value* P)
+/*************************************************************************
+ *  Function: SROA::isSafeLoad
+ *  Purpose : Checks if the following are true for load LI  
+ *            1) (not volatile).
+ *
+ ***********************************************************************/ 
+bool SROA::isSafeLoad(LoadInst* LI)
 {
-  if (LoadInst *LI = dyn_cast<LoadInst>(I)) {
-    if (LI->isVolatile()) {
-        return false;
-    } 
-  } else if (StoreInst *SI = dyn_cast<StoreInst>(I)) {
-    if (SI->getOperand(0) == P) {
-        return false; 
-    }
-    if (SI->isVolatile()) {
-        return false;
-    }
+#ifdef MYDEBUG
+    errs() << "\t\tIs load:" << *LI << "\n";
+#endif
+
+  if (LI->isVolatile()) {
+      return false;
+  } 
+  return true;
+}
+
+/*************************************************************************
+ *  Function: SROA::isSafeStore
+ *  Purpose : Checks if the following is true for store SI  
+ *            1) (no alloca instrucion 
+ *               is used in the 'value' field of store) && (not volatile).
+ *
+ ***********************************************************************/ 
+bool SROA::isSafeStore(StoreInst* SI, Value* AI)
+{
+#ifdef MYDEBUG
+  errs() << "\t\tIs store:" << *SI << "\n";
+#endif
+
+  if (SI->getOperand(0) == AI) {
+#ifdef MYDEBUG
+    errs() << "\t\tIs alloca used as data for store\n" ;
+#endif
+    return false; 
+  }
+  if (SI->isVolatile()) {
+    return false;
   }
   return true;
 }
@@ -295,8 +353,15 @@ bool SROA::test_U1(Instruction* AI)
       continue;
     }
     
-    if(isSafeLoad_or_Store(I, G)) {
-      continue;
+    if (LoadInst *LI = dyn_cast<LoadInst>(*UI)) {
+      if(isSafeLoad(LI)) {
+        continue;
+      }
+    }
+    if (StoreInst *SI = dyn_cast<StoreInst>(*UI)) {
+      if(isSafeStore(SI, G)) {
+        continue;
+      }
     }
     
     return false;
@@ -399,3 +464,25 @@ bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue)
   }
   return valueUsed;
 }
+
+/*
+bool SROA::isSafeLoad_or_Store(Instruction* I, Value* P)
+{
+  if (LoadInst *LI = dyn_cast<LoadInst>(I)) {
+    if (LI->isVolatile()) {
+        return false;
+    } 
+
+  for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
+        UI != UE; ++UI) {
+    Instruction *I = cast<Instruction>(*UI);
+    
+    if(isSafeLoad_or_Store(I, AI)) {
+      continue;
+    }
+    return false;
+  }
+
+  return true;
+}
+*/
