@@ -518,7 +518,8 @@ bool SROA::test_U2(Instruction* AI)
   return false;
 }
 
-void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas, Function& F) {
+void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas, Function& F) 
+{
   NumReplaced ++;
   
   StructType *T = cast<StructType>(AI->getAllocatedType());
@@ -559,9 +560,9 @@ bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue)
       if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
         BasicBlock::iterator BI(Inst);
         ++UI;
-        ReplaceInstWithValue(Inst->getParent()->getInstList(), BI, newValue);
-        //Inst->replaceAllUsesWith(newValue);
-        //Inst->eraseFromParent();
+        //ReplaceInstWithValue(Inst->getParent()->getInstList(), BI, newValue);
+        Inst->replaceAllUsesWith(newValue);
+        Inst->eraseFromParent();
         valueUsed = true;
       } else {
         ++UI;
