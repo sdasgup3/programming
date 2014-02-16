@@ -48,8 +48,6 @@ namespace {
     bool promoteAllocasToRegs(Function &);
     SmallVector<AllocaInst*, 32>* performScalarExpansion(SmallVector<AllocaInst*, 32> *, Function&);
 
-    // getAnalysisUsage - List passes required by this pass.  We also know it
-    // will not alter the CFG, so say so.
     virtual void getAnalysisUsage(AnalysisUsage &AU) const {
       AU.addRequired<DominatorTreeWrapperPass>();
       AU.setPreservesCFG();
@@ -57,15 +55,13 @@ namespace {
 
     private:
       bool isAllocaPromotable(AllocaInst*);
-      void cleanUnusedAllocas(Function&);
       bool isAllocaExpandable(AllocaInst*);
       bool checkFormat(GetElementPtrInst*);
       bool test_U1_or_U2(Instruction*);
       bool test_U1(Instruction*);
       bool test_U2(Instruction*);
       void expandAlloca(AllocaInst *, SmallVector<AllocaInst*, 32>*, Function& );
-      bool replaceUses(Instruction* AI, unsigned offset, Value* newAlloca);
-      //bool replaceUses(Instruction* , unsigned ,Instruction* );
+      void replaceAllocaUses(Instruction* AI, unsigned offset, Value* newAlloca);
       bool isSafeStore(StoreInst*, Value*  );
       bool isSafeLoad(LoadInst*);
   };
@@ -82,20 +78,21 @@ static RegisterPass<SROA> X("scalarrepl-sdasgup3",
  * Function : createMyScalarReplAggregatesPass
  * Purpose  : Public interface to create the ScalarReplAggregates pass.
 **************************************************************/
-FunctionPass *createMyScalarReplAggregatesPass() { 
+FunctionPass *createMyScalarReplAggregatesPass() 
+{ 
   return new SROA(); 
 }
 
 
 /*******************************************************************
  * Function :   SROA::runOnFunction
- * Purpose  :   Entry point for the overall ScalarReplAggregates function pass.
+ * Purpose  :   Entry point for the scalar replacement of aggregates.
 ********************************************************************/
-bool SROA::runOnFunction(Function &F) {
+bool SROA::runOnFunction(Function &F) 
+{
 
   bool Changed = promoteAllocasToRegs(F);
 
-  //Collect the initial set of allocas instructions
   SmallVector<AllocaInst*, 32> *Allocas =  
                   new SmallVector<AllocaInst*, 32>();
   BasicBlock &BB = F.getEntryBlock();  
@@ -104,26 +101,22 @@ bool SROA::runOnFunction(Function &F) {
       Allocas->push_back(AI);  
     }
   }
-#ifdef MYDEBUG
+
+  #ifdef MYDEBUG
   if(Allocas->empty()) {
   errs() << "No Allocas left...Next function \n\n\n";
   }
-#endif  
+  #endif  
 
   while (!Allocas->empty()) {
 
     Allocas = performScalarExpansion(Allocas, F);
-
     if (NULL == Allocas) {
       break; 
     }
 
     promoteAllocasToRegs(F);
     Changed = true;
-  }
-  
-  if(Changed) {
-    //cleanUnusedAllocas(F);
   }
   
   return Changed;
@@ -142,9 +135,10 @@ bool SROA::promoteAllocasToRegs(Function &F)
   BasicBlock &BB = F.getEntryBlock();  
   DominatorTree &DT = getAnalysis<DominatorTreeWrapperPass>().getDomTree();
   
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs() << "Promoted Alloca\n";
-#endif  
+  #endif
+
   while(1) {
     Allocas.clear();
 
@@ -161,13 +155,15 @@ bool SROA::promoteAllocasToRegs(Function &F)
     PromoteMemToReg(Allocas, DT);
     NumPromoted += Allocas.size();
     Changed = true;
-#ifdef MYDEBUG
-          errs() << "\t=====Iter============================" << "\n";
-#endif  
+
+    #ifdef MYDEBUG
+    errs() << "\t=====Iter============================" << "\n";
+    #endif  
   }
-#ifdef MYDEBUG
+
+  #ifdef MYDEBUG
   errs() << "\t=====mem2reg Ends============================" << "\n\n";
-#endif  
+  #endif  
   return Changed;
 }
 
@@ -188,20 +184,21 @@ bool SROA::promoteAllocasToRegs(Function &F)
  ***********************************************************************/ 
 bool SROA::isAllocaPromotable(AllocaInst* AI)
 {
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs() << "isAllocaPromotable : Processing" << *AI << "\n";
-#endif  
+  #endif
+
   Type* AIType = AI->getAllocatedType(); 
   
   if(false == AIType->isFPOrFPVectorTy() && false == AIType->isIntOrIntVectorTy() && 
       false == AIType->isPtrOrPtrVectorTy()) {
-#ifdef MYDEBUG
-  errs() << "isAllocaPromotable : NOT OK (not proper type)" << *AI << "\n\n";
-#endif  
+    #ifdef MYDEBUG
+    errs() << "isAllocaPromotable : NOT OK (not proper type)" << *AI << "\n\n";
+    #endif  
     return false;
   }
 
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   if(true == AIType->isFPOrFPVectorTy()) {
     errs() << "\t\tIs FP or FP vector" << "\n";
   }
@@ -211,7 +208,7 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
   if(true == AIType->isPtrOrPtrVectorTy()) {
     errs() << "\t\tIs Ptr or Ptr vector" << "\n";
   }
-#endif  
+  #endif  
 
   for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
         UI != UE; ++UI) {
@@ -226,15 +223,16 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
         continue;
       }
     }
-#ifdef MYDEBUG
-  errs() << "isAllocaPromotable : NOT OK (use other than load store)" << *AI << "\n\n";
-#endif  
+
+    #ifdef MYDEBUG
+    errs() << "isAllocaPromotable : NOT OK (use other than load store)" << *AI << "\n\n";
+    #endif  
     return false;
   }
 
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs() << "isAllocaPromotable : OK" << *AI << "\n\n";
-#endif  
+  #endif  
   return true;
 }
 
@@ -246,19 +244,22 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
  ***********************************************************************/ 
 bool SROA::isSafeLoad(LoadInst* LI)
 {
-#ifdef MYDEBUG
-    errs() << "\t\tIs load:" << *LI << ":";
-#endif
+  #ifdef MYDEBUG
+  errs() << "\t\tIs load:" << *LI << ":";
+  #endif
 
   if (LI->isVolatile()) {
-#ifdef MYDEBUG
-  errs() << "NO\n" ;
-#endif  
-      return false;
+    #ifdef MYDEBUG
+    errs() << "NO\n" ;
+    #endif
+
+    return false;
   } 
-#ifdef MYDEBUG
+
+  #ifdef MYDEBUG
   errs() << "YES\n" ;
-#endif  
+  #endif
+
   return true;
 }
 
@@ -271,25 +272,27 @@ bool SROA::isSafeLoad(LoadInst* LI)
  ***********************************************************************/ 
 bool SROA::isSafeStore(StoreInst* SI, Value* AI)
 {
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs() << "\t\tIs store:" << *SI << ":";
-#endif
+  #endif
 
   if (SI->getOperand(0) == AI) {
-#ifdef MYDEBUG
+    #ifdef MYDEBUG
     errs() << "Is alloca used as data for store\n" ;
-#endif
+    #endif
     return false; 
   }
+
   if (SI->isVolatile()) {
-#ifdef MYDEBUG
-  errs() << "NO\n" ;
-#endif  
+    #ifdef MYDEBUG
+    errs() << "NO\n" ;
+    #endif  
     return false;
   }
-#ifdef MYDEBUG
+
+  #ifdef MYDEBUG
   errs() << "YES\n" ;
-#endif  
+  #endif  
   return true;
 }
 
@@ -320,7 +323,6 @@ SmallVector<AllocaInst*, 32>* SROA::performScalarExpansion(
   } else {
     return NULL;
   }
-
 }
 
 /*************************************************************************
@@ -332,48 +334,51 @@ SmallVector<AllocaInst*, 32>* SROA::performScalarExpansion(
  ***********************************************************************/ 
 bool SROA::isAllocaExpandable(AllocaInst *AI) 
 {
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs()<< "isAllocaExpandable Processing ... " << *AI << "\n";
-#endif      
+  #endif      
 
   if(!AI->getAllocatedType()->isStructTy()) {
-#ifdef MYDEBUG
-  errs()<< "\tisAllocaExpandable NOT OK (non struct) ... " << *AI << "\n";
-#endif      
+    #ifdef MYDEBUG
+    errs()<< "\tisAllocaExpandable NOT OK (non struct) ... " << *AI << "\n";
+    #endif      
     return false;
   }
 
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs()<< "\tAlloca of struct test pass ... " << "\n";
-#endif      
+  #endif      
 
-  /*
+  /******************************************************
+   * There is no need to expand a struct alloca which
+   * has no use. 
   if(AI->getNumUses() == 0) {
-#ifdef MYDEBUG
-  errs()<< "\tAlloca with no use ... " << "\n";
-#endif      
+    #ifdef MYDEBUG
+    errs()<< "\tAlloca with no use ... " << "\n";
+    #endif      
     return false;
   }
-  */
+  *********************************************************/
 
   for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
         UI != UE; ++UI) {
     Instruction *I = cast<Instruction>(*UI);
     if(test_U1_or_U2(I)) {
-#ifdef MYDEBUG
-  errs()<< "\tAlloca Use test Pass on: " << *I << "\n\n";
-#endif      
+      #ifdef MYDEBUG
+      errs()<< "\tAlloca Use test Pass on: " << *I << "\n\n";
+      #endif      
       continue;
     }
-#ifdef MYDEBUG
-  errs()<< "\tisAllocaExpandable NOT OK ... " << *AI << "\n";
-#endif      
+
+    #ifdef MYDEBUG
+    errs()<< "\tisAllocaExpandable NOT OK ... " << *AI << "\n";
+    #endif      
     return false;
   }
 
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs()<< "\tisAllocaExpandable OK ... " << *AI << "\n";
-#endif      
+  #endif      
   return true;
 }
 
@@ -385,35 +390,34 @@ bool SROA::isAllocaExpandable(AllocaInst *AI)
 bool SROA::test_U1_or_U2(Instruction *I)
 {
 
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs()<< "\tProcessing Use: " << *I << "\n";
-#endif      
+  #endif      
 
   if(test_U1(I)) {
-#ifdef MYDEBUG
+    #ifdef MYDEBUG
     errs()<< "\t\ttest_U1_or_U2: U1 pass ... " << *I << "\n";
-#endif      
+    #endif      
     return true;
-  } 
-#ifdef MYDEBUG
+  }
+  #ifdef MYDEBUG
     else {
       errs()<< "\t\ttest_U1_or_U2: U1 fail ... " << *I << "\n";
     }
-#endif      
+  #endif      
 
 
   if(test_U2(I)) {
-#ifdef MYDEBUG
+    #ifdef MYDEBUG
     errs()<< "\t\ttest_U1_or_U2: U2 pass ... " << *I << "\n";
-#endif      
+    #endif      
     return true;
   }
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   else {
     errs()<< "\t\ttest_U1_or_U2: U2 fail ... " << *I << "\n";
   }
-#endif      
-
+  #endif      
   return false;
 }
 
@@ -432,27 +436,29 @@ bool SROA::test_U1_or_U2(Instruction *I)
  ***********************************************************************/ 
 bool SROA::test_U1(Instruction* AI)
 {
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs() << "\t\ttesting U1" << "\n";  
-#endif
+  #endif
 
   GetElementPtrInst* G = dyn_cast<GetElementPtrInst>(AI);
   if(!G) {  
     return false;
   }
-#ifdef MYDEBUG
+
+  #ifdef MYDEBUG
   errs() << "\t\t\tIs a GEP instruction" << "\n";  
-#endif
+  #endif
   
   if(!checkFormat(G)) {
-#ifdef MYDEBUG
-  errs() << "\t\t\tFormat NOT OK " << "\n";  
-#endif
+    #ifdef MYDEBUG
+    errs() << "\t\t\tFormat NOT OK " << "\n";  
+    #endif
     return false;
   }
-#ifdef MYDEBUG
+
+  #ifdef MYDEBUG
   errs() << "\t\t\tFormat OK " << "\n";  
-#endif
+  #endif
 
   for (Value::use_iterator UI = G->use_begin(), UE = G->use_end(); 
         UI != UE; ++UI) {
@@ -462,9 +468,9 @@ bool SROA::test_U1(Instruction* AI)
       continue;
     }
     
-#ifdef MYDEBUG
-  errs() << "\t\t\ttesting Ld/St  " << "\n";  
-#endif
+    #ifdef MYDEBUG
+    errs() << "\t\t\ttesting Ld/St  " << "\n";  
+    #endif
     if (LoadInst *LI = dyn_cast<LoadInst>(*UI)) {
       if(isSafeLoad(LI)) {
         continue;
@@ -489,7 +495,6 @@ bool SROA::test_U1(Instruction* AI)
  ***********************************************************************/ 
 bool SROA::checkFormat(GetElementPtrInst* G)
 {
-   // two indices
   unsigned NumIndices = G->getNumIndices();
   if(NumIndices != 2)
     return false;
@@ -498,14 +503,13 @@ bool SROA::checkFormat(GetElementPtrInst* G)
   if (!PtrTy) {
     return false;
   }
-  // the first is zero
+
   if(ConstantInt *OP = dyn_cast<ConstantInt>(G->getOperand(1))) {
     if(!OP->isZero()) {
       return false;
     }
   }
 
-  // the second onwards is constant
   for (unsigned i = 2; i <= NumIndices; ++i) {
     if(!isa<ConstantInt>(G->getOperand(i))) {
       return false;
@@ -523,9 +527,9 @@ bool SROA::checkFormat(GetElementPtrInst* G)
  ***********************************************************************/ 
 bool SROA::test_U2(Instruction* AI) 
 {
-#ifdef MYDEBUG
+  #ifdef MYDEBUG
   errs() << "\t\ttesting U2" << "\n";  
-#endif
+  #endif
   ICmpInst*  I = dyn_cast<ICmpInst>(AI);
   if(!I) {
     return false;
@@ -546,6 +550,14 @@ bool SROA::test_U2(Instruction* AI)
   return false;
 }
 
+/*************************************************************************
+ *  Function: SROA::expandAlloca
+ *  Purpose : Creates a new alloca for each member of struct AI and
+ *            add them to the entry to the current function F.
+ *            Also replaces the uses of each member with the newly 
+ *            created alloca, which are then added to the worklist 
+ *            newAllocas
+ ***********************************************************************/ 
 void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas, Function& F) 
 {
   NumReplaced ++;
@@ -558,63 +570,36 @@ void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas
     Instruction* First = F.getEntryBlock().begin();
 
     AllocaInst *ai = new AllocaInst(TT);
-    //ai->insertBefore(AI);
     ai->insertBefore(First);
     
-    replaceUses(AI, i, ai);
+    replaceAllocaUses(AI, i, ai);
     
     if(TT->isStructTy()) {
-#ifdef MYDEBUG
-      errs() << "Adding new\n";
-#endif
+      #ifdef MYDEBUG
+      errs() << "Adding new allocas\n";
+      #endif
       newAllocas->push_back(ai);
     }
   }
 }
 
-bool SROA::replaceUses(Instruction* OrigInst, unsigned offset, Value* newValue) 
+/*************************************************************************
+ *  Function: SROA::replaceAllocaUses
+ *  Purpose : For each member of the alloca instruction 'OrigInst' finds 
+ *            the usage and replaces that.
+ ***********************************************************************/ 
+void SROA::replaceAllocaUses(Instruction* OrigInst, unsigned offset, Value* newValue) 
 {
-#ifdef MYDEBUG  
- errs() <<"=============" << "\n";;
- errs() <<"Orig Instruction:" << *OrigInst << "\n";;
- errs() <<"New Instruction:" << *newValue << "\n";;
- errs() <<"Offset:" << offset << "\n";;
- errs() <<"=============" << "\n";;
-#endif 
-
-  bool valueUsed = false;
   for (Value::use_iterator UI = OrigInst->use_begin(); UI != OrigInst->use_end();) {
     if (GetElementPtrInst *Inst = dyn_cast_or_null<GetElementPtrInst>(*UI)) {
       if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
         BasicBlock::iterator BI(Inst);
         ++UI;
-        //ReplaceInstWithValue(Inst->getParent()->getInstList(), BI, newValue);
         Inst->replaceAllUsesWith(newValue);
         Inst->eraseFromParent();
-        valueUsed = true;
       } else {
         ++UI;
       }
     }
   }
-  return valueUsed;
 }
-
-
-
-void SROA::cleanUnusedAllocas(Function &F) {
-  BasicBlock &BB = F.getEntryBlock();
-  for (BasicBlock::iterator I = (&BB)->begin(), E = (&BB)->end(); I != E; ) {
-    if (AllocaInst *AI = dyn_cast<AllocaInst>(I)) {
-      if(AI->getNumUses() == 0) {
-        ++I;
-        AI->eraseFromParent();
-      } else {
-        ++I;
-      }
-    } else {
-      ++I;
-    }
-  }
-}
-
