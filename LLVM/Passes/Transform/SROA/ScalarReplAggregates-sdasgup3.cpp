@@ -352,13 +352,13 @@ bool SROA::isAllocaExpandable(AllocaInst *AI)
   /******************************************************
    * There is no need to expand a struct alloca which
    * has no use. 
+   * ****************************************************/
   if(AI->getNumUses() == 0) {
     #ifdef MYDEBUG
     errs()<< "\tAlloca with no use ... " << "\n";
     #endif      
     return false;
   }
-  *********************************************************/
 
   for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
         UI != UE; ++UI) {
