@@ -44,12 +44,8 @@ namespace {
     static char ID; // Pass identification
     SROA() : FunctionPass(ID) { }
 
-    // Entry point for the overall scalar-replacement pass
     bool runOnFunction(Function &F);
-
-    //The following mem2reg step promotes some scalar memory locations
     bool promoteAllocasToRegs(Function &);
-
     SmallVector<AllocaInst*, 32>* performScalarExpansion(SmallVector<AllocaInst*, 32> *, Function&);
 
     // getAnalysisUsage - List passes required by this pass.  We also know it
@@ -108,6 +104,11 @@ bool SROA::runOnFunction(Function &F) {
       Allocas->push_back(AI);  
     }
   }
+#ifdef MYDEBUG
+  if(Allocas->empty()) {
+  errs() << "No Allocas left...Next function \n\n\n";
+  }
+#endif  
 
   while (!Allocas->empty()) {
 
@@ -122,7 +123,7 @@ bool SROA::runOnFunction(Function &F) {
   }
   
   if(Changed) {
-    cleanUnusedAllocas(F);
+    //cleanUnusedAllocas(F);
   }
   
   return Changed;
@@ -195,7 +196,7 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
   if(false == AIType->isFPOrFPVectorTy() && false == AIType->isIntOrIntVectorTy() && 
       false == AIType->isPtrOrPtrVectorTy()) {
 #ifdef MYDEBUG
-  errs() << "isAllocaPromotable : NOT OK" << *AI << "\n\n";
+  errs() << "isAllocaPromotable : NOT OK (not proper type)" << *AI << "\n\n";
 #endif  
     return false;
   }
@@ -226,7 +227,7 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
       }
     }
 #ifdef MYDEBUG
-  errs() << "isAllocaPromotable : NOT OK" << *AI << "\n\n";
+  errs() << "isAllocaPromotable : NOT OK (use other than load store)" << *AI << "\n\n";
 #endif  
     return false;
   }
@@ -246,12 +247,18 @@ bool SROA::isAllocaPromotable(AllocaInst* AI)
 bool SROA::isSafeLoad(LoadInst* LI)
 {
 #ifdef MYDEBUG
-    errs() << "\t\tIs load:" << *LI << "\n";
+    errs() << "\t\tIs load:" << *LI << ":";
 #endif
 
   if (LI->isVolatile()) {
+#ifdef MYDEBUG
+  errs() << "NO\n" ;
+#endif  
       return false;
   } 
+#ifdef MYDEBUG
+  errs() << "YES\n" ;
+#endif  
   return true;
 }
 
@@ -265,18 +272,24 @@ bool SROA::isSafeLoad(LoadInst* LI)
 bool SROA::isSafeStore(StoreInst* SI, Value* AI)
 {
 #ifdef MYDEBUG
-  errs() << "\t\tIs store:" << *SI << "\n";
+  errs() << "\t\tIs store:" << *SI << ":";
 #endif
 
   if (SI->getOperand(0) == AI) {
 #ifdef MYDEBUG
-    errs() << "\t\tIs alloca used as data for store\n" ;
+    errs() << "Is alloca used as data for store\n" ;
 #endif
     return false; 
   }
   if (SI->isVolatile()) {
+#ifdef MYDEBUG
+  errs() << "NO\n" ;
+#endif  
     return false;
   }
+#ifdef MYDEBUG
+  errs() << "YES\n" ;
+#endif  
   return true;
 }
 
@@ -324,12 +337,24 @@ bool SROA::isAllocaExpandable(AllocaInst *AI)
 #endif      
 
   if(!AI->getAllocatedType()->isStructTy()) {
+#ifdef MYDEBUG
+  errs()<< "\tisAllocaExpandable NOT OK (non struct) ... " << *AI << "\n";
+#endif      
     return false;
   }
 
 #ifdef MYDEBUG
   errs()<< "\tAlloca of struct test pass ... " << "\n";
 #endif      
+
+  /*
+  if(AI->getNumUses() == 0) {
+#ifdef MYDEBUG
+  errs()<< "\tAlloca with no use ... " << "\n";
+#endif      
+    return false;
+  }
+  */
 
   for (Value::use_iterator UI = AI->use_begin(), UE = AI->use_end(); 
         UI != UE; ++UI) {
@@ -341,13 +366,13 @@ bool SROA::isAllocaExpandable(AllocaInst *AI)
       continue;
     }
 #ifdef MYDEBUG
-  errs()<< "isAllocaExpandable NOT OK ... " << *AI << "\n";
+  errs()<< "\tisAllocaExpandable NOT OK ... " << *AI << "\n";
 #endif      
     return false;
   }
 
 #ifdef MYDEBUG
-  errs()<< "isAllocaExpandable OK ... " << *AI << "\n";
+  errs()<< "\tisAllocaExpandable OK ... " << *AI << "\n";
 #endif      
   return true;
 }
@@ -361,31 +386,31 @@ bool SROA::test_U1_or_U2(Instruction *I)
 {
 
 #ifdef MYDEBUG
-  errs()<< "Processing Use: " << *I << "\n";
+  errs()<< "\tProcessing Use: " << *I << "\n";
 #endif      
 
   if(test_U1(I)) {
 #ifdef MYDEBUG
-    errs()<< "test_U1_or_U2: U1 pass ... " << *I << "\n";
+    errs()<< "\t\ttest_U1_or_U2: U1 pass ... " << *I << "\n";
 #endif      
     return true;
   } 
 #ifdef MYDEBUG
     else {
-      errs()<< "test_U1_or_U2: U1 fail ... " << *I << "\n";
+      errs()<< "\t\ttest_U1_or_U2: U1 fail ... " << *I << "\n";
     }
 #endif      
 
 
   if(test_U2(I)) {
 #ifdef MYDEBUG
-    errs()<< "test_U1_or_U2: U2 pass ... " << *I << "\n";
+    errs()<< "\t\ttest_U1_or_U2: U2 pass ... " << *I << "\n";
 #endif      
     return true;
   }
 #ifdef MYDEBUG
   else {
-    errs()<< "test_U1_or_U2: U2 fail ... " << *I << "\n";
+    errs()<< "\t\ttest_U1_or_U2: U2 fail ... " << *I << "\n";
   }
 #endif      
 
@@ -420,6 +445,9 @@ bool SROA::test_U1(Instruction* AI)
 #endif
   
   if(!checkFormat(G)) {
+#ifdef MYDEBUG
+  errs() << "\t\t\tFormat NOT OK " << "\n";  
+#endif
     return false;
   }
 #ifdef MYDEBUG
