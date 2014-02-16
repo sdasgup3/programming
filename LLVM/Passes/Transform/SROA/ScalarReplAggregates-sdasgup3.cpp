@@ -560,6 +560,9 @@ bool SROA::test_U2(Instruction* AI)
  ***********************************************************************/ 
 void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas, Function& F) 
 {
+  #ifdef MYDEBUG
+  errs() << "Expanding : " << *AI << "\n";
+  #endif
   NumReplaced ++;
   
   StructType *T = cast<StructType>(AI->getAllocatedType());
@@ -590,6 +593,14 @@ void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas
  ***********************************************************************/ 
 void SROA::replaceAllocaUses(Instruction* OrigInst, unsigned offset, Value* newValue) 
 {
+  #ifdef MYDEBUG  
+  errs() <<"=============" << "\n";;
+  errs() <<"Orig Instruction:" << *OrigInst << "\n";;
+  errs() <<"New Instruction:" << *newValue << "\n";;
+  errs() <<"Offset:" << offset << "\n";;
+  errs() <<"=============" << "\n";;
+  #endif
+
   for (Value::use_iterator UI = OrigInst->use_begin(); UI != OrigInst->use_end();) {
     if (GetElementPtrInst *Inst = dyn_cast_or_null<GetElementPtrInst>(*UI)) {
       if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
@@ -600,6 +611,8 @@ void SROA::replaceAllocaUses(Instruction* OrigInst, unsigned offset, Value* newV
       } else {
         ++UI;
       }
+    } else {
+      ++UI;
     }
   }
 }
