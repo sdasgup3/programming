@@ -536,9 +536,9 @@ bool SROA::test_U2(Instruction* AI)
   }
 
   switch (I->getPredicate()) {
-    case CmpInst::ICMP_EQ:  
+    case ICmpInst::ICMP_EQ:  
       break;
-    case CmpInst::ICMP_NE:  
+    case ICmpInst::ICMP_NE:  
       break;
     default:
       #ifdef MYDEBUG
@@ -576,7 +576,7 @@ void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas
   errs() << "Expanding : " << *AI << "\n";
   #endif
   NumReplaced ++;
-  
+
   StructType *T = cast<StructType>(AI->getAllocatedType());
   
   for(unsigned i=0 ; i< T->getNumElements() ; i++) {
@@ -586,13 +586,13 @@ void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas
 
     AllocaInst *ai = new AllocaInst(TT);
     ai->insertBefore(First);
+    #ifdef MYDEBUG
+    errs() << "Adding new allocas" << *ai <<"\n";
+    #endif
     
     replaceAllocaUses(AI, i, ai);
     
     if(TT->isStructTy()) {
-      #ifdef MYDEBUG
-      errs() << "Adding new allocas\n";
-      #endif
       newAllocas->push_back(ai);
     }
   }
@@ -615,54 +615,37 @@ void SROA::replaceAllocaUses(Instruction* OrigInst, unsigned offset, Value* newV
 
   for (Value::use_iterator UI = OrigInst->use_begin(); UI != OrigInst->use_end();) {
     if (GetElementPtrInst *Inst = dyn_cast<GetElementPtrInst>(*UI)) {
+      #ifdef MYDEBUG
+      errs() << "Trying with GetElementPtrInst:" << *Inst<< "\n";
+      #endif
       if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
-        BasicBlock::iterator BI(Inst);
+        #ifdef MYDEBUG
+        errs() << "\tReplacing GetElementPtrInst:" << *Inst<< "\n";
+        #endif
         ++UI;
         Inst->replaceAllUsesWith(newValue);
         Inst->eraseFromParent();
       } else {
         ++UI;
       }
+    } else if(ICmpInst *Inst = dyn_cast<ICmpInst>(*UI)) {
+      #ifdef MYDEBUG
+      errs() << "Replacing a ICmpInst" << *Inst<< "\n";
+      #endif
+      ++UI;
+      switch (Inst->getPredicate()) {
+        case ICmpInst::ICMP_EQ:  
+          Inst->replaceAllUsesWith(ConstantInt::getFalse(Inst->getContext()));
+          break;
+        case ICmpInst::ICMP_NE:  
+          Inst->replaceAllUsesWith(ConstantInt::getTrue(Inst->getContext()));
+          break;
+        default:
+          break;
+      }
+      Inst->eraseFromParent();
     } else {
       ++UI;
     }
   }
 }
-/*
-    else if(ICmpInst *Inst = dyn_cast<ICmpInst>(*UI)) {
-      Value *LHS = Inst->getOperand(0);
-      Value *RHS = Inst->getOperand(1);
-
-      #ifdef MYDEBUG
-      errs() << "LHS" << *LHS << "\n";  
-      errs() << "RHS" << *RHS << "\n";  
-      #endif
-      if(Constant *V = dyn_cast<Constant>(LHS))  {
-        if(!V->isNullValue())  { 
-      #ifdef MYDEBUG
-      errs() << "LHS is NULL \n";  
-      #endif
-          ++UI;
-          AllocaInst* R = cast<AllocaInst>(RHS);
-          R->replaceAllUsesWith(newValue);    
-          R->eraseFromParent();
-      #ifdef MYDEBUG
-      errs() << "Done  \n";  
-      #endif
-        } else {
-      #ifdef MYDEBUG
-      errs() << "LHS is NULL \n";  
-      #endif
-          ++UI;
-          AllocaInst* L = dyn_cast<AllocaInst>(LHS);
-          L->replaceAllUsesWith(newValue);    
-          L->eraseFromParent();
-        }
-      } else {
-        ++UI;
-      }
-    } else {
-      ++UI;
-    }
-  }
-  */
