@@ -157,12 +157,12 @@ bool SROA::promoteAllocasToRegs(Function &F)
     Changed = true;
 
     #ifdef MYDEBUG
-    errs() << "\t=====Iter============================" << "\n";
+    errs() << "\t=====Iter========" << "\n";
     #endif  
   }
 
   #ifdef MYDEBUG
-  errs() << "\t=====mem2reg Ends============================" << "\n\n";
+  errs() << "\t=====mem2reg Ends==" << "\n\n";
   #endif  
   return Changed;
 }
