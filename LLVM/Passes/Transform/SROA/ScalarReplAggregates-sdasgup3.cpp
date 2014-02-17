@@ -535,6 +535,18 @@ bool SROA::test_U2(Instruction* AI)
     return false;
   }
 
+  switch (I->getPredicate()) {
+    case CmpInst::ICMP_EQ:  
+      break;
+    case CmpInst::ICMP_NE:  
+      break;
+    default:
+      #ifdef MYDEBUG
+      errs() << "\t\t\tOther than eq and ne" << "\n";  
+      #endif
+      return false;
+  }
+
   if(Constant *V = dyn_cast<Constant>(I->getOperand(0)))  {
     if(V->isNullValue())  { 
       return true;
@@ -602,7 +614,7 @@ void SROA::replaceAllocaUses(Instruction* OrigInst, unsigned offset, Value* newV
   #endif
 
   for (Value::use_iterator UI = OrigInst->use_begin(); UI != OrigInst->use_end();) {
-    if (GetElementPtrInst *Inst = dyn_cast_or_null<GetElementPtrInst>(*UI)) {
+    if (GetElementPtrInst *Inst = dyn_cast<GetElementPtrInst>(*UI)) {
       if(dyn_cast<ConstantInt>(Inst->getOperand(2))->getZExtValue() == offset) {
         BasicBlock::iterator BI(Inst);
         ++UI;
@@ -616,3 +628,41 @@ void SROA::replaceAllocaUses(Instruction* OrigInst, unsigned offset, Value* newV
     }
   }
 }
+/*
+    else if(ICmpInst *Inst = dyn_cast<ICmpInst>(*UI)) {
+      Value *LHS = Inst->getOperand(0);
+      Value *RHS = Inst->getOperand(1);
+
+      #ifdef MYDEBUG
+      errs() << "LHS" << *LHS << "\n";  
+      errs() << "RHS" << *RHS << "\n";  
+      #endif
+      if(Constant *V = dyn_cast<Constant>(LHS))  {
+        if(!V->isNullValue())  { 
+      #ifdef MYDEBUG
+      errs() << "LHS is NULL \n";  
+      #endif
+          ++UI;
+          AllocaInst* R = cast<AllocaInst>(RHS);
+          R->replaceAllUsesWith(newValue);    
+          R->eraseFromParent();
+      #ifdef MYDEBUG
+      errs() << "Done  \n";  
+      #endif
+        } else {
+      #ifdef MYDEBUG
+      errs() << "LHS is NULL \n";  
+      #endif
+          ++UI;
+          AllocaInst* L = dyn_cast<AllocaInst>(LHS);
+          L->replaceAllUsesWith(newValue);    
+          L->eraseFromParent();
+        }
+      } else {
+        ++UI;
+      }
+    } else {
+      ++UI;
+    }
+  }
+  */
