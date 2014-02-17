@@ -600,8 +600,15 @@ void SROA::expandAlloca(AllocaInst *AI, SmallVector<AllocaInst*, 32>* newAllocas
 
 /*************************************************************************
  *  Function: SROA::replaceAllocaUses
- *  Purpose : For each member of the alloca instruction 'OrigInst' finds 
- *            the usage and replaces that.
+ *  Purpose : This functions replaces the uses of Alloca, which can be one 
+ *            two kinds:
+ *            1) GetElementPtrInst 
+ *              For each member of the alloca instruction 'OrigInst' find 
+ *              the usage and replace that.
+ *            2) ICmpInst: Where the atrcut alloca is directly used.
+ *              Replace with with true/false depending on if strcut alloca
+ *              is ne NULL/ eq NULL
+ *
  ***********************************************************************/ 
 void SROA::replaceAllocaUses(Instruction* OrigInst, unsigned offset, Value* newValue) 
 {
