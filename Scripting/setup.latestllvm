@@ -1,0 +1,4 @@
+export PATH=$PATH:/home/sdasgup3/llvm/latest/build/Release+Asserts/bin/
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64
+module load gcc
+#cd llvm/latest/llvm/lib/Transforms/SROA/
