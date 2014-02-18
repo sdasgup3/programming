@@ -24,8 +24,8 @@ GetOptions (
 my $make        = "make -f ~/Scripts/Makefile"; 
 
 ###  LLVM Args
-#my $llvm_bin  = "/home/sdasgup3/work/llvm-build/Debug+Asserts/bin/";
-my $llvm_bin  = "/home/sdasgup3/LLVM/Latest/build/Release+Asserts/bin/";
+my $llvm_bin  = "/team/cs526/sdasgup3/build/Release+Asserts/bin/";
+my $load_pass  = "/team/cs526/sdasgup3/build/Release+Asserts/lib/libLLVMSROA.so"; 
 
 
 my $clang       = "$llvm_bin/clang";
@@ -61,7 +61,7 @@ execute("$llvmdis $test-scalarrepl.bc -o $test-scalarrepl.ll");
 execute("rm -rf $test-scalarrepl.bc ");
 execute("cut -d ' ' -f1 $test-log > $test-scalarrepl.O ");
 
-execute("$opt -load /home/sdasgup3/LLVM/Latest/build/Debug+Asserts/lib/libLLVMSROA.so -scalarrepl-sdasgup3 $opts  $test.bc -o  $test-scalarrepl-sdasgup3.bc |& tee $test-log");
+execute("$opt -load $load_pass -scalarrepl-sdasgup3 $opts  $test.bc -o  $test-scalarrepl-sdasgup3.bc |& tee $test-log");
 execute("$llvmdis $test-scalarrepl-sdasgup3.bc -o $test-scalarrepl-sdasgup3.ll");
 execute("rm -rf $test-scalarrepl-sdasgup3.bc ");
 execute("cut -d ' ' -f1 $test-log > $test-scalarrepl-sdasgup3.O ");
@@ -73,12 +73,14 @@ if("" ne $diff) {
   $result = `grep -v 'ModuleID' $test-log | grep -v "1c1" | grep -v '-'`;
   print "$result";
   if("" eq $result) {
-    log_pass();
+    print "\tLog Pass\n ";
+    execute("rm -rf   $test.ll $test.bc $test-mem2reg.bc $test-mem2reg.ll $test-scalarrepl.bc $test-scalarrepl.ll $test-scalarrepl-sdasgup3.bc $test-scalarrepl-sdasgup3.ll");
   } else {
     if(-e "$test-scalarrepl-sdasgup3.ll.G") {
-      $result = `diff $test-scalarrepl-sdasgup3.ll.G $test-scalarrepl-sdasgup3.ll > /dev/null`;
+      $result = `diff $test-scalarrepl-sdasgup3.ll.G $test-scalarrepl-sdasgup3.ll `;
       if("" eq $result) {
-        log_pass();
+        print "\tG Log Pass\n ";
+        execute("rm -rf  $test.ll $test.bc $test-mem2reg.bc $test-mem2reg.ll $test-scalarrepl.bc $test-scalarrepl.ll $test-scalarrepl-sdasgup3.bc $test-scalarrepl-sdasgup3.ll");
       } else {
         print "G Log Fail ($test)\n ";
       }
@@ -93,9 +95,9 @@ if("" ne $diff) {
     execute("rm -rf $test-scalarrepl-sdasgup3.O $test-scalarrepl.O ");
   } else {
     if(-e "$test-scalarrepl-sdasgup3.O.G") {
-      $result = `diff $test-scalarrepl-sdasgup3.O.G  $test-scalarrepl-sdasgup3.O > /dev/null`;
+      $result = `diff $test-scalarrepl-sdasgup3.O.G  $test-scalarrepl-sdasgup3.O`;
       if("" eq $result) {
-        print "\tOut Pass\n ";
+        print "\tG Out Pass\n ";
         execute("rm -rf $test-scalarrepl-sdasgup3.O $test-scalarrepl.O ");
       } else {
         print "\tG Out Fail ($test)\n";
@@ -112,10 +114,6 @@ if("" ne $diff) {
 
 exit(0);
 
-sub log_pass {
-  print "\tLog Pass\n ";
-  execute("rm -rf $test.bc $test.ll $test-mem2reg.bc $test-mem2reg.ll $test-scalarrepl.bc $test-scalarrepl.ll $test-scalarrepl-sdasgup3.bc $test-scalarrepl-sdasgup3.ll");
-}
 
 
 sub execute {
