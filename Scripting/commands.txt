@@ -234,3 +234,26 @@ Creating IR
 c++ -g creatingIR.cpp `llvm-config --cxxflags --ldflags --libs ` -o tut1
 
 
+git push origin master
+git ls-files -d | xargs git checkout --
+git pull origin
+
+ valgrind --leak-check=yes myprog arg1 arg2
+
+ tar -cf mp2.tar mp2
+ gzip -9 mp2.tar
+
+
+ llvm-gcc.cde --emit-llvm -c -g get_sign.c
+ klee.cde get_sign.o
+ ktest-tool.cde --write-ints klee-last/test000001.ktest
+ grep -E "====|OK \(" LOG | grep -B1 OK | grep -v -- -- | sed -e 's/OK (//' -e
+       's/ tests*)//' | grep -B1 '^[0-8]$' | grep -v -- --
+
+ ssh -Y sdasgup3@taub.campuscluster.illinois.edu
+ ssh -Y sdasgup3@asha.cs.illinois.edu
+ ssh -Y sdasgup3@remlnx.ews.illinois.edu
+ ssh -Y sdasgup3@tarekc01.cs.uiuc.edu
+ ssh -Y sdasgup3@tarekc41.cs.illinois.edu
+
+
