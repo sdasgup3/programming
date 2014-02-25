@@ -93,8 +93,12 @@ make ENABLE_OPTIMIZED=1 install
 
 Building llvmpa
 ================
+llvmpa-src
+sn up -r 13477
+
 cd llvmpa.obj
-../llvmpa/configure --with-llvmsrc=/home/sdasgup3/work/llvm-src --with-llvmobj=/home/sdasgup3/work/llvm-build --disable-optimized --enable-assertions
+source ~/Scripting/setup-llvmpa
+../llvmpa-src/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-3.4/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-3.4/llvm-build --disable-optimized --enable-assertions
 make
 
 Run testcase.c

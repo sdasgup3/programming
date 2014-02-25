@@ -1,13 +1,13 @@
 .PHONY: clean
 
-LLVMPALIB=/home/sdasgup3/work/llvmpa.obj/Debug+Asserts/lib
+LLVMPALIB=/home/sdasgup3/work/llvmpa-obj/Debug+Asserts/lib
 OPTIMIZATIONS=-mem2reg
 CLANG=$(LLVM_BIN)/clang
 LLVMDIS=$(LLVM_BIN)/llvm-dis
 OPT=$(LLVM_BIN)/opt
 
 %: %.c
-	$(CLANG) -O0 -emit-llvm -I /home/sdasgup3/work/klee/include/klee  -c $< -o $@.unopt.bc
+	$(CLANG) -O0 -emit-llvm -I /home/sdasgup3/klee/klee/include/klee  -c $< -o $@.unopt.bc
 	$(OPT) $(OPTIMIZATIONS) $@.unopt.bc > $@.bc
 	$(LLVMDIS) $@.bc > $@.ll
 

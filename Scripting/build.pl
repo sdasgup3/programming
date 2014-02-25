@@ -25,11 +25,11 @@ GetOptions ("wc"        => \$withoutcheker,
             "mdll"      => \$modifiedll) 
  or die("Error in command line arguments\n");
 
-my $make        = "make -f ~/Scripts/Makefile"; 
+my $make        = "make -f ~/Scripting/Makefile"; 
 
 ###  LLVM Args
-my $llvm_bin_2_9  = "/home/sdasgup3/KLEE/llvm-2.9/Release+Asserts/bin"; 
-my $llvm_bin_3_4  = "/home/sdasgup3/work/llvm-build/Release+Asserts/bin/";
+my $llvm_bin_2_9  = "/home/sdasgup3/llvm/llvm-2.9/Release+Asserts/bin"; 
+my $llvm_bin_3_4  = "/home/sdasgup3/llvm/llvm-3.4/llvm-build/Release+Asserts/bin/";
 
 my $clang2_9       = "$llvm_bin_2_9/clang";
 my $llvmdis2_9     = "$llvm_bin_2_9/llvm-dis";
@@ -86,7 +86,7 @@ if("" ne $watch) {
 if($withoutcheker ne "") {
   execute("$make clean");
   execute("rm -rf  klee-*");
-  execute("$clang2_9 -O0 -emit-llvm -I /home/sdasgup3/work/klee/include/klee -c $test.c -o a.out.bc");
+  execute("$clang2_9 -O0 -emit-llvm -I /home/sdasgup3/klee/klee/include/klee -c $test.c -o a.out.bc");
   execute("$llvmdis2_9 a.out.bc -o a.out.ll");
   execute("klee $kleeargs ./a.out.bc @progargs");
   execute("echo");
