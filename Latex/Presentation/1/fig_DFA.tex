@@ -1,0 +1,45 @@
+\newcommand{\lnode}[1]{
+\psset{unit=1mm}
+\begin{pspicture}(0,0)(13,14)
+%\psframe(0,0)(13,14)
+\putnode{z}{origin}{6}{7}{\rnode{#1}{
+    \tt\begin{tabular}{|c|}
+      \hline
+      B \\\hline
+%      num\\\hline
+    \end{tabular}}}
+\end{pspicture}%
+}
+\scalebox{.95}{
+\begin{tabular}{@{}c@{}|c@{}}
+\psset{unit=1mm}
+\begin{pspicture}(0,28)(62,10)
+%\psframe(0,28)(62,40)
+\putnode{head}{origin}{2}{7}{In[B]\ }
+\putnode{fst}{head}{12}{0}{\lnode{a1}}
+\putnode{tail}{origin}{20}{0}{Out[B]\ }
+%\putnode{thr}{snd}{20}{0}{\lnode{a3}{b3}}
+%\ncline[offset=2]{->}{a1}{a2}
+%\ncline[offset=2]{->}{a2}{a3}
+\ncline[offset=2]{->}{head}{fst}
+\ncline[offset=2]{->}{fst}{tail}
+\end{pspicture} & 
+{\tt
+\begin{program}{0}
+  \FL\ \ldots
+  \NL{0} p = list;
+  \UNL{0} \WHILE (p$\rightarrow$next != NULL) \{
+  \NL{1}     q = p$\rightarrow$next;
+  \NL{1}     temp = q$\rightarrow$num;
+  \NL{1}     r = q$\rightarrow$next;
+  \NL{1}     r$\rightarrow$num = temp;
+  \NL{1}     myFunc (q, r);
+  \NL{1}     p = r;
+  \UNL{0} \}
+  \UNL{0} \ldots
+\end{program}
+}
+\\
+(a) Data Structure & (b) Code Fragment 
+\end{tabular}
+}

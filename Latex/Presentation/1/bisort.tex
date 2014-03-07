@@ -1,0 +1,20 @@
+{\tt
+\begin{program}{0}
+\UNL{0} int bisort(root,sprval,dir) 
+% \FL\ \ldots
+\UNL{1} HANDLE *root;
+\UNL{1} int sprval, dir;
+\UNL{0}\{
+\UNL{1}	HANDLE *l;
+\UNL{1}	HANDLE *r;
+\UNL{1}	 l = root\rtarrow{left};
+\UNL{1}      r = root\rtarrow{right};
+\UNL{1}      val = root\rtarrow{value};
+\UNL{1}     root\rtarrow{value}=bisort(l,val,dir);
+\UNL{1}      ndir = !dir;
+\UNL{1}      sprval=bisort(r,sprval,ndir);
+\UNL{1}      sprval=bimerge(root,sprval,dir);
+\UNL{1}    return sprval;
+\UNL{0} \} 
+  \end{program}
+  }

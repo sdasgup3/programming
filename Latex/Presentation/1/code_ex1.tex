@@ -1,0 +1,14 @@
+{\tt
+\begin{program}{0}
+%  \FL\ \ldots
+  \UNL{0} void treeAdd(tree t) \{
+  \UNL{1}  if(t == NULL)
+  \UNL{2} return;
+  \NL{1}     tl = t$\rightarrow$left;
+  \NL{1}     treeAdd(tl);
+  \NL{1}     tr = t$\rightarrow$right;
+  \NL{1}     treeAddd(tr);
+  \UNL{1}	t\rtarrow{num} = tl\rtarrow{num} + tr\rtarrow{num};
+  \UNL{0} \}
+\end{program}
+}

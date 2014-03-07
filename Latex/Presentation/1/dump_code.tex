@@ -1,0 +1,37 @@
+\bb{
+\begin{figure}
+%\hrule
+\begin{framed}
+{\tt
+  \begin{program}{0}
+  \FL fun tagHeapStmt( f )  \{
+  \UNL{0} \FOR (each HeapStmt $S_i$ of f) \{
+  \UNL{0} if $S_i\equiv$ (p = q) \COMMENT{p, q are pointers to heap object}
+  \UNL{1} Tag[$S_i$] = AliasStmt;
+  \UNL{0} else if $S_i\equiv$ (p = q$\rightarrow$next) \COMMENT{next is pointer field}
+  \UNL{1} Tag[$S_i$] = LinkTraverseStmt;
+  \UNL{0} else if $S_i\equiv$ ($\cdots$ = q$\rightarrow$num) \COMMENT{num is data field}
+  \UNL{1} Tag[$S_i$] = ReadStmt;
+  \UNL{0} else if $S_i\equiv$ (q$\rightarrow$num = $\cdots$)
+  \UNL{1} Tag[$S_i$] = WriteStmt;
+  \UNL{0} else if $S_i\equiv$ f(p, q)
+  \UNL{1} Tag[$S_i$] = FunCallStmt;
+  \UNL{0} else Tag[$S_i$] = OtherStmt;
+  \UNL{0} \}
+  \UNL{-1} \}
+  \end{program}
+}
+\end{framed}
+%\hrule
+  \caption{Algorithm of function {\tt tagHeapStmt} for
+    annotation of heap related statements. \label{fig:AlgoTag}}
+%\hrule  
+\end{figure}
+}
+
+
+
+However, for function call statement {\tt computeHeapStates} may result 
+in a set of states where a variable can be potentially bound to multiple symbolic locations, 
+our algorithm chooses the most conservative location for the variable such that it approximates other locations accessed by 
+the same variable.

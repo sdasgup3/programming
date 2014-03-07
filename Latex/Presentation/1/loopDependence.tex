@@ -1,0 +1,336 @@
+\chapter{Loop Sensitive Dependence Analysis}
+\label{ch:loopdep}
+This chapter focuses on detecting the presence of dependences on loops which 
+traverse recursive heap data structure. Two statements \ttf{S} and \ttf{T} may induce (a) \ttf{Loop Independent Dependence} (LID), where statements \ttf{S} and \ttf{T}
+access same memory location in a single iteration of the loop, (b) \ttf{Loop Carried Dependence} (LCD), if the 
+memory location accessed by statement \ttf{S} in a given iteration, is accessed 
+by statement \ttf{T} in other iteration. In either case at least one of the accesses must be write access. 
+
+Our approach for dependence analysis, as explained earlier, does not work well 
+for loops. This is because it combines the paths accessed in different iterations 
+of a loop.  To get better result in
+presence of loops we need to keep the accesses made by
+different iterations of a loop separate. To do so, we have
+devised another novel approach, which works as follows: Given
+a loop, we first identify the navigators for the loop,
+then by a single symbolic traversal over the loop, we compute
+the read and write accesses made by each statement in terms
+of the values of the navigators. The read and write sets thus
+obtained are generalized to represent arbitrary iteration of
+the loop, using the iteration number as a parameter. These generalized 
+sets, in terms of equations, are tested by \emph{GCD} or \emph{Lamport} test 
+to find out any integer solution of those equations. Presence of loop dependences
+indicates that the iterations are not independent, hence 
+can not be executed in parallel. The top level algorithm of loop analysis is 
+outlined in Figure~\ref{fig:algoLoopAnalyse}.
+
+We assume that the loop under analysis is heap intensive i,e., 
+reads/writes heap and the execution of the loop does not stop 
+prematurely using irregular control flow constructs 
+such as \emph{return}, \emph{continue}, \emph{break} 
+statements or function calls like \emph{exit}, \emph{abort}. 
+Hence testing loop condition is the only way to exit 
+control from the loop. 
+
+The rest of the 
+chapter is organised as follows: Section~\ref{sec:nav} gives a
+brief description of finding navigator of the loop. Section~\ref{sec:DepDetect} 
+explains about how to compute read and wriets sets of access 
+paths and how our approach identifies both loop independent and
+loop carried dependences.
+\begin{figure}
+%\hrule
+\begin{framed}
+{\tt
+  \begin{program}{0}
+  \FL fun loopAnalyse(Loop)  \{
+%  \UNL{0} GoodLoop = detectGoodLoop(f);
+  \UNL{0} <NavigatorVar, NavigatorExpr>  = identifyNavigator(Loop);%\COMMENT{returns both navigator variable and navigator expr}
+  \UNL{0} ReadWriteSet = generateReadWrite(NavigatorVar);
+  \UNL{0} identifyDep(ReadWriteSet);
+  \UNL{-1} \}
+  \end{program}
+}
+\end{framed}
+%\hrule
+  \caption{Dep. detection for loop. \label{fig:algoLoopAnalyse}}
+%\hrule  
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Identifying Navigator}
+\label{sec:nav}
+Dependence analysis for loops relies on the computation of read and write sets, 
+in terms of access path, for each statement in a single symbolic iteration of the loop. 
+Access paths are computed with respect to \emph{navigator} as mentioned 
+in~\cite{ghiya98detecting}. A navigator consists of (a)\emph{navigator variable} \ttf{NavigatorVar}, pointer variable 
+used to traverse the loop and (b)\emph{navigator expression} \ttf{NavigatorExpr}, ordered set of pointer field references. 
+Navigator variable in association with the navigator expression, iterates the loop traversing the data structure.
+
+Navigator variable is closely related to the variable {\tt TestVar} used to test the stopping criteria
+for the loop in the program. The algorithm generates the definition chain \ttf{DefChain} of 
+{\tt TestVar} using statements inside the loop. If the definition chain of \ttf{TestVar} encounters a 
+loop resident statement twice, recurrence is reported. Otherwise the creation of definition chain returns 
+null if it fails to find a loop resident statement for \ttf{DefChain}. 
+Hence {\tt DefChain}, thus generated for the 
+later case returns an access path consisting of a pointer variable followed by an ordered sequence of pointer field references. 
+The base pointer variable obtained from the access path is potential candidate to be navigator variable and the  
+sequence of field references results in navigator expression. The details for identifying navigator can be found 
+in~\cite{ghiya98detecting}. 
+
+\begin{example}{\rm
+Consider the code shown in Figure~\ref{ch:Intro}.2(b). We identify 
+\ttf{p} as loop condition test variable. Definition chain for \ttf{p} comes from the sequence of following loop-resident statements, 
+{\tt S7: p = r}, {\tt S4: r = q\rtarrow next}, {\tt S2: q = p\rtarrow next} and {\tt S7: p = r}. Note that statement {\tt S7} is
+encountered twice, leading to recurrence. Hence the statements {\tt S7}, {\tt S4}, {\tt S2} are added to {\tt DefChain} which returns 
+access path as {\tt p\rtarrow next\rtarrow next}. Hence the resulting navigator consists of navigator variable {\tt p} and navigator expression 
+{\tt next\rtarrow next}
+}
+\hfill\psframebox{}  \end{example}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Computing Read/Write Sets}
+As mentioned earlier, our analysis computes read and 
+write sets for each statement residing in the loop in 
+a single symbolic execution of the loop. Read and write sets 
+consist of paths that access heap locations for reading or writing. Unlike previous analysis, 
+full length access paths are used by loop dependence analysis. For each 
+loop-residing statement full length access paths, referred as \ttf{AccPath}, 
+are computed in terms of navigator variable. Access paths \ttf{AccPath} 
+are computed from definition chains, that are evaluated by recursively 
+traversing all the reaching definitions of the pointer variable 
+used by the statement until 
+the navigator variable is encountered. 
+
+\begin{figure}
+%\hrule
+\begin{framed}
+{\tt
+  \begin{program}{0}
+  \FL fun generateReadWrite(NavigatorVar)  \{
+%  \UNL{0} CFG[f] = (N, E, Entry, Exit); \COMMENT {Control flow graph of function f}
+ % \UNL{0} InitSet = initialize(); \COMMENT{Initialize all parameters and
+%  globals}
+  \UNL{0} for each statement $S_i$ in Loop \{
+  \UNL{1} UseVar = UseVarSet[$S_i$];
+  \UNL{1} DefChain[$S_i$] = findDefChain(UseVar, NavigatorVar);
+  \UNL{1} AccPath[$S_i$] = findAccPath(DefChain[$S_i$]);
+  \UNL{1} if (Tag[$S_i$] == ReadStmt) \{
+  \UNL{2} ReadSet[$S_i$] = AccPath[$S_i$];
+  \UNL{2} WriteSet[$S_i$] = $\phi$;
+  \UNL{1} \}
+   \UNL{1} else if (Tag[$S_i$] == WriteStmt) \{
+  \UNL{2} WriteSet[$S_i$] = AccPath[$S_i$];
+  \UNL{2} ReadSet[$S_i$] = $\phi$;
+  \UNL{1} \}
+   \UNL{1} else \{
+  \UNL{2} ReadSet[$S_i$] = $\phi$;
+  \UNL{2} WriteSet[$S_i$] = $\phi$;
+  \UNL{1} \}
+  \UNL{0} \}
+  \UNL{-1} \}
+  \end{program}
+}
+\end{framed}
+%\hrule
+  \caption{Generating Read and Write sets. \label{fig:algoReadWrite}}
+%\hrule  
+\end{figure}
+
+These access paths, thus constructed, return 
+read/write sets based on statements reading or writing heap data. 
+Function \ttf{generateReadWrite} showed in Figure~\ref{fig:algoReadWrite} 
+computes such sets of access paths with respect to navigator variable \ttf{NavigaotrVar}.
+Definition chain, \ttf{DefChain}, produced by function \ttf{findDefChain}, 
+is processed by function \ttf{findAccPath} to compute access path. 
+\ttf{ReadSet}/\ttf{WriteSet} sets, for each statement, are then computed from \ttf{AccPath}. 
+The access paths, thus obtained, 
+are generalized by arbitrary iteration of the loop, using iteration number as parameter, for further processing. 
+\begin{example}{\rm
+Let us again consider the example given in Figure~\ref{ch:Intro}.2(b). 
+Navigator variable and navigator expression for the loop are \ttf{p} and \ttf{next\rtarrow{next}} 
+respectively. Table~\ref{fig:tableLoopReadWrite} shows the read and write sets of full access paths constructed for each loop residing statement. Note that, 
+the access paths are not abstracted and are constructed in terms of \ttf{p}. 
+}
+\hfill\psframebox{}  \end{example}
+\begin{table}
+\centering
+\begin{tabular}{| l | c | c |}
+\hline 
+Statement & Read Set & Write Set \tn
+\hline \hline
+{\tt S2} & $\phi$ & $\phi$ \tn
+{\tt S3} & \ttf{p\rtarrow{next}} & $\phi$ \tn
+{\tt S4} & $\phi$ & $\phi$ \tn
+{\tt S5} & $\phi$ & \ttf{p\rtarrow{next}\rtarrow{next}} \tn
+{\tt S6} & $\phi$ & $\phi$ \tn
+\hline
+\end{tabular}
+\caption{Read and write sets for each loop residing statement} 
+\label{fig:tableLoopReadWrite}
+%\hrule
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Loop Dependence Detection}
+\label{sec:DepDetect}
+Let \ttf{S} and \ttf{T} be two statements inside a loop. Further, 
+let \ttf{write(S,i)} denote the set of access paths written by statement 
+\ttf{S} in the iteration number \ttf{i}, and let \ttf{read(T,j)} 
+denote the set of access paths read by statement \ttf{T} in the iteration
+number \ttf{j}. Predicate \ttf{sharing}($\ttf{Set}_\ttf{1}$, $\ttf{Set}_\ttf{2}$) returns 
+true if two access paths $\ttf{AccPath}_\ttf{1}\in\ttf{Set}_\ttf{1}$ and $\ttf{AccPath}_\ttf{2}\in\ttf{Set}_\ttf{2}$ 
+share a common heap node. Then
+\begin{itemize}
+\item \ttf{T} is loop independent flow dependent on \ttf{S} if there is an 
+execution path from \ttf{S} to \ttf{T} that does not cross the loop boundary and there exist \ttf{i} 
+within loop bounds such that \ttf{sharing(write(S,i), read(T,i))} is true.
+\item \ttf{T} is loop carried flow dependent on \ttf{S} if there exist 
+\ttf{i} and \ttf{j} within loop bounds such that \ttf{j}>\ttf{i}, and \ttf{sharing(write(S,i), read(T,j))} is true.
+\end{itemize}
+Note that, in case loop bounds can not be computed at compile time,
+we can assume them to be (-$\infty$,$\infty$). We can similarly define 
+loop independent and loop carried anti-dependence and output-dependence.
+Read and write sets of access paths, thus obtained for 
+each statement inside a loop are tested for both loop independent 
+and loop carried dependences.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\subsection{Identifying Loop Independent Dependence}
+Loop independent dependences can be detected for 
+any two statements by checking for any sharing of node by their 
+respective read/write sets. Sharing of a node, in this level, occurs due to 
+the shape of the underlying data structure. Shape analysis gives the 
+probable shape attribute of the navigator variable traversing dynamic data structure. Based 
+on the shape we can figure out whether 
+there exists any dependence due to sharing within the underlying data structure. 
+\begin{description}
+\item[Observation 1:]If the shape attribute of navigator variable is Tree, then there 
+exist no sharing of nodes by different access paths rooted at the navigator variable. Two access paths can only visit 
+a common node if the paths are equivalent. Let \ttf{lp} be the navigator variable. Hence \ttf{lp\rtarrow{f}} and \ttf{lp\rtarrow{f}} 
+are equivalent paths leading to a common node, whereas \ttf{lp\rtarrow{f}} and \ttf{lp\rtarrow{g}} lead to different nodes.
+
+\item[Observation 2:] If the shape attribute is DAG, the navigator expression will lead navigator 
+variable to a distinct node in each iteration of the loop. If an access path is a proper subpath 
+of another access path then they surely visit distinct nodes. However, paths being either equivalent or distinct, having different 
+pointer field references may access a common node. For example, \ttf{lp\rtarrow{f}} is a proper subpath of 
+\ttf{lp\rtarrow{f}\rtarrow{g}} whereas, \ttf{lp\rtarrow{f}} and 
+\ttf{lp\rtarrow{g}} are not. Hence in the former case they do not share a common node, whereas  
+in later case they might result in sharing of node.
+
+\item[Observation 3:] If shape attribute of navigator variable is Cycle, we make conservative decision such that the loop can 
+not be executed in parallel.
+\end{description}
+To detect various types of LIDs, read and write sets of different statements are tested 
+accordingly for detecting sharing of node. Let two statements \ttf{S} and \ttf{T} access paths 
+\ttf{PathS} and \ttf{PathT} respectively and \ttf{read(S) = \{PathS\}} and \ttf{write(T) = \{PathT\}}. 
+Hence there is loop independent flow dependence from \ttf{S} to \ttf{T} if \ttf{sharing(PathS, PathT)} returns true.
+We check for the shape of the underlying data structure 
+and test the paths as follows:
+\begin{enumerate}
+\item If the paths \ttf{PathS} and \ttf{PathT} are equivalent and the data structure is either Tree or DAG, 
+the paths will access same node. Hence,
+\[ \ttf{sharing (PathS, PathT)} = True\] for both Tree and DAG structure.
+\item If \ttf{PathS} is subpath of \ttf{PathT} then these paths do not lead to any common node for both Tree 
+and DAG data structure. Hence, 
+\[ \ttf{sharing (PathS, PathT)} = False\] for both Tree and DAG structure.
+\item If \ttf{PathS} and \ttf{PathT} are not equivalent and one is not subpath of other, then these two paths share a common node only if 
+shape of the underlying structure is DAG. For Tree structure they lead to disjoint nodes. 
+\[ \ttf{sharing (PathS, PathT)} = False\] if shape attribute is TREE.
+\[ \ttf{sharing (PathS, PathT)} = True\] if shape attribute is DAG.
+\end{enumerate}
+\begin{example}{\rm
+Consider the loop shown in Figure~\ref{ch:Intro}.2(b) and the corresponding 
+read and write sets for each statement in Table~\ref{fig:tableLoopReadWrite}. Read set of statement
+\ttf{S3} and write set of statement \ttf{S5} are checked for sharing of any  node. As the shape attribute 
+of the navigator variable \ttf{p} is Tree, and the paths \ttf{p\rtarrow{next}} and 
+\ttf{p\rtarrow{next}\rtarrow{next}} are not equivalent the following will result.
+\[\ttf{sharing(p\rightarrow{next}, p\rightarrow{next}\rightarrow{next})} = False\]
+Hence no loop independent dependence is detected. 
+}
+\hfill\psframebox{}  \end{example}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Identifying Loop Carried Dependence}
+Loop carried dependence is incurred in the loop when two statements from different 
+iterations access same memory location. LCDs can be introduced 
+when the statements in a single iteration of loop access both current node and neighbour heap nodes.  
+Current node means the node which is being currently accessed by the navigator 
+variable, whereas, neighbour nodes mean nodes other than the one being currently 
+accessed. 
+\begin{example}{\rm
+Let the shape attribute of the navigator variable \ttf{lp} be Tree and 
+a loop is traversing a list using navigator variable \ttf{lp} and navigator expression \ttf{next}. 
+Statement \ttf{lp\rtarrow{num}++} will not incur any loop carried dependence as 
+the location pointed to by \ttf{lp} can't be accessed in consecutive iterations. 
+However, statement like \ttf{lp\rtarrow{num} = lp\rtarrow{next}\rtarrow{num}} 
+will still introduce an LCD because both current and neighbour nodes are accessed 
+in the same iteration and neighbour node is visited using pointer field \ttf{next} 
+which is also a navigator expression. 
+}
+\hfill\psframebox{}  \end{example}
+As mentioned earlier, LCDs are only introduced by different iterations of loop, provided there is 
+no sharing of nodes hidden in the data structure. However, DAG has sharing within the 
+structure, it can be traversed by a loop in a manner such that shared nodes 
+are not accessed by loop and access pattern of the structure is Tree. Hence, loops having this type 
+of access pattern can also be tested for loop carried dependencies. 
+
+The read-write sets computed by each loop resident statements are generalized 
+for arbitrary iteration number, resulting in a set of equations. Generalization is done 
+using random times of navigator expression, that is used by the navigator variable to traverse 
+over the underlying data structure. These equations are then tested 
+by \ttf{GCD}~\cite{Kennedy01Optimizing} or \ttf{Lamport}~\cite{Lamport1974parallel} test, as explained before. If the equations have any integer solution, 
+dependence is reported. 
+Here we demonstrate two examples to show the novelty lying in our approach.
+\begin{figure}[t]
+  \begin{center}
+    \scalebox{.85}{\begin{tabular}{@{}c@{}|@{}c@{}}
+      \input{fig_code_no_dep}
+      &
+      \input{fig_code_dep} \\
+      {(a) \emph{List-1}: Loop without Dependence } &
+      {(b) \emph{List-2}: Loop with Dependence }
+    \end{tabular}}
+  \end{center}
+  \hrule
+  \caption{\label{fig:loopdep} Identifying Loop Dependences}
+
+\end{figure}
+\begin{example}{\rm
+Let us consider Figure~\ref{fig:loopdep}. The code snippet in Figure~\ref{fig:loopdep}(a) is the 
+reformulation of code given in Figure~\ref{ch:Intro}.2(b). The navigator variable for
+ both the loops is \ttf{p}. For the code in Figure~\ref{fig:loopdep}(a), the navigator expression is
+  \ttf{next\rtarrow{next}}. Using \ttf{i} to represent the iteration number, the generalized access path read by
+    S11 is \ttf{p}\rtarrow$\ttf{{next}^{2i}}$ and the generalized access path written by S12 is 
+    \ttf{p}\rtarrow$\ttf{{next}^{2j+1}}$. Clearly there is no loop independent dependence as the shape of 
+    the data structure is Tree and statements do not generate equivalent access paths. 
+    To find out loop
+    carried dependence, we have to find out whether for
+    iterations \ttf{i} and \ttf{j} and \ttf{i}$\neq$\ttf{j}, the two paths point to the same
+    heap location. This reduces to finding out if there is a
+    possible solution to the following equation:
+      \[ \ttf{p\rightarrow{next}^{2i} =
+      p\rightarrow{next}^{2j+1}}\] 
+      In other words, we have to find out if integer solutions
+      to the following equation are possible :
+      \[\ttf{2*i = 2*j + 1}\]
+      GCD or Lamport test tell us\footnote{In this example, visual inspection 
+    tells us that for any \ttf{i} and \ttf{j} LHS is even number while RHS is an odd number. Hence the equation can not have a 
+    solution. In general, the equations are more complicated and we need to use standard tests as mentioned.} that
+      this equation can not have integer solutions. Thus,
+      there is no dependence among the statements.
+      
+        For the code in Figure~\ref{fig:loopdep}(b), the navigator expression 
+      is \ttf{next}. In this case the equation to find 
+      out the loop carried dependences among statements S21
+      and S22 reduces to : 
+      \[ \ttf{i = j + 1}\]
+      which has integer solutions. So we have to
+      conservatively report dependence between the two statements
+}
+\hfill\psframebox{}  \end{example}
+
+
+
+
+
+
+

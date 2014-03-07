@@ -1,0 +1,17 @@
+{\tt
+  \begin{program}{0}
+%  \FL fun computeState(In set of stmt:In[Stmt], Statement:Stmt)  \{
+  \UNL{0} initialize sets of Entry node
+  \UNL{0} \FOR {i $\leftarrow$ 1 to N of basic blocks }
+  \UNL{1} initialize the sets of block i
+  \UNL{0} change $\leftarrow$ true
+  \UNL{0} \WHILE {(change)}
+  \UNL{1} change $\leftarrow$ false
+  \UNL{1} \FOR {i $\leftarrow$ 1 to N of basic blocks}
+  \UNL{2} In[i] = $\bigcup_{j\in{pred[i]}}$(Out[j])
+  \UNL{2} Temp = $trans_i$(i)
+  \UNL{2} \IF {Out[i] $\neq$ Temp} then 
+  \UNL{3} change $\leftarrow$ true
+  \UNL{3} Out[i] $\leftarrow$ Temp
+  \end{program}
+}

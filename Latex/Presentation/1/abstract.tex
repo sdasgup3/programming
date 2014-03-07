@@ -1,0 +1,32 @@
+\vspace{2in}
+\begin{abstract}
+Identifying dependences present in the body of sequential 
+program is used by parallelizing compilers to 
+automatically extract parallelism from the program. 
+Dependence detection mechanisms for programs with scalar 
+and static variables is well explored and have become a 
+standard part of parallelizing and vectorizing compilers. 
+However, detecting 
+dependences in the presence of dynamic (heap) recursive 
+data structures is highly complex because of the unbound and dynamic nature of 
+the structure. 
+The problem becomes more critical due to the presence of pointer-induced aliasing . 
+
+This thesis addresses the aforementioned problem and gives a  
+novel approach for dependence analysis of sequential programs 
+in presence of heap data structure.  
+The novelty of our technique lies in the two-phase mechanism, 
+where the first phase identifies dependences for whole procedure. 
+It computes abstract 
+{\em heap access paths} for each heap accessing statement 
+in the procedure. The access paths approximate the locations accessed 
+by the statement. For each pair of statements these access paths are 
+checked for interference. 
+The second phase refines the dependence analysis in the context of 
+loops. The main aspect of the second phase is the way we convert 
+the precise access paths, for each statement, into equations
+that can be solved using traditional tests, e.g. GCD test, and 
+Lamport test. The technique discovers {\em loop dependences}, 
+i.e. the dependence among two different iterations of the same 
+loop. Further, we extend the intra-procedural analysis to inter-procedural one. 
+\end{abstract} 

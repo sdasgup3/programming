@@ -1,0 +1,114 @@
+\chapter{Related Work}
+\label{ch:RelatedWork}
+Data dependence analysis for sequential programs,  
+working on only static and stack related data
+structure, such as array, is well explored in
+literature~\cite{Allen87automatic, Wolf91loop, Banerjee93automatic, Kennedy01Optimizing, Padua86} etc. 
+Our work extends the work to handle heap 
+data structure. Various approaches have been suggested for data flow analysis 
+of programs in the presence of dynamic data structures. 
+Classic work done by Jones and Muchnick~\cite{Jones81} have 
+suggested flow analysis approach for lisp-like structures. 
+  It can not handle procedures, and was designed to statically 
+  distinguish among nodes which can be immediately deallocated, 
+  nodes which are garbage collected and nodes 
+  which are referred. They have also introduced the notion of k-limited graphs as 
+  finite approximation of unlimited length of linked structure. This k-limited graph 
+  can only keep paths of at most length k, and summarizes all the nodes beyond length k. This 
+  approach is not precise enough to be used in the context of interference analysis 
+  and extract parallelism. 
+  
+  Jones and Muchnick in~\cite{Jones82} have proposed a general purpose framework for data flow analysis of programs with recursive data structure. It depends on tokens to 
+  designate the points in a program where the dynamic recursive data structure is either 
+  created or modified and approximates the values of these tokens. Retrieval function 
+  is used to represent the inter-relationship among tokens and their corresponding values. By efficient choice of token sets and lattice sets, which approximate data values, high degree of exact data flow information can be obtained. Although 
+  flexible the method is mostly of theoretical interest and is potentially 
+  expensive in both time and space. Larus and Hilfinger~\cite{Larus88} describe a dataflow computation 
+using alias graph that records aliases between variables, structures, 
+and pointers of the underlying data structure. This information is further used 
+to detect conflicts between the locations accessed by the program statements. 
+ 
+The work by Hendren et al. in ~\cite{Hendren90parallel, Hendrenthesis} 
+considers shape information and approximates the relationships between accessible
+nodes in larger aggregate data structures. These relationships are represented by 
+path expressions, restricted form of regular expressions, and are encoded in path 
+matrices. Such matrices are used to deduce the interference 
+information between any two heap nodes. These informations are further used to 
+extract parallelism. Their method focuses on three levels of parallelization; 
+(a)if two statements can be executed in parallel, (b)identifies procedure-call 
+parallelism, and (c)whether two sequences of statements can be parallelized. They 
+have further extended this work in~\cite{Hendren92abstractionsfor}, where they 
+provide the programmer with a descriptor mechanism such as \emph{Abstract 
+Description of Data Structures}. The properties of data structure, expressed 
+by such descriptor, are used to increase the accuracy and effectiveness of 
+alias analysis. This efficient analysis is used for transformation of programs 
+with recursive pointer structure. 
+
+The idea behind the work done by Hummel et. al.~\cite{Hummel94ageneral} is 
+to detect precise dependences between two statements by collecting access 
+paths with respect to handle node and deducing the interference of these 
+paths by proving theorems with the help of aliasing axioms. The axioms 
+describe uniform properties of underlying data structures which precisely 
+works for even complex cyclic structures.  Although this approach precisely 
+identifies dependences between statements in sequence, iterations of loop 
+and block of statements, this technique is mainly of theoretical interest.  
+
+Ghiya et. al.~\cite{ghiya98detecting} uses coarse
+characterization of the underlying data structure as Tree,
+DAG or Cycle. The work done by Ghiya computes complete access paths for 
+each statement in terms of \emph{anchor} pointer, which points to a fixed 
+heap node in the data structure within the whole body of the program. 
+The test for aliasing of the access paths, relies on connection and shape 
+information that is automatically computed. They have also extended 
+their work to identify loop carried dependences for loop level parallelism. 
+Hwang and Saltz~\cite{Hwang03Identify} present a technique to identify 
+parallelism in programs with cyclic graphs. The method identifies the 
+patterns of the traversal of program code over the underlying data structure. 
+In the next step the shape of the traversal pattern is detected. If the 
+traversal pattern is acyclic, dependence analysis is performed to extract 
+parallelism from the program. 
+
+Navarro et. al. in ~\cite{navarro04dependence, Navarro05loop} propose a 
+intra-procedural dependence test which
+intermixes shape analysis and dependence analysis
+together. During the analysis, the abstract structure of the
+dynamically allocated data is computed and is also tagged
+with read/write tags to find out dependencies. The resulting
+analysis is very precise, but it is costly. Further their
+shape analysis component is tightly integrated within the
+dependence analysis, while in our approach we keep the
+  two separate as it gives us modularity and the scope to
+  improve the precision of our dependence analysis by using a
+  more precise shape analysis, if available. They have extended 
+  their dependence related work in ~\cite{Navarro08irregular}. In this paper they 
+  have implemented a context-sensitive interprocedural framework which successfully 
+  detects dependences for both non-recursive and recursive functions. 
+
+Work done by Marron et. al. in~\cite{Kapur08} tracks a two program location, 
+one read and one write location, for each heap object field.  The technique 
+uses an explicit store heap model which captures the tag information of 
+objects for each program statement. The read and write information are used 
+to detect dependences. This space effective and time efficient 
+technique analyses bigger benchmarks in shorter time. But the effectiveness 
+of this approach lies in the use of predefined semantics for library 
+functions~\cite{Kapur06shape}, which recognizes a traversal over a generic structure. 
+
+
+Our approach
+is closest to the technique proposed by Horwitz
+et. al.~\cite{horwitz89dependence}. They also associate read
+and write sets with each program statement to detect heap
+dependencies. They have also proposed technique to compute
+dependence distances for loop constructs. However, there
+technique requires iterating over a loop till a fixed point
+is reached, which is different from our method of computing
+loop dependences as a set of equations in a single pass, and
+then solving these equations using classical tests.
+
+Another recent approach for dependence detection and parallelization 
+is using separation logic. 
+It has also been used in the area of shape analysis and program verification. This technique can not directly fit into parallelization as it 
+only expresses separation of memory at a single program point which is not 
+sufficient to determine independences between statements. Raza et. al.~\cite{Raza09} has presented 
+a technique to extract parallelism from heap intensive sequential programs. The 
+objective behind the approach is to record how parts of the heap are disjointly accessed by different statements of the program. They have extended the separation logic with \emph{labels}, that keep track of memory regions throughout an execution of the program. They have also proved the soundness of the approach for simple list and tree structure. 

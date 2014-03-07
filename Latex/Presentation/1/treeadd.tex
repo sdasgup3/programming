@@ -1,0 +1,22 @@
+{\tt
+\begin{program}{0}
+% \FL\ \ldots
+\UNL{0} int treeAdd(tree *t) \{
+\UNL{1} if (t == NULL)
+\UNL{2}  return 0;
+\UNL{1}  else \{
+%int leftval;
+%    int rightval;
+ %   tree_t *tleft, *tright;
+%    int value;
+
+\UNL{2}    tleft = t\rtarrow{left};
+\UNL{2}    leftval = treeAdd(tleft);
+\UNL{2}    tright = t\rtarrow{right};
+\UNL{2}    rightval = treeAdd(tright);
+\UNL{2}    value = t\rtarrow{val};
+\UNL{2}    return leftval+rightval+value;
+\UNL{1}  \}
+\UNL{0}	\}
+   \end{program}
+  }

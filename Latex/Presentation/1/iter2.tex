@@ -1,0 +1,14 @@
+{\tt
+  \begin{program}{0}
+%  \FL fun computeState(In set of stmt:In[Stmt], Statement:Stmt)  \{
+  \UNL{0} Worklist $\leftarrow$ $\phi$
+  \UNL{0} \FOR {i $\leftarrow$ 1 to N of basic blocks }
+  \UNL{1} initialize the sets of block i
+  \UNL{1} add i to the Worklist
+  \UNL{0} \WHILE {(Worklist $\neq$ $\phi$)}
+  \UNL{1} remove a node i from the Worklist 
+  \UNL{1} recompute set at node i
+  \UNL{1} \IF {new set $\neq$ old set for i then}
+  \UNL{2} add each successor of i to Worklist, uniquely
+    \end{program}
+}

@@ -1,0 +1,53 @@
+\chapter{Conclusion and Future Work}
+\label{ch:conclusion}
+In this report we have presented our work on heap induced 
+dependence analysis that can be utilized by a parallelizing 
+compiler to extract both fine-grained and coarse-grained parallelism 
+from sequential programs. Our method gives an easy to implement 
+technique for the same. It is divided into two phases: 
+the intra-procedural dependence analysis phase and loop 
+based analysis phase, with carefully chosen interfaces between phases to 
+combine work done by individual phases. The first phase is helpful 
+to find dependences in both statement level and function 
+call level, whereas, the second phase refines the analysis in the 
+context of loop. This modularity gives us flexibility to work 
+on testing and improving each phase independently. 
+
+Our intra-procedural analysis abstracts each actual heap location 
+by symbolic location, which is defined by set of access 
+paths leading to same heap node. It successfully computes 
+the read and write sets of heap access paths at each program point 
+and identifies dependences based on the aliasing information produced 
+by the specific shape analysis framework~\cite{sandeep}. 
+Our loop dependence analysis abstracts the dependence 
+information in forms of linear equations, that can be solved using traditional 
+dependence analysis tests like GCD, Lamport tests that already 
+exist for finding array dependences. 
+Our intra-procedural analysis use conservative approximation of function calls 
+assuming worst case scenario. We give a direction to extend the 
+intra-procedural analysis to inter-procedural one, which is able to precise 
+function calls more precisely. 
+
+
+Our analysis is too conservative for complex cyclic structures and can 
+not extract any parallelism between any two statements or 
+function calls or different iterations of loop body . We have 
+to further develop our shape analysis 
+technique to handle more frequently occurring complex and cyclic 
+structures and programming patterns to find precise dependences. 
+In this work the analysis only keeps information about the first 
+link field of the access paths and blindly summarizes the rest of the path. Hence 
+it losses good amount of information for interference analysis.  
+We want to improve the summarization technique for better abstraction of access paths. 
+In case of loop sensitive dependence analysis, our technique assumes the loops without 
+any irregular control flow constructs. We can further extend our technique to automatically 
+detect good loops~\cite{ghiya98detecting} which do not contain any irregular control flow constructs. 
+
+We have implemented a basic prototype model for intra-procedural 
+and loop based dependence analysis. This prototype model with manual intervention 
+detects dependences from heap intensive sequential programs. We have tested 
+the model with a very few number of heap intensive C benchmark programs. 
+It can be further developed to implement inter-procedural dependence 
+analysis and to show its effectiveness on large benchmarks. 
+
+

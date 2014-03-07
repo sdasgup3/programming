@@ -1,0 +1,14 @@
+{\tt
+\begin{program}{0}
+  \FL\ \ldots
+  \NL{0} p = list;
+  \UNL{0} \WHILE (p$\rightarrow$next != NULL) \{
+  \NL{1}     q = p$\rightarrow$next;
+  \NL{1}     temp = q$\rightarrow$num;
+  \NL{1}     r = q$\rightarrow$next;
+  \NL{1}     r$\rightarrow$num = temp;
+  \NL{1}     p = r;
+  \UNL{0} \}
+  \UNL{0} \ldots
+\end{program}
+}

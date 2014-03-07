@@ -1,0 +1,13 @@
+{\tt
+\begin{program}{20}
+  \FL\ \ldots
+  \UNL{0} p = d;
+  \UNL{0} \WHILE (p\rtarrow{next} != NULL) \{
+  \NL{1}   temp = p\rtarrow{num};
+  \NL{1}   q = p\rtarrow{link};
+  \NL{1}   q\rtarrow{num} = temp;
+  \NL{1}     p = p\rtarrow{next};
+  \UNL{0} \}
+  \UNL{0} \ldots
+\end{program}
+}

@@ -1,0 +1,47 @@
+\appendix
+\chapter{Guideline for Adding New Pass in GCC}
+\subsubsection*{Pre-requisities for Configuring GCC-4.3.0}
+\begin{enumerate}
+\item GMP-4.3.2 and MPFR-2.4.1 should be installed.
+\item Build GMP and MPFR in \$GMPBUILD and \$MPFRBUILD directory respectively.
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{How to Configure and Build GCC}
+\begin{enumerate}
+\item Let \$SOURCEDIR be the source directory for GCC and \$HOME be the home directory where \$SOURCEDIR is present.
+\item Create another directory \$BUILDDIR in \$HOME and follow the following steps.
+\item	cd \$BUILDDIR
+\item	../\$SOURCEDIR/configure --enable-languages=c \\
+--with-gmp=/home/user/\$GMPBUILD --with-mpfr=/home/user/\$MPFRBUILD
+\item make
+\item make install
+\item make all-gcc TARGET-gcc=/home/\$BUILDDIR/gcc/cc1
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{How to Register Pass in GIMPLE SSA level in GCC}
+\begin{enumerate}
+\item Place the new file named \emph{tree-loop-distribution.c} in \$SOURCEDIR/gcc/.
+\item Adding the pass in pass hierarchy : Add NEXT\_PASS (pass\_loop\_distribution); after NEXT\_PASS(pass\_linear\_transform); in file passes.c
+\item Add extern struct tree\_opt\_pass pass\_loop\_distribution; in file named tree-pass.h
+\item Add the following lines in file named common.opt\\
+ftree-loop-distribution\\
+Common Report Var(flag\_tree\_loop\_distribution)\\
+Enable loop distribution on trees
+\item Add DEFTIMEVAR (TV\_TREE\_LOOP\_DISTRIBUTION, ``tree loop distributio'') after DEFTIMEVAR (TV\_TREE\_LINEAR\_TRANSFORM, ``tree loop linear'') in file timevar.def
+\item Edit Makefile.in : Add following rules
+tree-loop-distribution.o \  \\
+tree-loop-distribution.o : tree-loop-distribution.c \$(CONFIG\_H) \ \\
+\$(SYSTEM\_H) coretypes.h \$(TM\_H) \$(GCC\_H) \$(OPTABS\_H) \ \\
+\$(TREE\_H) \$(RTL\_H) \$(BASIC\_BLOCK\_H) \$(DIAGONSTIC\_H) \ \\
+\$(TREE\_FLOW\_H) \$(TREE\_DUMP\_H) \$(TIMEVAR\_H) \$(CFGLOOP\_H) \ \\
+tree-pass.h \$(TREE\_DATA\_REF\_H) \$(SCEV\_H) \$(EXPR\_H) \$(TARGET\_H) \ \\
+tree-chrec.h 
+\item make
+\item make install
+\end{enumerate}
+
+\subsubsection*{Test}
+\begin{enumerate}
+\item gcc -O -ftree-loop-distribution -fdump-tree-ldist test.c
+\item Results dump file named test.c.103t.ldist
+\end{enumerate}
