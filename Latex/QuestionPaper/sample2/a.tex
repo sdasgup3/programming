@@ -1,0 +1,335 @@
+\newcommand{\ReverseEngineering}{
+\question \QuestionTitle{Reverse Engineering}
+
+\begin{parts}
+
+\Maybe{
+  \part[4] Suppose you join a large company that has 10 million lines
+of code for their existing product that they would like to modify
+significantly. One of the company's main requirements for developers
+is they should have reverse engineering skills. \textbf{What} is
+reverse engineering, and \textbf{why} is it important to have reverse
+engineering skills?
+
+  \begin{solution} [1.4 in]
+Reverse engineering is the process of recovering the rationale or
+design behind artifacts, such as source code, enough in order to be
+able to understand, modify, or replace it. When you join a company, it
+is most likely that you have to replace, modify, or use their system,
+so you need reverse engineering skills.
+  \end{solution}
+}
+
+% YES
+\part[4] During Iteration 1\Comment{ of the course project},
+\Comment{one of the first things you needed to do was} you had to make
+sure you can build and install Jenkins code for your
+project. This is an instance of the reverse engineering pattern called
+\textsc{Do a Mock Installation} from \Book{2}.  If you used another
+pattern from the\Comment{ \textit{OORP}} book in your\Comment{ course}
+project, \textbf{describe that pattern\Comment{ in general} and how
+  you\Comment{ specifically} used it} in your project.  If you did not
+use any other pattern in your project, then \textbf{name and describe
+  any two patterns} that are \textbf{NOT} \textsc{Do a Mock
+  Installation}.
+    \begin{solution}[2.1in]
+    \end{solution}
+
+\Maybe{
+\begin{subparts}
+    \subpart[2] What is the purpose of the \textsc{Do a Mock
+      Installation} pattern? In other words, why should you do a mock
+    installation?
+
+    \begin{solution} [1.2 in] The goal is not to merely build the
+    system. The goal is to learn and gain insight into the build
+    process.
+    \end{solution}
+
+    \subpart[2] If you used another pattern from the \textit{OORP}
+    book in your course project, \textbf{name that pattern, describe it
+      in general, and describe specifically how you used it} in your
+    project.  If you did not use any other pattern in your project,
+    then \textbf{name and describe any two patterns} that are
+    \textbf{NOT} \textsc{Do a Mock Installation}.
+    \begin{solution} [2.2 in]
+    \end{solution}
+\end{subparts}
+}
+
+% YES
+\part[2] In the lecture on ``Reverse Engineering'', we discussed
+potential tools for reverse engineering. (\Ch{30} also discusses tools
+in general.) Sometimes tools can help\Comment{ with reverse engineering}, e.g.,
+a tool that visualizes relations between classes.\Comment{ Most of the
+time, these tools seem promising.}  However, sometimes you would
+rather do things manually\Comment{ instead of using tools}.
+\textbf{Describe one scenario} when you would \textbf{NOT} use tools
+for reverse engineering.
+
+  \begin{solution}[1.25in]
+    You should not use the tool if: (1) the time it takes to learn,
+    install, and use it takes more time than doing things manually (2)
+    the tool costs money that is not worth the benefit (3) The tool is
+    not compatible with the platform you are using.
+  \end{solution}
+
+% FROM DARKO: This is good by itself.  But we need to see how it fits
+% in the overall picture; how many questions we have total, how many
+% for each topic, how many of which type (e.g., we're short on
+% multiple choice questions, and this could be turned into one by
+% giving some silly reasons that are not for reverse engineering,
+% e.g., to ... it's hard for me to think of some reasonable activity
+% such as make development easier/cheaper/faster that would not
+% sometimes be best done as reverse engineering.... so okay, maybe we
+% should not turn this particular question into multiple choice, but
+% we can look into others).
+% FROM AMARIN: Moved this question from Code Smells to Reverse Engineering.
+%              Also commented for now.
+\Comment{
+  \part[2] One of the reasons to reverse engineer a system is to make
+\emph{maintenance} easier, especially if the original team that developed
+the system is no longer available. \textbf{Give one} other reason why
+someone would be interested to reverse engineer a system.
+  \begin{solution}[2 in]
+Teaching the system to new developers, writing documentation.
+  \end{solution}
+}
+\end{parts}
+}
+
+\newcommand{\CodeSmells}{
+\question \QuestionTitle{Code Smells and Refactorings}
+
+\begin{parts}
+% YES
+\part[2] Refactorings change the structure of a program
+without changing its behavior. This goes against the maxim ``if it
+ain't broken, don't fix it.'' When you change the code, you risk
+introducing new faults into the program. What is the main goal of
+refactoring?
+  \begin{solution} [1.0 in]
+    Refactoring makes code easier to understand and cheaper to modify.
+  \end{solution}
+
+% CONSIDER IF NEEDED FOR LENGTH
+\Comment{
+  \part[1] Why do we refactor even at the risk of introducing bugs
+through refactoring?
+
+  \part[1] How does XP advocate to ensure that refactoring does not
+break the existing functionality?
+}
+
+% YES - MULTIPLE
+\part[2] Which of these are code smells \textbf{NOT} based directly on code but
+rather on software development activities done with the code, such as
+changing code.  \CircleAll{}
+\begin{enumerate}
+\item Non-localized plan
+\item Empty commit messages
+\item Refused bequest
+\item Hard to understand code
+\end{enumerate}
+
+\begin{solution}
+Possible correct answers are non-localized plan, hard to change, hard to understand, too many bugs...
+
+Common incorrect answer was to mention a code smell that can be
+obtained from the code itself (long methods, magic numbers, too few/many comments...).
+\end{solution}
+
+% CONSIDER IF NEEDED FOR LENGTH (but list explicitly all smells they can't use)
+\Comment{
+\part[5] Name one ``code smell'' that is \textbf{NOT} already listed elsewhere in the exam and \textbf{NOT} already used as an answer to the ``Code Smells and Refactoring'' questions.  Describe how this code smell can be identified.  Name an appropriate refactoring that removes the code smell.
+
+\begin{solution}[2.0 in]
+Long Methods. It can be identified as methods that do not fit in one page, for example, or are more than 60 lines long.
+Use the ``Extract Method'' refactoring to split long methods into small methods.\\
+Other code smells include ``Large class'', ``Magic Numbers'', etc.
+\end{solution}
+}
+\end{parts}
+}
+
+\newcommand{\IPO}{
+\newpage
+\question \QuestionTitle{Introduce Parameter Object}
+
+Consider the following class \CodeIn{GradeCenter}.
+
+\lstinputlisting[language=Java,numbers=none]{code/IntroduceParameterObject.java}
+
+The method \CodeIn{printGrades} selectively prints MP grades for a
+student based on the parameters. In the lectures, we talked about a
+refactoring called \textsc{Introduce Parameter Object} which is useful
+in situations like this.\Comment{ Let us apply this refactoring.}
+
+\begin{parts}
+% YES
+\part[1] \textbf{Name the code smell} that the
+\IntroduceParameterObject{} refactoring fixes.
+     \begin{solution}[0.5in]
+ Long Parameter List
+     \end{solution}
+
+\Comment{
+ % CONSIDER IF NEEDED FOR LENGTH
+\subpart[1] Describe \textbf{one benefit} of using \IntroduceParameterObject?
+\begin{solution}
+- it makes the method easier to understand
+- it makes the method easier to use
+- it makes the method easier to change, e.g. adding more MPs
+\end{solution}
+}
+
+%\newpage
+\part[4] Write a new Java class \CodeIn{GradeSelection} that you
+could use as the parameter object.  You should write \textbf{all
+fields and at least one constructor} for this class.  You do not
+need to write getters, setters, or other methods.  (Basically, write a
+simple Data Class.)
+
+\lstinputlisting[language=Java,numbers=none]{code/GradeSelection.java}
+
+\begin{solution}
+\lstinputlisting[language=Java,numbers=none]{code/GradeSelectionSolution.java}
+\end{solution}
+
+\newpage
+\part[6] Refactor all \CodeIn{GradeCenter} methods to use the new class
+\CodeIn{GradeSelection}.  Make sure to \textbf{update the method
+signatures} and \textbf{modify the call sites} that use the
+parameter object.  For \CodeIn{saveGrades}, rewrite \textbf{all the
+code} that was originally given\Comment{ (for \CodeIn{mp0}), but you
+can omit code that was originally omitted (for the other MPs)}.  If
+you use some non-constructor methods from \CodeIn{GradeSelection},
+comment on what those methods do.
+
+\lstinputlisting[language=Java,numbers=none]{code/IntroduceParameterObjectTemplate.java}
+
+\begin{solution}
+\lstinputlisting[language=Java,numbers=none]{code/IntroduceParameterObjectSolution.java}
+\end{solution}
+
+\Comment{
+% CONSIDER IF NEEDED FOR LENGTH
+What would change is \CodeIn{GradeCenter} had a subclass?
+}
+\end{parts}
+}
+
+
+\newcommand{\RDC}{
+\newpage
+\question \QuestionTitle{Remove Duplicated Code}
+
+Consider these two classes that represent fiction books and non-fiction books.
+
+\lstinputlisting[language=Java,numbers=none]{code/Book.java}
+
+\begin{parts}
+  \part[1] Describe the code smell called \DuplicatedCode.
+  \begin{solution} [1.2 in]
+Identical or very similar code existing in many locations.
+  \end{solution}
+  \part[1] Describe \textbf{one future scenario} with change the given
+code that could be problematic if \DuplicatedCode{} is not removed.
+  \begin{solution}[1.2 in]
+Suppose we want to change how to calculate the weight of a book; in the original code, we would need to make this change in two places, which is more error-prone.
+  \end{solution}
+
+  \part[6] One recommended way to remove \DuplicatedCode{}
+  in this case is to extract a superclass. We will name the new superclass
+  \CodeIn{Book}. Write the resulting \textbf{three} classes after you
+  extract \CodeIn{Book} to remove \textbf{ALL} \DuplicatedCode.
+  Make sure to \textbf{write the entire classes, including
+    the constructors}. (Hint: In terms of refactorings, you are
+  considering a combination of \Refactoring{Extract Superclass},
+  \Refactoring{Pull Up Method}, and \Refactoring{Pull Up Field}\Comment{, but you need
+  not worry about the details of these names}.)
+\newpage
+\lstinputlisting[language=Java,numbers=none]{code/BookTemplate.java}
+\begin{solution}
+\lstinputlisting[language=Java,numbers=none]{code/BookSolution.java}
+\end{solution}
+\end{parts}
+}
+
+\newcommand{\Documentation}{
+\question \QuestionTitle{Software Documentation}
+\begin{parts}
+% YES
+  \part[1] One of the requirements for the Final Presentation
+was that your team document your project.  Many other software
+systems also have some kind of documentation.  Discuss when it is
+preferable to document an entire software system versus just the
+change from the previous system version.
+  \begin{solution}[1.2 in]
+  \end{solution}
+
+% YES
+  \part[2] There are many types of system documentation. \textbf{Identify two types of documentation} and \textbf{describe both of them}.
+  \begin{solution}[1.6 in]
+Architecture documentation. High-level components of a system. What they do, and how they interact.
+User manual. The GUI. How users can achieve certain things with the software.
+Detailed design. The names, fields, methods of classes. How classes interact.
+Requirements. What the customer wants. What the system should do.
+Installation instructions. How to install the system.
+  \end{solution}
+
+% CONSIDER IF NEEDED FOR LENGTH
+\Comment{
+  \part[2] During the lecture on Software Documentation, the instructor discussed the magic number ``7 +/- 2''. Describe what it means and how it helps when writing software documentation.
+  \begin{solution}[1.6 in]
+Humans have limited memory. It becomes hard for people to remember 5 things and becomes more difficult as the number goes up, where 7 is hard and 9 is very hard. So when writing software documentation for people to understand, it is ideal to introduce less than 5 new things at a time.
+  \end{solution}
+}
+
+\Maybe{
+  \part[3] According to the required reading, ``A Rational Design Process'', \textbf{describe why} it is important to document the following.
+
+  \begin{subparts}
+    \subpart[1] The Module Structure
+    \begin{solution}[1.2 in]
+The document describes how the system is divided into modules. This helps avoiding duplication, achieving separation of concerns, and helps the maintainer find out what module is affected by a change request.
+    \end{solution}
+    \subpart[1] The Module Interfaces
+    \begin{solution}[1.2 in]
+The document describes the interfaces of the modules. If allows programmers to independently implement modules. It also gives enough information for a programmer of one module to be able to use another module's functionality.
+    \end{solution}
+    \subpart[1] The Module Internal Structures
+    \begin{solution}[1.2 in]
+Documenting this allows efficient review of the design before coding begins. It also helps future programmers understand the intent behind the code.
+    \end{solution}
+  \end{subparts}
+}
+\end{parts}
+}
+
+% Amarin: Decided to remove this.
+\Comment{
+  \part[4] The required reading, Object-Oriented Reengineering Patterns, presents reengineering patterns. Identify and briefly describe two patterns.
+  \begin{solution} [2.5 in]
+Agree on Maxims: Establish the key priorities for the project and identify guiding
+principles that will help the team to stay on track.
+Speak to the Round Table: Hold brief, regular round table meetings.
+Most Valuable First: Start working on the aspects which are most valuable to your
+customer.
+Fix Problems, Not Symptoms: Address the source of a problem, rather than particular requests of
+your stakeholders.
+If It Ain’t Broke, Don’t Fix It: Only fix the parts that are ``broken'' -- those that can no longer be
+adapted to planned changes.
+Keep It Simple: Prefer an adequate, but simple solution to a potentially more general,
+but complex solution.
+Chat with the Maintainers: Discuss with the system maintainers. As technical people who have been intimately involved with the legacy system, they are well aware of the system's history and the people-related issues that influenced that history.
+Read all the Code in One Hour: Grant yourself a reasonably short amount of study time (i.e., approximately one hour) to read the source code.
+Skim the Documentation: Prepare a list summarizing those aspects of the system that seem interesting for your reengineering project. Then, match this list against the documentation and meanwhile make a crude assessment of how up to date the documentation seems.
+Interview During Demo: Observe the system in operation by seeing a demo and interviewing the person who is demonstrating.
+  \end{solution}
+}
+
+%%  LocalWords:  OORP Refactorings refactoring refactor XP MPs
+%%  LocalWords:  GradeCenter printGrades GradeSelection getters
+%%  LocalWords:  saveGrades superclass refactorings Reengineering
+%%  LocalWords:  reengineering
