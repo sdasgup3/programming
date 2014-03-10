@@ -78,7 +78,9 @@ svn co http://llvm.org/svn/llvm-project/test-suite/trunk test-suite
 cd ../..
 mkdir llvm.src.bild
 cd !$
+module load gcc
 ../llvm.src/configure  --prefix=/home/sdasgup3/work/llvm-install --enable-targets=all --enable-jit  --disable-optimized --enable-assertions
+../llvm-src/configure                                                                               --disable-optimized --enable-assertions
 make update
 make
 llvm[0]: ***** Note: Debug build can be 10 times slower than an
@@ -93,11 +95,16 @@ make ENABLE_OPTIMIZED=1 install
 
 Building llvmpa
 ================
+/home/sdasgup3/llvm/llvm-3.4/llvm-src
+svn up -r 195104
+
+
 llvmpa-src
-sn up -r 13477
+svn up -r 13477
 
 cd llvmpa.obj
 source ~/Scripting/setup-llvmpa
+module load gcc
 ../llvmpa-src/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-3.4/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-3.4/llvm-build --disable-optimized --enable-assertions
 make
 

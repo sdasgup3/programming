@@ -1,6 +1,5 @@
 .PHONY: clean
 
-LLVMPALIB=/home/sdasgup3/work/llvmpa-obj/Debug+Asserts/lib
 OPTIMIZATIONS=-mem2reg
 CLANG=$(LLVM_BIN)/clang
 LLVMDIS=$(LLVM_BIN)/llvm-dis

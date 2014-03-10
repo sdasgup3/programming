@@ -14,6 +14,8 @@ export PATH=$PATH:/home/sdasgup3/llvm/llvm-gcc4.2-2.9-x86_64-linux/bin/
 
 
 ################# pointer analysis ##############################
-source /home/sdasgup3/pointerA/logicblox-3.10.7/etc/profile.d/logicblox.sh
-export LLVMPA_DIR=/home/sdasgup3/pointerA/llvmpa/datalog
+source /home/sdasgup3/pointer-test/logicblox-3.10.7/etc/profile.d/logicblox.sh
+export LLVMPA_DIR=/home/sdasgup3/llvmpa/llvmpa/datalog
 
+
+cd ~/pointer-test/llvmpa-tests/unit/SingleSource/McGill/
