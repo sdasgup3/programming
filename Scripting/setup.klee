@@ -18,4 +18,4 @@ source /home/sdasgup3/pointer-test/logicblox-3.10.7/etc/profile.d/logicblox.sh
 export LLVMPA_DIR=/home/sdasgup3/llvmpa/llvmpa/datalog
 
 
-cd ~/pointer-test/llvmpa-tests/unit/SingleSource/McGill/
+cd /home/sdasgup3/pointer-test/llvmpa-tests/SingleSource/McGill/
