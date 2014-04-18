@@ -1,0 +1,97 @@
+===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+4 mem2reg    - Number of alloca's promoted with a single store
+2 mem2reg    - Number of alloca's promoted within one block
+1 scalarrepl - Number of allocas broken up
+6 scalarrepl - Number of allocas promoted
+
+===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+4 mem2reg    - Number of alloca's promoted with a single store
+2 mem2reg    - Number of alloca's promoted within one block
+1 scalarrepl - Number of aggregate allocas broken up
+6 scalarrepl - Number of scalar allocas promoted to register
+
+Diffing(m2r_1) 
+4a5,6
+> %struct.twoInt = type { i32, i32, i32 }
+> 
+9a12
+>   %i2 = alloca %struct.twoInt, align 4
+	G Log Pass
+ 	Out Pass
+ ===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+6 mem2reg    - Number of alloca's promoted with a single store
+6 scalarrepl - Number of allocas promoted
+
+===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+6 mem2reg    - Number of alloca's promoted with a single store
+6 scalarrepl - Number of scalar allocas promoted to register
+
+Diffing(m2r_2) 
+	Log Pass
+ 	Out Pass
+ ===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+2 mem2reg    - Number of alloca's promoted with a single store
+2 scalarrepl - Number of allocas promoted
+
+===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+2 mem2reg    - Number of alloca's promoted with a single store
+2 scalarrepl - Number of scalar allocas promoted to register
+
+Diffing(m2r_3) 
+	Log Pass
+ 	Out Pass
+ ===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+1 mem2reg    - Number of alloca's promoted with a single store
+1 mem2reg    - Number of alloca's promoted within one block
+2 scalarrepl - Number of allocas promoted
+
+===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+1 mem2reg    - Number of alloca's promoted with a single store
+1 mem2reg    - Number of alloca's promoted within one block
+2 scalarrepl - Number of scalar allocas promoted to register
+
+Diffing(m2r_4) 
+	Log Pass
+ 	Out Pass
+ ===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+3 mem2reg    - Number of alloca's promoted with a single store
+3 scalarrepl - Number of allocas promoted
+
+===-------------------------------------------------------------------------===
+                          ... Statistics Collected ...
+===-------------------------------------------------------------------------===
+
+3 mem2reg    - Number of alloca's promoted with a single store
+3 scalarrepl - Number of scalar allocas promoted to register
+
+Diffing(m2r_5) 
+	Log Pass
+ 	Out Pass
+ 

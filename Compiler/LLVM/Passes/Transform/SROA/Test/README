@@ -1,0 +1,21 @@
+Some allocaes are generated during expansion adnremain unused. 
+Also the original struct alloca is present without any use
+
+struct contain an array which is used as is.
+struct becomes non expandable
+
+the atruct contaibn an array used as bit elemnet, and hence expanded, but the expanded array cannot be promoted
+xT_10_2.c xT_9_2
+
+
+the atruct contaibn an array NOT used , and hence it is NOT expanded, but that may lead to some " non strcut " allocas to be non promoted 
+as the code will not do the promotion if nothing is there to expand
+xT_10_3.c
+
+stu_data_ptr = &stu_data; is illegal
+xT_9_1.c
+
+/-scalarrepl can handle bicast as a use of gept, but not mine
+
+scanf(&n) cannot be promotable
+strcut arrays are not expanded
