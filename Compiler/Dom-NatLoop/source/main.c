@@ -12,6 +12,10 @@
 int main(int argc, char** argv)
 
 {
+    if(argc < 2) {
+      fprintf(stderr, "Usage ./a.out  <Inputfile>\n");
+      exit(0);
+    }
     FILE* inputFp = fopen(argv[1], "r");
     outputFp = fopen("Output.Info", "w");
     if(NULL == inputFp || NULL == outputFp) {
