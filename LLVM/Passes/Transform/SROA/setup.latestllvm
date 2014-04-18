@@ -1,3 +1,0 @@
-export PATH=$PATH:/team/cs526/sdasgup3/build/Release+Asserts/bin/
-export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64
-module load gcc
