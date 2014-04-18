@@ -3,6 +3,10 @@ TO COMPILE
 
 gcc source/*.c
 
+To Run
+=============
+./a.out <input filename>
+
 
 *** ASSUMPTION ****
 ====================
