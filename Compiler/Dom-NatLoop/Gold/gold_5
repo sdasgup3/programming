@@ -1,0 +1,45 @@
+
+
+
+		'D(a) = Set Of Nodes Which Dominates a'
+		------------------------
+		 Dominator Information
+		------------------------
+
+		 D(1) = [ 1 ]
+		 D(2) = [ 1 2 ]
+		 D(3) = [ 1 3 ]
+		 D(4) = [ 1 4 ]
+		 D(5) = [ 1 3 5 ]
+		 D(6) = [ 1 3 6 ]
+		 D(7) = [ 1 3 7 ]
+
+
+			--------------------
+			 The Dominator Tree
+			--------------------
+
+   1
+      2
+      3
+         5
+         6
+         7
+      4
+
+
+		-------------------------------------
+		 Back Edge		Natural Loop
+		-------------------------------------
+
+		 7 --> 3		 [ 3 7 5 6 ]
+
+
+
+		'If Any Two BackEdges Have The Same 'Head', We Combine The Coresponding Loops'
+		------------------------
+		 Combined Natural Loops
+		------------------------
+
+		         -- nill --
+
