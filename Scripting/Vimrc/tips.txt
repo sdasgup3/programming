@@ -1,3 +1,8 @@
+joing multi line
+==================
+15 shift j
+
+
 Spelling
 =========
 https://www.linux.com/learn/tutorials/357267-using-spell-checking-in-vim
