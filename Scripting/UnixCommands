@@ -6,3 +6,5 @@ du -sh .
 =========
 "\ep": history-search-backward
 "\en": history-search-forward
+
+gitk
