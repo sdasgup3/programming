@@ -81,6 +81,7 @@ cd !$
 module load gcc
 ../llvm.src/configure  --prefix=/home/sdasgup3/work/llvm-install --enable-targets=all --enable-jit  --disable-optimized --enable-assertions
 ../llvm-src/configure                                                                               --disable-optimized --enable-assertions
+../llvm-src/configure CC=/software/gcc-4.8.2/bin/gcc CXX=/software/gcc-4.8.2/bin/g++ --with-gcc-toolchain=/software/gcc-4.8.2 --with-extra-ld-options="-Wl,-rpath,/software/gcc-4.8.2/lib64" --enable-jit --enable-targets=all --enable-optimized --enable-assertions
 make update
 make
 llvm[0]: ***** Note: Debug build can be 10 times slower than an
@@ -106,6 +107,10 @@ cd llvmpa.obj
 source ~/Scripting/setup-llvmpa
 module load gcc
 ../llvmpa-src/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-3.4/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-3.4/llvm-build --disable-optimized --enable-assertions
+Release build
+===============
+../llvmpa/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-llvmpa/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-llvmpa/llvm-build --with-gcc-toolchain=/software/gcc-4.8.2 --with-extra-options=-std=c++11 --with-extra-ld-options="-Wl,-rpath,/software/gcc-4.8.2/lib64" --enable-optimized --enable-assertions
+
 make
 
 Run testcase.c

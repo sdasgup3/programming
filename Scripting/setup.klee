@@ -1,3 +1,4 @@
+module load gcc
 export PATH=/home/sdasgup3/usr/local/bin/:$PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64
 
