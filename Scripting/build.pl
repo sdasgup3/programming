@@ -60,10 +60,14 @@ if("" eq $maxt) {
 #$kleeargs = "--libc=uclibc --allow-external-sym-calls  --max-time=$maxtime";
 $kleeargs = 
       " --simplify-sym-indices --write-cvcs --write-cov --output-module"
-    . " --max-memory=1000 --disable-inlining --optimize --use-forked-solver" 
-    . " --use-cex-cache --libc=uclibc --posix-runtime"
-    . " --allow-external-sym-calls --only-output-states-covering-new" 
+    . " --max-memory=1000 --disable-inlining "
+#    . " --optimize"
+    . " --use-forked-solver" 
+#    . " --use-cex-cache --libc=uclibc --posix-runtime"
+    . " --libc=uclibc --allow-external-sym-calls --only-output-states-covering-new" 
 #    . " --environ=/home/sdasgup3/Scripting/test.env --run-in=/tmp/sandbox" 
+#  . " --use-query-log=all:pc"
+    . " --use-query-log=solver:pc"
     . " --max-sym-array-size=4096 --max-instruction-time=120 --max-time=$maxtime" 
     . " --watchdog --max-memory-inhibit=false --max-static-fork-pct=1" 
     . " --max-static-solve-pct=1 --max-static-cpfork-pct=1 --switch-type=internal" 
@@ -91,45 +95,46 @@ if("" ne $watch) {
 }
 
 if("" ne $reuse) {
-  if(-e "./a.out.bc") {
-    execute("klee $kleeargs ./a.out.bc @progargs");
+  if(-e "$test.a.out.bc") {
+    &runKlee;
   }
   exit(0);
 }
-
-if($withoutcheker ne "") {
-  execute("$make clean");
-  execute("rm -rf  klee-*");
-  execute("$clang2_9 -O0 -emit-llvm -I /home/sdasgup3/klee/klee/include/klee -I ./ -c $test.c -o a.out.bc");
-  execute("$llvmdis2_9 a.out.bc -o a.out.ll");
-
-  if("" eq $genexec) {
-    execute("klee $kleeargs ./a.out.bc @progargs");
-  }
-  execute("echo");
-  execute("echo");
-  exit(0);
-}
-
 
 if(defined($test)) {
+
+  if($withoutcheker ne "") {
+    execute("$make clean");
+#execute("rm -rf  klee-*");
+    execute("$clang2_9 -O0 -emit-llvm -I /home/sdasgup3/klee/klee/include/klee -I ./ -c $test.c -o $test.a.out.bc");
+    execute("$llvmdis2_9 $test.a.out.bc -o a.out.ll");
+
+    if("" eq $genexec) {
+      &runKlee;
+    }
+    
+    execute("echo");
+    execute("echo");
+    exit(0);
+  }
+
+
   if($modifiedll eq "") {
     execute("$make clean");
     execute("$make $test LLVM_BIN=$llvm_bin_3_4 LLVMPALIB=$llvmpalib");
     execute("echo");
     execute("$make $test-kleecheck LLVM_BIN=$llvm_bin_3_4 LLVMPALIB=$llvmpalib");
-    exit(0);
     execute("cat $test-kleecheck.ll | sed 's/target datalayout.*//' | sed 's/\!llvm.ident =.*//' | sed 's/\!0 = metadata.*//' >  temp ");
     execute("mv temp $test-kleecheck.ll") ;
     execute("echo");
     execute("echo");
   }
-  exit(0);
   execute("$clang2_9 -emit-llvm -c ~/Scripting/jf_checker_map.cpp -I ~/Scripting -o jf_checker_map.bc");
   execute("$llvmas2_9 < $test-kleecheck.ll  > a.bc");
   execute("$llvmld2_9 a.bc  jf_checker_map.bc");
+  execute("mv a.out.bc $test.a.out.bc");
   if("" eq $genexec) {
-    execute("klee $kleeargs ./a.out.bc");
+    &runKlee;
   }
   execute("echo");
   execute("echo");
@@ -137,6 +142,11 @@ if(defined($test)) {
 }
 
 
+sub runKlee {
+  if(-e "$test.a.out.bc") {
+    execute("klee $kleeargs ./$test.a.out.bc @progargs");
+  }
+}
 
 sub execute {
   my $args = shift @_;
