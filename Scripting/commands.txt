@@ -257,6 +257,7 @@ c++ -g creatingIR.cpp `llvm-config --cxxflags --ldflags --libs ` -o tut1
 git push origin master
 git ls-files -d | xargs git checkout --
 git pull origin
+git --rebase 
 http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed
 
  valgrind --leak-check=yes myprog arg1 arg2
