@@ -69,8 +69,8 @@ clang -L /home/sdasgup3//work/klee/Release+Asserts/lib/  a.out.bc -lkleeRuntest
 
 Building LLVM
 ===============
-svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm.src
-cd llvm.src/tools/
+svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm-src
+cd llvm-src/tools/
 svn co http://llvm.org/svn/llvm-project/cfe/trunk clang
 cd ../projects/
 svn co http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt
