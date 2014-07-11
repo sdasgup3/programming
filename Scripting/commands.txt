@@ -43,56 +43,9 @@ klee --only-output-states-covering-new --optimize --libc=uclibc --posix-runtime 
 
 env -i /bin/bash -c '(source testing-env.sh; env >test.env)'
 
-
-
-
-Run Test with Klee
-===================
-gcc -L /home/sdasgup3//work/klee/Release+Asserts/lib/  get_sign.c -lkleeRuntest
-~/work/llvm-2.9/Release+Asserts/bin/clang -L /home/sdasgup3//work/klee/Release+Asserts/lib a.out.bc -lkleeRuntest
-setenv KTEST_FILE klee-last/test000001.ktest
-./a.out ; echo $?
-
-
-
 Linux Dist
 =========
 http://www.cyberciti.biz/faq/find-linux-distribution-name-version-number/
-
-~/work/llvm-2.9/Release+Asserts/bin/llvm-as kleetest-kleecheck.ll 
-llvm-gcc --emit-llvm -c -g jf_checker_map.cpp -o jf_checker_map.bc
-~/work/llvm-2.9/Release+Asserts/bin/llvm-ld kleetest-kleecheck.bc jf_checker_map.bc 
-klee a.out.bc
-clang -L /home/sdasgup3//work/klee/Release+Asserts/lib/  a.out.bc -lkleeRuntest
-
-
-
-Building LLVM
-===============
-svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm-src
-cd llvm-src/tools/
-svn co http://llvm.org/svn/llvm-project/cfe/trunk clang
-cd ../projects/
-svn co http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt
-svn co http://llvm.org/svn/llvm-project/test-suite/trunk test-suite
-cd ../..
-mkdir llvm.src.bild
-cd !$
-module load gcc
-../llvm.src/configure  --prefix=/home/sdasgup3/work/llvm-install --enable-targets=all --enable-jit  --disable-optimized --enable-assertions
-../llvm-src/configure                                                                               --disable-optimized --enable-assertions
-../llvm-src/configure CC=/software/gcc-4.8.2/bin/gcc CXX=/software/gcc-4.8.2/bin/g++ --with-gcc-toolchain=/software/gcc-4.8.2 --with-extra-ld-options="-Wl,-rpath,/software/gcc-4.8.2/lib64" --enable-jit --enable-targets=all --enable-optimized --enable-assertions
-make update
-make
-llvm[0]: ***** Note: Debug build can be 10 times slower than an
-llvm[0]: ***** optimized build. Use make ENABLE_OPTIMIZED=1 to
-llvm[0]: ***** make an optimized build. Alternatively you can
-llvm[0]: ***** configure with --enable-optimized.
-
-make check-all
-make ENABLE_OPTIMIZED=1
-make ENABLE_OPTIMIZED=1 check-all
-make ENABLE_OPTIMIZED=1 install
 
 Building llvmpa
 ================
