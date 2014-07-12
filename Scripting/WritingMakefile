@@ -1,0 +1,3 @@
+$(warning dsand $(LCC))
+or
+@echo $(LCC)
