@@ -62,5 +62,15 @@ to
 ENABLE_OPTIMIZED = 1
 #endif
 
+Then in lllvm-src/projects/test-suite/MultiSource
+
+put TEST.pre.Makefile // Code give in Repo
+
+now go to llvm-build/projects/test-suite
+and fire make TEST=pre [clean] // to run SingleSource and Multisourse together
+or cd SingleSource;  make TEST=pre [clean] // to run SingleSource Only
+
+
+
 
 
