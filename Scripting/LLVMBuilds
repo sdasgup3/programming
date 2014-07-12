@@ -38,3 +38,29 @@ Build  test-suite
 ==================
 http://llvm.org/docs/TestSuiteMakefileGuide.html
 
+In llvm-src/projects/test-suite/akefile.rules
+change 
+
+# Default optimization level:
+OPTFLAGS := -O3
+
+to 
+
+# Default optimization level:
+OPTFLAGS := -O0
+
+AND
+change 
+
+ifeq ($(ENABLE_PROFILING),1)
+  ENABLE_OPTIMIZED = 1
+endif
+
+to 
+
+#ifeq ($(ENABLE_PROFILING),1)
+ENABLE_OPTIMIZED = 1
+#endif
+
+
+
