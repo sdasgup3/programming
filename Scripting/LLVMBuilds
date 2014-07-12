@@ -63,13 +63,15 @@ ENABLE_OPTIMIZED = 1
 #endif
 
 Then in lllvm-src/projects/test-suite/MultiSource
-
 put TEST.pre.Makefile // Code give in Repo
 
 now go to llvm-build/projects/test-suite
 and fire make TEST=pre [clean] // to run SingleSource and Multisourse together
 or cd SingleSource;  make TEST=pre [clean] // to run SingleSource Only
 
+The result is that in llvm-build/projects/test-suite/*...*/Output/*.linked.rbc will be created which is the 
+clang compiled linked bc of the source code.
+Note that: if you put other instrcutions in  TEST.pre.Makefile then those will also be executed. For exampe if you intend to run opt pass on the linked.rbc.
 
 
 
