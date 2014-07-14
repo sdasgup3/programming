@@ -26,11 +26,11 @@ Output/%.$(TEST).report.txt: Output/%.linked.rbc $(LOPT) \
 	@-$(LOPT) -load=$(SOFILE) -mem2reg -loop-rotate -reassociate -gvn  -mem2reg -simplifycfg -stats Output/$*.linked.rbc  -o Output/$*.gvn.linked.bc  |& tee Output/$*.gvn.linked.stats 
 	@-$(LOPT) -load=$(SOFILE) -mem2reg -loop-rotate -reassociate -lcm  -mem2reg -simplifycfg -mem2reg -loop-rotate -reassociate -gvn  -mem2reg -simplifycfg -stats Output/$*.linked.rbc  -o Output/$*.lcm_gvn.linked.bc  |& tee Output/$*.lcm_gvn.linked.stats
 	@-$(LOPT) -load=$(SOFILE) -mem2reg -loop-rotate -reassociate -gvn  -mem2reg -simplifycfg -mem2reg -loop-rotate -reassociate -lcm  -mem2reg -simplifycfg -stats Output/$*.linked.rbc  -o Output/$*.gvn_lcm.linked.bc  |& tee Output/$*.gvn_lcm.linked.stats
-	@-$(LCC) -O0 Output/$*.base.linked.bc 		-o Output/$*.base.linked.exe
-	@-$(LCC) -O0 Output/$*.lcm.linked.bc 		-o Output/$*.lcm.linked.exe
-	@-$(LCC) -O0 Output/$*.gvn.linked.bc 		-o Output/$*.gvn.linked.exe
-	@-$(LCC) -O0 Output/$*.lcm_gvn.linked.bc 	-o Output/$*.lcm_gvn.linked.exe
-	@-$(LCC) -O0 Output/$*.gvn_lcm.linked.bc 	-o Output/$*.gvn_lcm.linked.exe
+	@-$(LCC) -O0 -lm  Output/$*.base.linked.bc 		-o Output/$*.base.linked.exe
+	@-$(LCC) -O0 -lm Output/$*.lcm.linked.bc 		-o Output/$*.lcm.linked.exe
+	@-$(LCC) -O0 -lm Output/$*.gvn.linked.bc 		-o Output/$*.gvn.linked.exe
+	@-$(LCC) -O0 -lm Output/$*.lcm_gvn.linked.bc 	-o Output/$*.lcm_gvn.linked.exe
+	@-$(LCC) -O0 -lm Output/$*.gvn_lcm.linked.bc 	-o Output/$*.gvn_lcm.linked.exe
 
 
 .PHONY: summary
