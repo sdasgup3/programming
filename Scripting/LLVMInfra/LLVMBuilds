@@ -39,8 +39,9 @@ Build  test-suite
 http://llvm.org/docs/TestSuiteMakefileGuide.html
 
 In llvm-src/projects/test-suite/akefile.rules
-change 
 
+change 
+[
 # Default optimization level:
 OPTFLAGS := -O3
 
@@ -61,6 +62,7 @@ to
 #ifeq ($(ENABLE_PROFILING),1)
 ENABLE_OPTIMIZED = 1
 #endif
+]
 
 Then in lllvm-src/projects/test-suite/MultiSource
 put TEST.pre.Makefile // Code give in Repo
@@ -83,9 +85,19 @@ foreach file (`cat log`)
   cp -rf /home/sdasgup3/speccpu2006/benchspec/CPU2006/$file/* $file/ 
 end
 cd llvm-build/projects/test-suite/External/SPEC/CINT2006
-//now for each subdir, you need to change the subdir/Makefile // as included
 
+edit the following in */Makefile
+[
 
+LEVEL = ../../../..
+
+to 
+
+LEVEL = ../../../..
+SPEC_BENCH_DIR = /home/sdasgup3/llvm/llvm-llvmpa/llvm-src/projects/test-suite/External/SPEC/CINT2006/<testcase name>
+]
+
+make TEST=pre
 
 
 
