@@ -1,0 +1,78 @@
+Building LLVM
+===============
+
+[
+module load gcc
+check the $PATH variable that it should not cpntain clang
+setenv LD_LIBRARY_PATH /software/gcc-4.8.2/lib64:/software/gcc-4.8.2/lib
+
+and to ensure that it contains GLIBCXX_3.4.15 do
+strings /software/gcc-4.8.2/lib/libstdc++.so.6 | grep GLIBC
+]
+
+svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm-src
+cd llvm-src/tools/
+svn co http://llvm.org/svn/llvm-project/cfe/trunk clang
+cd ../projects/
+svn co http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt
+svn co http://llvm.org/svn/llvm-project/test-suite/trunk test-suite
+cd ../..
+mkdir llvm-build
+cd !$
+../llvm.src/configure  --prefix=/home/sdasgup3/work/llvm-install --enable-targets=all --enable-jit  --disable-optimized --enable-assertions
+../llvm-src/configure                                                                               --disable-optimized --enable-assertions
+../llvm-src/configure CC=/software/gcc-4.8.2/bin/gcc CXX=/software/gcc-4.8.2/bin/g++ --with-gcc-toolchain=/software/gcc-4.8.2 --with-extra-ld-options="-Wl,-rpath,/software/gcc-4.8.2/lib64" --enable-jit --enable-targets=all --enable-optimized --enable-assertions
+make update
+make
+llvm[0]: ***** Note: Debug build can be 10 times slower than an
+llvm[0]: ***** optimized build. Use make ENABLE_OPTIMIZED=1 to
+llvm[0]: ***** make an optimized build. Alternatively you can
+llvm[0]: ***** configure with --enable-optimized.
+
+make check-all
+make ENABLE_OPTIMIZED=1
+make ENABLE_OPTIMIZED=1 check-all
+make ENABLE_OPTIMIZED=1 install
+
+Build  test-suite
+==================
+http://llvm.org/docs/TestSuiteMakefileGuide.html
+
+In llvm-src/projects/test-suite/akefile.rules
+change 
+
+# Default optimization level:
+OPTFLAGS := -O3
+
+to 
+
+# Default optimization level:
+OPTFLAGS := -O0
+
+AND
+change 
+
+ifeq ($(ENABLE_PROFILING),1)
+  ENABLE_OPTIMIZED = 1
+endif
+
+to 
+
+#ifeq ($(ENABLE_PROFILING),1)
+ENABLE_OPTIMIZED = 1
+#endif
+
+Then in lllvm-src/projects/test-suite/MultiSource
+put TEST.pre.Makefile // Code give in Repo
+
+now go to llvm-build/projects/test-suite
+and fire make TEST=pre [clean] // to run SingleSource and Multisourse together
+or cd SingleSource;  make TEST=pre [clean] // to run SingleSource Only
+
+The result is that in llvm-build/projects/test-suite/*...*/Output/*.linked.rbc will be created which is the 
+clang compiled linked bc of the source code.
+Note that: if you put other instrcutions in  TEST.pre.Makefile then those will also be executed. For exampe if you intend to run opt pass on the linked.rbc.
+
+
+
+
