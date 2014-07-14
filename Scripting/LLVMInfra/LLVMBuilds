@@ -73,6 +73,26 @@ The result is that in llvm-build/projects/test-suite/*...*/Output/*.linked.rbc w
 clang compiled linked bc of the source code.
 Note that: if you put other instrcutions in  TEST.pre.Makefile then those will also be executed. For exampe if you intend to run opt pass on the linked.rbc.
 
+Ruunig spec2006
+===============
+
+cp -rf llvm-src/projects/test-suite/External/SPEC/CINT2006/*  llvm-src/projects/test-suite/External/SPEC/CINT2006/ ; to copy the dir structure
+cd llvm-src/projects/test-suite/External/SPEC/CINT2006
+ls |& tee log // will put all the 12 spec dir in log file ; do log and remove Makefile
+foreach file (`cat log`)
+  cp -rf /home/sdasgup3/speccpu2006/benchspec/CPU2006/$file/* $file/ 
+end
+cd llvm-build/projects/test-suite/External/SPEC/CINT2006
+//now for each subdir, you need to change the subdir/Makefile // as included
+
+
+
+
+
+
+
+
+
 
 
 
