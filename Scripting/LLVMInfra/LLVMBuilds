@@ -99,7 +99,7 @@ SPEC_BENCH_DIR = /home/sdasgup3/llvm/llvm-llvmpa/llvm-src/projects/test-suite/Ex
 
 make TEST=pre
 
-
+Note: for CFP2006, use the same above methods.
 
 
 
