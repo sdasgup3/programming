@@ -1,3 +1,9 @@
+Removing leading training whitespaces
+======================================
+:s/^\s\+//g
+:s/\s\+$//g
+
+
 joing multi line
 ==================
 15 shift j
