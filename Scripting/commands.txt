@@ -234,6 +234,7 @@ http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-4
  ssh -Y sdasgup3@maute.cs.illinois.edu
  ssh -Y sdasgup3@burman.cs.illinois.edu
  ssh -Y sdasgup3@anand.cs.illinois.edu
+ ssh sdasgup3@tarekc41.cs.illinous.edu
 
  ssh -Y sdasgup3@web.engr.illinois.edu
 
