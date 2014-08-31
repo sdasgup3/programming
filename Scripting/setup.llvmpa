@@ -4,7 +4,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64
 
 
 ################### llvm #######################################
-export PATH=$PATH:/home/sdasgup3/llvm/llvm-llvmpa/llvm-build/Release+Asserts/bin/
+export PATH=/home/sdasgup3/llvm/llvm-llvmpa/llvm-build/Release+Asserts/bin/:$PATH
 export C_INCLUDE_PATH=/usr/include/i386-linux-gnu
 
 
