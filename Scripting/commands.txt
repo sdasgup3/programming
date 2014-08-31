@@ -238,3 +238,7 @@ http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-4
 
  ssh -Y sdasgup3@web.engr.illinois.edu
 
+cscopes
+=======
+llvm:
+cscope lib/*/*.h lib/*/*/*.h lib/*/*/*/*.h lib/*/*.cpp lib/*/*/*.cpp lib/*/*/*/*.cpp include/llvm/*.h include/llvm/*/*.h
