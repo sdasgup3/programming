@@ -1,9 +1,0 @@
-cd /home/sdasgup3/CS598LVK/
-set path = ( /home/sdasgup3/CS598LVK/charm/net-linux-x86_64/bin/ $path )
-
-
-
-
-
-#################### Charm++ ##################################################
-#./build charm++ net-linux-x86_64 --with-production --enable-tracing --enable-tracing-commthread
