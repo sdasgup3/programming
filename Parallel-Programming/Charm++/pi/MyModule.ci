@@ -1,0 +1,13 @@
+mainmodule MyModule{
+
+  readonly CProxy_Master mainProxy;
+  mainchare Master {
+    entry Master(CkArgMsg*);
+    entry void addContribution(int, int);
+  };
+
+  chare Worker {
+    entry Worker (int);
+  };
+
+}

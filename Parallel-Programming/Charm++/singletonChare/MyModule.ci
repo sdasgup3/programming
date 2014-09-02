@@ -1,0 +1,13 @@
+mainmodule MyModule{
+
+  mainchare Main {
+    entry Main(CkArgMsg*);
+    entry void printArea(int, double);
+  };
+
+  chare Simple {
+    entry Simple (double, CProxy_Main );
+    entry void findArea(int , bool );
+  };
+
+}

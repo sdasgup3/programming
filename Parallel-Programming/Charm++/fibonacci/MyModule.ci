@@ -1,0 +1,12 @@
+mainmodule MyModule{
+
+  mainchare Master {
+    entry Master(CkArgMsg*);
+  };
+
+  chare Worker {
+    entry Worker (int, bool, CProxy_Worker);
+    entry void response(int);
+  };
+
+}

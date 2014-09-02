@@ -1,0 +1,14 @@
+mainmodule prime{
+  readonly CProxy_Master mainProxy;
+  readonly int M;
+  readonly int k;
+
+  mainchare Master {
+    entry Master(CkArgMsg*);
+    entry void addContribution(int numPrimes);
+  };
+
+  chare Worker {
+    entry Worker(int index);
+  };
+};
