@@ -1,0 +1,12 @@
+mainmodule MyModule{
+
+  mainchare Main {
+    entry Main(CkArgMsg*);
+  };
+
+  chare Simple {
+    entry Simple (double, int );
+    entry void findArea( );
+  };
+
+}
