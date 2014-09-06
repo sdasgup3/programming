@@ -1,0 +1,14 @@
+mainmodule MyModule {
+
+mainchare Main {
+  entry Main(CkArgMsg*  msg);
+  entry void ringFinished();
+};
+
+
+array [1D] Ring {
+  entry Ring(CProxy_Main, int);
+  entry void doSomething(int , int , int, int);
+};
+
+};
