@@ -1,0 +1,18 @@
+mainmodule MyModule{
+ readonly float targetDiff;
+ readonly int gridWidth;
+ readonly int gridHeight;
+ readonly int tileWidth;
+ readonly int tileHeight;
+
+  mainchare Main {
+    entry Main(CkArgMsg*);
+    entry [reductiontarget] void reductionCallback(float );
+
+  };
+
+  array [2D] Tile {
+    entry Tile ();
+  };
+
+};
