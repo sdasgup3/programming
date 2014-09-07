@@ -1,0 +1,16 @@
+mainmodule MyModule {
+  readonly CProxy_Main mainProxy;
+  readonly int numElements;
+  readonly CProxy_Prefix prefixArray;
+
+  mainchare Main {
+    entry Main(CkArgMsg*);
+    entry [reductiontarget] void done();
+  };
+  
+  array [1D] Prefix { 
+    entry Prefix();
+    entry void step();
+    entry void passValue(int);
+  };
+};
