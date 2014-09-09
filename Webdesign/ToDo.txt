@@ -1,0 +1,8 @@
+To modularize the contect
+  header and footer to be used as module to be reused at other html
+
+Fancy bullet
+
+Add content to job description
+
+fancy css : use the http://www.getfreewebdesigns.com/profile/andreas/
