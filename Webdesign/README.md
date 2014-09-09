@@ -1,2 +1,9 @@
-Incrementally building my webpage.
-http://web.engr.illinois.edu/~sdasgup3
+Programming
+===========
+
+Parallel-Programming
+  MPI
+  OpenMP 
+  PThread
+  
+
