@@ -36,7 +36,6 @@ class Prefix : public CBase_Prefix {
   Prefix (CkMigrateMessage*) {};
   void step() {
     if(distance < numElements) {
-      CkPrintf("\nindex : %d distance: %d", thisIndex, distance);
       if(thisIndex+distance<numElements) {
         thisProxy[thisIndex+distance].passValue(value);
       }
