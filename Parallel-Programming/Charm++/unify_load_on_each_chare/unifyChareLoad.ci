@@ -1,0 +1,20 @@
+mainmodule unifyChareLoad {
+  readonly  CProxy_Main mainProxy;
+  readonly  CProxy_ChareElem chareArray;
+  readonly  int chare_array_size;
+  readonly  int min;
+  readonly  int max;
+
+  mainchare Main {
+    entry Main(CkArgMsg*);
+    entry [reductiontarget] void collectAverage(int );
+  };
+  
+  array [1D] ChareElem { 
+    entry ChareElem();
+    entry void step(int );
+    entry void passValue(int, int);
+    entry void unifyLoad(double);
+    entry void recvPacket();
+  };
+};
