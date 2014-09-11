@@ -1,0 +1,224 @@
+ html{
+	overflow-y: scroll;
+	overflow-x: auto;
+	height: 100%;
+}
+ 
+ 
+/* Body */
+body{
+	font: 11px Verdana, Arial, Helvetica, sans-serif;
+	background-color: rgb(255,255,255); 
+	text-align: center;
+	padding: 0px;
+	margin: 0px;
+	//height: 100%;
+}
+
+#outerwrapper{
+	width: 100%;
+	float: left;
+	//border-bottom:1px black solid;
+	margin: -50px 0px 0px 0px;; 
+	padding: 0px 0px 0px 0px;
+	background-color: rgb(255,255,255);
+}
+
+#outerwrapper_bb{
+	width: 100%;
+	float: left;
+	border-bottom:1px black solid;
+	margin: -50px 0px 0px 0px;; 
+	padding: 0px 0px 0px 0px;
+	background-color: rgb(255,255,255);
+}
+
+#headwrapper{
+	background-color: rgb(255,255,255);
+	/*border-bottom:5px black ;*/
+	float: left;
+	width: 100%;
+	height: 180px;
+	margin: 0px; padding: 0px;
+}
+
+/* Header */
+#header {
+	margin: 0px auto; padding: 0px;
+	height: 180px;
+	width: 1000px;
+	background-color: rgb(255,255,255);
+}
+
+/* Header styles */
+
+#header #maincontent  #twocolright #logo {
+	margin: 0px 0px 0px 0px; 
+	padding: 0px 0px 0px 0px; 
+	padding: 0px;
+	float: right;
+	width: 300px;
+}
+
+#header #maincontent  #twocolleft  #affiliation {
+	margin: 0px 0px 0px 0px;
+	clear: left;
+	float: left;
+	color: black;
+	font: 1.3em Verdana, Arial, Helvetica, sans-serif;
+	text-align: left;
+}
+
+#header #maincontent  #twocolleft #name {
+	margin: 0px 0px 0px 0px;
+	clear: left;
+	float: left;
+	color: black;
+	font: 1.9em bold Verdana, Arial, Helvetica, sans-serif;
+}
+
+#header #navi  {
+	text-align: center;
+	padding: 0px 0px 0px 130px;  /* shift the navi bar*/
+	clear: both;
+	font: bold 1.3em  Helvetica, sans-serif;
+}
+
+#header #navi #on{
+	color: black;
+	text-decoration: none;
+	background: rgb(192,192,192);
+	/*margin: 5px 55px 0px 20px;*/
+	margin: 5px 24px 0px 20px;
+	padding: 0px 0px 0px 0px; /*padding arounf the navi test*/
+	width: 80px;	/*ht and width of border*/
+	height: 20px;
+	float: left;
+}
+
+/* Content */
+#maincontent{
+	margin: 0px auto;
+	padding: 0px 0px 0px 0px;
+	width: 755px;
+	/*letter-spacing: .7px;*/
+	font: 1.3em Verdana, Arial, Helvetica, sans-serif;
+}
+
+#maincontent a{
+	/*text-decoration: underline;*/
+	text-decoration: none;
+	background: none;
+}
+
+#maincontent #onecol{
+	float: left;
+	margin: 25px 25px 25px 25px;
+	text-align: left;
+}
+
+#maincontent #twocolleft{
+	float: left;
+	text-align: left;
+	margin: 25px 25px 25px 25px;
+}
+
+#maincontent #twocolright{
+	width: 54%;
+	float: right;
+	text-align: left;
+	margin: 25px 25px 25px 25px;
+	padding: 0px 0px 0px 0px;
+}
+
+#maincontent #contact{
+	margin: 5px 0px 0px 0px;
+}
+
+#maincontent #subheader{
+	color: black;
+	font: 1.5em Georgia, serif;
+	letter-spacing: 1px;
+	border-bottom: 2px solid grey;
+	padding: 0px 0px 3px 0px; /* height of welcome*/
+	margin: 5px 0px 4px -7px;
+}
+#maincontent #subsubheader{
+	color: black;
+	font: 1.1em Georgia, serif;	
+	padding: 0px 0px 3px 0px;
+	margin: 17px 0px 1px -4px;
+}
+
+#maincontent #twocolright #subsubheader{
+	border-bottom: 1px solid grey;
+}
+
+#maincontent #twocolleft #portrait{
+	max-width:240px;
+	width: expression(this.width > 240px ? 240px: true);
+	margin: 0px auto;
+	padding: 10px 0px 0px 0px;  /*Padding of my pic*/
+}
+
+#maincontent #onecol #pubTitle {
+	font-style: oblique;
+}
+#maincontent #onecol #pubAuthor {
+	margin: 10px 0px 0px 0px;
+	font-weight: 700;
+}
+
+#maincontent #onecol img{
+	display: block;
+	max-width:680px;
+	width: expression(this.width > 680 ? 680: true);
+}
+
+#maincontent #paperlink{
+	border-bottom: 1px solid rgb(255,200,200);
+	padding: 0px 0px 10px 0px;
+	margin: 0px 0px 10px 0px;	
+}
+
+#maincontent #respform{
+	padding: 7px 0px;
+}
+
+/* Border */
+#horizontalline {
+ 	border-bottom: 1px solid  black;
+}
+
+/* Foot */
+#fooder {	
+	position:absolute;
+	bottom:0;
+	left:0;
+	right:0;
+	height: 55px;
+/*
+	padding: 1px;
+	margin: 15px 15px 0px 15px;
+	width: 750px;
+*/
+	font: 1.3em 'Trebuchet MS', Helvetica, Arial, sans-serif;
+	text-align: center;
+	color: black;
+}
+
+#footer {	
+	height: 48px;
+        padding: 0px;
+        margin: 0px auto;
+        width: 740px;
+	font: 1.3em 'Trebuchet MS', Helvetica, Arial, sans-serif;
+	text-align: center;
+	color: black;
+}
+
+#content  ul li {
+	list-style-Type: none;
+	padding: 0 0 4px 23px;
+	background: url(http://www.computerhope.com/arrow.gif) no-repeat left top;
+}
