@@ -14,7 +14,9 @@ $(TEST).def.h $(TEST).decl.h : $(TEST).ci
 	$(CHARMC) $(TEST).ci
 
 test: all
-	charmrun +p4 $(TEST) 8 10 100  ++local
+#charmrun +p4 $(TEST) 1024 5000 30000  ++local
+#charmrun +p4  $(TEST) 4 0 10 9 3 4 3  ++local
+	charmrun +p4  $(TEST) 8 0 10   ++local
 
 clean:
 	rm -f conv-host *.o charmrun $(TEST)

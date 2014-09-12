@@ -7,14 +7,12 @@
 /*readonly*/ int chare_array_size;
 /*readonly*/ int min;
 /*readonly*/ int max;
-
-typedef struct  {
-  int *values;
-  int start;
-  int end;
-} Packet;
+int one, two, three, four;
 
 class Main : public CBase_Main {
+  private:
+    int checksum_before_balance;
+
   public:
   Main(CkArgMsg* msg) {
 
@@ -26,29 +24,64 @@ class Main : public CBase_Main {
     chare_array_size  = atoi(msg->argv[1]);
     min               = atoi(msg->argv[2]);
     max               = atoi(msg->argv[3]);
+
+/*
+    one               = atoi(msg->argv[4]);
+    two               = atoi(msg->argv[5]);
+    three               = atoi(msg->argv[6]);
+    four               = atoi(msg->argv[7]);
+    */
     mainProxy= thisProxy;
 
     delete msg;
-              
+
     chareArray = CProxy_ChareElem::ckNew(chare_array_size);
   }
 
   Main(CkMigrateMessage* msg) {}
+
   void collectAverage(int total_num_elem) { 
     double avg = ((double) total_num_elem) /  chare_array_size;
+    CkPrintf("Average: %f Total %d\n", avg, total_num_elem);
     chareArray.unifyLoad(avg);
+  }
+
+  void collectInitChecksum(int initCheckSum) { 
+    CkPrintf("initCheckSum : %d\n",initCheckSum); 
+    checksum_before_balance = initCheckSum;
+  }
+
+  void done() { 
+    /*
+    if(finalCheckSum == checksum_before_balance) {
+      CkPrintf("Correctness Test PASSED %d %d\n", finalCheckSum, checksum_before_balance); 
+    } else { 
+      CkPrintf("Correctness Test FAILED\n"); 
+    } 
+    */
+    CkPrintf("Exiting...\n");
+    CkExit();
   }
 };
 
 class ChareElem: public CBase_ChareElem {
   private:
     int num_elems; //number of elems the ith chare array element owns
+    int new_num_elems; //number of elems the ith chare array element owns after load balancing
+
     int *elems;
-    int *new_alloc;
-    int new_alloc_size;
+    int *new_elems;
+
+    int start_index_after_ldb;
+    int end_index_after_ldb;
+
     double avg;
+    int int_avg;
+
     int exclusiveParPrefix;
     int parPrefix;
+
+    int local_checksum;
 
     /*The private variables needed to perform parallel prefix*/
     int* valueBuf, *flagBuf, stage, numStages;
@@ -57,10 +90,24 @@ class ChareElem: public CBase_ChareElem {
   ChareElem() {
     srand(time(NULL) + thisIndex); //To ASK
     num_elems = rand()%(max - min) + min;
+    /*
+    if(thisIndex == 0 ) {
+      num_elems = one;
+    } else if(thisIndex == 1 ) {
+      num_elems = two;;
+    } else if(thisIndex == 2 ) {
+      num_elems = three;;
+    } else if(thisIndex == 3 ) {
+      num_elems = four;;
+    }
+    */
+
     elems = (int *) malloc(sizeof(int) * num_elems);
     for(int k = 0; k < num_elems ; k++) {
       elems[k] = rand();
     }
+    new_num_elems = 0;
+    local_checksum = 0;
 
     /* Finding the parallel prefix of num_elems over chare array */
     parPrefix = num_elems;
@@ -78,65 +125,111 @@ class ChareElem: public CBase_ChareElem {
   void unifyLoad(double average) {
     avg = average;
 
-    /* Test if all chares get equal share or total number of integers is  evenly divisible by chare_array_size*/
-    int int_avg_1 = avg;
-    int int_avg_2 = (int )(avg + 0.5);
-    if(int_avg_1 == int_avg_2) {
-      new_alloc_size = int_avg_1;
-    } else {
-      new_alloc_size = int_avg_2;
+    /*Find the start and end index after the load balancing*/
+    int_avg = avg;
+    start_index_after_ldb = (int ) ( thisIndex * avg) ;
+    end_index_after_ldb   = (int ) ( (thisIndex + 1 )* avg - 1 ) ;
+    if(thisIndex == chare_array_size - 1) {
+      end_index_after_ldb = exclusiveParPrefix + num_elems - 1 ;
     }
 
-    new_alloc = (int *) malloc(sizeof(int)* new_alloc_size);
+    int alloc_size = end_index_after_ldb - start_index_after_ldb + 1;
+
+    /* Allocate new storage of size average */
+    new_elems = (int *) malloc(sizeof(int)* alloc_size);
   
-    int nextTarget;
-    int glob_index, end_index;
+    if(num_elems > 0) {
+      int nextTarget;
+      int end_index;
 
-    int targetChare = exclusiveParPrefix / avg ;
-    int start_index  = exclusiveParPrefix;
-    int *collectValueToSameDest = (int *) malloc(sizeof(int)*new_alloc_size);
-    int cnt = 0;
-    collectValueToSameDest[cnt++] = elems[0];
+      int glob_index = exclusiveParPrefix;
+      int targetChare = targetResolution(glob_index);
 
-    for(int i = 1 ; i < num_elems; i++) {
-      glob_index = i + exclusiveParPrefix;
-      nextTarget = glob_index / avg;
-      if(nextTarget == targetChare) {
-        collectValueToSameDest[cnt++]  = elems[i];
-      } else {
-        end_index = i   - 1 + exclusiveParPrefix;
-        //To ASK: how to make malloc memory sharable
-        Packet *p = (Packet *) malloc(sizeof(Packet));
-        p.values  = collectValueToSameDest;
-        p.start = start_index;
-        p.end = end_index;
-        if(thisIndex == targetChare) {
-          for(int j = 0, placement = (start_index - thisIndex*new_alloc_size) ; j < (end_index - start_index); j++) {
-            new_alloc[placement++] = collectValueToSameDest[j];
-          }
+      int start_index  = glob_index;
+      int *collectValueToSameDest = (int *) malloc(sizeof(int)*alloc_size);
+      int cnt = 0;
+      collectValueToSameDest[cnt++] = elems[0];
+
+      for(int i = 1 ; i < num_elems; i++) {
+        glob_index = i + exclusiveParPrefix;
+        nextTarget = targetResolution(glob_index);
+
+        if(nextTarget == targetChare) {
+          collectValueToSameDest[cnt++]  = elems[i];
         } else {
-          chareArray[targetChare].recvPacket(p);
+          end_index = glob_index   - 1 ;
+
+          CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
+          chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest); //ToASK: copy for lcal target?
+
+          targetChare = nextTarget;
+          start_index = glob_index;
+          cnt = 0;
+          collectValueToSameDest[cnt++] = elems[i];
         }
-        targetChare = nextTarget;
-        start_index = glob_index;
-        cnt = 0;
-        collectValueToSameDest[cnt++] = elems[i];
       }
+      end_index = glob_index;
+      CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
+      chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest); //ToASK: copy for lcal target?
     }
   }
 
-  void recvPacket(Packet* p) {
-    for(int j = 0, placement = (p->start_index - thisIndex*new_alloc_size) ; j < (p->end_index - p->start_index); j++) {
-      new_alloc[placement++] = p->collectValueToSameDest[j];
+  int targetResolution(int glob_index) {
+    int maybeTarget = glob_index /  int_avg;
+
+    if(maybeTarget >=  chare_array_size) {
+      return chare_array_size -1 ;
     }
+
+    for (int t = maybeTarget; t >= 0 ; t --) {
+      int min_index = (int ) ( t * avg) ;
+      int max_index = (int ) ( (t + 1 ) * avg - 1 ) ;
+
+      if(glob_index >= min_index && glob_index <= max_index) {
+        return t;
+      } 
+    }
+    CkAbort("Target not found");
+  }
+
+  void recvPacket(int start_index, int end_index, int * collectValueToSameDest) {
+    new_num_elems += (end_index - start_index + 1) ;
+
+    //for(int j = 0, placement = (start_index - start_index_after_ldb) ; j < (end_index - start_index + 1 ); j++) {
+    //  new_elems[placement++] = collectValueToSameDest[j];
+    //}
+
+    if(new_num_elems == (end_index_after_ldb - start_index_after_ldb + 1 )) {
+
+      CkPrintf("Chare [%d]: [ %d - %d] -> %d values after balance \n", thisIndex, start_index_after_ldb, end_index_after_ldb, new_num_elems);
+      /*
+      for(int i = 0;   i< new_num_elems; i ++) {
+        local_checksum ^= new_elems[i]; 
+      }
+      */
+
+      CkCallback cb_3(CkReductionTarget(Main, done), mainProxy);
+      //contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_3);
+      contribute(cb_3);
+    } 
   }
 
   void step(int value) {
+
     if(stage >= numStages) {
+
       exclusiveParPrefix = parPrefix - num_elems;
-      CkPrintf("\n[%d].(num_elems: %d  parallel Prefix: %d ExcPar Prefix: %d) \n", thisIndex, num_elems, parPrefix, exclusiveParPrefix);
-      CkCallback cb(CkReductionTarget(Main, collectAverage), mainProxy);// To ASK: the last chare is holding the total sum
-      contribute(sizeof(int), &num_elems, CkReduction::sum_int, cb);
+      CkPrintf("Before: [%d].(num_elems: %d  parallel Prefix: %d ExcPar Prefix: %d) \n", thisIndex, num_elems, parPrefix, exclusiveParPrefix);
+      /*
+      for(int i = 0 ;   i< num_elems; i ++) {
+        local_checksum ^= elems[i]; 
+      }
+      */
+      //CkCallback cb_1(CkReductionTarget(Main, collectInitChecksum), mainProxy);// To ASK: the last chare is holding the total sum
+      //contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_1);
+
+      CkCallback cb_2(CkReductionTarget(Main, collectAverage), mainProxy);// To ASK: the last chare is holding the total sum
+      contribute(sizeof(int), &num_elems, CkReduction::sum_int, cb_2);
     } else {
       int sendIndex = thisIndex + (1 << stage);
       if(sendIndex < chare_array_size) {
@@ -164,7 +257,5 @@ class ChareElem: public CBase_ChareElem {
   }
   ChareElem (CkMigrateMessage*) {};
 };
-
-
 
 #include "unifyChareLoad.def.h" //based on module name
