@@ -9,7 +9,7 @@ mainmodule unifyChareLoad {
     entry Main(CkArgMsg*);
     entry [reductiontarget] void collectAverage(int );
     entry [reductiontarget] void collectInitChecksum(int );
-    entry [reductiontarget] void done();
+    entry [reductiontarget] void done(int);
   };
   
   array [1D] ChareElem { 

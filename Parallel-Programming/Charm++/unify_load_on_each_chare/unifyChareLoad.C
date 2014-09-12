@@ -11,6 +11,7 @@
 class Main : public CBase_Main {
   private:
     int checksum_before_balance;
+    int checksum_after_balance;
 
   public:
   Main(CkArgMsg* msg) {
@@ -24,6 +25,9 @@ class Main : public CBase_Main {
     min               = atoi(msg->argv[2]);
     max               = atoi(msg->argv[3]);
 
+    checksum_before_balance = 0;
+    checksum_after_balance  = 0;
+
     mainProxy= thisProxy;
 
     delete msg;
@@ -35,24 +39,21 @@ class Main : public CBase_Main {
 
   void collectAverage(int total_num_elem) { 
     double avg = ((double) total_num_elem) /  chare_array_size;
-    CkPrintf("Average: %f Total %d\n", avg, total_num_elem);
+    CkPrintf("\nAverage: %f Total %d\n\n", avg, total_num_elem);
     chareArray.unifyLoad(avg);
   }
 
   void collectInitChecksum(int initCheckSum) { 
-    CkPrintf("initCheckSum : %d\n",initCheckSum); 
     checksum_before_balance = initCheckSum;
   }
 
-  void done() { 
-    /*
+  void done(int finalCheckSum) { 
     if(finalCheckSum == checksum_before_balance) {
-      CkPrintf("Correctness Test PASSED %d %d\n", finalCheckSum, checksum_before_balance); 
+      CkPrintf("\n\nCorrectness Criteria PASSED (After Balance Checksum: %d Before Balance Checksum: %d)\n", finalCheckSum, checksum_before_balance); 
     } else { 
-      CkPrintf("Correctness Test FAILED\n"); 
+      CkPrintf("Correctness Criteria FAILED %d %d\n",finalCheckSum, checksum_before_balance); 
     } 
-    */
-    CkPrintf("Exiting...\n");
+    CkPrintf("Exiting...\n\n");
     CkExit();
   }
 };
@@ -86,7 +87,7 @@ class ChareElem: public CBase_ChareElem {
 
     elems = (int *) mymalloc(sizeof(int) * num_elems);
     for(int k = 0; k < num_elems ; k++) {
-      elems[k] = rand();
+      elems[k] = rand() %10;
     }
 
     new_num_elems = 0;
@@ -145,7 +146,7 @@ class ChareElem: public CBase_ChareElem {
           end_index = glob_index   - 1 ;
 
           //CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
-          chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest, avg); //ToASK: copy for lcal target?
+          chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest, avg); 
 
           targetChare = nextTarget;
           start_index = glob_index;
@@ -155,7 +156,7 @@ class ChareElem: public CBase_ChareElem {
       }
       end_index = glob_index;
       //CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
-      chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest, avg); //ToASK: copy for lcal target?
+      chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest, avg); 
       free(collectValueToSameDest);
     }
   }
@@ -210,16 +211,15 @@ class ChareElem: public CBase_ChareElem {
     //CkPrintf("Chare [%d]: [ %d - %d] -> %d (%d) attempting after balance \n", thisIndex, start_index, end_index, new_num_elems,end_index_after_ldb - start_index_after_ldb + 1  );
     if(new_num_elems == (end_index_after_ldb - start_index_after_ldb + 1 )) {
 
-      CkPrintf("Chare [%d]: [ %d - %d] -> %d values after balance \n", thisIndex, start_index_after_ldb, end_index_after_ldb, new_num_elems);
-      /*
-      for(int i = 0;   i< new_num_elems; i ++) {
+      CkPrintf("After Balance: Chare [%d]: [ %d - %d] -> %d values \n", thisIndex, start_index_after_ldb, end_index_after_ldb, new_num_elems);
+      local_checksum = 0;
+      for(int i = 0;   i< new_num_elems  ; i ++) {
         local_checksum ^= new_elems[i]; 
       }
-      */
 
       CkCallback cb_3(CkReductionTarget(Main, done), mainProxy);
-      //contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_3);
-      contribute(cb_3);
+      contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_3);
+      //contribute(cb_3);
     } 
   }
 
@@ -228,16 +228,17 @@ class ChareElem: public CBase_ChareElem {
     if(stage >= numStages) {
 
       exclusiveParPrefix = parPrefix - num_elems;
-      CkPrintf("Before: [%d].(num_elems: %d  parallel Prefix: %d ExcPar Prefix: %d) \n", thisIndex, num_elems, parPrefix, exclusiveParPrefix);
-      /*
-      for(int i = 0 ;   i< num_elems; i ++) {
+      CkPrintf("Before Balance: Chare [%d]: %d values,  ParPrefix: %d Exclusive ParPrefix: %d) \n", thisIndex, num_elems, parPrefix, exclusiveParPrefix);
+      local_checksum = 0;
+      for(int i = 0 ;   i< num_elems ; i ++) {
+        //CkPrintf("%d ", elems[i]);
         local_checksum ^= elems[i]; 
       }
-      */
-      //CkCallback cb_1(CkReductionTarget(Main, collectInitChecksum), mainProxy);// To ASK: the last chare is holding the total sum
-      //contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_1);
 
-      CkCallback cb_2(CkReductionTarget(Main, collectAverage), mainProxy);// To ASK: the last chare is holding the total sum
+      CkCallback cb_1(CkReductionTarget(Main, collectInitChecksum), mainProxy);
+      contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_1);
+
+      CkCallback cb_2(CkReductionTarget(Main, collectAverage), mainProxy);
       contribute(sizeof(int), &num_elems, CkReduction::sum_int, cb_2);
     } else {
       int sendIndex = thisIndex + (1 << stage);
