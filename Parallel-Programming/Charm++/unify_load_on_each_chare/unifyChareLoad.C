@@ -214,12 +214,13 @@ class ChareElem: public CBase_ChareElem {
       CkPrintf("After Balance: Chare [%d]: [ %d - %d] -> %d values \n", thisIndex, start_index_after_ldb, end_index_after_ldb, new_num_elems);
       local_checksum = 0;
       for(int i = 0;   i< new_num_elems  ; i ++) {
+        //CkPrintf("%d ", new_elems[i]);
         local_checksum ^= new_elems[i]; 
       }
+      //CkPrintf("\n");
 
       CkCallback cb_3(CkReductionTarget(Main, done), mainProxy);
       contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_3);
-      //contribute(cb_3);
     } 
   }
 
@@ -234,6 +235,7 @@ class ChareElem: public CBase_ChareElem {
         //CkPrintf("%d ", elems[i]);
         local_checksum ^= elems[i]; 
       }
+      //CkPrintf("\n");
 
       CkCallback cb_1(CkReductionTarget(Main, collectInitChecksum), mainProxy);
       contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_1);
