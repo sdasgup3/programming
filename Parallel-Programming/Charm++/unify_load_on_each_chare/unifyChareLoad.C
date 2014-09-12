@@ -7,7 +7,6 @@
 /*readonly*/ int chare_array_size;
 /*readonly*/ int min;
 /*readonly*/ int max;
-int one, two, three, four;
 
 class Main : public CBase_Main {
   private:
@@ -25,12 +24,6 @@ class Main : public CBase_Main {
     min               = atoi(msg->argv[2]);
     max               = atoi(msg->argv[3]);
 
-/*
-    one               = atoi(msg->argv[4]);
-    two               = atoi(msg->argv[5]);
-    three               = atoi(msg->argv[6]);
-    four               = atoi(msg->argv[7]);
-    */
     mainProxy= thisProxy;
 
     delete msg;
@@ -90,31 +83,22 @@ class ChareElem: public CBase_ChareElem {
   ChareElem() {
     srand(time(NULL) + thisIndex); //To ASK
     num_elems = rand()%(max - min) + min;
-    /*
-    if(thisIndex == 0 ) {
-      num_elems = one;
-    } else if(thisIndex == 1 ) {
-      num_elems = two;;
-    } else if(thisIndex == 2 ) {
-      num_elems = three;;
-    } else if(thisIndex == 3 ) {
-      num_elems = four;;
-    }
-    */
 
-    elems = (int *) malloc(sizeof(int) * num_elems);
+    elems = (int *) mymalloc(sizeof(int) * num_elems);
     for(int k = 0; k < num_elems ; k++) {
       elems[k] = rand();
     }
+
     new_num_elems = 0;
+    new_elems = NULL;
     local_checksum = 0;
 
     /* Finding the parallel prefix of num_elems over chare array */
     parPrefix = num_elems;
     stage =0;
     numStages = log2(chare_array_size);
-    valueBuf  = (int *) malloc(sizeof(int)*numStages);
-    flagBuf   = (int *) malloc(sizeof(int)*numStages);
+    valueBuf  = (int *) mymalloc(sizeof(int)*numStages);
+    flagBuf   = (int *) mymalloc(sizeof(int)*numStages);
     for(int i = 0 ; i < numStages; i ++ ) {
       valueBuf[i] = 0;
       flagBuf[i] = 0;
@@ -123,21 +107,22 @@ class ChareElem: public CBase_ChareElem {
   }
 
   void unifyLoad(double average) {
+
+    //CkPrintf("%d in Unify\n", thisIndex);
     avg = average;
 
     /*Find the start and end index after the load balancing*/
     int_avg = avg;
-    start_index_after_ldb = (int ) ( thisIndex * avg) ;
-    end_index_after_ldb   = (int ) ( (thisIndex + 1 )* avg - 1 ) ;
-    if(thisIndex == chare_array_size - 1) {
-      end_index_after_ldb = exclusiveParPrefix + num_elems - 1 ;
+    if(NULL == new_elems) {
+      start_index_after_ldb = (int ) ( thisIndex * avg) ;
+      end_index_after_ldb   = (int ) ( (thisIndex + 1 )* avg - 1 ) ;
+      if(thisIndex == chare_array_size - 1) {
+        end_index_after_ldb = exclusiveParPrefix + num_elems - 1 ;
+      }
+
+      /* Allocate new storage of size average */
+      new_elems = (int *) mymalloc(sizeof(int)* (end_index_after_ldb - start_index_after_ldb + 1));
     }
-
-    int alloc_size = end_index_after_ldb - start_index_after_ldb + 1;
-
-    /* Allocate new storage of size average */
-    new_elems = (int *) malloc(sizeof(int)* alloc_size);
-  
     if(num_elems > 0) {
       int nextTarget;
       int end_index;
@@ -146,7 +131,7 @@ class ChareElem: public CBase_ChareElem {
       int targetChare = targetResolution(glob_index);
 
       int start_index  = glob_index;
-      int *collectValueToSameDest = (int *) malloc(sizeof(int)*alloc_size);
+      int *collectValueToSameDest = (int *) mymalloc(sizeof(int)*(2*int_avg));
       int cnt = 0;
       collectValueToSameDest[cnt++] = elems[0];
 
@@ -159,8 +144,8 @@ class ChareElem: public CBase_ChareElem {
         } else {
           end_index = glob_index   - 1 ;
 
-          CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
-          chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest); //ToASK: copy for lcal target?
+          //CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
+          chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest, avg); //ToASK: copy for lcal target?
 
           targetChare = nextTarget;
           start_index = glob_index;
@@ -169,36 +154,60 @@ class ChareElem: public CBase_ChareElem {
         }
       }
       end_index = glob_index;
-      CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
-      chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest); //ToASK: copy for lcal target?
+      //CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
+      chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest, avg); //ToASK: copy for lcal target?
+      free(collectValueToSameDest);
+    }
+  }
+
+  /*This function assumes that the variables exclusiveParPrefix and avg is already populated*/
+  void findValueRangeForIndex(int index, int&  start, int &end) {
+    start   = (int ) ( index * avg) ;
+    end     =  (int ) ( (index + 1 )* avg - 1 ) ;
+    if(index == chare_array_size - 1) {
+      end = exclusiveParPrefix + num_elems - 1 ;
     }
   }
 
   int targetResolution(int glob_index) {
     int maybeTarget = glob_index /  int_avg;
 
-    if(maybeTarget >=  chare_array_size) {
-      return chare_array_size -1 ;
-    }
-
     for (int t = maybeTarget; t >= 0 ; t --) {
       int min_index = (int ) ( t * avg) ;
       int max_index = (int ) ( (t + 1 ) * avg - 1 ) ;
 
       if(glob_index >= min_index && glob_index <= max_index) {
-        return t;
+        if(t >= chare_array_size) {
+          return chare_array_size -1;
+        } else {
+          return t;
+        }
       } 
     }
     CkAbort("Target not found");
   }
 
-  void recvPacket(int start_index, int end_index, int * collectValueToSameDest) {
+  void recvPacket(int start_index, int end_index, int * collectValueToSameDest, double average) {
+    //CkPrintf("%d in Receive\n", thisIndex);
     new_num_elems += (end_index - start_index + 1) ;
 
-    //for(int j = 0, placement = (start_index - start_index_after_ldb) ; j < (end_index - start_index + 1 ); j++) {
-    //  new_elems[placement++] = collectValueToSameDest[j];
-    //}
+    if(NULL == new_elems) {
+      avg = average;
+      start_index_after_ldb = (int ) ( thisIndex * avg) ;
+      end_index_after_ldb   = (int ) ( (thisIndex + 1 )* avg - 1 ) ;
+      if(thisIndex == chare_array_size - 1) {
+        end_index_after_ldb = exclusiveParPrefix + num_elems - 1 ;
+      }
 
+      /* Allocate new storage of size average */
+      new_elems = (int *) mymalloc(sizeof(int)* (end_index_after_ldb - start_index_after_ldb + 1));
+    }
+
+    for(int j = 0, placement = (start_index - start_index_after_ldb) ; j < (end_index - start_index + 1 ); j++) {
+      new_elems[placement++] = collectValueToSameDest[j];
+    }
+
+    //CkPrintf("Chare [%d]: [ %d - %d] -> %d (%d) attempting after balance \n", thisIndex, start_index, end_index, new_num_elems,end_index_after_ldb - start_index_after_ldb + 1  );
     if(new_num_elems == (end_index_after_ldb - start_index_after_ldb + 1 )) {
 
       CkPrintf("Chare [%d]: [ %d - %d] -> %d values after balance \n", thisIndex, start_index_after_ldb, end_index_after_ldb, new_num_elems);
@@ -256,6 +265,15 @@ class ChareElem: public CBase_ChareElem {
     }
   }
   ChareElem (CkMigrateMessage*) {};
+
+  void* mymalloc(int size) {
+    void * mem = malloc(size);
+    if(mem == NULL) {
+      CkAbort("Insuficient Memory to allocate");
+    }
+    return mem;
+  }
 };
+
 
 #include "unifyChareLoad.def.h" //based on module name

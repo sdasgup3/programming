@@ -4,10 +4,6 @@ mainmodule unifyChareLoad {
   readonly  int chare_array_size;
   readonly  int min;
   readonly  int max;
-  readonly int one;
-  readonly int two;
-  readonly int three;
-  readonly int four;
 
   mainchare Main {
     entry Main(CkArgMsg*);
@@ -21,6 +17,6 @@ mainmodule unifyChareLoad {
     entry void step(int );
     entry void passValue(int, int);
     entry void unifyLoad(double);
-    entry void recvPacket(int start_index, int end_index, int collectValueToSameDest[end_index - start_index + 1]);
+    entry void recvPacket(int start_index, int end_index, int collectValueToSameDest[end_index - start_index + 1], double avg);
   };
 };
