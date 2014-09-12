@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "unifyChareLoad.decl.h" //based on module name
+//#define DEBUG 
 
 /*readonly*/ CProxy_Main mainProxy;
 /*readonly*/ CProxy_ChareElem chareArray;
@@ -60,8 +61,8 @@ class Main : public CBase_Main {
 
 class ChareElem: public CBase_ChareElem {
   private:
-    int num_elems; //number of elems the ith chare array element owns
-    int new_num_elems; //number of elems the ith chare array element owns after load balancing
+    int num_elems;      /*number of elems the ith chare array element owns*/
+    int new_num_elems;  /*number of elems the ith chare array element owns after load balancing*/
 
     int *elems;
     int *new_elems;
@@ -109,7 +110,9 @@ class ChareElem: public CBase_ChareElem {
 
   void unifyLoad(double average) {
 
-    //CkPrintf("%d in Unify\n", thisIndex);
+#ifdef DEBUG
+    CkPrintf("%d in Unify\n", thisIndex);
+#endif
     avg = average;
 
     /*Find the start and end index after the load balancing*/
@@ -145,7 +148,9 @@ class ChareElem: public CBase_ChareElem {
         } else {
           end_index = glob_index   - 1 ;
 
-          //CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
+#ifdef DEBUG
+          CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
+#endif 
           chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest, avg); 
 
           targetChare = nextTarget;
@@ -155,18 +160,11 @@ class ChareElem: public CBase_ChareElem {
         }
       }
       end_index = glob_index;
-      //CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
+#ifdef DEBUG
+      CkPrintf("[%d] sends [%d - %d] to %d\n ", thisIndex, start_index, end_index, targetChare);
+#endif 
       chareArray[targetChare].recvPacket(start_index, end_index, collectValueToSameDest, avg); 
       free(collectValueToSameDest);
-    }
-  }
-
-  /*This function assumes that the variables exclusiveParPrefix and avg is already populated*/
-  void findValueRangeForIndex(int index, int&  start, int &end) {
-    start   = (int ) ( index * avg) ;
-    end     =  (int ) ( (index + 1 )* avg - 1 ) ;
-    if(index == chare_array_size - 1) {
-      end = exclusiveParPrefix + num_elems - 1 ;
     }
   }
 
@@ -189,7 +187,9 @@ class ChareElem: public CBase_ChareElem {
   }
 
   void recvPacket(int start_index, int end_index, int * collectValueToSameDest, double average) {
-    //CkPrintf("%d in Receive\n", thisIndex);
+#ifdef DEBUG
+    CkPrintf("%d in Receive\n", thisIndex);
+#endif 
     new_num_elems += (end_index - start_index + 1) ;
 
     if(NULL == new_elems) {
@@ -208,16 +208,22 @@ class ChareElem: public CBase_ChareElem {
       new_elems[placement++] = collectValueToSameDest[j];
     }
 
-    //CkPrintf("Chare [%d]: [ %d - %d] -> %d (%d) attempting after balance \n", thisIndex, start_index, end_index, new_num_elems,end_index_after_ldb - start_index_after_ldb + 1  );
+#ifdef DEBUG
+    CkPrintf("Chare [%d]: [ %d - %d] -> %d (%d) attempting after balance \n", thisIndex, start_index, end_index, new_num_elems,end_index_after_ldb - start_index_after_ldb + 1  );
+#endif
     if(new_num_elems == (end_index_after_ldb - start_index_after_ldb + 1 )) {
 
       CkPrintf("After Balance: Chare [%d]: [ %d - %d] -> %d values \n", thisIndex, start_index_after_ldb, end_index_after_ldb, new_num_elems);
       local_checksum = 0;
       for(int i = 0;   i< new_num_elems  ; i ++) {
-        //CkPrintf("%d ", new_elems[i]);
+#ifdef DEBUG
+        CkPrintf("%d ", new_elems[i]);
+#endif
         local_checksum ^= new_elems[i]; 
       }
-      //CkPrintf("\n");
+#ifdef DEBUG
+      CkPrintf("\n");
+#endif
 
       CkCallback cb_3(CkReductionTarget(Main, done), mainProxy);
       contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_3);
@@ -232,11 +238,14 @@ class ChareElem: public CBase_ChareElem {
       CkPrintf("Before Balance: Chare [%d]: %d values,  ParPrefix: %d Exclusive ParPrefix: %d) \n", thisIndex, num_elems, parPrefix, exclusiveParPrefix);
       local_checksum = 0;
       for(int i = 0 ;   i< num_elems ; i ++) {
-        //CkPrintf("%d ", elems[i]);
+#ifdef DEBUG
+        CkPrintf("%d ", elems[i]);
+#endif
         local_checksum ^= elems[i]; 
       }
-      //CkPrintf("\n");
-
+#ifdef DEBUG
+      CkPrintf("\n");
+#endif
       CkCallback cb_1(CkReductionTarget(Main, collectInitChecksum), mainProxy);
       contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_1);
 
@@ -247,7 +256,6 @@ class ChareElem: public CBase_ChareElem {
       if(sendIndex < chare_array_size) {
         thisProxy[sendIndex].passValue(stage, parPrefix);
       }
-      //if you no longer receive, but need to continue sending
       if(thisIndex - (1<<stage) < 0) {
         stage ++;
         step(parPrefix);
