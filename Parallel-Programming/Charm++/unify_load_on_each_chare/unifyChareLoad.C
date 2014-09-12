@@ -87,7 +87,7 @@ class ChareElem: public CBase_ChareElem {
 
     elems = (int *) mymalloc(sizeof(int) * num_elems);
     for(int k = 0; k < num_elems ; k++) {
-      elems[k] = rand() %10;
+      elems[k] = rand() ;
     }
 
     new_num_elems = 0;
