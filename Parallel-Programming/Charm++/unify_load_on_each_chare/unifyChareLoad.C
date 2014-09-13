@@ -114,19 +114,8 @@ class ChareElem: public CBase_ChareElem {
     CkPrintf("%d in Unify\n", thisIndex);
 #endif
     avg = average;
-
-    /*Find the start and end index after the load balancing*/
     int_avg = avg;
-    if(NULL == new_elems) {
-      start_index_after_ldb = (int ) ( thisIndex * avg) ;
-      end_index_after_ldb   = (int ) ( (thisIndex + 1 )* avg - 1 ) ;
-      if(thisIndex == chare_array_size - 1) {
-        end_index_after_ldb = exclusiveParPrefix + num_elems - 1 ;
-      }
 
-      /* Allocate new storage of size average */
-      new_elems = (int *) mymalloc(sizeof(int)* (end_index_after_ldb - start_index_after_ldb + 1));
-    }
     if(num_elems > 0) {
       int nextTarget;
       int end_index;
@@ -192,6 +181,7 @@ class ChareElem: public CBase_ChareElem {
 #endif 
     new_num_elems += (end_index - start_index + 1) ;
 
+    /*Find the start and end index of elements to be owned by thisIndex once the avg is known*/
     if(NULL == new_elems) {
       avg = average;
       start_index_after_ldb = (int ) ( thisIndex * avg) ;
