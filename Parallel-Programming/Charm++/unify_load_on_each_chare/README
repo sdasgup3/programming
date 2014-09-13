@@ -1,0 +1,3 @@
+make 
+sg cs_598_lvk_class 'qsub run_script'
+qstat -u sdasgup3
