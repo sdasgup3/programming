@@ -66,53 +66,6 @@ Release build
 
 make
 
-Run testcase.c
--------------
-make testcase
-make testcase-kleecheck
-
-
-~/work/llvm-2.9/Release+Asserts/bin/clang -L /home/sdasgup3//work/klee/Release+Asserts/lib kleetest_5.bc -lkleeRuntest -o
-kleetest_5.exe
-
-
-Installing Klee
-================
-sudo yum install g++ curl dejagnu subversion bison flex bc libcap-devel
-export PATH=$PATH:/home/sdasgup3/KLEE/llvm-gcc-4.2-2.9-i686-linux/bin/
-
-tar zxvf llvm-2.9.tgz
-cd llvm-2.9
-./configure --enable-optimized --enable-assertions
-make
-
-tar xzfv stp-r940.tgz
-cd stp-r940
-./scripts/configure --with-prefix=`pwd`/install --with-cryptominisat2
-make OPTIMIZE=-O2 CFLAGS_M32= install
-
-git clone --branch klee_0_9_29 https://github.com/ccadar/klee-uclibc.git
-or 
-git clone --depth 1 --branch klee_0_9_29 https://github.com/ccadar/klee-uclibc.git
-
-cd klee-uclibc/
-export PATH=$PATH:/home/sdasgup3/KLEE/llvm-2.9/Release+Asserts/bin/
-./configure -l  // ./configure --make-llvm-lib
-//https://github.com/klee/klee-uclibc/wiki/Getting-started
-make
-
-git clone https://github.com/ccadar/klee.git
-./configure --with-llvm=/home/sdasgup3/llvm/llvm-2.9/ --with-stp=/home/sdasgup3/klee/stp-r940/install/ --with-uclibc=/home/sdasgup3/klee/klee-uclibc/ --enable-posix-runtime
-//sudo ln -s /usr/include/x86_64-linux-gnu/asm/ /usr/include/asm
-//In case of prblms like C compiler not working
-//sudo apt-get remove gcc
-//sudo apt-get install gcc
-//sudo apt-get install g++
-make ENABLE_OPTIMIZED=1
-make check
-make unittests
-
-
 *******************************************************
 *******************************************************
 New Python
