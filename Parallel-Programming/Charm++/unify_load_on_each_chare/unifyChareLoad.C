@@ -12,12 +12,11 @@
 class Main : public CBase_Main {
   private:
     int checksum_before_balance;
-    int checksum_after_balance;
 
   public:
   Main(CkArgMsg* msg) {
 
-    if(msg->argc < 3) {
+    if(msg->argc < 4) {
       CkPrintf("Usage: <exec> chare_array_size min max\n");
       CkExit();
     }
@@ -27,7 +26,6 @@ class Main : public CBase_Main {
     max               = atoi(msg->argv[3]);
 
     checksum_before_balance = 0;
-    checksum_after_balance  = 0;
 
     mainProxy= thisProxy;
 
