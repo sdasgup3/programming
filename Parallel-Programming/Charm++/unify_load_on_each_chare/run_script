@@ -9,4 +9,4 @@ cd /home/sdasgup3/CS598LVK/sdasgup3/mp1/unify_load_on_each_chare/
 ~/gennodelist.sh > nodelist
 
 echo "Program Starting"
-/home/sdasgup3/CS598LVK/sdasgup3/mp1/unify_load_on_each_chare/charmrun ++nodelist nodelist ./unifyChareLoad +p32 1024 5000 30000 
+/home/sdasgup3/CS598LVK/sdasgup3/mp1/unify_load_on_each_chare/charmrun ++mpiexec ++nodelist nodelist ./unifyChareLoad +p24 1024 5000 30000 
