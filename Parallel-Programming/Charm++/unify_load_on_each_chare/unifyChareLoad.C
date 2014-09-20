@@ -17,13 +17,23 @@ class Main : public CBase_Main {
   Main(CkArgMsg* msg) {
 
     if(msg->argc < 4) {
-      CkPrintf("Usage: <exec> chare_array_size min max\n");
+      CkPrintf("\n\n\nUsage: <exec> chare_array_size min max\n");
+      CkPrintf("\twhere chare_array_size > 0 \n\n\n");
       CkExit();
     }
 
     chare_array_size  = atoi(msg->argv[1]);
     min               = atoi(msg->argv[2]);
     max               = atoi(msg->argv[3]);
+
+    if(0 == chare_array_size) {
+      CkPrintf("\n\n\n\"chare_array_size\" must be greater than 0 \n\n\n");
+      CkExit();
+    } else if(0 == (max - min)) {
+      CkPrintf("\n\n\nUsage: <exec> chare_array_size min max\n");
+      CkPrintf("\t (max - min) shoud not be equal to  0\n\n\n");
+      CkExit();
+    }
 
     checksum_before_balance = 0;
 
@@ -37,6 +47,12 @@ class Main : public CBase_Main {
   Main(CkMigrateMessage* msg) {}
 
   void collectAverage(int total_num_elem) { 
+
+    if(total_num_elem < chare_array_size) {
+      CkPrintf("\n\n\n Total Number of Elements (%d) must be greater than number of chares (%d)\n\n\n", total_num_elem, chare_array_size );
+      CkExit();
+    }
+
     double avg = ((double) total_num_elem) /  chare_array_size;
     CkPrintf("\nAverage: %f Total %d\n\n", avg, total_num_elem);
     chareArray.unifyLoad(avg);
@@ -96,7 +112,7 @@ class ChareElem: public CBase_ChareElem {
     /* Finding the parallel prefix of num_elems over chare array */
     parPrefix = num_elems;
     stage =0;
-    numStages = log2(chare_array_size);
+    numStages = ceil(log2(chare_array_size));
     valueBuf  = (int *) mymalloc(sizeof(int)*numStages);
     flagBuf   = (int *) mymalloc(sizeof(int)*numStages);
     for(int i = 0 ; i < numStages; i ++ ) {
