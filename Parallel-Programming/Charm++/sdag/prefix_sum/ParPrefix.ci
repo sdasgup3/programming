@@ -1,0 +1,26 @@
+mainmodule prefixSum {
+  readonly CProxy_Main mainProxy;
+
+  mainchare Main {
+    entry Main(CkArgMsg*);
+    entry [reductiontarget] void done();
+  };
+  
+  array [1D] PrefixSum { 
+    entry PrefixSum(int length);
+    entry void recv(int ref, int  val);
+    entry void start() {
+      for(dist = 1 ; dist < N; dist = dist <<  1) {
+        if(thisIndex + dist < N) serial {
+          thisProxy[thisIndex + dist].recv(dist, myVal);
+        }
+        if(thisIndex >= dist)
+          when recv[dist](int ref, int val) serial { myVal += val; }
+      }
+      serial {
+        CkPrintf("[%d] value %d\n", thisIndex, myVal);
+        contribute(CkCallback(CkReductionTarget(Main, done),mainProxy));
+      }
+    };
+  };
+};
