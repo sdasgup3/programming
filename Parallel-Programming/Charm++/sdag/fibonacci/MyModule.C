@@ -26,7 +26,7 @@ class Fib : public CBase_Fib {
     return n < 2 ? n : seqFib(n - 1) + seqFib(n - 2); 
   }
 
-  void response(int val) {
+  void respond(int val) {
       if (isRoot) {
         CkPrintf("Fibonacci number is: %d\n", val);
         CkExit();

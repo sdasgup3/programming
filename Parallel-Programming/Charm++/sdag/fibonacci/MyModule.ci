@@ -7,7 +7,7 @@ mainmodule MyModule{
   chare Fib {
     entry Fib (int, bool, CProxy_Fib);
     entry void calc(int n) {
-      if(n < THRESHOLD) serial { response(seqFib(n));}
+      if(n < THRESHOLD) serial { respond(seqFib(n));}
       else {
         serial {
           CProxy_Fib::ckNew(n-1, false, thisProxy);
@@ -15,7 +15,7 @@ mainmodule MyModule{
         }
         when response(int val) 
           when response(int val2) 
-            serial { response(val + val2); }
+            serial { respond(val + val2); }
       }
     };
     entry void response(int);
