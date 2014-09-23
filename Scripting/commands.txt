@@ -1,3 +1,14 @@
+Adding printer
+==============
+http://it.engineering.illinois.edu/user-guides/printing/siebel-center-printers-copiers-scanners-plotters
+
+http://it.engineering.illinois.edu/sites/default/files/documents/xr_p5550.ppd
+
+copy the ppd file to /etc/cups/ppd/xr_p5550.ppd (Example: /etc/cups/ppd/xr_p5550.ppd )
+/usr/sbin/lpadmin -p xr_p5550 -P /etc/cups/ppd/xr_p5550.ppd -o printer-is-shared=false -o printer-error-policy=abort-job -o job-sheets-default=none -o sides=two-sided-long-edge -o wrap=true -o prettyprint=true -v lpd://engr-print-01.engr.illinois.edu/xr_p5550
+/usr/sbin/accept xr_p5550
+/usr/sbin/cupsenable xr_p5550
+
 Testing Coreutils
 ====================
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64 (Fedora)
