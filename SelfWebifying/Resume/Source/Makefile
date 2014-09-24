@@ -30,6 +30,6 @@ clean:
 	-$(RM) missfont.log *~
 
 clobber: clean
-	-$(RM) $(TGT).ps $(TGT).pdf
+	-$(RM) $(TGT).ps 
 
 fresh: clobber all
