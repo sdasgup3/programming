@@ -1,0 +1,197 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Recursively Swapping Binary Tree.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Consider the code fragment Fig.~\ref{fig:benchmark_3}(a)
+which creates a mirror image of a binary tree rooted at
+$T$. While swapping the left and right sub-tree a temporary
+DAG is created (after statement {\tt S5}), which gets
+destroyed after the very next statement {\tt S6}.
+Consider the following boolean functions generated after {\tt
+  S5} using our approach.
+\begin{eqnarray*}
+  T_{\subD} &=&   (left_{T,R} \wedge \num{I_F[T,R]} > 1) \\ 
+  left_{T,R} &=& \true 
+\end{eqnarray*}
+
+Figure~\ref{fig:benchmark_3}(c) shows the $D_F$ and $I_F$ matrices
+corresponding to our analysis at each program point. Due to
+the inclusion of the approximation (\upath) for the statements
+{\tt S1} and {\tt S2}, the condition $\num{I_F[T,R]} > 1$  still holds 
+beyond {\tt S6} and thus the analysis reports shape of $T$ as DAG, which is actually a Tree. 
+Considering the fact that shape attribute of
+$T$ is a Tree, and thus statements {\tt S1} and {\tt S2} must include
+just one path between $T$ and $L$ or $T$ and $R$, we obtain
+Figure~\ref{fig:benchmark_3}(d) which shows the  refined $D_F$ and $I_F$ matrices at each program
+point, using which we can infer the shape of $T$ after {\tt S6} as Tree because the condition $\num{I_F[T,R]} > 1$ 
+evaluated to \false\ after {S6}. Figure ~\ref{fig:benchmark_3}(b) shows the shape transition at each program 
+point using this refined analysis.
+
+
+\begin{figure}
+\centering
+\scalebox{0.80}{
+\begin{tabular}{@{}c@{}}
+\begin{tabular}{@{}cc@{}}
+  {\small \tt
+    \begin{tabular}[b]{l}
+      mirror(tree T) \{ \\
+      S1.    L  = T->left; \\
+      S2.    R = T->right; \\
+      S3.    mirror(L); \\
+      S4.    mirror(R); \\
+      S5.    T->left = R; \\
+      S6.    T->right = L; \\
+      \}  
+    \end{tabular}
+  } &
+  \scalebox{0.80}{
+    \begin{tabular}[b]{|c||c|c|c|}
+      \hline
+          {\bf After} & Actual Shape & Field Insensitive
+          Analysis & Field Sensitive Analysis \\ 
+          \hline \hline
+	  {\tt S1}       & Tree		  & Tree    & Tree \\ \hline
+	  {\tt S2}       & Tree		  & Tree    & Tree \\ \hline
+	  {\tt S5}       & Dag (at T)	  & Dag (at T)    & Dag (at T) \\ \hline
+	  {\tt S6}       & Tree		  & Dag (at T)    & Tree \\ \hline
+    \end{tabular}
+  } \\
+  \footnotesize (a) A code fragment & \footnotesize (b) Shape Inference \\ \\
+  \end{tabular} \\
+  \scalebox{0.80}{
+\begin{tabular}[b]{|l@{}|@{}c@{}|@{}c@{}|} \hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+
+{\tt S1} & 
+\begin{tabular}{|p{3mm}|p{22mm}p{22mm}p{22mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{\fieldD{l}{}\} \cup \upath$	& $\emptyset$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{35mm}p{35mm}p{35mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $(\{\fieldD{l}{}\} \cup \upath) \times \{\epsilon\}$	& $\emptyset$ \\ \hline
+  $\myL$ 	& $\{\epsilon\} \times (\{\fieldD{l}{}\} \cup \upath)$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+\begin{tabular}{|p{3mm}|p{22mm}p{22mm}p{22mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{\fieldD{l}{}\} \cup \upath$	& $\{\fieldD{r}{}\} \cup \upath$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{35mm}p{35mm}p{35mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $(\{\fieldD{l}{}\} \cup \upath) \times \{\epsilon\}$	& $(\{\fieldD{r}{}\} \cup \upath) \times \{\epsilon\}$ \\ \hline
+  $\myL$ 	& $\{\epsilon\} \times (\{\fieldD{l}{}\} \cup \upath)$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{\epsilon\} \times (\{\fieldD{r}{}\} \cup \upath)$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S5} & 
+\begin{tabular}{|p{3mm}|p{22mm}p{22mm}p{22mm}|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\upath$	& $\{\fieldD{r}{}, \fieldD{l}{}\} \cup \upath$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{35mm}p{35mm}p{35mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\upath \times \{\epsilon\}$	& $(\{\fieldD{r}{}, \fieldD{l}{}\} \cup \upath) \times \{\epsilon\}$ \\ \hline
+  $\myL$ 	& $\{\epsilon\} \times \upath$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{\epsilon\} \times (\{\fieldD{r}{}, \fieldD{l}{}\} \cup \upath)$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S6} & 
+\begin{tabular}{|p{3mm}|p{22mm}p{22mm}p{22mm}|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\{\fieldD{r}{}\} \cup \upath$	& $\{\fieldD{l}{}\} \cup \upath$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{35mm}p{35mm}p{35mm}|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $(\{\fieldD{r}{}\} \cup \upath) \times \{\epsilon\}$	& $(\{\fieldD{l}{}\} \cup \upath) \times \{\epsilon\}$ \\ \hline
+  $\myL$ 	& $\{\epsilon\} \times (\{\fieldD{r}{}\} \cup \upath)$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{\epsilon\} \times (\{\fieldD{l}{}\} \cup \upath)$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+\end{tabular} 
+}  \\
+  \footnotesize (c) Direction ($D_F$) and Interference ($I_F$) matrices  \\ \\
+  \scalebox{0.80}{
+\begin{tabular}[b]{|l@{}|@{}c@{}|@{}c@{}|} \hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+
+{\tt S1} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{\fieldD{l}{}\}$	& $\emptyset$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{(\fieldD{l}{}, \epsilon)\}$	& $\emptyset$ \\ \hline
+  $\myL$ 	& $\{(\epsilon, \fieldD{l}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{\fieldD{l}{}\}$	& $\{\fieldD{r}{}\}$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{(\fieldD{l}{}, \epsilon)\}$	& $\{(\fieldD{r}{}, \epsilon)\}$ \\ \hline
+  $\myL$ 	& $\{(\epsilon, \fieldD{l}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{(\epsilon, \fieldD{r}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S5} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\emptyset$	& $\{\fieldD{r}{}, \fieldD{l}{}\}$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\emptyset$	& $\{(\fieldD{r}{}, \epsilon), (\fieldD{l}{}, \epsilon)\}$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{(\epsilon, \fieldD{r}{}), (\epsilon, \fieldD{l}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S6} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\{\fieldD{r}{}\}$	& $\{\fieldD{l}{}\}$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\{(\fieldD{r}{}, \epsilon)\}$	& $\{(\fieldD{l}{}, \epsilon)\}$ \\ \hline
+  $\myL$ 	& $\{(\epsilon, \fieldD{r}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{(\epsilon, \fieldD{l}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+\end{tabular} 
+}  \\
+  \footnotesize (d) Refined Direction ($D_F$) and Interference ($I_F$) matrices  \\ \\
+\end{tabular}}
+\caption{Computing mirror image of a  binary tree. ``$l$'' and ``$r$'' denotes respectively the left and right fields of tree.\label{fig:benchmark_3}}
+\end{figure}

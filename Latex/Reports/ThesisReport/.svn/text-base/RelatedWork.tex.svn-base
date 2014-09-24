@@ -1,0 +1,214 @@
+\chapter{Related Work} \label{ch:RelatedWork}
+The shape-analysis problem was initially studied in the
+context of functional languages. Jones and
+Muchnick~\cite{Jones79} proposed one of the earliest shape
+analysis technique for Lisp-like languages with destructive
+updates of structure. They used sets of finite shape graphs
+at each program point to describe the heap structure.  To
+keep the shape graphs finite, they introduced the concept of
+$k$-limited graphs where all nodes beyond $k$ distance from
+root of the graph are summarized into a single node. Hence
+the analysis resulted in conservative approximations. The
+analysis is not practical as it is extremely costly both in
+time and space .
+
+Chase et al.~\cite{Chase90} introduced the concept of limited
+reference count to classify heap objects into different
+shapes. They also classified the nodes in concrete and
+summary nodes, where summary nodes were used to guarantee
+termination. Using the reference count and concreteness
+information of the node, they were able to kill relations
+({\em strong updates}) for assignments of the form $\p\rightarrow f = \q$
+in some cases. However, this information is not
+insufficient to compute precise shape, and detects false
+cycle even in case of simple algorithms like destructive list
+reversal.
+
+Sagiv et. al.~\cite{Sagiv96,Sagiv99,Sagiv02toplas} proposed
+generic, unbiased shape analysis algorithms based on {\em
+  Three-Valued} logic. They introduce the concepts of {\em
+  abstraction} and {\em re-materialization}. Abstraction is
+the process of summarizing multiple nodes into one and is
+used to keep the information bounded.  Re-materialization is
+the process of obtaining concrete nodes from summary node and
+is required to handle destructive updates. By identifying
+suitable predicates to track, the analysis can be made very
+precise.  However, the technique has potentially exponential
+runtime in the number of predicates, and therefore not
+suitable for large programs.
+
+
+Distefano et al.~\cite{distefano06local} presented a shape
+analysis technique for linear data structures (linked-list
+etc.), which works on symbolic execution of the whole program
+using separation logic. Their technique works on suitable
+abstract domain, and guarantees termination by converting
+symbolic heaps to finite canonical forms, resulting in a
+fixed-point. By using enhanced abstraction scheme and
+predicate logic, Cherini et al.~\cite{cherini10shape}
+extended this analysis to support nonlinear data structure
+(tree, graph etc.).
+
+Berdine et al.~\cite{berdine07shape} proposed a method for
+identifying composite data structures using generic
+higher-order inductive predicates and parameterized spatial
+predicates.  However, using of separation logic does not
+perform well in inference of heap properties.  Hackett and
+Rugina in~\cite{hackett05region} presented a new approach for
+shape analysis which reasons about the state of a single heap
+location independently. This results in precise abstractions
+of localized portions of heap. This local reasoning is then
+used to reason about global heap using context-sensitive
+inter-procedural analysis.  Cherem
+et. al.~\cite{cherem07doubly} use the local abstraction
+scheme of~\cite{hackett05region} to generate local invariants
+to accurately compute shape information for complex data
+structures.  
+
+Jump and McKinley~\cite{maria09dynamic} give a technique for
+dynamic shape analysis that characterizes the shape of
+recursive data structure in terms of dynamic degree metrics
+which uses in-degrees and out-degrees of heap nodes to
+categorize them into classes. Each class of heap structure is
+then summarized. While this technique is useful for detecting
+certain types of errors; it fails to visualize and understand
+the shape of heap structure and cannot express the sharing
+information in general.
+
+Our work is closest to the work proposed by Ghiya
+et. al.~\cite{Ghiya96} and by Marron
+et. al.~\cite{marron06static}.  Ghiya et al.~\cite{Ghiya96}
+keeps interference and direction matrices between any two
+pointer variables pointing to heap object and infer the shape
+of the structure as Tree, DAG or Cycle. They have also
+demonstrated the practical applications of their
+analysis~\cite{Ghiya96practicaltechniques,Ghiya98a,Ghiya98b} and shown that it works well on practical
+programs. However, the main shortcoming of this approach is
+it cannot handle kill information. In particular, the
+approach is unable to identify transitions from Cycle to DAG,
+from Cycle to Tree and from DAG to Tree. So it has to to
+conservatively identify the shapes.
+
+Marron et. al.~\cite{marron06static} presents a data flow
+framework that uses heap graphs to model data flow
+values. They presented an abstract heap model that can represent 
+information on aliasing, shape, logical data structures, sharing between variables, 
+and sharing between data elements in collections.
+They introduce a restricted version of refinement, based on the ideas presented by Sagiv,
+Reps and Wilhelm. Using this restricted notion of refinement, they demonstrate how this 
+model can be used to accurately simulate important program events such as list copying, sorting, reversal,
+and various other destructive operations. 
+The analysis uses technique similar to
+re-materialization, but unlike parametric shape analysis
+techniques~\cite{Sagiv99,Sagiv02toplas}, the
+re-materialization is approximate and may result in loss of
+precision. 
+
+Our method is also data flow analysis framework, that uses
+matrices and boolean functions as data flow values. We use
+field sensitive connectivity matrices to store path
+information, and boolean variables to record field
+updates. By incorporating field sensitivity information, we
+are able to improve the precision without much impact on
+efficiency. The next chapter presents a simplified view of
+our approach before we explain it in full details.
+
+As our work is closest to the work of Ghiya
+et. al.~\cite{Ghiya96} we present a brief summary of their
+analysis in Appendix A.
+
+\cmt{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Analysis of Ghiya et. al.~\cite{Ghiya96}]{Analysis of Ghiya et. al.~\cite{Ghiya96}\footnote{The contents of this section are borrowed from ~\cite{Ghiya96}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Their shape analysis composed of three store-less
+abstractions that are computed together at each program point.
+For each heap directed pointer they approximated the attribute
+shape and for each pair of heap directed pointers they approximated the 
+direction and interference relationships between them. These three abstractions 
+are defined formally as follows:
+
+\begin{definition}
+Given any heap-directed pointer $p$, the shape attribute p.shape is Tree, 
+if in the data structure accessible from p there is a unique (possibly empty) access path 
+between any two nodes (heap objects) belonging to it. It is considered to be DAG (directed acyclic graph), 
+if there can be more than one path between any two nodes in this data structure, 
+but there is no path from a node to itself (i. e, it is acyclic). 
+If the data structure contains a node having a path to itself, p.shape is considered to be Cycle.
+Note that as lists are special case of tree data structures, their shape is also considered as Tree.
+\end{definition}
+
+\begin{definition}
+Given two heap directed pointers $p$ and $q$, the direction matrix $D$ captures the following 
+relationships between them:
+\begin{itemize}
+\item $D[p,q] = 1 : $ An access path possibly exists in the heap, from the heap object pointed to by $p$,
+to the heap object pointed to by $q$. In this case we simply say that the pointer $p$ has a path to 
+pointer $q$.
+\item $D[p,q] = 0 : $ No access path exists from the heap object pointed to by $p$ to the heap object pointed to by $q$. 
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+Given two heap directed pointers $p$ and $q$, the direction matrix $I$ captures the following 
+relationships between them:
+\begin{itemize}
+\item $I[p,q] = 1 : $ A common heap object can be possibly accessed starting from pointers $p$ and $q$.
+In this case we state that pointers $p$ and $q$ can interfere.
+\item $I[p,q] = 0 : $ No common heap object can be accessed starting from pointers $p$ and $q$.
+In this case we state that pointers $p$ and $q$ do not interfere.
+\end{itemize}
+\end{definition}
+
+Direction relationships are used to actually estimate the shape attributes, where the interference 
+relationships are used for safely calculating direction relationships. 
+
+\subsection{Illustrative Example}
+
+The direction and interference matrices are illustrated in Fig.~\ref{fig:relwork_1}.
+Part (a) represents a heap structures at a program point, while parts (b) and (c) show the direction 
+and interference matrices for it.  
+\input{relatedwork_fig_1.tex}
+
+We now demonstrate how direction relationships help estimate the shape of the data structures.
+In Fig.~\ref{fig:relwork_2}, initially we have both \p.\shape\ and \q.\shape\ as Tree. Further $D[q,p] == 1$, as there 
+exists a path from \q\ to \p\ through {\tt next} link. The statement {\tt p$\rightarrow$prev = q}, sets up a path from
+\p\ to \q\  through the {\tt prev} link. From direction matrix information we already know that a path exists
+from \q\ to \p, and now a path is being set from \p\ to \q. Thus after the statement, $D[p,q] = 1$, $D[q,p] = 1$, \p.\shape\ = Cycle
+and \q.\shape\ = Cycle.  
+
+\begin{figure}
+\centering
+\scalebox{.80} {
+\includegraphics[scale=1]{Figure/figure_3}
+}
+\caption{Example Demonstrating Shape Estimation}
+\label{fig:relwork_2}
+\end{figure}
+
+\subsection{Analysis of Basic Statements}
+They have considered eight basic statements that can access or
+modify heap data structures as listed in Fig.~\ref{fig:relwork_3}(a). Variables \p\ and \q and the field $f$ are
+of pointer type, variable $k$ is of integer type, and $op$ denotes the $+$ and $-$ operations. The 
+overall structure of the analysis is shown in Fig.~\ref{fig:relwork_3}(b). Given the direction and the interference 
+matrices $D$ and $I$ at a program point x, before the given statement, they compute the matrices $D_n$ and $I_n$
+at a program point y. Additionally, we have the attribute matrix A, where for a pointer $p$, $A[p]$ gives its shape attribute.
+The attribute matrix after the statement is presented as $A_n$.
+
+For each statement they compute the set of direction and interference relationships it kills and generates. Using these sets, the
+new matrices $D_n$ and $I_n$ are computed as shown in Fig.~\ref{fig:relwork_3}(c). Note that the elements in the gen and kill sets are denoted as $D[p,q]$
+for direction relationships, and $I[p,q]$ for interference relationships. Thus a gen set of the form $\{D[x,y], D[y,z]\}$, indicates that
+the corresponding entries in the output direction matrix $D_n[x,y]$ and $D_n[y,z]$ should be set to one. We also compute the set of 
+pointers $H_s$, whose shape  attribute can be modified by the given statement. Another attribute matrix $A_c$ is used to store the 
+changed attribute of pointers belonging to the set $H_s$. The attribute matrix $A_n$ is then computed using the 
+matrices $A$ and $A_c$ as shown in Fig.~\ref{fig:relwork_3}(c).  
+
+Let $H$ be the set of pointers whose relationships/attributes are abstracted by the matrices $D$. $I$ and $A$. Further
+assume that updating an interference matrix entry $I[\q,\p]$, implies identically updating the entry $I[\p,\q]$.   
+\input{relatedwork_fig_2.tex}
+
+The actual analysis rules can be divided into three groups: (1) allocations, (2) pointer assignments, and 
+(3) structure updates. Figure~\ref{fig:relwork_4} shows the gen and kill sets corresponding to each statement. 
+\input{relatedwork_fig_3.tex}
+}
+

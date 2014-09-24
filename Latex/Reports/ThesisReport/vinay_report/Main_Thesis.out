@@ -1,0 +1,30 @@
+\BOOKMARK [1][-]{abstract.1}{Abstract}{}
+\BOOKMARK [0][-]{toc.0}{Table Of Contents}{}
+\BOOKMARK [0][-]{lof.0}{List of Figures}{}
+\BOOKMARK [0][-]{chapter.3}{1 Introduction}{}
+\BOOKMARK [1][-]{section.4}{1.1 Brief Introduction}{chapter.3}
+\BOOKMARK [1][-]{section.5}{1.2 Organization Of Thesis}{chapter.3}
+\BOOKMARK [0][-]{chapter.6}{2 Background }{}
+\BOOKMARK [1][-]{section.7}{2.1 Related Work}{chapter.6}
+\BOOKMARK [1][-]{section.8}{2.2 Precise Shape Analysis using Field Sensitivity}{chapter.6}
+\BOOKMARK [2][-]{subsection.9}{2.2.1 Definitions And Notations}{section.8}
+\BOOKMARK [2][-]{subsection.22}{2.2.2 Analysis}{section.8}
+\BOOKMARK [0][-]{chapter.35}{3 Enhancements to Field Sensitive Analysis}{}
+\BOOKMARK [1][-]{section.36}{3.1 Enhancements}{chapter.35}
+\BOOKMARK [1][-]{section.41}{3.2 Final Data Flow Equations}{chapter.35}
+\BOOKMARK [0][-]{chapter.43}{4 Subset Based Analysis }{}
+\BOOKMARK [1][-]{section.44}{4.1 Motivating Example}{chapter.43}
+\BOOKMARK [1][-]{section.75}{4.2 Analysis}{chapter.43}
+\BOOKMARK [0][-]{chapter.88}{5 Inter Procedural Analysis}{}
+\BOOKMARK [1][-]{section.91}{5.1 Callstrings Based Approach}{chapter.88}
+\BOOKMARK [1][-]{section.92}{5.2 Shape Sensitive Approach}{chapter.88}
+\BOOKMARK [0][-]{chapter.120}{6 Implementation And Results }{}
+\BOOKMARK [1][-]{section.121}{6.1 GCC Internals}{chapter.120}
+\BOOKMARK [1][-]{section.143}{6.2 Implementation}{chapter.120}
+\BOOKMARK [2][-]{subsection.151}{6.2.1 Storing of boolean equations}{section.143}
+\BOOKMARK [2][-]{subsection.153}{6.2.2 Time optimization}{section.143}
+\BOOKMARK [1][-]{section.154}{6.3 Testing Strategy}{chapter.120}
+\BOOKMARK [1][-]{section.176}{6.4 Results}{chapter.120}
+\BOOKMARK [0][-]{chapter.180}{7 Conclusion and Future Work}{}
+\BOOKMARK [0][-]{appendix.181}{A Analysis of Ghiya}{}
+\BOOKMARK [0][-]{figure.190}{References}{}

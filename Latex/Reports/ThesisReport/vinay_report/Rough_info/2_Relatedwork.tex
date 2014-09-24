@@ -1,0 +1,21 @@
+\section{Related Work}
+
+???????????? ---about history of it ????required\\
+??????????-------should I write about the definitions and notations of Dir,Int matrices???-------\\
+
+This work actually has its roots from Ghiya's \cite{Ghiya96} analysis.In this data flow analysis the data flow
+values used are direction matrices,interference matrices which has entries for every heap pointer
+pair.This analysis doesn't take into consideration any field information so its fast but results are
+not precise. \\
+    In Sandeep's \cite{Sandeep} analysis limited field sensitivity is used to infer the shape of the heap i.e a
+TREE,DAG or a CYCLE. For identifying the shape they capture field sensitivity information in
+two ways;first by using Boolean variables to remember the direct connection between two pointer
+variables ,second by the use of field sensitive matrices that store the approximate path information.
+And at every statement Boolean equations are formed which will be able to infer the shape.
+The information coming out of this field sensitive analysis is a set of data flow values named Direction Matrix,
+Interference Matrix , Boolean Equations and field based Boolean variables for every
+statement(those which access the heap pointer variables) in the program across functions.It's pretty clear
+that the data flow values of \cite{Ghiya96} and \cite{Sandeep} are somewhat similar. This
+information only is refined and used as per requirement in  subset based analysis.Very little details are given
+about the inter procedural analysis of the same,but our report discusses it in detail.
+

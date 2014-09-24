@@ -1,0 +1,77 @@
+\begin{figure}
+\caption{Union operation between two singleton sets of pair of paths, where $\{\alpha, \beta\}$ denote any other pair of paths and
+$x$, $y$, $m$, $n$ can be any positive integer or $\infty$
+\label{tab:union_path_pair}}
+\begin{tabular}{c}
+\\
+\scalebox{0.65}{
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$\cup$ & \{(\fieldD{f}{},\fieldD{g}{})\} & \{(\fieldI{f}{}{m},\fieldD{g}{})\} & \{(\fieldD{f}{},\fieldI{g}{}{n})\} & \{(\fieldI{f}{}{m},\fieldI{g}{}{n})\} & \{($\alpha$, $\beta$)\}\\ \hline
+
+\{($\epsilon$,$\epsilon$)\} & \{($\epsilon$,$\epsilon$),(\fieldD{f}{},\fieldD{g}{}),  & \{($\epsilon$,$\epsilon$),(\fieldI{f}{}{m},\fieldD{g}{}),  & \{($\epsilon$,$\epsilon$),(\fieldD{f}{},\fieldI{g}{}{n}),  & \{($\epsilon$,$\epsilon$),(\fieldI{f}{}{m},\fieldI{g}{}{n}),  & \{($\epsilon$,$\epsilon$),\\
+& ($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},$\epsilon$ )\} & ($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},$\epsilon$ )\} & ($\epsilon$,\fieldI{g}{}{n}),(\fieldD{f}{},$\epsilon$ )\} & ($\epsilon$,\fieldI{g}{}{n}),(\fieldI{f}{}{m},$\epsilon$ )\} & ($\alpha$, $\beta$) \}\\ \hline
+
+\{($\epsilon$,\fieldD{g}{})\} & \{($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},\fieldD{g}{})\} & \{($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},\fieldD{g}{})\} & \{($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},\fieldI{g}{}{n}),  & \{($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},\fieldI{g}{}{n}),  & \{($\epsilon$,\fieldD{g}{}), \\
+& & & ($\epsilon$,\fieldI{g}{}{n}),(\fieldD{f}{},\fieldD{g}{})\} & ($\epsilon$,\fieldI{g}{}{n}),(\fieldI{f}{}{m},\fieldD{g}{})\} & ($\alpha$, $\beta$)\}\\ \hline
+
+\{($\epsilon$,\fieldI{g}{}{y})\} & \{($\epsilon$,\fieldI{g}{}{y}),(\fieldD{f}{},\fieldD{g}{}) & \{($\epsilon$,\fieldI{g}{}{y}),(\fieldI{f}{}{m},\fieldD{g}{}) & \{($\epsilon$,\fieldI{g}{}{n+y}),(\fieldD{f}{},\fieldI{g}{}{n+y})\} & \{($\epsilon$,\fieldI{g}{}{n+y}),(\fieldI{f}{}{m},\fieldI{g}{}{n+y})\} & \{($\epsilon$,\fieldI{g}{}{y}), \\
+& ($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},\fieldI{g}{}{y})\} & ($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},\fieldI{g}{}{y})\} & & & ($\alpha$, $\beta$)\}\\ \hline
+
+\{(\fieldD{f}{},$\epsilon$)\} & \{(\fieldD{f}{},$\epsilon$),(\fieldD{f}{},\fieldD{g}{})\} & \{(\fieldD{f}{},$\epsilon$),(\fieldI{f}{}{m},\fieldD{g}{}) & \{(\fieldD{f}{},$\epsilon$),(\fieldD{f}{},\fieldI{g}{}{n})\} & \{(\fieldD{f}{},$\epsilon$),(\fieldI{f}{}{m},\fieldI{g}{}{n}) & \{(\fieldD{f}{},$\epsilon$), \\
+& & (\fieldI{f}{}{m},$\epsilon$),(\fieldD{f}{},\fieldD{g}{})\} & & (\fieldI{f}{}{m},$\epsilon$). (\fieldD{f}{},\fieldI{g}{}{n})\} & ($\alpha$, $\beta$)\}\\ \hline
+
+\{(\fieldI{f}{}{x},$\epsilon$)\} & \{(\fieldI{f}{}{x},$\epsilon$),(\fieldD{f}{},\fieldD{g}{}) & \{(\fieldI{f}{}{x+m},$\epsilon$),(\fieldI{f}{}{x+m},\fieldD{g}{})\} & \{(\fieldI{f}{}{x},$\epsilon$),(\fieldD{f}{},\fieldI{g}{}{n}) & \{(\fieldI{f}{}{x+m},$\epsilon$),(\fieldI{f}{}{x+m},\fieldI{g}{}{n})\} & \{(\fieldI{f}{}{x},$\epsilon$), \\
+& (\fieldI{f}{}{x},\fieldD{g}{}),(\fieldD{f}{},$\epsilon$)\} & & (\fieldI{f}{}{x},\fieldI{g}{}{n}),(\fieldD{f}{},$\epsilon$)\} & & ($\alpha$, $\beta$)\}\\ \hline
+
+\{(\fieldD{f}{},\fieldD{g}{})\} & \{(\fieldD{f}{},\fieldD{g}{})\} & \{(\fieldD{f}{},\fieldD{g}{}), & \{(\fieldD{f}{},\fieldD{g}{}),  & \{(\fieldD{f}{},\fieldD{g}{}),(\fieldD{f}{},\fieldI{g}{}{n}), & \{(\fieldD{f}{},\fieldD{g}{}),\\
+& & (\fieldI{f}{}{m},\fieldD{g}{})\} & (\fieldD{f}{},\fieldI{g}{}{n})\} & (\fieldI{f}{}{m},\fieldD{g}{}) , (\fieldI{f}{}{m},\fieldI{g}{}{n})\} & ($\alpha$, $\beta$)\} \\ \hline
+
+\{(\fieldI{f}{}{x},\fieldD{g}{})\} & \{(\fieldI{f}{}{x},\fieldD{g}{}), & \{(\fieldI{f}{}{x+m},\fieldD{g}{})\} & \{(\fieldI{f}{}{x},\fieldD{g}{}) , (\fieldD{f}{},\fieldI{g}{}{n}), & \{(\fieldI{f}{}{x+m},\fieldD{g}{}), & \{(\fieldI{f}{}{x},\fieldD{g}{}), \\
+& (\fieldD{f}{},\fieldD{g}{})\} & & (\fieldI{f}{}{x},\fieldI{g}{}{n}) , (\fieldD{f}{},\fieldD{g}{})\} & (\fieldI{f}{}{x+m},\fieldI{g}{}{n})\} & ($\alpha$, $\beta$)\}\\ \hline
+
+ \{(\fieldD{f}{},\fieldI{g}{}{y})\} & \{(\fieldD{f}{},\fieldD{g}{}), & \{(\fieldD{f}{},\fieldI{g}{}{y}) , (\fieldI{f}{}{m},\fieldD{g}{}), & \{(\fieldD{f}{},\fieldI{g}{}{n+y})\} & \{(\fieldD{f}{},\fieldI{g}{}{n+y}),  (\fieldD{f}{},\fieldI{g}{}{y}), & \{(\fieldD{f}{},\fieldI{g}{}{y}) , \\
+& (\fieldD{f}{},\fieldI{g}{}{y})\} & (\fieldI{f}{}{m},\fieldI{g}{}{y}) , (\fieldD{f}{},\fieldD{g}{}), & & (\fieldI{f}{}{m},\fieldI{g}{}{n+y})\} & ($\alpha$, $\beta$)\}\\ \hline
+
+ \{(\fieldI{f}{}{x},\fieldI{g}{}{y})\} & \{(\fieldD{f}{},\fieldD{g}{}),(\fieldI{f}{}{x},\fieldI{g}{}{y}), & \{(\fieldI{f}{}{x+m},\fieldD{g}{}), & \{(\fieldD{f}{},\fieldI{g}{}{n+y}), & \{(\fieldI{f}{}{m+x},\fieldI{g}{}{n+y})\} & \{(\fieldI{f}{}{x},\fieldI{g}{}{y}),  \\
+& (\fieldD{f}{},\fieldI{g}{}{x}),(\fieldI{f}{}{x},\fieldD{g}{})\} & (\fieldI{f}{}{x+m},\fieldI{g}{}{y})\} & (\fieldI{f}{}{x},\fieldI{g}{}{n+y})\} & & ($\alpha$, $\beta$)\} \\ \hline
+
+\end{tabular}
+}
+\\ \\
+\scalebox{0.65}{
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$\cup$ & \{($\epsilon$,$\epsilon$)\} & \{($\epsilon$,\fieldD{g}{})\} & \{($\epsilon$,\fieldI{g}{}{n})\} & \{(\fieldD{f}{},$\epsilon$)\} & \{(\fieldI{f}{}{m},$\epsilon$)\} & \{($\alpha$, $\beta$)\}\\ \hline
+
+\{($\epsilon$,$\epsilon$)\} & \{($\epsilon$,$\epsilon$)\} & \{($\epsilon$,$\epsilon$),($\epsilon$,\fieldD{g}{})\} & \{($\epsilon$,$\epsilon$),($\epsilon$,\fieldI{g}{}{n})\} & \{($\epsilon$,$\epsilon$),(\fieldD{f}{},$\epsilon$)\} & \{($\epsilon$,$\epsilon$),(\fieldI{f}{}{x},$\epsilon$)\} & \{($\epsilon$,$\epsilon$)\} \\
+&&&&&& ($\alpha$, $\beta$)\} \\\hline
+
+\{($\epsilon$,\fieldD{g}{})\} & \{($\epsilon$,\fieldD{g}{}),($\epsilon$,$\epsilon$)\} & \{($\epsilon$,\fieldD{g}{})\} & \{($\epsilon$,\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{n})\} & \{($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},$\epsilon$), & \{($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},$\epsilon$), & \{($\epsilon$,\fieldD{g}{}),  \\
+& & & & ($\epsilon$,$\epsilon$),(\fieldD{f}{},\fieldD{g}{})\} & ($\epsilon$,$\epsilon$),(\fieldI{f}{}{m},\fieldD{g}{})\} & ($\alpha$, $\beta$)\} \\ \hline
+
+\{($\epsilon$,\fieldI{g}{}{y})\} & \{($\epsilon$,\fieldI{g}{}{y}),($\epsilon$,$\epsilon$)\} & \{($\epsilon$,\fieldI{g}{}{y}),($\epsilon$,\fieldD{g}{})\} & \{($\epsilon$,\fieldI{g}{}{y+n})\} & \{($\epsilon$,\fieldI{g}{}{y}),(\fieldD{f}{},$\epsilon$), & \{($\epsilon$,\fieldI{g}{}{y}),(\fieldI{f}{}{m},$\epsilon$), & \{($\epsilon$,\fieldI{g}{}{y}),\\
+& & & & ($\epsilon$,$\epsilon$),(\fieldD{f}{},\fieldI{g}{}{y})\} & ($\epsilon$,$\epsilon$),(\fieldI{f}{}{m},\fieldI{g}{}{y})\} & ($\alpha$, $\beta$)\}\\ \hline
+
+\{(\fieldD{f}{},$\epsilon$)\} & \{(\fieldD{f}{},$\epsilon$),($\epsilon$,$\epsilon$)\} & \{(\fieldD{f}{},$\epsilon$),($\epsilon$,\fieldD{g}{}), & \{(\fieldD{f}{},$\epsilon$),($\epsilon$,\fieldI{g}{}{n}), & \{(\fieldD{f}{},$\epsilon$)\} & \{(\fieldD{f}{},$\epsilon$),(\fieldI{f}{}{x},$\epsilon$)\} & \{(\fieldD{f}{},$\epsilon$),\\ 
+& & (\fieldD{f}{},\fieldD{g}{}),($\epsilon$,$\epsilon$)\} & (\fieldD{f}{},\fieldI{g}{}{n}),($\epsilon$,$\epsilon$)\} & & & ($\alpha$, $\beta$)\}\\ \hline
+
+\{(\fieldI{f}{}{x},$\epsilon$)\} & \{(\fieldI{f}{}{x},$\epsilon$),($\epsilon$,$\epsilon$)\} & \{(\fieldI{f}{}{x},$\epsilon$),($\epsilon$,\fieldD{g}{}), & \{(\fieldI{f}{}{x},$\epsilon$),($\epsilon$,\fieldI{g}{}{n}), & \{(\fieldI{f}{}{x},$\epsilon$),(\fieldD{f}{},$\epsilon$)\} & \{(\fieldI{f}{}{x+m},$\epsilon$)\} & \{(\fieldI{f}{}{x},$\epsilon$), \\ 
+& & (\fieldI{f}{}{x},\fieldD{g}{}),($\epsilon$,$\epsilon$)\} & (\fieldI{f}{}{x},\fieldI{g}{}{n}),($\epsilon$,$\epsilon$)\} & & & ($\alpha$, $\beta$)\}\\ \hline 
+
+\{(\fieldD{f}{},\fieldD{g}{})\} & \{(\fieldD{f}{},\fieldD{g}{}),($\epsilon$,$\epsilon$), & \{(\fieldD{f}{},\fieldD{g}{}),($\epsilon$,\fieldD{g}{})\} & \{(\fieldD{f}{},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{n}), & \{(\fieldD{f}{},\fieldD{g}{}),(\fieldD{f}{},$\epsilon$)\} & \{(\fieldD{f}{},\fieldD{g}{}),(\fieldI{f}{}{x},$\epsilon$), & \{(\fieldD{f}{},\fieldD{g}{}),  \\
+& (\fieldD{f}{},$\epsilon$),($\epsilon$,\fieldD{g}{})\} & & (\fieldD{f}{},\fieldI{g}{}{n}),($\epsilon$,\fieldD{g}{})\} & & (\fieldD{f}{},$\epsilon$),(\fieldI{f}{}{m},\fieldD{g}{})\} & ($\alpha$, $\beta$)\}\\ \hline 
+
+\{(\fieldI{f}{}{x},\fieldD{g}{})\} & \{(\fieldI{f}{}{x},\fieldD{g}{}),($\epsilon$,$\epsilon$), & \{(\fieldI{f}{}{x},\fieldD{g}{}),($\epsilon$,\fieldD{g}{})\} & \{(\fieldI{f}{}{x},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{n}), & \{(\fieldI{f}{}{x},\fieldD{g}{}),(\fieldD{f}{},$\epsilon$), & \{(\fieldI{f}{}{x+m},\fieldD{g}{}),(\fieldI{f}{}{x+m},$\epsilon$)\} & \{(\fieldI{f}{}{x},\fieldD{g}{}), \\
+& (\fieldI{f}{}{x},$\epsilon$),($\epsilon$,\fieldD{g}{})\} & & (\fieldI{f}{}{x},\fieldI{g}{}{n}),($\epsilon$,\fieldD{g}{})\} & (\fieldI{f}{}{x},$\epsilon$),(\fieldD{f}{},\fieldD{g}{})\} & & ($\alpha$, $\beta$)\}\\ \hline
+
+\{(\fieldD{f}{},\fieldI{g}{}{y})\} & \{(\fieldD{f}{},\fieldI{g}{}{y}),($\epsilon$,$\epsilon$), & \{(\fieldD{f}{},\fieldI{g}{}{y}),($\epsilon$,\fieldD{g}{}), & \{(\fieldD{f}{},\fieldI{g}{}{y+n}),($\epsilon$,\fieldI{g}{}{y+n})\} & \{(\fieldD{f}{},\fieldI{g}{}{y}),(\fieldD{f}{},$\epsilon$)\} & \{(\fieldD{f}{},\fieldI{g}{}{y}),(\fieldI{f}{}{m},$\epsilon$), & \{(\fieldD{f}{},\fieldI{g}{}{y}), \\ 
+& (\fieldD{f}{},$\epsilon$),($\epsilon$,\fieldI{g}{}{y})\} & (\fieldD{f}{},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{y})\} & & & (\fieldD{f}{},$\epsilon$),(\fieldI{f}{}{m},\fieldI{g}{}{y})\} & ($\alpha$, $\beta$)\}\\ \hline
+
+\{(\fieldI{f}{}{x},\fieldI{g}{}{y})\} & \{(\fieldI{f}{}{x},\fieldI{g}{}{y}),($\epsilon$,$\epsilon$), & \{(\fieldI{f}{}{x},\fieldI{g}{}{y}),($\epsilon$,\fieldD{g}{}), & \{(\fieldI{f}{}{x},\fieldI{g}{}{y+n}),($\epsilon$,\fieldI{g}{}{y+n})\} & \{(\fieldI{f}{}{x},\fieldI{g}{}{y}),(\fieldD{f}{},$\epsilon$), & \{(\fieldI{f}{}{x+m},\fieldI{g}{}{y}),(\fieldI{f}{}{x+m},$\epsilon$)\} & \{(\fieldI{f}{}{x},\fieldI{g}{}{y}), \\ 
+& (\fieldI{f}{}{x},$\epsilon$),($\epsilon$,\fieldI{g}{}{y})\} & (\fieldI{f}{}{x},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{y})\} & & (\fieldI{f}{}{x},$\epsilon$),(\fieldD{f}{},\fieldI{g}{}{y})\} & & ($\alpha$, $\beta$)\}\\ \hline
+
+\end{tabular}
+}\\
+\end{tabular}
+\end{figure}

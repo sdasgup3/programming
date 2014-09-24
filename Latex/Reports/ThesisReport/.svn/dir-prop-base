@@ -1,0 +1,15 @@
+K 10
+svn:ignore
+V 109
+Report.aux
+Report.bbl
+Report.blg
+Report.dvi
+Report.lof
+Report.log
+Report.lot
+Report.pdf
+Report.ps
+Report.toc
+
+END

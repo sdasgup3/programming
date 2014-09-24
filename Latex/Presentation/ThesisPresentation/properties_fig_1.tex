@@ -1,0 +1,54 @@
+\begin{figure}[t]
+  \centering
+  \begin{tabular}{@{}lcc@{}}
+    \scalebox{0.80}{
+      \tt
+      \begin{tabular}[b]{l}
+        \qquad \qquad \ldots \\
+        S1. r = s$\rightarrow$g;\\
+        S2. p$\rightarrow$f = q;  \\
+        S3. p$\rightarrow$f = NULL; \\
+        \qquad \qquad \ldots \\
+      \end{tabular}
+    } &
+    \scalebox{0.8}{\psset{unit=1mm}
+    \begin{pspicture} (0,0)(30,16)
+      \putnode{p0}{origin}{3}{3}{\pscirclebox[framesep=3pt]{\p}}
+      \putnode{s0}{p0}{0}{10}{\pscirclebox[framesep=4pt]{\s}}
+      \putnode{t0}{s0}{15}{0}{\pscirclebox[framesep=5pt]{\ }}
+      \putnode{q0}{p0}{15}{0}{\pscirclebox[framesep=3pt]{\q}}
+      \putnode{u0}{q0}{10}{5}{\pscirclebox[framesep=5pt]{\ }}
+
+      \ncline{->}{s0}{t0}
+      \Aput[0.1]{$g$}
+      \ncline[nodesep=-0.5]{->}{t0}{p0}
+      \Aput[0.1]{$f$}
+      \ncline[nodesep=-0.5]{->}{t0}{u0}
+      \Aput[0.1]{$g$}
+      \ncline[nodesep=-0.5]{->}{q0}{u0}
+      \Aput[0.1]{$h$}
+
+    \end{pspicture}}
+    &
+    \scalebox{0.80}{
+    \begin{tabular}[b]{|c|c|c|c|}
+      \hline
+	  {After} & $f_{pq}$ & $\IFM{r}{q}$                             	    & $\DFM{r}{p}$ \\ \hline
+	  {\tt S1}       &  {\tt false}  &  $\upath \times \{h\}$                   & \upath \\ \hline
+	  {\tt S2}       &  {\tt true}   &  $\upath \times \{h, \epsilon\}$  & \upath \\ \hline
+	  {\tt S3}       &  {\tt false}  &  $\upath \times \{h, \epsilon\}$  & \upath \\ \hline
+    \end{tabular}}  \\
+    \scalebox{0.80}{(a) A code fragment} &
+    \scalebox{0.80}{(b) \begin{tabular}[t]{p{37mm}}
+    Heap Structure before {\tt S1} 
+    \end{tabular}}
+    &     
+    \scalebox{0.80}{(c) \begin{tabular}[t]{p{43mm}}
+        Values for boolean variable, $D_F$, and
+        $I_F$ for relevant pointer fields.
+    \end{tabular}}
+      \\
+  \end{tabular}
+  \caption{Using boolean variables to improve
+    precision \label{fig:conclusion}} 
+\end{figure}

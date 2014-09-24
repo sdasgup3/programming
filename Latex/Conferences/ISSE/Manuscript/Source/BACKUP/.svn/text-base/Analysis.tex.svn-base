@@ -1,0 +1,435 @@
+For $\{\p, \q\} \subseteq \heap,\ f \in\fields,\ n \in \nat$
+ and $\mbox{\tt op} \in \{+, -\}$, 
+ we have the following eight basic statements that can access or modify the heap structures. 
+ \begin{enumerate}
+   \item Allocations
+   	\begin{enumerate}
+     	\item {\tt p = malloc();}
+   	\end{enumerate}
+   \item Pointer Assignments
+   	\begin{enumerate}
+     	\item {\tt p = NULL;}
+     	\item {\tt p = q;}
+     	\item {\tt p = q $\rightarrow$ f;}
+     	\item {\tt p = \&(q $\rightarrow$ f);}
+     	\item {\tt p = q op n;}
+   	\end{enumerate}
+   \item Structure Updates
+   	\begin{enumerate}
+     	\item {\tt p $\rightarrow$ f = q;}
+     	\item {\tt p $\rightarrow$ f = NULL;}
+   	\end{enumerate}
+ \end{enumerate}
+
+Our intend is to determine, at each program point, the field
+sensitive matrices $P_F$ and $I_F$, and the
+boolean variables capturing field connectivity. We formulate
+the problem as an instance of forward data flow analysis,
+where the data flow values are the matrices and the boolean
+variables as mentioned above.  For simplicity, we construct
+basic blocks containing a single statement each. Before
+presenting the equations for data flow analysis, we define
+the confluence operator (\merge) for various data flow values
+as used by our analysis. Using the superscripts $x$ and $y$
+to denote the values coming along two paths,
+\begin{eqnarray*}
+  \merge( f_{\p\q}^x, f_{\p\q}^y ) &=& f_{\p\q}^x \vee f_{\p\q}^y , f \in \fields,
+  \p,\q \in \heap \\
+   \merge(\p_{\subC}^x, \p_{\subC}^y) &=& \p_{\subC}^x \vee
+   \p_{\subC}^y, \p \in \heap \\
+   \merge(\p_{\subD}^x, \p_{\subD}^y) &=& \p_{\subD}^x \vee
+   \p_{\subD}^y, \p \in \heap \\
+   \merge(P_F^{x}, P_F^{y}) &=& P_F \mbox{ where }
+   P_F[{\p}, {\q}]  = \\ 
+   && P_F^{x}[{\p}, {\q}] \cup
+   P_F^{y}[{\p}, {\q}],   \forall {\p}, {\q} \in \heap\\ 
+   \merge(I_F^{x}, I_F^{y}) &=& I_F \mbox{ where }
+   I_F[{\p}, {\q}]  = \\
+   && I_F^{x}[{\p}, {\q}] \cup
+    I_F^{y}[{\p}, {\q}],  \forall {\p}, {\q} \in \heap
+\end{eqnarray*}
+The transformation of data flow values due to a statement
+$st$ is captured by the following set of equations:
+\begin{eqnarray*}
+  P_F^{\dout}[\p,\q] &=& (\remOne{P_F^{\din}[\p,\q]}{P_F^{\dkill}[\p,\q]}) \cup
+  P_F^{\dgen}[\p,\q] \\
+  I_F^{\dout}[\p,\q] &=& (\remOne{I_F^{\din}[\p,\q]}{I_F^{\dkill}[\p,\q]}) \cup
+  I_F^{\dgen}[\p,\q] \\
+  \p_{\subC}^{\dout} &=& (\p_{\subC}^{\din} \wedge
+  \neg\p_{\subC}^{\dkill} ) \vee \p_{\subC}^{\dgen}  \\
+  \p_{\subD}^{\dout} &=& (\p_{\subD}^{\din} \wedge
+  \neg\p_{\subD}^{\dkill} ) \vee \p_{\subD}^{\dgen} 
+\end{eqnarray*}
+Field connectivity information is updated directly by the
+statement. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Analysis of Basic Statements} \label{Analysis_of_Basic_Statements} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We now present the basic statements that can access or modify
+the heap structures, and our analysis of each kind of
+statements.
+\begin{enumerate}\is
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\item {{\tt p = malloc()}}:
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  After this statement all the existing relationships of $\p$ get killed and it will point to a
+newly allocated object. We will consider that $\p$ can have an empty path to itself and it can interfere
+with itself using empty paths (or $\epsilon$ paths). Thus,
+
+\begin{eqnarray*}
+  \KillC{p}  = \InC{p} &\quad& \KillD{p} = \InD{p} \\
+  \GenC{p} = \false 	 &\quad& \GenD{p} = \false 
+\end{eqnarray*}
+$\forall \s \in \heap,\ \s \not= \p,$
+\begin{eqnarray*}
+  P_F^{\dkill}[\p,\s]  =  P_F^{\din}[\p,\s] &\quad&
+  P_F^{\dgen}[\p,\s]    =  \emptyset \\ 
+  P_F^{\dkill}[\s,\p]  =  P_F^{\din}[\s,\p] &\quad&
+  P_F^{\dgen}[\s,\p]    =  \emptyset \\
+  P_F^{\dkill}[\p,\p]  =  P_F^{\din}[\p,\p] &\quad&
+  P_F^{\dgen}[\p,\p]    =  \epsilonset\\
+  I_F^{\dkill}[\p,\s]  =  I_F^{\din}[\p,\s] &\quad&
+  I_F^{\dgen}[\p,\s]    =  \emptyset \\
+  I_F^{\dkill}[\p,\p]  =  I_F^{\din}[\p,\p] &\quad&
+  I_F^{\dgen}[\p,\p]    =  \epsilonpairset 
+\end{eqnarray*}
+
+
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\item{\tt p = NULL}:
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+This statement only kills the existing relations of \p.
+\begin{eqnarray*}
+  \KillC{p}  = \InC{p} &\quad& \KillD{p} = \InD{p} \\
+  \GenC{p} = \false 	 &\quad& \GenD{p} = \false \\
+\end{eqnarray*}
+$\forall \s \in \heap,$
+\begin{eqnarray*}
+  P_F^{\dkill}[\p,\s]  =  P_F^{\din}[\p,\s] &\quad&
+  P_F^{\dgen}[\p,\s]    =  \emptyset \\ 
+  P_F^{\dkill}[\s,\p]  =  P_F^{\din}[\s,\p] &\quad&
+  P_F^{\dgen}[\s,\p]    =  \emptyset \\
+  I_F^{\dkill}[\p,\s]  =  I_F^{\din}[\p,\s] &\quad&
+  I_F^{\dgen}[\p,\s]    =  \emptyset 
+\end{eqnarray*}
+
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\item{\tt p = q, p = \&(q$\rightarrow$f), p = q op n}: 
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+In our analysis  
+we consider these three pointer assignment statements as
+  equivalent. 
+After this statement all the existing relationships of $\p$ gets
+killed and it will point to same heap object as pointed to
+by $\q$. In case $\q$ currently points to null, $\p$ will also points
+to null after the statement. So $\p$ will have the same field
+sensitive Path and Interference relationships as $\q$. 
+The kill effect of this statement is same as that of the previous statement. 
+The generated boolean functions for heap object $\p$ corresponding 
+to DAG or Cycle attribute will be same as that of $\q$, with all occurrences of $\q$ 
+replaced by $\p$.
+
+\begin{eqnarray*}
+  \KillC{p} = \InC{p} &\quad& \KillD{p} = \InD{p} \\ 
+  \GenC{p}   = \InC{q}[q/p]
+  &\quad& \GenD{p} = \InD{q}[q/p] 
+\end{eqnarray*}
+{where $X[\q/\p]$ creates a copy of $X$ with all occurrences
+  of \q\ replaced by \p.}
+
+$\forall \s \in \heap, \s \not= \p, \forall f \in \fields$
+\begin{eqnarray*}
+  f_{\p\s} = f_{\q\s}  &\quad&  f_{\s\p} = f_{\s\q} \\
+  P_F^{\dkill}[\p,\s]  =  P_F^{\din}[\p,\s] &\quad&
+  P_F^{\dgen}[\p,\s]    =  P_F^{\din}[\q,\s]   \\ 
+  P_F^{\dkill}[\s,\p]  =  P_F^{\din}[\s,\p] &\quad&
+  P_F^{\dgen}[\s,\p]    =  P_F^{\din}[\s,\q]   \\
+  P_F^{\dkill}[\p,\p]  =  P_F^{\din}[\p,\p] &\quad&
+  P_F^{\dgen}[\p,\p]    =  P_F^{\din}[\q,\q]  \rule{0mm}{0pt}\\
+  I_F^{\dkill}[\p,\s]  =  I_F^{\din}[\p,\s] &\quad&
+  I_F^{\dgen}[\p,\s]    =   I_F^{\din}[\q,\s] \\
+  I_F^{\dkill}[\p,\p]  =  I_F^{\din}[\p,\p] &\quad&
+  I_F^{\dgen}[\p,\p]    = I_F^{\din}[\q,\q] 
+\end{eqnarray*}
+
+{\blue
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\item{\tt $\delta$ = p}:
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+A peculiarity of any of the the \textit{Allocations} or \textit{Pointer Assignment} statements (say {\tt S}) is that,  
+even we are killing all the existing ralationships of \p\ after {\tt S}, but the heap graph structure will still contains 
+the corresponding heap object, but it will no longer be labelled with \p. We need to somehow preserve the information about the node 
+which is labeled with name \p\ before  {\tt S} and get unlabeled afterwards.
+
+For this we create a new dummy pointer variable (say $\delta$) pointing to the same node as pointed by \p\ before {\tt S}.
+This is done by adding a statement $\delta = \p$ before {\tt S} such that this particular statement, $\delta = \p$,  will not be having
+any kill information. The GEN information will be same as the pointer statement {\tt p = q}. Also we replace any information about the term 
+\p\ by $\delta$, i.e.\ in the $P_F$, $I_F$ matrices and in all the boolean equations corresponding to all the heap pointers, we replace 
+the occurrences of \p\ by $\delta$. Thus,
+
+Whenever any statement of type \textit{Allocations} or \textit{Pointer Assignments} are encountered, we add a new statement
+$\delta = \p$ before it where $\delta$ is a dummy variable of same type as \p. For this new statement 
+we have the following gen and kill relations.
+
+\begin{eqnarray*}
+\GenC{\delta}   = \InC{\p}[\p/\delta] &\quad& \GenD{\delta} = \InD{\p}[\p/\delta] \\
+\end{eqnarray*}
+
+$\forall \s \in \heap, \s \not= \p, \forall f \in \fields$ 
+\begin{eqnarray*}
+\KillC{\s}   = \InC{\s}  &\quad& \KillD{\s} = \InD{\s}  \\
+\GenC{\s}   = \InC{\s}[\p/\delta] &\quad& \GenD{\s} = \InD{\s}[\p/\delta] \\ 	 
+\end{eqnarray*}
+{where $X[\q/\p]$ creates a copy of $X$ with all occurrences
+  of \q\ replaced by \p.}
+
+$\forall \s \in \heap, \s \not= \p, \forall f \in \fields$ 
+\begin{eqnarray*}
+f_{\delta\s}                  = f_{\p\s}  			&\quad&  f_{\s\delta} 				= f_{\s\p} \\
+P_F^{\dgen}[\delta,\s]        =  P_F^{\din}[\p,\s] 	&\quad&  P_F^{\dgen}[\s,\delta]     =  P_F^{\din}[\s,\p]   \\
+P_F^{\dgen}[\delta,\delta]    =  P_F^{\din}[\p,\p]  &\quad&  I_F^{\dgen}[\delta,\s]    	=   I_F^{\din}[\p,\s] \\
+I_F^{\dgen}[\delta,\delta]    = I_F^{\din}[\p,\p] 	&\quad& \\
+\end{eqnarray*}
+
+Also for each new statement, $\delta = \p$, added we will be using different names of dummy variables every time. The reason for this is 
+if we use the same name, say $\delta$, 
+then at some point different unlabeled nodes will get labelled with $\delta$ causing less precise results. 
+}
+
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\item {\tt p$\rightarrow$f = null}: 
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+{\blue
+Before proceeding further, let us introduce some notations which will be used frequently in the subsequent analysis.
+
+$\forall \p \in \heap, \mbox{we introduce two notations } \alias{P} \mbox{ and }  \alias{p} as$
+\begin{eqnarray*}
+    \alias{P} &=& \aliasinfo{\p} \mbox{ and } \\
+    \alias{p} &\in& \alias{P}
+\end{eqnarray*}
+}
+
+Coming back to the analysis of the statement {\tt p$\rightarrow$f = null}, this statement breaks the existing link $f$ emanating from
+$\p$, thus killing relations of $\p$, that are due to the link
+$f$. The statement does not generate any new relations. The killed
+relationships involve breaking of the all the direct links
+of $\p$, which is manifested by setting $f_{\p\q}$ to 0, $\forall \q \in \heap$ 
+as well as the indirect links of $\p$, which is done by updating the $P_F$ and $I_F$
+matrices. 
+
+{\blue 
+\begin{eqnarray*}
+\KillC{p}  = \false, &\quad& \KillD{p} = \false \\
+\GenC{p} = \false,   &\quad& \GenD{p} = \false  \\
+\end{eqnarray*}
+$\forall \q,\s \in \heap, \s \notin \alias{P}$ \\
+\begin{eqnarray*}
+	  f_{\alias{p}\q}   			&=& \false  \\
+	  P_F^{\dkill}[\alias{p}, \q]  	&=& \project{P_F^{\din}[\p, \q]}{f} \qquad    {P_F^{{\dkill}}[\s, \q]}  = \emptyset    \\
+ 	  I_F^{\dkill}[\alias{p}, \s]  	&=& \{(\alpha,  \beta) \ \vert\ (\alpha, \beta) \in I_F^{\din}[\p,  \q] \mbox, \ \alpha \equiv f^\anysup \} \\ 
+ 	  I_F^{\dkill}[\q, \s] 			&=& \emptyset \mbox{ if } \q \notin \alias{P}  \\
+ 	  I_F^{\dkill}[\alias{p}, \alias{p}] &=& \{(\alpha,  \beta) \ \vert\ (\alpha, \beta) \in I_F^{\din}[\p,  \p] \mbox, \ \alpha \equiv f^\anysup \} \\
+\end{eqnarray*}
+}
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\item {\tt p$\rightarrow$f = q}: 
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+This statement first breaks
+  the existing link $f$ and then re-links the the heap object
+  pointed to by $\p$ to the heap object pointed to by
+  $\q$. The kill effects are exactly same as described in the
+  case of  {\tt p$\rightarrow$f = null}. We only describe the
+  generated relationships here. 
+  
+ The fact that the shape of the variable $\p$
+becomes DAG after the statement is captured by the boolean functions $\GenD{p}$. 
+The function simply say that variable $\p$ reaches a DAG
+because there are more than one paths ($\num{I_F[p,q]} > 1$)
+from $\p$ to $\q$. It also keeps track of the path $f_{pq}$ in this case.
+The function $\GenC{q}$ (or $\GenC{p}$)  captures the fact that cycle on $\q$ (or $\p$)
+ consists of field $f$ from $\p$ to $\q$ ($f_{\p\q}$)
+and some path from $\q$ to $\p$ ($\num{\DFM{q}{p}} \geq
+1$). The function $\GenC{p}$ also captures the fact that cycle on $\p$
+can be due to the link $f_{\p\q}$ reaching an already existing cycle on $\q$.
+These are summarized as follows:
+
+
+{\blue
+  \begin{eqnarray*}
+    \GenC{p}   &= & (f_{\p\q} \wedge \InC{q}) \vee (f_{\p\q}
+    \wedge (\num{\DFM{\q}{\p}} \geq 1)) \\ %\qquad 
+    \GenD{p}   &=&  (f_{\p\q} \wedge \InD{q}) \vee ( f_{\p\q} \wedge (\num{\IFM{\p}{\q}} > 1) )	\\
+    \GenC{q}   &= & f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1) \\ %\qquad\qquad\qquad\qquad\quad 
+	\GenD{q} &=& \false\\ 
+    f_{\alias{p}\alias{q}} &=& \true \\
+  \end{eqnarray*}
+  }
+
+For nodes $\s \in \heap$ other than $\p$ or $\q$, the function $\GenC{\s}$ 
+captures the fact that cycle on $\s$ consists of some path from $\s$ to $\p$ (or $\q$) i.e.\ 
+$\num{\DFM{\s}{\p}} \geq 1$ (or $\num{\DFM{\s}{\q}} \geq 1$)
+and the fact that a Cycle on $\p$ (or $\q$) has just created due to the
+statement. Again the function $\GenD{\s}$  simply say that variable $\s$ reaches a DAG
+because there are more than one way of interference between $\s$ and $\q$ i.e.\ $\num{\IFM{\s}{\q}} > 1$. 
+It also keeps track of the paths $f_{pq}$ and $\DFM{\s}{\p}$ in this case.
+
+  \begin{eqnarray*}
+    \GenC{\s} &=&  ((\num{\DFM{\s}{\p}} \geq 1) \wedge f_{\p\q}
+    \wedge \InC{q}) \\
+    && \vee\ ((\num{\DFM{\s}{\p}} \geq 1) \wedge f_{\p\q} \wedge
+    (\num{\DFM{\q}{\p}} \geq 1)) \\ 
+    && \vee\ ((\num{\DFM{\s}{\q}} \geq 1) \wedge f_{\p\q}
+    \wedge (\num{\DFM{\q}{\p}} \geq 1)),  \\ %\quad 
+    && \qquad \qquad  \forall \s \in \heap, \s \not= \p, \s \not=\q \\
+    \GenD{\s}   &=& (\num{\DFM{\s}{\p}} \geq 1) \wedge
+    f_{\p\q} \wedge (\num{\IFM{\s}{\q}} > 1), \\ %\quad 
+    && \qquad \qquad \forall \s \in \heap, \s \not= \p, \s \not=\q 
+  \end{eqnarray*}
+
+After the statement, all the nodes which have paths towards $\p$ (including $\p$) will have path towards 
+all the nodes reachable from $\q$ (including $\q$). Again all nodes having paths to $\p$ can potentially interfere
+with all the node $\q$ interferes with. Thus the relations generated for $P_F$ and $I_F$ are as follows. 
+
+{\blue
+For $\myr, \s \in \heap$:
+\begin{eqnarray*}
+P_F^{\dgen}[\myr, \s] &=& \num{P_F^{\din}[\q, \s]} \star  P_F^{\din}[\myr, \p],\ \s \notin \alias{P},\ \myr \notin \alias{P},\ \myr \notin \alias{Q} \\
+P_F^{\dgen}[\myr, \alias{p}] &=& \num{P_F^{\din}[\q,\p]} \star P_F^{\din}[\myr, \p], \ \myr \notin \alias{P}\\
+P_F^{\dgen}[\alias{p}, \myr] &=& \num{P_F^{\din}[\q, \myr]} \star (\remOne{P_F^{\din}[\p, \p]}{\epsilonset} \cup \{f^{\indrct 1}\}), \ \  \myr \notin \alias{Q} \\ 
+P_F^{\dgen}[\alias{p}, \alias{q}] &=& \{\fieldD{f}{}\}\ \cup\ (\num{P_F^{\din}[\q, \q] - \epsilonset} \star \{\fieldI{f}{}{1}\})\ \cup\ \\
+								 &&	(\num{P_F^{\din}[\q, \q]} \star ( \remOne{P_F^{\din}[\p, \p]}{\{\project{P_F^{\din}[\p,\p]}{f} \cup \epsilonset \}})) \\ 
+\end{eqnarray*}
+
+\begin{eqnarray*}
+P_F^{\dgen}[\alias{q}, \alias{q}] &=& 1 \star P_F^{\din}[\q, \p] \\
+P_F^{\dgen}[\alias{q}, \myr] &=& \num{P_F^{\din}[\q, \myr]} \star P_F^{\din}[\q, \p],\ \myr \notin \alias{P},\ \myr \notin \alias{Q} \\ 
+I_F^{\dgen}[\alias{p}, \alias{q}] &=& \{(\fieldD{f}{}, \epsilon)\} \\
+	  &&   \cup ((1 \star (\remOne{P_F^{\din}[\p, \p]}{ \{\project{P_F^{\din}[\p,\p]}{f} \cup \epsilonset \} })) \times \epsilonset) \\ 
+	  && \cup\  \I \\
+ 	  \quad \quad where \\ 
+ 	  \I  &=&   \bigcup_{\x\in\heap,\x \notin \alias{P},\alias{Q} } \{ P_F^{\din}[\p,\x] \times P_F^{\din}[\q,\x] \ \vert \\
+	  && \ \num{P_F^{\din}[\p,\x]} >1 , \num{P_F^{\din}[\q,\x]} >1 \} \\
+I_F^{\dgen}[\alias{p}, \myr] &=& 
+	  (1 \star (\remOne{P_F^{\din}[\p, \p]}{\epsilonset})) \times \{\beta\ \vert\ (\alpha, \beta) \in I_F^{\din}[\q, \myr] \}  \\ 
+	  && \cup\ \{f^\drct\} \times \{\beta\ \vert\ (\epsilon, \beta) \in I_F^{\din}[\q, \myr] \} \\
+	  && \cup\ \{f^{\indrct 1}\} \times \{\beta\ \vert\ (\alpha, \beta) \in I_F^{\din}[\q, \myr], \alpha \not= \epsilon \},  \\
+	  &&  \myr \notin \alias{P}, \alias{Q} \\
+ 	  I_F^{\dgen}[\s, \alias{q}] &=& (1 \star P_F^{\din}[\s, \p]) \times 
+ 	  \epsilonset,\ \s \notin \alias{P},\ \alias{Q} \\
+ 	  I_F^{\dgen}[\s, \myr] &=& (1 \star P_F^{\din}[\s, \p])           % modified as
+ 	  \times \{\beta\ \vert\ (\alpha, \beta) \in I_F^{\din}[\q,
+  	    \myr]\}, \\
+ 	     && \qquad \s \not\in \alias{P},\alias{Q},\ \myr \not\in \alias{P},\alias{Q},\ \s \not= \myr \\
+\end{eqnarray*}
+}
+
+
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\item {\tt p = q$\rightarrow$f}: 
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The relations killed by the
+  statement are same as that in case of {\tt p = NULL}. The
+  relations created by this statement are heavily
+  approximated by our analysis.  After this statement $\p$
+  points to the heap object which is accessible from pointer
+  $\q$ through $f$ link. The only inference we can draw is
+  that \p\ is reachable from any pointer \myr\ such that
+  \myr\ reaches $\q\rightarrow f$ before the assignment. This
+  information is available because $I_F^{\din}[\q, \myr]$
+  will have an entry of the form $(f^\drct, \alpha)$ for some
+  $\alpha$. 
+
+  As \p\ could potentially point to a cycle(DAG) reachable
+  from \q, we set:
+  $$\GenC{p} = \InC{q} \qquad \GenD{p} = \InD{q}$$ We record
+  the fact that \q\ reaches \p\ through the path
+  $f$. Also, any object reachable from \q\ using field $f$
+  is marked as reachable from \p\ through any
+  possible field.
+{\blue 
+\begin{eqnarray*}
+  f_{\alias{q}\p} &=& \true \\ %\qquad
+  {h_{\p\myr}} &=&
+  \num{\project{P_F^{\din}[\q,\myr]}{f}} \geq 1\quad
+  \forall h \in \fields, \forall \myr \in \heap 
+\end{eqnarray*}
+}
+
+The equations to compute the generated relations for  $P_F$ and $I_F$
+can be divided into three components. We explain each of the
+component, and give the equations.
+
+As a side-effect of the statement, any node \s\ that is
+reachable from \q\ through field $f$ before the statement,
+becomes reachable from \p. However, the information available
+is not sufficient to determine the path from \p\ to
+\s. Therefore, we conservatively assume that any path
+starting from \p\ can potentially reach \s. This is achieved
+in the analysis by using a universal path set \upath\ for
+$P_F[\p,\s]$. The set \upath\ is defined as:
+\[ \upath \quad=\quad \epsilonset \cup \bigcup_{f\in\fields} \{f^{\drct},
+f^{\indrct\infty}\} \] Because it is also not possible to determine
+if there exist a path from $\p$ to itself,  we safely
+conclude a self loop on $p$ in case a cycle is reachable
+from \q\ (i.e., \q.\shape\ evaluates to \Cycle). 
+%%The interference from \p\ to itself is computed
+%%conservatively in all cases. 
+These
+observations result in the following equations:
+
+{\blue 
+$\forall \s \in \heap, \s \not=\p$,
+\begin{eqnarray*}
+	P_1[\p, \s] &=&  \left\{\begin{array}{@{}ll}
+	                        \upath & \{ \project{P_F^{\din}[\q, \s]}{f} - f^{\drct} \} \not= \emptyset \\
+				\{ \epsilon \} & \project{P_F^{\din}[\q, \s]}{f} = f^{\drct}
+	                       \end{array}\right. \\
+	P_1[\p, \p] &=& \left \{ \begin{array}{@{}ll}
+	  \upath& \q.\shape \mbox{ evaluates to } \Cycle \\
+	  \epsilonset & \mbox{Otherwise}
+	\end{array}. \right.   \\
+	I_1[\p, \p] &=& \upath \times \upath \\
+\end{eqnarray*}
+}
+
+Any node \s\ (including \q), that has paths to \q\ before the
+statement, will have paths to \p\ after the
+statement. However, we can not know the exact number of paths
+\s\ to \p, and therefore use upper limit ($\infty$) as an
+approximation:
+
+{\blue 
+\begin{eqnarray*}
+P_2[\alias{q},\p] &=& \left\{\begin{array}{@{}ll}
+	f^{\drct} & q_{in}^{tree}=\true \\
+	\{ f^{\drct}\}  \\
+		\cup (\infty \star (\remOne{P_F^{\din}[\q, \q]}{\epsilonset})) \\
+		\cup \upath &  \mbox{Otherwise} 
+	\end{array}\right.  \ if \q \not = \p \\
+  P_2[\s, \p] &=& \infty \star P_F^{\din}[\s, \q] \quad \forall \s \in \heap, \s \notin \alias{Q},\ \s \not=\p \\
+  I_2[\s, \p] &=& P_2[\s, \p] \times \epsilonset \quad \forall \s \in \heap 	 \\
+\end{eqnarray*}
+}
+
+The third category of nodes to consider are those that
+interfere with the node reachable from \q\ using direct path
+$f$. Such a node \s\ will have paths to \p\ after the
+statement. Also the nodes that interfere with the node reachable from \q\ using direct or indirect path
+$f$ will interfere with \p\ after the statement. Thus, we have:
+\begin{eqnarray*}
+  P_3[\s, \p] &=& \{ \alpha \ \vert \ (f^{\drct}, \alpha) \in I_F^{\din}[\q, \s] \}  \\
+  I_3[\s, \p] &=& \{\alpha \ \vert\ (f^\anysup, \alpha) \in I_F^{\din}[\q, \s]\} \times \upath 
+\end{eqnarray*}
+Finally, we compute the $I_F$ and $P_F$ relations as:
+\begin{eqnarray*}
+P_F^{\dgen}[\myr, \s] &= & P_1[\myr, \s] \cup P_2[\myr, \s] \cup P_3[\myr, \s] \quad \forall\myr,\s \in \heap  \\
+I_F^{\dgen}[\myr, \s] &= & I_1[\myr, \s] \cup I_2[\myr, \s] \cup I_3[\myr, \s] \quad \forall\myr,\s \in \heap 
+\end{eqnarray*}
+\end{enumerate}
+
+{\blue
+All the analysis rules for each statement discussed above are collated in a tabular form in  Fig:~\ref{fig:Modified Data Flow Equations}
+for quick reference.
+}
+\input{Figures/Fig_analysis_rules.tex}

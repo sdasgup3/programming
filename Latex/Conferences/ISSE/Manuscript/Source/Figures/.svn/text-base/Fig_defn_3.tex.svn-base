@@ -1,0 +1,73 @@
+\begin{table}[t]
+\caption{Path operations\label{tab:path-ops}}
+\begin{center}
+\scalebox{1}{
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{@{}c@{}}
+    $i, j  \in \nat$,$\quad m = {\tt max}(i-j, 0)$,  $\quad n = {\tt
+      min}(i, j)$, \\
+    $\tau = \left\{\begin{array}{lcl}
+    i+j    && \mbox { if } i+j \leq k \\
+    \infty && \mbox{ Otherwise} 
+    \end{array}\right.$. \\ 
+    $\eta = \left\{\begin{array}{lcl}
+    i*j    && \mbox { if } i*j \leq k \\
+    \infty && \mbox{ Otherwise} 
+    \end{array}\right.$. \\  \\
+    (a) Path removal \\
+    \begin{tabular}{@{}c@{}c@{}|c|c|c|c|c}
+      \hline
+      \remOne{}{}&$\{\beta\} $& $\{\epsilon\}$ &
+      $\{f^{\drct}\}$ & $\{f^{\indrct j}\}$&
+      $\{f^{\indrct\infty}\}$ & $g^{\anysup}$ \\
+      $\{\alpha\}$ && & & & & \\ \hline %\hline
+      $\{\epsilon\}$ && $\emptyset$  & $\{\epsilon\}$ &
+      $\{\epsilon\}$ & $\{\epsilon\}$ & $\{\epsilon\}$ \\ %\hline
+      $\{f^{\drct}\}$ && $\{f^{\drct}\}$ & $\emptyset$ &
+      $\{f^{\drct}\}$ & $\{f^{\drct}\}$ & $\{f^{\drct}\}$ \\ %\hline
+      $\{f^{\indrct i}\}$ && $\{f^{\indrct i}\}$ & $\emptyset$
+      & $\{f^{\indrct m}\}$& $\emptyset$ & $\{f^{\indrct i}\}$ \\ %\hline
+      $\{f^{\indrct\infty}\}$ && $\{f^{\indrct\infty}\}$
+      &$\emptyset$ & $\{f^{\indrct \infty}\}$& $\{f^{\indrct
+        \infty}\}$ & $\{f^{\indrct\infty}\}$ \\ \hline
+    \end{tabular} \\ \\
+    (b) Intersection \\ 
+    \begin{tabular}{@{}c@{}c@{}|c|c|c|c|c@{}}
+      \hline
+      $\cap$&$\{\beta\} $& $\{\epsilon\}$ & $\{f^{\drct}\}$ &
+      $\{f^{\indrct j}\}$& $\{f^{\indrct\infty}\}$ & $g^{\anysup}$\\ 
+      $\{\alpha\}$ && & & & & \\ \hline %\hline
+      $\{\epsilon\}$ && $\epsilon$  & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\emptyset$ \\ %\hline
+      $\{f^{\drct}\}$ && $\emptyset$ & $\{f^{\drct}\}$ & $\emptyset$ & $\emptyset$ & $\emptyset$ \\ %\hline
+      $\{f^{\indrct i}\}$ && $\emptyset$ & $\emptyset$ & $\{f^{\indrct n}\}$& $\{f^{\indrct i}\}$ & $\emptyset$ \\ %\hline
+      $\{f^{\indrct\infty}\}$ && $\emptyset$ &$\emptyset$ & $\{f^{\indrct j}\}$& $\{f^{\indrct \infty}\}$ & $\emptyset$ \\ \hline
+    \end{tabular} \\ \\
+    (c) Union \\
+    \begin{tabular}{@{}c@{}c@{}|@{}c@{}|@{}c@{}|@{}c@{}|@{}c@{}|@{}c@{}}
+      \hline
+      $\cup$&$\{\beta\} $& $\{\epsilon\}$ & $\{f^{\drct}\}$ &
+      $\{f^{\indrct j}\}$& $\{f^{\indrct\infty}\}$ & $g^{\anysup}$ \\
+      $\{\alpha\}$ && & & & &  
+      \\ \hline %\hline
+      $\{\epsilon\}$ && $\{\epsilon\}$  & $\{\epsilon, \fieldD{f}{}\}$ & $\{\epsilon, \fieldI{f}{}{j} \}$ & $\{\epsilon, \fieldI{f}{}{\infty}\}$ & $\{\epsilon, g^{\anysup}\}$  \\ %\hline
+      $\{f^{\drct}\}$ && $\{\fieldD{f}{}, \epsilon\}$ & $\{\fieldD{f}{}\}$ & $\{\fieldD{f}{}, \fieldI{f}{}{j}\}$ & $\{\fieldD{f}{}, \fieldI{f}{}{\infty}\}$ & $\{\fieldD{f}{}, g^{\anysup}\}$  \\ %\hline
+      $\{f^{\indrct i}\}$ && $\{\fieldI{f}{}{i}, \epsilon\}$ & $\{\fieldI{f}{}{i}, \fieldD{f}{}\}$ & $\{\fieldI{f}{}{\tau}\}$& $\{\fieldI{f}{}{\infty}\}$ & $\{\fieldI{f}{}{i}, g^{\anysup}\}$  \\ %\hline
+      $\{f^{\indrct\infty}\}$ && $\{\fieldI{f}{}{\infty},
+      \epsilon\}$ & $\{\fieldI{f}{}{\infty}, \fieldD{f}{}\}$ &
+      $\{\fieldI{f}{}{\infty}\}$& $\{\fieldI{f}{}{\infty}\}$ &
+      $\{\fieldI{f}{}{\infty}, g^{\anysup}\}$  \\ \hline
+    \end{tabular} \\ \\
+    (d) Multiplication by a Scalar \\
+    \begin{tabular}{l|c|c|c|c}
+      \hline
+      $\star\qquad \alpha$ & $\epsilon$ & $f^{\drct}$      &
+      ${f^{\indrct j}}$ & ${f^{\indrct \infty}}$ \\ 
+      $i$ &&&& \\ \hline 
+      $i$ & $\epsilon$ & ${f^{\indrct i}}$ & $f^{\indrct \eta}$
+      & ${f^{\indrct \infty}}$ \\ 
+      $\infty$ & $\epsilon$ &${f^{\indrct \infty}}$ &
+      ${f^{\indrct \infty}}$& ${f^{\indrct \infty}}$\\ \hline 
+    \end{tabular}
+  \end{tabular}}
+\end{center}
+\end{table}

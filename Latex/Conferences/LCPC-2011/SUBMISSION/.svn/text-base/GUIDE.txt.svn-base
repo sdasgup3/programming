@@ -1,0 +1,48 @@
+General
+=========
+The numbers accorded to lemmas, proposi-tions, and theorems, etc. should appear in consecutive order, starting with Lemma 1. Please do not include 
+section counters in the numbering like “Theorem 1.1”.
+3rd-level heading: Run-in Heading in Bold.
+
+There is no need to include page numbers or running heads; this will be done at our end. If your paper title is too long to serve as a running head, 
+it will be shortened. Your suggestion as to how to shorten it would be most welcome.
+
+Figures
+==========
+Figure environments should be inserted after (not in) the paragraph in which
+the figure is first mentioned.
+
+The lettering in figures should not use font sizes smaller than 6 pt (~ 2mm character height). 
+
+Figures are to be numbered and to have a caption which should always be positioned under the figures, in contrast to the 
+caption belonging to a table, which should always appear above the table.
+
+Please center the figures or your tabular material by using the \centering
+declaration.
+
+Short captions are centered by default between the margins and
+typeset in 9-point type  
+Longer captions, covering more than one line, are justified (Fig. 1and Fig. 2 show examples). 
+Captions that do not constitute a full sentence, do not have a period. 
+Text fragments of fewer than four lines should not appear at the tops or bottoms of pages, following a table or figure. 
+In such cases, it is better to set the figures right at the top or right at the bottom of the page. 
+
+A figure should never be placed in the mid-dle of a paragraph.
+
+Formulas
+============
+Equations should be punctuated in the same way as ordinary text but with a small space before the end punctuation mark.
+
+Program
+==========
+Program listings or program commands in the text are normally set in typewriter font e.g., CMTT10 or Courier.
+
+LNCS
+-----
+If you wish to start a new paragraph immediately after a displayed equation,
+insert a blank line so as to produce the required indentation. If there is no
+new paragraph either do not insert a blank line or code \noindent immediately
+before continuing the text.
+
+Please punctuate a displayed equation in the same way as other ordinary
+text but with an \enspace before end punctuation.

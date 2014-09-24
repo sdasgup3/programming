@@ -1,0 +1,53 @@
+
+\section{Implementation Details}
+
+\subsection{DFA framework}
+      
+    This Field Sensitive analysis is actually a data flow analysis with data flow values being Direction Matrix,Interference Matrix
+Boolean Equations,Boolean variables.The data flow values changes whenever any statement belonging to
+the 6 class of statement's of Fig.~\ref{fig:stmts} is encountered.We have implemented this analysis
+as a GCC dynamic plugin.This next section gives us a small overview of GCC plugins.\\
+ 
+\begin{figure}[h] 
+\begin{tabular}[b]{l}
+        $\bullet$  p = malloc(); \\
+        $\bullet$  p=NULL; \\
+        $\bullet$  p=q; p=\&(q$\rightarrow$f); p=q op n; \\
+        $\bullet$  p$\rightarrow$f=NULL; \\
+        $\bullet$  p$\rightarrow$f=q; \\
+        $\bullet$  p=q$\rightarrow$f; \\
+\end{tabular}
+\\
+$\forall$ p,q $\in$ H;
+
+\caption{\label{fig:stmts}}
+\end{figure}
+
+
+  \subsubsection[]{gcc plugins}
+      GCC architecture consists of many passes each being either a GIMPLE,IPA(Inter Procedural Analysis) or RTL(Register 
+Transfer Language) pass.GIMPLE is a three-address intermediate representation.Our analysis works by inserting a
+GIMPLE pass in the GCC architecture which is done by plugins. \\	  
+      Plugin's make the developer add new features to the compiler without modifying the compiler itself.
+It is a way by which we can add,remove and maintain modules independently.
+GCC has two types of plugins ,static and dynamic plugin's. 
+Static plugins involve minor changes in the source code and static linking,while dynamic plugin requires
+no change to the source code and require dynamic linking \cite{plugin} .For our case we have used dynamic plugin 
+because we need not build GCC every time we change the plugin code.
+
+   What our plugin does is ,first it finds out what are the heap pointers present in the program and creates a table for
+them.That table will contain details like which structure the pointer points to,what are the fields present
+in it,which of those fields are also pointers etc.Similarly another table is created for the field pointers
+present in the program.In this process Id's are given to each field and heap pointer.
+After this we parse along all the gimple statements one by one and check it belongs to any of the statements of Fig.~\ref{fig:stmts}.
+ If yes then the GEN and KILL data flow values are generated for that statement,OUT is calculated by below equation.All the
+equations for GEN and KILL of each statement are mentioned in \cite{Sandeep}.\\
+
+OUT = GEN $\cup$ (IN - KILL) 
+
+  This analysis is run until the data flow values reach a fixed point.When considering the fixed point we only check for
+the Direction Matrices ,Interference Matrices and Boolean variables,the Boolean equations are left aside because as
+mentioned in Sandeep's report \cite{Sandeep11thesis} the Boolean equations reach a fixed point at the end of 
+third iteration itself.
+\subsection{Optimization's suggested}
+\subsection{Results for Benchmarks}

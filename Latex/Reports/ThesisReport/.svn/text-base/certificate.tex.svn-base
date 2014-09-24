@@ -1,0 +1,38 @@
+\documentclass[12pt,twoside,openright]{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\begin{document}
+\thispagestyle{empty}
+\begin{center}
+\large{CERTIFICATE}
+\end{center}
+\noindent It is certified that the work contained in this thesis entitled "Precise Shape Analysis using Field Sensitivity", by Sandeep 
+Dasgupta (Roll No. Y9111031), has been carried out under my supervision and that this work has not been submitted elsewhere for a degree.
+\newline
+\newline
+\newline
+
+\begin{flushleft}
+\begin{picture}(50,15)(0,0)
+\linethickness{1pt}
+\put(0,14){\line(1,0){155}}
+ $\;\;$  (Professor Amey Karkare)
+\end{picture}
+
+Dept. of Computer Science \& Engg.,\\
+Indian Institute of Technology,\\
+Kanpur-208016.\\ 
+\[
+\]
+\begin{picture}(50,15)(0,0)
+\linethickness{1pt}
+\put(0,14){\line(1,0){185}}
+ $\;\;$  (Professor Sanjeev K Aggarwal)
+\end{picture}
+
+Dept. of Computer Science \& Engg.,\\
+Indian Institute of Technology,\\
+Kanpur-208016.\\ 
+\end{flushleft}
+
+\end{document}

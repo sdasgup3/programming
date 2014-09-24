@@ -1,0 +1,20 @@
+\vspace{2in}
+\begin{abstract}
+Programs in high level languages make intensive use of heap
+to support dynamic data structures.  Analyzing these programs
+requires precise reasoning about the heap structures. Shape
+analysis refers to the class of techniques that statically
+approximate the run-time structures created on the heap.  In
+this work, we present a novel field sensitive shape analysis
+technique to identify the shapes of the heap structures.  The
+novelty of our approach lies in the way we use field
+information to remember the paths that result in a particular
+shape (Tree, DAG, Cycle).  We associate the field information
+with a shape in two ways: (a) through boolean functions that
+capture the shape transition due to change in a particular
+field, and (b) through matrices that store the field
+sensitive path information among two pointer variables.  This
+allows us to easily identify transitions from Cycle to DAG,
+from Cycle to Tree and from DAG to Tree, thus making the
+shape more precise.
+\end{abstract} 

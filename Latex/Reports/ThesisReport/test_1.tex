@@ -1,0 +1,122 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Inserting an internal node in a singly linked list.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Consider the code fragment Fig.~\ref{fig:benchmark_1}(a) that
+is a simplified version of insertion of an internal node in a
+linked list.  Field insensitive approach like that of Ghiya
+et.~al.~\cite{Ghiya96} cannot detect the kill information due
+to the change of the field $f$ of {\tt \p} at {\tt S4} and
+finds {\tt \p} to have an additional path to $\q$ via {\tt
+  \myr} (which is now actually the only path). So they report
+the shape attribute of {\tt \p} as DAG.
+Figure~\ref{fig:benchmark_1}(c) shows the $D_F$ and $I_F$ matrices
+corresponding to our analysis at each program point.
+Consider the following boolean function generated after {\tt
+  S4} using our approach.
+\begin{eqnarray*}
+  \p_{\subD} &=&   (f_{\p\q} \wedge (\num{I_F[\p\q]} > 1)) 
+  \vee  (f_{\p\myr} \wedge (\num{I_F[\p\myr]} > 1)), \\
+  f_{\p\myr} &=& \true, \qquad\qquad  f_{\p\q} = \false \enspace. 
+\end{eqnarray*}
+After {\tt S4}, the condition $\num{I_F[\p,\myr]} > 1$ become
+\false\ and $\p_{\subD}$ will get evaluated to \false, and
+thus correctly detects the shape attribute of {\tt \p} as
+tree.
+
+\begin{figure}
+\centering
+\scalebox{0.80}{
+\begin{tabular}{@{}c@{}}
+\begin{tabular}{@{}cc@{}}
+  {\small\tt
+    \begin{tabular}[b]{l}
+      S1. \p$\rightarrow$f = \q; \\
+      S2. \myr = malloc(); \\
+      S3. \myr$\rightarrow$f = q;  \\
+      S4. \p$\rightarrow$f = \myr;  
+    \end{tabular}
+  } &
+  \scalebox{0.80}{
+    \begin{tabular}[b]{|c||c|c|c|}
+      \hline
+          {\bf After} & Actual Shape & Field Insensitive
+          Analysis & Field Sensitive Analysis \\ 
+          \hline \hline
+	  {\tt S1}       & Tree		  & Tree    & Tree \\ \hline
+	  {\tt S2}       & Tree		  & Tree    & Tree \\ \hline
+	  {\tt S3}       & Tree		  & Tree    & Tree \\ \hline
+	  {\tt S4}       & Tree		  & DAG(at {\tt \p})    & Tree \\ \hline
+    \end{tabular}
+  } \\
+  \footnotesize (a) A code fragment & \footnotesize (b) Shape Inference \\ \\
+ \end{tabular} \\ 
+  \scalebox{0.80}{
+\begin{tabular}[b]{|l@{}|@{}c@{}|@{}c@{}|} \hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+
+{\tt S1} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}|} \hline 
+            & $\p$  		& $\myr$ 		& $\q$ 	 \\ \hline
+  $\p$ 	& $\emptyset$	& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\myr$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\q$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}|} \hline 
+            & $\p$  		& $\myr$ 		& $\q$ 	 \\ \hline
+  $\p$ 	& $\emptyset$	& $\emptyset$	& $\{(\fieldD{f}{}, \epsilon)\}$ \\ \hline
+  $\myr$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\q$ 		& $\{(\epsilon, \fieldD{f}{})$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}|} \hline 
+            & $\p$  		& $\myr$ 		& $\q$ 	 \\ \hline
+  $\p$ 	& $\emptyset$	& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\myr$ 	& $\emptyset$	& $\{\epsilon\}$	& $\emptyset$	\\ \hline
+  $\q$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}|} \hline 
+            & $\p$  		& $\myr$ 		& $\q$ 	 \\ \hline
+  $\p$ 	& $\emptyset$	& $\emptyset$	& $\{(\fieldD{f}{}, \epsilon)\}$ \\ \hline
+  $\myr$ 	& $\emptyset$	& $\{(\epsilon, \epsilon)\}$	& $\emptyset$	\\ \hline
+  $\q$ 		& $\{(\epsilon, \fieldD{f}{})$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S3} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}|} \hline 
+            & $\p$  		& $\myr$ 		& $\q$ 	 \\ \hline
+  $\p$ 	& $\emptyset$	& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\myr$ 	& $\emptyset$	& $\{\epsilon\}$	& $\{\fieldD{f}{}\}$	\\ \hline
+  $\q$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}|} \hline 
+            & $\p$  		& $\myr$ 		& $\q$ 	 \\ \hline
+  $\p$ 	& $\emptyset$	& $\emptyset$	& $\{(\fieldD{f}{}, \epsilon)\}$ \\ \hline
+  $\myr$ 	& $\emptyset$	& $\{(\epsilon, \epsilon)\}$	& $\{(\fieldD{f}{}, \epsilon)\}$	\\ \hline
+  $\q$ 		& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S4} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}|} \hline 
+            & $\p$  		& $\myr$ 		& $\q$ 	 \\ \hline
+  $\p$ 	& $\emptyset$	& $\{\fieldD{f}{}\}$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\myr$ 	& $\emptyset$	& $\{\epsilon\}$	& $\{\fieldD{f}{}\}$	\\ \hline
+  $\q$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}|} \hline 
+            & $\p$  		& $\myr$ 		& $\q$ 	 \\ \hline
+  $\p$ 	& $\emptyset$	& $\{(\fieldD{f}{}, \epsilon)\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\myr$ 	& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\epsilon, \epsilon)\}$	& $\{(\fieldD{f}{}, \epsilon)\}$	\\ \hline
+  $\q$ 		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+\end{tabular} 
+}  \\
+  \footnotesize (c) Direction ($D_F$) and Interference ($I_F$) matrices  \\ \\
+\end{tabular}}
+\caption{Insertion of an internal node in a singly linked list\label{fig:benchmark_1}}
+\end{figure}

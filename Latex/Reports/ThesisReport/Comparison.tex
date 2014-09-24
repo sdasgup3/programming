@@ -1,0 +1,39 @@
+%\chapter{Comparison with Field Insensitive Approach}\label{ch:Comparison}
+\chapter{Comparison with Other Approaches}\label{ch:Comparison}
+
+For comparison purpose the test-cases must involve shape
+transitions like Cycle to DAG, Cycle to Tree, and DAG to
+Tree. The transition like Tree to DAG, DAG to Cycle, or Tree
+to Cycle are not of much importance as these can be detected
+by any of the field insensitive approaches. Following are the
+cases that meet our requirement and better demonstrate the
+accuracy of our analysis as compared to field insensitive
+analysis (like Ghiya et. al.~\cite{Ghiya96}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Comparison with Ghiya et. al.~\cite{Ghiya96}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\nO}{\mbox{\tt n1}}
+\newcommand{\nT}{\mbox{\tt n2}}
+\newcommand{\myt}{\mbox{\tt t}}
+\newcommand{\T}{\mbox{\tt T}}
+\newcommand{\myL}{\mbox{\tt L}}
+\newcommand{\R}{\mbox{\tt R}}
+
+\input{test_1.tex}
+\input{test_2.tex}
+\input{test_3.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Comparison with Marron et. al.~\cite{marron06static}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Using the property as mentioned in Appendix B, we inferred the shape of the data structure corresponding to 
+each region for the test-cases that we have chosen, and concluded that their shape inferencing comply exactly with the actual
+shapes that should be reported.
+
+To eliminate the state explosion that is possible with refinement, they apply refinement to only those 
+cases where there exist a unique way of materializing new nodes. This limits the amount of precision 
+that can be achieved as there exists cases where refinement into  multiple possibilities is needed to get results with the
+desired accuracy.    

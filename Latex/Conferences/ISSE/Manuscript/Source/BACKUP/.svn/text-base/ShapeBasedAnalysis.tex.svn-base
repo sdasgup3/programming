@@ -1,0 +1,180 @@
+The ``Shape Sensitive Analysis'' is a midway approach between context insensitive analysis, where we have to compromise on accuracy and 
+context sensitive analysis, where we have to compromise on memory consumption, and hence gives good gain in precision and memory optimization. 
+
+Lets consider the following scenario in context insensitive Analysis. Let we have a function with parameter as a heap pointer. The 
+data flow values present at the start of the function when it was called the first time be DF1. At that point shape of that heap 
+pointer is a cycle. After a few statements again this function is called and the incoming dataflow values is DF2, let the shape of the same heap pointer now be a tree. Since its a context insensitive 
+approach the data entering the function would be DF1 $\cup$ DF2. This also contains DF1 which was responsible for cycle being detected at the first 
+time the function was called. So there is a good probability that now also the shape may be inferred as a cycle even though it's not.
+
+So one natural thought that emerges is keep a separate set of data flow values for each shape at the start of functions. This is what we call 
+shape sensitive method of context merging. Here what we do is, based on the shape of those heap pointer arguments at that point of function 
+call, merging of call contexts happen.
+Lets look at this concept by using a small piece of code and later we will show the comparison of this approach with context insensitive approach.
+
+\begin{example}
+Consider a function with one parameter which is a heap pointer, the shape of the node pointed to by this can be a TREE, DAG or a CYCLE. For 
+such a function we associate an array of data flow values of size three. Let that array be denoted by IN[3]. IN[0] denotes that data flow values 
+incoming when the shape at that heap pointer is  a TREE, IN[1] when shape is a DAG and IN[2] when shape is CYCLE. So in the similar way if the 
+number of heap pointer parameters are {\tt n} then size of its corresponding IN would be $3^n$ . This size can be adjusted accordingly 
+depending on compromise between precision and memory.\\
+
+We also maintain an OUT of the same size as IN which has the data flow values at the end of that function for its corresponding IN.
+Now if we look at the sample code given below, the number of parameters is one so size of IN is three. At {\tt c1} the shape of the parameter \p\ 
+is a cycle so the incoming values into that function are fed to IN[2] and when the function is returned OUT[2] is updated. Now at {\tt c2} the shape of 
+\p\ is a TREE so this time IN[0] and OUT[0] are updated.
+\end{example}
+
+\begin{tabular}[t]{cl}
+\begin{lstlisting}
+typedef struct Node
+{
+  struct Node *f,*g;
+} Node;
+
+void foo(Node *s)
+{
+  Node *t;
+  S: t=s;
+  ....
+}
+\end{lstlisting}
+&
+\begin{lstlisting}
+int main()
+{
+  Node *p,*q;
+  p=(Node *)
+	  malloc(sizeof(Node));
+  q=(Node *)
+	  malloc(sizeof(Node));
+
+  S1: p->f=q;
+  S2: q->f=p;
+  c1: foo(p);
+  S3: q->f=NULL;
+  c2: foo(p);
+}
+\end{lstlisting}
+\end{tabular}
+\\ 
+\begin{figure}[h]
+\begin{tabular}{c}
+ \scalebox{0.7}{
+\begin{tabular}{cc}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline
+$P_F$     & \p & \q &  \s  \\ \hline \hline 
+\p 	& $\{\epsilon\}$ & $\{\fieldD{f}{} \}$ & $\{\epsilon\}$  \\ \hline 
+\q             & $\{\fieldD{f}{}\}$      & $\{\epsilon\}$          & $\{\fieldD{f}{}\}$  \\ \hline
+\s             & $\{\epsilon\}$           &$\{\fieldD{f}{}\}$      & $\{\epsilon\}$      \\ \hline
+\end{tabular} 
+&
+
+\renewcommand{\arraystretch}{1.2}
+% % \newcommand{\iwd}{0.23\columnwidth}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline 
+$\ I_F$     & $\p$	               & $\q$
+&  $\s$              \\ \hline \hline 
+%%
+$\p$ & $\{ (\epsilon, \epsilon)\}$    & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+$\q$ & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $ \\ \hline
+$\s$ & $\{ (\epsilon, \epsilon)\}$    & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+\end{tabular} \\
+% \caption{C1:Context Insensitive}
+\end{tabular}
+} \\
+
+\scriptsize (a) C1:IN[2] \\ \\
+
+\scalebox{0.7}{
+\begin{tabular}{cc}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline
+$P_F$     & \p & \q &  \s  \\ \hline \hline 
+\p 	& $\{\epsilon\}$ & $\{\fieldD{f}{} \}$ & $\{\epsilon\}$  \\ \hline 
+\q             & $\{\fieldD{f}{}\}$      & $\{\epsilon\}$          & $\{\fieldD{f}{}\}$  \\ \hline
+\s             & $\{\epsilon\}$           &$\{\fieldD{f}{}\}$      & $\{\epsilon\}$      \\ \hline
+\end{tabular} 
+&
+
+\renewcommand{\arraystretch}{1.2}
+% % \newcommand{\iwd}{0.23\columnwidth}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline 
+$\ I_F$     & $\p$	               & $\q$
+&  $\s$              \\ \hline \hline 
+%%
+$\p$ & $\{ (\epsilon, \epsilon)\}$    & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+$\q$ & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $ \\ \hline
+$\s$ & $\{ (\epsilon, \epsilon)\}$    & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+\end{tabular} \\
+% \caption{C1:Context Insensitive}
+\end{tabular}
+} \\
+%  
+\scriptsize (b) C1:INmap \\ \\
+
+\scalebox{0.7}{
+\begin{tabular}{cc}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline
+$P_F$     & \p & \q &  \s  \\ \hline \hline 
+\p 	& $\{\epsilon\}$ &  & $\{\epsilon\}$  \\ \hline 
+\q 	&  & $\{\epsilon\}$ &   \\ \hline 
+\s 	& $\{\epsilon\}$ &  & $\{\epsilon\}$  \\ \hline 
+\end{tabular} 
+&
+
+\renewcommand{\arraystretch}{1.2}
+% % \newcommand{\iwd}{0.23\columnwidth}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline 
+$\ I_F$     & $\p$	               & $\q$
+&  $\s$              \\ \hline \hline 
+%%
+$\p$ & $\{ (\epsilon, \epsilon)\}$    &   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+$\q$ &     & $\{ (\epsilon, \epsilon)\}$   &  \\ \hline
+$\s$ & $\{ (\epsilon, \epsilon)\}$    &    & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+\end{tabular} \\
+% \caption{C1:Context Insensitive}
+\end{tabular}
+} \\
+
+\scriptsize (c) C2:IN[0] \\ \\
+
+\end{tabular}
+
+\centering \caption{Data Flow Values at Function Calls} \label{fig:Inmap}
+\end{figure}
+
+\par 
+\textbf{Comparison with Context Insensitive}: In Context Insensitive analysis,  we maintain an INmap and OUTmap foreach function, and 
+if the incoming data flow values to the function is a subset of present INmap we just pass the OUTmap without processing the function. Otherwise 
+we update the INmap by merging incoming dataflow values with  previous INmap and process the function. We will now compare the INmap and IN array  
+of both context insensitive and context sensitive approaches and see how the shape is effected at statement {\tt S}.
+
+At {\tt c1} the data flow values at the start of function foo are those in Fig.~\ref{fig:Inmap}(a), since shape of \p\ at that call statement 
+is a cycle, so it is assigned to IN[2]. Even if we go by context insensitive it would be the same as shape sensitive given 
+in Fig:~\ref{fig:Inmap}(b) denoted by INmap. At statement {\tt S3} cycle gets killed, hence at {\tt c2}, during shape sensitive 
+analysis, IN[2] will remain the same as that for {\tt c1}, but now IN[0] is newly created. Just by seeing Fig.~\ref{fig:Inmap}(c) we can see that 
+it correctly shows the shape at statement {\tt S} as a TREE. Now if we come to context insensitive, the new INmap during processing of {\tt c2} 
+is the union of previous INmap i.e what's present in Fig.~\ref{fig:Inmap}(b) and current incoming data flow values, which same as that present 
+in Fig.~\ref{fig:Inmap}(c). So even after merging the INmap would same as earlier. Now just compare Fig.~\ref{fig:Inmap}(b)
+and Fig.~\ref{fig:Inmap}(c). According to Fig.~\ref{fig:Inmap}(b) there is a path from $\p$ to $\q$ via field $\f$ and also from $\q$ to$ \p$ via $\f$ but not according to Fig.~\ref{fig:Inmap}(c)
+This clearly shows that inside the function foo after {\tt c2} shape of $\p$,$\q$ and $\s$ are identified as cycle for context insensitive 
+approach, but shape sensitive conveys the correct shape i.e TREE.
+
+It was told earlier that size of the IN array for each function should be $3^n$ when the number of heap parameters are n for a function, but 
+that is not a compulsion.
+We can vary the size depending on the preciseness and memory handoff. For example even for a function with 3 parameters (all of them are heap pointers) we 
+can keep the size of the array as 3, where IN[0] is used 
+when any of the parameter is cycle, IN[1] when none of the parameter is a cycle and at least one is a dag and IN[2] when all of them points to a tree. If 
+we go by $3^n$ then the size of the array
+would be 9, but now its 3. Though the memory required now is less, information would be accurate in the former case than latter. So the way we choose 
+this depends on the constraints we have in terms of memory and preciseness.
+

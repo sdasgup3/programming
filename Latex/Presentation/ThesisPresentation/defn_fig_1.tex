@@ -1,0 +1,55 @@
+\begin{figure}
+\centering
+\begin{tabular}{c@{$\qquad\qquad$}c}
+\psset{unit=1.2mm}
+\begin{pspicture}(0,0)(15,20)
+	\psset{linecolor=blue}
+  \putnode{q0}{origin}{3}{9}{\pscirclebox{\q}}
+  \putnode{p0}{q0}{5}{7}{\pscirclebox{\p}}
+  %\putnode{r0}{p0}{0}{-14}{\pscirclebox{\myr}}
+  \putnode{s0}{q0}{10}{0}{\pscirclebox{\s}}
+
+	\psset{linecolor=black}
+  \ncline[nodesep=-.3]{->}{p0}{q0}
+  \bput[0.2](0.1){$\scriptstyle f_1$}
+  \ncline{->}{q0}{s0}
+  \aput[0.2](0.2){$\scriptstyle f_3$}
+  %\ncline[nodesep=-.5]{->}{s0}{r0}
+  %\aput[0.2](0.2){$\scriptstyle f_5$}
+  \nccurve[angleA=45,angleB=0,linestyle=dotted,dotsep=0.2,ncurv=1,nodesepA=-.8]{->}{p0}{s0}
+  \aput[0.2](0.2){$\scriptstyle f_2$}
+  %\nccurve[angleA=180,angleB=225,linestyle=dotted,dotsep=0.2,ncurv=1,nodesepB=-.5]{->}{q0}{r0}
+  %\bput[0.2](0.2){$\scriptstyle f_4$}
+\end{pspicture} &
+\scalebox{0.8}{
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline
+$D_F$          & \p                          & \q                             &  \s  \\ \hline \hline 
+\p 	           & $\{\epsilon\}$              & $\{\fieldD{f}{1}\}$            & $\{\fieldI{f}{1}{1}, \fieldI{f}{2}{1}\}$    \\ \hline 
+\q             & $\emptyset$                 & $\{\epsilon\}$                 & $\{\fieldD{f}{3}\}$   \\ \hline
+\s             & $\emptyset$                 & $\emptyset$                    & $\{\epsilon\}$       \\ \hline
+\end{tabular}} \\
+\scalebox{0.80}{ (a) Heap graph} & \scalebox{0.80}{ (b) Direction Matrix}  \\ \\
+\multicolumn{2}{c}{
+\scalebox{0.80}{
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\iwd}{0.23\columnwidth}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline 
+$\ I_F$     & $\p$	               & $\q$ &  $\s$             \\ \hline \hline 
+%%
+$\p$ & $\{\epsilon, \epsilon\}$    & $\{(\fieldD{f}{1}, \epsilon), $               & $\{(\fieldI{f}{1}{1}, \epsilon),$     \\  
+     &                             & $(\fieldI{f}{2}{1}, \fieldD{f}{3})\} $      & $(\fieldI{f}{2}{1}, \epsilon)\}$   \\ \hline
+%%
+$\q$       & $\{(\epsilon, \fieldD{f}{1}),$                & $\{\epsilon, \epsilon\}$          & $\{(\fieldD{f}{3}, \epsilon)\}$         \\  
+              & $(\fieldD{f}{3}, \fieldI{f}{2}{1})\} $   &                                   &      \\  \hline
+%%
+$\s$       & $\{(\epsilon, \fieldI{f}{1}{1}),$             & $\{(\epsilon, \fieldD{f}{3})\}$             & $\{\epsilon, \epsilon\}$         \\ 
+              & $(\epsilon, \fieldI{f}{2}{1})\}$           &                                            &  \\ \hline
+%%
+\end{tabular}}} \\
+\multicolumn{2}{c}{\scalebox{0.80}{ (c) Interference Matrix} } 
+\end{tabular}
+%\caption{A heap graph and its field sensitive path matrices\label{fig:DFM_IFM}}
+\end{figure}

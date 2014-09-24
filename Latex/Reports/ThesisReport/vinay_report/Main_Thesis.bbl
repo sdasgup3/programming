@@ -1,0 +1,108 @@
+\begin{thebibliography}{MKSH06}
+
+\bibitem[Car95]{Olden}
+Martin~C. Carlisle.
+\newblock Olden benchmarks, 1995.
+\newblock {\scriptsize
+  \url{http://www.martincarlisle.com/olden_benchmarks.tar.Z}}.
+
+\bibitem[CWZ90]{Chase90}
+David~R. Chase, Mark Wegman, and F.~Kenneth Zadeck.
+\newblock Analysis of pointers and structures.
+\newblock PLDI '90, pages 296--310, 1990.
+
+\bibitem[Das11]{Sandeep11thesis}
+Sandeep Dasgupta.
+\newblock Precise shape analysis using field sensitivity.
+\newblock Technical report, Master's thesis, IIT Kanpur, 2011.
+\newblock {\scriptsize
+  \url{http://www.cse.iitk.ac.in/~karkare/MTP/2010-11/sandeep2010precise.pdf}}.
+
+\bibitem[DK12]{Sandeep}
+Sandeep Dasgupta and Amey Karkare.
+\newblock Precise shape analysis using field sensitivity.
+\newblock In {\em Proceedings of the 27th Annual ACM Symposium on Applied
+  Computing}, SAC '12, pages 1300--1307, New York, NY, USA, 2012. ACM.
+
+\bibitem[GBC06]{interAbstr06}
+Alexey Gotsman, Josh Berdine, and Byron Cook.
+\newblock Interprocedural shape analysis with separated heap abstractions.
+\newblock In Kwangkeun Yi, editor, {\em Static Analysis, 13th International
+  Symposium, SAS 2006, Seoul, Korea, August 29-31, 2006, Proceedings}, volume
+  4134 of {\em Lecture Notes in Computer Science}, pages 240--260. Springer,
+  2006.
+
+\bibitem[GH96]{Ghiya96}
+Rakesh Ghiya and Laurie~J. Hendren.
+\newblock Is it a {Tree}, a {DAG}, or a {Cyclic} graph? a shape analysis for
+  heap-directed pointers in {C}.
+\newblock In {\em POPL '96}, 1996.
+
+\bibitem[HR05]{hackett05region}
+Brian Hackett and Radu Rugina.
+\newblock Region-based shape analysis with tracked locations.
+\newblock POPL '05, pages 310--323, 2005.
+
+\bibitem[HRS95]{sagivDemand95}
+Susan Horwitz, Thomas Reps, and Mooly Sagiv.
+\newblock Demand interprocedural dataflow analysis.
+\newblock In {\em Proceedings of the 3rd ACM SIGSOFT symposium on Foundations
+  of software engineering}, SIGSOFT '95, pages 104--115, New York, NY, USA,
+  1995. ACM.
+
+\bibitem[JM79]{Muchnick79}
+Neil~D. Jones and Steven~S. Muchnick.
+\newblock Flow analysis and optimization of lisp-like structures.
+\newblock POPL '79, pages 244--256, 1979.
+
+\bibitem[JM09]{maria09dynamic}
+Maria Jump and Kathryn~S. McKinley.
+\newblock Dynamic shape analysis via degree metrics.
+\newblock In {\em Proceedings of the 2009 international symposium on Memory
+  management}, pages 119--128, 2009.
+
+\bibitem[KMR11]{LazyPointer}
+Uday~P. Khedker, Alan Mycroft, and Prashant~Singh Rawat.
+\newblock Lazy pointer analysis.
+\newblock {\em CoRR}, abs/1112.5000, 2011.
+
+\bibitem[MHKS08]{marron08context}
+Mark Marron, Manuel~V. Hermenegildo, Deepak Kapur, and Darko Stefanovic.
+\newblock Efficient context-sensitive shape analysis with graph based heap
+  models.
+\newblock In {\em CC}, pages 245--259, 2008.
+
+\bibitem[MKSH06]{marron06static}
+Mark Marron, Deepak Kapur, Darko Stefanovic, and Manuel Hermenegildo.
+\newblock A static heap analysis for shape and connectivity: unified memory
+  analysis: the base framework.
+\newblock LCPC'06, pages 345--363, 2006.
+
+\bibitem[MS76]{TwoApproach}
+Amir~Pnuleli Micha~Sharir.
+\newblock Two approaches to inter procedural data flow analysis.
+\newblock In {\em Program Flow Analysis: Theory and Applications}, pages
+  189--234, 1976.
+
+\bibitem[Pav10]{linkedlist}
+Viktor Pavlu.
+\newblock Basic operations on linked lists (c++), 2010.
+\newblock {\scriptsize
+  \url{http://www.complang.tuwien.ac.at/vpavlu/2010/list-benchmark.tgz}}.
+
+\bibitem[RS01]{SagivInter02}
+Noam Rinetzky and Mooly Sagiv.
+\newblock Interprocedural shape analysis for recursive programs.
+\newblock {\em Lecture Notes in Computer Science}, 2027:133--149, 2001.
+
+\bibitem[SRW99]{Sagiv99}
+Mooly Sagiv, Thomas Reps, and Reinhard Wilhelm.
+\newblock Parametric shape analysis via 3-valued logic.
+\newblock POPL '99, pages 105--118, 1999.
+
+\bibitem[SRW02]{Sagiv02}
+Shmuel Sagiv, Thomas~W. Reps, and Reinhard Wilhelm.
+\newblock Parametric shape analysis via 3-valued logic.
+\newblock {\em ACM Trans. Program. Lang. Syst.}, 24(3):217--298, 2002.
+
+\end{thebibliography}

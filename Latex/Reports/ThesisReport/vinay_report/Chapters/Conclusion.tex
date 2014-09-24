@@ -1,0 +1,28 @@
+% \section{Conclusion}
+
+In this report we have suggested several enhancements to Sandeep's work on Field Sensitive analysis
+which ensure the correctness and increase the accuracy of the analysis.
+Now after these changes the analysis is better than Ghiya's work in all those unit test cases described. 
+We have also introduced a new analysis called subset based analysis which infers shape based on the subset of fields actually accessed inside
+a function. This helps us inferring information like a function is traversing/accessing a tree substructure of a cyclic data structure. 
+We also proposed a shape sensitive inter procedural
+analysis which is in mid way of context sensitive and context insensitive analysis and could possibly balance the memory consumption and 
+preciseness at the same time. We have also performed various 
+optimizations with the aim of decreasing the memory consumption and time for completion.
+The testing strategy used is exhaustive and has helped a lot in identifying the cases of safe and incorrect results.
+
+There are some benchmarks where the results are not as good as Ghiya's, these are due to the
+summarization of heap nodes due to the dummy statement. In the future we plan to work on
+this issue.
+The analysis has concerns over the amount of memory it takes even after the optimizations performed. We want
+to address this concern by representing boolean equations in much efficient way. 
+% The callstring approach is using
+% more memory for this analysis, so we plan to find out some other context sensitive analysis which is
+% memory efficient.
+
+% \section{Future Work}
+% Representation of boolean equations in a memory efficient
+% Better memory efficient Context sensitive analysis
+% Extend this for arrays of pointers
+
+

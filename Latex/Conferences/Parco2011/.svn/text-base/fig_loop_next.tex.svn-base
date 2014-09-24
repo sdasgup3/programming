@@ -1,0 +1,17 @@
+{\tt
+\begin{program}{10}
+  \FL\ \ldots
+  \UNL{0} p = list;
+  \UNL{0} \WHILE (p->next != NULL) \{
+  \NL{1}     q = p;
+  \NL{1}     temp = p->num;
+  \UNL{1}   \WHILE (i < n) \{
+  \NL{2}     q = q->next;
+  \NL{2}     i = i + 1;
+  \UNL{1}   \}
+  \NL{1}     q->num = temp;
+  \NL{1}     p = p->next;
+  \UNL{0} \}
+  \UNL{0} \ldots
+\end{program}
+}

@@ -1,0 +1,14 @@
+K 10
+svn:ignore
+V 172
+sig-alternate.log
+sig-alternate.ps
+sig-alternate.dvi
+sig-alternate.tex.bak
+sig-alternate.aux
+sig-alternate.bbl
+sig-alternate.blg
+sig-alternate.tex.~BASE~
+sig-alternate.pdf
+
+END

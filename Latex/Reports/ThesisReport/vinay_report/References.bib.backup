@@ -1,0 +1,274 @@
+@inproceedings{Ghiya96,
+  author    = {Rakesh Ghiya and
+               Laurie J. Hendren},
+  title     = {Is it a {Tree}, a {DAG}, or a {Cyclic} Graph? A Shape Analysis
+               for Heap-Directed Pointers in {C}},
+  booktitle = {POPL '96},
+  year ={1996},
+  OPTmonth	    = "January", 
+  OPTyear      = {1996},
+  OPTpages     = {1-15},
+  OPTee        = {http://doi.acm.org/10.1145/237721.237724},
+  OPTbibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@TECHREPORT{Sandeep11thesis,
+    author = {Sandeep Dasgupta},
+    title = {Precise Shape Analysis using Field Sensitivity},
+    institution = {Master's thesis, IIT Kanpur},
+    note = {{\scriptsize \url{http://www.cse.iitk.ac.in/~karkare/MTP/2010-11/sandeep2010precise.pdf}}},
+    year = {2011}
+}
+
+
+@inproceedings{Muchnick79,
+ author = {Jones, Neil D. and Muchnick, Steven S.},
+ title = {Flow analysis and optimization of LISP-like structures},
+ OPTbooktitle = {Proceedings of the 6th ACM SIGACT-SIGPLAN symposium on Principles of programming languages},
+ series = {POPL '79},
+ year = {1979},
+ location = {San Antonio, Texas},
+ pages = {244--256},
+ numpages = {13},
+ OPTurl = {http://doi.acm.org/10.1145/567752.567776},
+ OPTdoi = {http://doi.acm.org/10.1145/567752.567776},
+ acmid = {567776},
+ OPTpublisher = {ACM},
+ OPTaddress = {New York, NY, USA},
+} 
+
+@article{Sagiv02,
+  author    = {Shmuel Sagiv and
+               Thomas W. Reps and
+               Reinhard Wilhelm},
+  title     = {Parametric shape analysis via 3-valued logic},
+  journal   = {ACM Trans. Program. Lang. Syst.},
+  volume    = {24},
+  number    = {3},
+  year      = {2002},
+  pages     = {217-298},
+  OPTee        = {http://doi.acm.org/10.1145/514188.514190},
+  OPTbibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{Sagiv99,
+ author = {Sagiv, Mooly and Reps, Thomas and Wilhelm, Reinhard},
+ title = {Parametric shape analysis via 3-valued logic},
+ OPTbooktitle = {Proceedings of the 26th ACM SIGPLAN-SIGACT symposium on Principles of programming languages},
+ series = {POPL '99},
+ year = {1999},
+ isbn = {1-58113-095-3},
+ location = {San Antonio, Texas, United States},
+ pages = {105--118},
+ numpages = {14},
+ OPTurl = {http://doi.acm.org/10.1145/292540.292552},
+ OPTdoi = {http://doi.acm.org/10.1145/292540.292552},
+ acmid = {292552},
+ OPTpublisher = {ACM},
+ OPTaddress = {New York, NY, USA},
+} 
+
+
+@inproceedings{Chase90,
+ author = {Chase, David R. and Wegman, Mark and Zadeck, F. Kenneth},
+ title = {Analysis of pointers and structures},
+ OPTbooktitle = {Proceedings of the ACM SIGPLAN 1990 conference on Programming language design and implementation},
+ series = {PLDI '90},
+ year = {1990},
+ isbn = {0-89791-364-7},
+ location = {White Plains, New York, United States},
+ pages = {296--310},
+ numpages = {15},
+ OPTurl = {http://doi.acm.org/10.1145/93542.93585},
+ OPTdoi = {http://doi.acm.org/10.1145/93542.93585},
+ acmid = {93585},
+ OPTpublisher = {ACM},
+ OPTaddress = {New York, NY, USA},
+} 
+
+@inproceedings{hackett05region,
+ author = {Hackett, Brian and Rugina, Radu},
+ title = {Region-based shape analysis with tracked locations},
+ OPTbooktitle = {Proceedings of the 32nd ACM SIGPLAN-SIGACT symposium on Principles of programming languages},
+ series = {POPL '05},
+ year = {2005},
+ isbn = {1-58113-830-X},
+ location = {Long Beach, California, USA},
+ pages = {310--323},
+ numpages = {14},
+ OPTurl = {http://doi.acm.org/10.1145/1040305.1040331},
+ OPTdoi = {http://doi.acm.org/10.1145/1040305.1040331},
+ acmid = {1040331},
+ OPTpublisher = {ACM},
+ OPTaddress = {New York, NY, USA},
+ keywords = {memory leaks, memory management, shape analysis, static error detection},
+} 
+
+@INPROCEEDINGS{berdine07shape,
+    author = {Josh Berdine and Cristiano Calcagno and Byron
+                  Cook and Dino Distefano and Peter
+                  W. O'hearn and Hongseok Yang and Queen
+                  Mary},
+    title = {Shape analysis for composite data structures},
+    booktitle = {CAV '07},
+    year = {2007},
+    pages = {178--192},
+    OPTpublisher = {Springer}
+}
+
+
+@inproceedings{maria09dynamic,
+ author = {Jump, Maria and McKinley, Kathryn S.},
+ title = {Dynamic shape analysis via degree metrics},
+ booktitle = {Proceedings of the 2009 international symposium on Memory management},
+ OPTseries = {ISMM '09},
+ year = {2009},
+ isbn = {978-1-60558-347-1},
+ location = {Dublin, Ireland},
+ pages = {119--128},
+ numpages = {10},
+ OPTurl = {http://doi.acm.org/10.1145/1542431.1542449},
+ OPTdoi = {http://doi.acm.org/10.1145/1542431.1542449},
+ acmid = {1542449},
+ OPTpublisher = {ACM},
+ OPTaddress = {New York, NY, USA},
+ keywords = {degree metrics, dynamic invariants, dynamic shape analysis},
+} 
+
+@inproceedings{marron06static,
+ author = {Marron, Mark and Kapur, Deepak and Stefanovic, Darko and Hermenegildo, Manuel},
+ title = {A static heap analysis for shape and connectivity: unified memory analysis: the base framework},
+ OPTbooktitle = {Proceedings of the 19th international conference on Languages and compilers for parallel computing},
+ series = {LCPC'06},
+ year = {2006},
+ isbn = {978-3-540-72520-6},
+ location = {New Orleans, LA, USA},
+ pages = {345--363},
+ numpages = {19},
+ OPTurl = {http://portal.acm.org/citation.cfm?id=1757112.1757146},
+ acmid = {1757146},
+ OPTpublisher = {Springer-Verlag},
+ OPTaddress = {Berlin, Heidelberg},
+} 
+
+@article{sagivInter02,
+   AUTHOR= {Noam Rinetzky and Mooly Sagiv},
+   TITLE= {Interprocedural Shape Analysis for Recursive Programs},
+   YEAR= {2001},
+   PAGES= {133--149},
+   JOURNAL= {Lecture Notes in Computer Science},
+   VOLUME= {2027},
+}
+
+@inproceedings{sagivDemand95,
+ author = {Horwitz, Susan and Reps, Thomas and Sagiv, Mooly},
+ title = {Demand interprocedural dataflow analysis},
+ booktitle = {Proceedings of the 3rd ACM SIGSOFT symposium on Foundations of software engineering},
+ series = {SIGSOFT '95},
+ year = {1995},
+ isbn = {0-89791-716-2},
+ location = {Washington, D.C., United States},
+ pages = {104--115},
+ numpages = {12},
+ url = {http://doi.acm.org/10.1145/222124.222146},
+ doi = {10.1145/222124.222146},
+ acmid = {222146},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@InProceedings{interAbstr06,
+  author =	 {Alexey Gotsman and Josh Berdine and Byron Cook},
+  title =	 {Interprocedural Shape Analysis with Separated Heap
+                  Abstractions},
+  booktitle =	 {Static Analysis, 13th International Symposium, SAS 2006,
+                  Seoul, Korea, August 29-31, 2006, Proceedings},
+  pages =	 {240-260},
+  editor =	 {Kwangkeun Yi},
+  publisher =	 {Springer},
+  series =	 {Lecture Notes in Computer Science},
+  volume =	 {4134},
+  year =	 {2006},
+  isbn =	 {3-540-37756-5},
+  ee =		 {http://dx.doi.org/10.1007/11823230_16},
+  documenturl =	 {http://research.microsoft.com/pubs/67601/interproc.pdf},
+}
+
+@inproceedings{marron08context,
+  author    = {Mark Marron and
+               Manuel V. Hermenegildo and
+               Deepak Kapur and
+               Darko Stefanovic},
+  title     = {Efficient Context-Sensitive Shape Analysis with Graph Based
+               Heap Models},
+  booktitle = {CC},
+  year      = {2008},
+  pages     = {245-259},
+  ee        = {http://dx.doi.org/10.1007/978-3-540-78791-4_17},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{Sandeep,
+ author = {Dasgupta, Sandeep and Karkare, Amey},
+ title = {Precise shape analysis using field sensitivity},
+ booktitle = {Proceedings of the 27th Annual ACM Symposium on Applied Computing},
+ series = {SAC '12},
+ year = {2012},
+ isbn = {978-1-4503-0857-1},
+ location = {Trento, Italy},
+ pages = {1300--1307},
+ numpages = {8},
+ url = {http://doi.acm.org/10.1145/2231936.2231982},
+ doi = {10.1145/2231936.2231982},
+ acmid = {2231982},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {dataflow analysis, heap analysis, pointer analysis, shape analysis, static analysis},
+} 
+
+@inproceedings{TwoApproach,
+  author 	= {Micha Sharir,Amir Pnuleli},
+  booktitle={Program Flow Analysis: Theory and Applications},
+pages = {189--234},
+  title 	= {Two Approaches To Inter procedural Data flow analysis},
+  year 		= {1976},
+}
+
+@article{LazyPointer,
+  author    = {Uday P. Khedker and
+               Alan Mycroft and
+               Prashant Singh Rawat},
+  title     = {Lazy Pointer Analysis},
+  journal   = {CoRR},
+  volume    = {abs/1112.5000},
+  year      = {2011},
+  ee        = {http://arxiv.org/abs/1112.5000},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+
+@misc{plugin,
+title = {GCC Plugins}, 
+note = {\url{http://gcc.gnu.org/wiki/plugins}}
+}
+
+@misc{udaybook,
+author = {Uday P.Khedkar,Aithaba Sanyal,Bageshri Karkare},
+title = {Data Flow Analysis : Theory and Practice}
+}
+
+@misc{linkedlist,
+title = {Basic Operations on Linked Lists (C++)}, 
+author = {Viktor Pavlu},
+year      = {2010},
+note = {{\scriptsize \url{http://www.complang.tuwien.ac.at/vpavlu/2010/list-benchmark.tgz}}}
+}
+
+
+
+
+concerning definiton of plugin
+http://www.codesynthesis.com/~boris/blog/2010/05/03/parsing-cxx-with-gcc-plugin-part-1/
+
+
+

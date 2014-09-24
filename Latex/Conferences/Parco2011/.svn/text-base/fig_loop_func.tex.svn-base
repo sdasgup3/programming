@@ -1,0 +1,13 @@
+{\tt
+\begin{program}{20}
+  \FL\ \ldots
+  \UNL{0} p = list;
+  \UNL{0} \WHILE (p->next != NULL) \{
+  \NL{1}     temp = p->num;
+  \NL{1}    q = func (p);
+  \NL{1}     q->num = temp;
+  \NL{1}     p = p->next;
+  \UNL{0} \}
+  \UNL{0} \ldots
+\end{program}
+}

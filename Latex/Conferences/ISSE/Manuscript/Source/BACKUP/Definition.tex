@@ -1,0 +1,301 @@
+We view the heap structure at a program point as a directed
+graph, the nodes of which represent the allocated objects and
+the edges represent the connectivity through pointer fields.
+Pictorially, inside a node we show all the relevant pointer
+variables that can point to the heap object corresponding to
+that node. The edges are labeled by the name of the
+corresponding pointer field. In this paper, we only label
+nodes and edges that are relevant to the discussion, to avoid
+clutter.
+
+Let $\heap$ denotes the set of all heap directed
+pointers at a particular program point and $\fields$
+denotes the set of all pointer fields at that program point.
+Given two heap-directed pointers $\p$, $\q$ $\in$
+$\heap$, a path from $\p$ to $\q$ is the sequence
+of pointer fields that need to be traversed in the heap to
+reach from $\p$ to $\q$.  The length of a path is
+defined as the number of pointer fields in the path.  As the
+path length between two heap objects may be unbounded, we
+keep track of only the first field of a path\footnote{
+%%The
+%%  decision to use only first field is guided by the fact that
+%%  in our language, a statement can use at most one field,
+%%  i.e. {\tt p$\rightarrow$f = \ldots} or {\tt \ldots = p$\rightarrow$f}. 
+  While it is possible to use prefixes of any fixed length,
+  it does not make any fundamental change to our
+  analysis.}. To distinguish between a path of length one
+(direct path) from a path of length greater than one
+(indirect path) that start at the same field, we use the
+superscript $\drct$ for a direct path and $\indrct$ for an
+indirect path. In pictures, we use solid edges for direct
+paths, and dotted edges for indirect paths.
+
+It is also possible to have multiple paths between two
+pointers starting at a given field $f$, with at most one
+direct path $f^\drct$. However, the number of indirect paths
+$f^\indrct$ may be unbounded. As there can only be a finite
+number of first fields, we store first fields of paths,
+including the count for the indirect paths, between two
+pointer variables in a set. To bound the size of the set, we
+put a limit $k$ on number of repetitions of a particular
+field. If the number goes beyond $k$, we treat the number of
+paths with that field as $\infty$.
+%% This approach is similar to the approach
+%% of$k$-limiting~\cite{Jones79}.  and
+%% $sl$-limiting~\cite{Larus88}.
+
+\begin{example} {\rm
+\input{Figures/Fig_defn_1.tex}
+
+Figure~\ref{fig:pathsAndSets}(a) shows a code fragment and
+Fig.~\ref{fig:pathsAndSets}(b) shows a possible heap graph
+at a program point after line {\tt S5}. In any execution, there is one path
+between $\p$ and $\q$, starting with field $f$, whose
+length is statically unknown. This information is stored by
+our analysis as the set $\{\fieldI{f}{}{1}\}$. Further, there are
+unbounded number of paths between $\p$ and $\s$, all
+starting with field $f$. There is also a direct path from
+$\p$ to $\s$ using field $g$, and 3 paths starting with
+field $h$ between $\p$ and $\s$. Assuming the limit $k
+\geq 3$, this information can be represented by the set $\{
+g^\drct, f^{\indrct\infty}, h^{\indrct 3} \}$. On the other hand, if $k < 3$,
+then the set would be $\{ g^\drct, f^{\indrct\infty}, h^{\indrct\infty} \}$.
+  } \hfill\psframebox{}
+\end{example}
+
+\newcommand{\anysup}{\ensuremath{\ast}} For brevity, we use
+$f^{\anysup}$ for the cases when we do not want to
+distinguish between direct or indirect path starting at the
+first field $f$. We now define the field sensitive matrices
+used by our analysis.
+
+%FIELD SENSITIVE PATH MATRIX 
+\begin{definition}
+\label{DFM_matrix}
+Field sensitive Path matrix
+$P_F$ is a matrix that stores information 
+about paths between two pointer variables.
+Given $\p, \q \in
+\heap, f \in \fields$:
+\begin{eqnarray*}
+  \epsilon & \in \DFM{p}{p}& \mbox{ where $\epsilon$
+    denotes the empty path.} \\
+  f^\drct  &\in  \DFM{p}{q} & \mbox{ if there is a direct
+    path $f$ from $\p$ to $\q$.}\\
+  f^{\indrct m} & \in  \DFM{p}{q} & 
+  \mbox{\begin{tabular}[t]{p{55mm}}if there are $m$ indirect
+      paths starting with field $f$ from $\p$ to $\q$ and $m
+      \leq k.$
+    \end{tabular}
+  } \\
+  f^{\indrct\infty} & \in  \DFM{p}{q} &
+  \mbox{\begin{tabular}[t]{p{55mm}}if there are $m$ indirect
+      paths starting with field $f$ from $\p$ to $\q$ and $m >
+      k.$
+  \end{tabular}}  
+\end{eqnarray*}
+\end{definition}
+
+Let \nat\ denote the set of natural numbers. We define the
+following partial order for approximate paths used by our
+analysis. For $ f \in \fields,\ m,n \in \nat,\ n \leq m$:
+$$
+\epsilon \sqsubseteq \epsilon, \quad 
+f^\drct \sqsubseteq  f^\drct,  \quad
+f^{\indrct\infty}  \sqsubseteq  f^{\indrct\infty}, \quad
+f^{\indrct m} \sqsubseteq f^{\indrct\infty}, \quad
+f^{\indrct n} \sqsubseteq f^{\indrct m}. 
+$$
+The partial order is extended to set of paths $S_{P_1},
+S_{P_2}$ as\footnote{Note that for our analysis, for a given
+  field $f$, these sets contain at most one entry of type
+  $f^\drct$ and at most one entry of type $f^\indrct$}:
+\begin{eqnarray*}
+  S_{P_1} \sqsubseteq S_{P_2} &\Leftrightarrow& \forall \alpha \in
+  S_{P_1}, \exists \beta \in S_{P_2}\ s.t. \alpha \sqsubseteq \beta
+\end{eqnarray*}
+For pair of paths:
+%%\begin{eqnarray*}
+$  (\alpha, \beta) \sqsubseteq (\alpha', \beta') 
+  \Leftrightarrow 
+   (\alpha \sqsubseteq \alpha')  \wedge
+  (\beta \sqsubseteq  \beta'), $
+%\end{eqnarray*}
+and for set of pairs of paths $R_{P_1}, R_{P_2}$:
+%%\begin{eqnarray*}
+  $R_{P_1} \sqsubseteq R_{P_2} \Leftrightarrow \forall
+  (\alpha, \beta) \in
+  R_{P_1}, \exists (\alpha', \beta') \in
+  R_{P_2}\ s.t. (\alpha, \beta) \sqsubseteq (\alpha', \beta').$
+%%\end{eqnarray*}
+
+
+Two pointers $\p,\q \in \heap$ are said to
+interfere if there exists $\s \in \heap$ such that both
+$\p$ and $\q$ have paths reaching $\s$. Note that $\s$ could
+be $\p$ (or $\q$) itself, in which case the path from $\p$
+(from $\q$) is $\epsilon$.
+
+%FIELD SENSITIVE PATH MATRIX 
+\begin{definition}\label{IFM_matrix}
+Field sensitive Interference matrix $I_F$ between
+two pointers captures the ways in which these pointers are
+interfering.  For $\p, \q, \s \in \heap, \p \not= \q$,
+the following relation holds for $P_F$ and $I_F$: 
+\begin{eqnarray*}
+  \DFM{p}{s} \times \DFM{q}{s} &\sqsubseteq& \IFM{p}{q} \label {eq:rel-df-if}
+\end{eqnarray*}
+\end{definition}
+
+Our analysis computes over-approximations for the matrices
+$P_F$ and $I_F$ at each program point. While it is possible
+to compute only $P_F$ and use above equation to
+compute $I_F$, computing both explicitly results in better
+approximations for $I_F$. Note that interference relation is
+symmetric, i.e.,
+\begin{eqnarray*}
+  (\alpha, \beta) \in I_F[\p, \q] \Leftrightarrow
+   (\beta, \alpha) \in I_F[\q, \p]
+\end{eqnarray*}
+While describing the analysis, we use the
+above relation to show the computation of only one of the two
+entries. 
+\input{Figures/Fig_defn_2.tex}
+
+\begin{example}{\rm
+Figure~\ref{fig:DFM_IFM} shows a heap graph and the
+corresponding field sensitive matrices as computed by our
+analysis.  } \hfill\psframebox{}
+\end{example}
+
+As mentioned earlier, for each variable $\p \in \heap$, our
+analysis uses attributes $\p_{\subD}$ and $\p_{\subC}$ to
+store boolean functions telling whether $\p$ can reach a DAG or
+cycle respectively in the heap. The boolean functions
+consist of the values from matrices $P_F$, $I_F$, and the field
+connectivity information. For $f \in \fields, \p, \q \in
+\heap$, field connectivity is captured by boolean variables
+of the form $f_{pq}$, which is true when $f$ field of $\p$ points
+directly to $\q$. 
+The shape of \p, \p.\shape, can be obtained by evaluating
+the functions for the attributes $\p_{\subC}$ and
+$\p_{\subD}$, and using Table~\ref{tbl:det_shape}.
+\begin{table}
+\caption{Determining shape from boolean
+  attributes\label{tbl:det_shape}}
+\begin{center}
+%\scalebox{0.8}{
+%\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}} |c|c|c| }
+\begin{tabular}{|c|c|c|}
+\hline
+$\p_{\subC}$ & $\p_{\subD}$ & $\p.\shape$ \\ 
+\hline
+\true  & Don't Care  & Cycle        \\ 
+\false  & \true          & DAG    \\ 
+\false  & \false          & Tree   \\ 
+\hline
+\end{tabular}
+%}
+\end{center}
+\end{table}
+
+We use the following operations in our analysis. Let $S$
+denote the set of approximate paths between two nodes, $P$
+denote a set of pair of paths, and $k \in \nat$ denotes the
+limit on maximum indirect paths stored for a given
+field. Then,
+\begin{itemize}\is
+\item Projection: For $f \in \fields$,
+  \project{S}{f}\ extracts the paths starting at field $f$.
+  $$\project{S}{f} \equiv S \cap \{f^{\drct}, f^{\indrct 1}, \ldots,
+  f^{\indrct k}, f^{\indrct \infty}\}$$
+
+\item Counting: The count on the number of paths is defined
+  as :
+  \begin{eqnarray*}
+   \num{\epsilon} &=&     1 \\ %\qquad \qquad 
+   \num{f^{\drct}} &=&     1 \\
+   \num{f^{\indrct\infty}} &=&     \infty \\
+   \num{f^{\indrct j}} &=&  j \mbox{ for } j \in \nat  \\
+   \num{S} &=&   \sum_{\alpha \in S}\num{\alpha}
+  \end{eqnarray*}
+
+{\blue  
+  Also,  
+  \begin{eqnarray*}
+   \num{(\alpha, f^{\indrct m})} &=&  \left\{ \begin{array}{@{}ll}  
+   			m        &  \mbox{if } \alpha \in \{f^{\drct}, \epsilon\} \\
+			m*n      &  \mbox{if } \alpha = f^{\indrct n} \\
+			\infty   &  \mbox{if } \alpha = f^{\indrct\infty} \\
+			\end{array}\right. \\
+   \num{(f^{\indrct m}, \beta)} &=&  \left\{ \begin{array}{@{}ll}  
+   			m        &  \mbox{if } \beta \in \{f^{\drct}, \epsilon\} \\
+			m*n      &  \mbox{if } \beta = f^{\indrct n} \\
+			\infty   &  \mbox{if } \beta = f^{\indrct\infty} \\
+			\end{array}\right. \\
+   \num{(\alpha, \beta)} &=&  \begin{array}{@{}ll}
+   			 1       &  \mbox{if } \alpha, \beta \in \{f^{\drct}, \epsilon\} \\
+			\end{array} \\
+   \num{(f^{\indrct\infty}, \beta)} &=&  \begin{array}{@{}ll}
+   			 \infty       &  \mbox{where }  \beta \in \{f^{\drct}, \epsilon, f^{\indrct\infty}\} \\
+			\end{array} \\
+   \num{(\alpha, f^{\indrct\infty})} &=&  \begin{array}{@{}ll}
+   			 \infty       &  \mbox{where } \alpha \in \{f^{\drct}, \epsilon, f^{\indrct\infty}\} \\
+			\end{array} \\
+	\num{P} &=&   \sum_{(\alpha, \beta) \in P}\num{(\alpha, \beta)}		
+  \end{eqnarray*}
+  }
+
+\item Path removal, intersection and union over set of
+  approximate paths : For singleton sets of paths
+    $\{\alpha\}$ and $\{\beta\}$, path removal
+    (\remOne{\{\alpha\}}{\{\beta\}}), intersection
+    ($\{\alpha\} \cap \{\beta\}$) and union($\{\alpha\} \cup
+    \{\beta\}$) operations are defined as given in
+    Table~\ref{tab:path-ops}. These definitions can be extended
+    to set of paths in a natural way. For example,
+	for general sets of paths, $S_1$ and $S_2$, 
+	the definition of removal can be extended as:
+\begin{eqnarray*}
+  \remOne{S_1}{S_2}  = \bigcap_{\beta \in
+    {S_2}}(\bigcup_{\alpha \in {S_1}}  \remOne{\{\alpha\}}{\{\beta\}}  )
+\end{eqnarray*}
+
+\input{Figures/Fig_defn_3.tex}	
+
+\item {\blue Path removal, intersection and union over set of pair
+  of paths : For singleton sets of paths
+    $\{\alpha, \beta\}$ and $\{\gamma, \delta\}$, union($\{\alpha, \beta\} \cup
+    \{\gamma, \delta\}$), intersection
+    ($\{\alpha, \beta\} \cap  \{\gamma, \delta\}$) and path removal
+    (\remOne{\{\alpha, \beta\}}{\{\gamma, \delta\}}) operations are defined as given in
+    Figure~\ref{tab:union_path_pair}, ~\ref{tab:intersection_path_pair} and ~\ref{tab:removal_path_pair} respectively. As before these 
+	definitions can be extended to set of pair of paths in a natural way. For example,
+	for general sets of paths, $P_1$ and $P_2$, 
+	the definition of removal can be extended as:
+\begin{eqnarray*}
+  \remOne{P_1}{P_2}  = \bigcap_{(\gamma, \delta) \in
+    {P_2}}(\bigcup_{(\alpha, \beta) \in {P_1}}  \remOne{\{\alpha, \beta\}}{\{\gamma, \delta\}}  )
+\end{eqnarray*}
+
+\input{Figures/Fig_defn_merge.tex}
+\input{Figures/Fig_defn_inter.tex}
+\input{Figures/Fig_defn_removal.tex}
+}
+
+\item Multiplication by a scalar($\star$): Let $i, j
+  \in \nat, i \leq k, j \leq k$. Then, for a path $\alpha$,
+  the multiplication by a scalar $i$, $i\star\alpha$ is
+  defined in Table~\ref{tab:path-mult}. The operation is
+  extended to set of paths as:
+\begin{eqnarray*}
+  i \star {S} &=&   \left\{ \begin{array}{lcl}
+    \emptyset &\quad& i = 0 \\
+    \{ i\star \alpha \ \vert\ \alpha \in S\} &\quad& i\in \nat \cup \{\infty\} 
+  \end{array} \right.
+\end{eqnarray*}
+
+\input{Figures/Fig_defn_4.tex}	
+
+\end{itemize}

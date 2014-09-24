@@ -1,0 +1,136 @@
+\begin{figure}
+\centering \scalebox{.80}{
+\begin{tabular}[b]{|l@{}|@{}c@{}|@{}c@{}|} \hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+ {\tt S1} & 
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  & $\emptyset$ \\
+  $\q$ & $\emptyset$  & $\emptyset$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\emptyset$ \\
+  $\q$ & $\emptyset$  & $\emptyset$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\emptyset$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\emptyset$ \\
+  $\q$ &        $\emptyset$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S3} &
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f\right\}$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S4} &
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f, h\right\}$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon), (h, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f), (\epsilon, h)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline 
+\end{tabular} \\ \hline
+
+{\tt S5} &
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon, f, h\right\}$ &    $\left\{f, h\right\}$ \\ 
+  $\q$ &    $\left\{g\right\}$       & $\left\{\epsilon, g\right\}$\\ 
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & 
+  		$\left\{(f, \epsilon), (h, \epsilon),  (\epsilon, g)\right\}$ \\ 
+  $\q$ &        $\left\{(\epsilon, f), (\epsilon, h), (g, \epsilon)\right\}$                   
+  & $\left\{(\epsilon, \epsilon)\right\}$ \\ 
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S6}&
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f, h\right\}$ \\
+  $\q$ &   $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon), (h, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f), (\epsilon, h)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S7} &
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f\right\}$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+\end{tabular}} \\[2mm]
+
+{\footnotesize (a) Direction ($D_F$) and Interference ($I_F$) Matrices.} \\ [5mm]
+
+\scalebox{.80}{  \begin{tabular}{|l|l|l|l|l|l|l|l|} \hline
+    {\bf After Stmt} & {\tt S1 } & {\tt S2 } &  {\tt S3 } &  {\tt
+      S4 } &  {\tt S5 } &  {\tt S6 } &  {\tt S7 } \\ \hline
+    {\bf Boolean Vars} & & & & & & & \\ 
+    $f_{pq}$ & false & false & true   & true  & true & true & true \\ 
+    $h_{pq}$ & false & false & false & true  & true & true & false \\ 
+    $g_{qp} $& false & false & false & false & true  & false & false\\ \hline 
+  \end{tabular}} \\[2mm]
+
+{\footnotesize (b) Values for boolean variables corresponding to
+  relevant pointer fields.}
+
+  \caption{Field Sensitive information for the 
+    code in Figure~\ref{fig:motivA}(a) \label{fig:motivB}}
+ \end{figure}

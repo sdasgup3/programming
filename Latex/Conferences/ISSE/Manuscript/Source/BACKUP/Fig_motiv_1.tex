@@ -1,0 +1,248 @@
+\begin{figure*}[t]
+\centering
+  \begin{tabular}{@{}lcc@{}}
+\begin{tabular}[b]{l}
+\scalebox{0.80}{\small\tt
+      \begin{tabular}[b]{l}
+        S1. p = malloc(); \\
+        S2. q = malloc(); \\
+        S3. p$\rightarrow$f = q; \\
+        S4. p$\rightarrow$h = q; \\
+        S5. q$\rightarrow$g = p; \\
+        S6. q$\rightarrow$g = NULL;   \\
+        S7. p$\rightarrow$h = NULL; 
+      \end{tabular}
+    } \\ 
+\scalebox{0.80}{(a) A code fragment} \\ \\
+\scalebox{0.76}{  \begin{tabular}[b]{|cc|l|l|l|} \hline
+    {\bf After} && $f_{pq}$ & $h_{pq}$ & $g_{qp}$ \\
+    {\bf Stmt} && & &     \\ \hline
+    {\tt S1 } && false & false & false \\
+    {\tt S2 } && false & false & false \\
+    {\tt S3 } && true  & false & false \\
+    {\tt S4 } && true  & true  & false \\
+    {\tt S5 } && true  & true  & true  \\
+    {\tt S6 } && true  & true  & false \\
+    {\tt S7 } && true  & false & false \\ \hline
+  \end{tabular}}
+\end{tabular}
+&
+\hspace{-1mm}\scalebox{0.69}{\begin{tabular}[b]{|l|@{}c@{}|@{}c@{}|}
+    \hline
+{\bf After} & $P$ & $I$ \\
+ {\bf Stmt} & & \\ \hline
+{\tt S1}
+& \begin{tabular}{|c|cc|}
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 0 \\
+$\q$ & 0  & 0\\
+\hline
+\end{tabular} &
+\begin{tabular}{|c|cc|}
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 0 \\
+$\q$ & 0  & 0\\
+\hline
+\end{tabular}\\ \hline
+{\tt S2}
+& \begin{tabular}{|c|cc|}
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 0 \\
+$\q$ & 0  & 1\\
+\hline
+\end{tabular}&
+\begin{tabular}{|c|cc|}
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 0 \\
+$\q$ & 0  & 1\\
+\hline
+\end{tabular} \\ \hline
+{\tt S3}
+ & \begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 0  & 1\\
+\hline
+\end{tabular}&
+\begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 1  & 1\\
+\hline
+\end{tabular}\\ \hline
+{\tt S4}
+ & \begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 0  & 1\\
+\hline
+\end{tabular} &
+\begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 1  & 1\\
+\hline
+\end{tabular}\\ \hline
+{\tt S5}
+ & \begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 1  & 1\\
+\hline
+\end{tabular} &
+\begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 1  & 1\\
+\hline
+\end{tabular} 
+\\ \hline
+{\tt S6}
+ & \begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 1  & 1\\
+\hline
+\end{tabular} &
+\begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 1  & 1\\
+\hline
+\end{tabular} 
+\\ \hline
+{\tt S7}
+ & \begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 1  & 1\\
+\hline
+\end{tabular} &
+\begin{tabular}{|c|cc|} \hline 
+{\tt } & $\p$  &  $\q$ \\ \hline
+$\p$ & 1  & 1 \\
+$\q$ & 1  & 1\\
+\hline
+\end{tabular} 
+\\ \hline
+\end{tabular}} &
+\hspace{-1mm}\scalebox{0.69}{
+\begin{tabular}[b]{|l@{}|@{}c@{}|@{}c@{}|} \hline
+ {\bf After} & $P_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+
+{\tt S1} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  & $\emptyset$ \\
+  $\q$ & $\emptyset$  & $\emptyset$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\emptyset$ \\
+  $\q$ & $\emptyset$  & $\emptyset$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\emptyset$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\emptyset$ \\
+  $\q$ &        $\emptyset$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S3} &
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f\right\}$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S4} &
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f, h\right\}$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon), (h, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f), (\epsilon, h)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline 
+\end{tabular} \\ \hline
+
+{\tt S5} &
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon, f, h\right\}$ &    $\left\{f, h\right\}$ \\ 
+  $\q$ &    $\left\{g\right\}$       & $\left\{\epsilon, g\right\}$\\ 
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & 
+  $\left\{(f, \epsilon), (h, \epsilon),  (\epsilon, g)\right\}$ \\ 
+  $\q$ &        $\left\{(\epsilon, f), (\epsilon, h), (g, \epsilon)\right\}$
+  & $\left\{(\epsilon, \epsilon)\right\}$ \\ 
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S6}&
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f, h\right\}$ \\
+  $\q$ &   $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon), (h, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f), (\epsilon, h)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S7} &
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f\right\}$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline 
+\end{tabular}}
+\\ 
+\scalebox{0.80}{(d) \begin{tabular}[t]{@{}p{23mm}}
+    Boolean Variables and their values
+  \end{tabular}} & 
+\scalebox{0.80}{(b) \begin{tabular}[t]{@{}p{23mm}}
+             Path ($P$) and Interference ($I$) matrices~\cite{Ghiya96}
+         \end{tabular}} &
+\scalebox{0.80}{(c) \begin{tabular}[t]{@{}p{43mm}} Field Sensitive Path ($P_F$) and
+  Interference ($I_F$) matrices.
+  \end{tabular}
+} 
+  \end{tabular}
+\caption{A motivating example\label{fig:motiv}}
+\end{figure*}
+

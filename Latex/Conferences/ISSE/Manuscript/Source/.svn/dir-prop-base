@@ -1,0 +1,12 @@
+K 10
+svn:ignore
+V 62
+isse.log
+isse.ps
+isse.dvi
+isse.aux
+isse.bbl
+isse.blg
+isse.pdf
+
+END

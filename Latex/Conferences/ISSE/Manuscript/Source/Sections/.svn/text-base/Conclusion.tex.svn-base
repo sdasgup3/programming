@@ -1,0 +1,37 @@
+In this  paper we proposed  a field sensitive  shape analysis
+technique to  infer shapes of heap  structures.  Our approach
+uses field based boolean variables along with field sensitive
+path  matrices to infer  the shapes  of pointer  variables in
+terms  of  boolean  equations.   The path  matrices  help  in
+remembering connectivity  information of pointers,  while the
+field based  boolean variables help in  remembering the exact
+updates affecting  the shapes.   This allows our  analysis to
+generate precise kill  information for field updates, thereby
+capturing the shape transitions from Cycle to DAG, from Cycle
+to Tree  and from  DAG to Tree. 
+
+We  have  shown  some  scenarios  that can  be  handled  more
+precisely  by  our analysis  as  compared  to existing  field
+insensitive  analyses.   To  show  the effectiveness  of  our
+analysis,  we implemented our  analysis as  a plug-in  for GCC
+version  4.5.0.    The  implementation  is   an  instance  of
+call-string    based   interprocedural    data-flow   analysis
+framework.  We evaluated  our analysis on standard benchmarks
+and showed that the results are more precise than an existing
+field insensitive analysis.   We have shown some enhancements
+that can  be easily incorporated in our  analysis to increase
+its effectiveness in some cases.
+
+Our   shape   analysis  can   be   used   by  compilers   for
+optimizations, parallelization and  verification.  There is a
+lot of scope  to improve the memory and  the time required by
+the  analysis. In a  large program,  typically a  pointer has
+path to only  a few other pointers.  Therefore,  in future we
+plan   to  use   sparse  matrices   to  represent   the  path
+information.  We also plan  to implement with a demand-driven
+variation of  the analysis that can  switch between precision
+(field sensitivity) and speed (field insensitivity) depending
+on  the needs  of the  target  application. We  also plan  to
+implement  and  evaluate the  enhancements  to our  analysis,
+namely Shape-based context sensitive interprocedural analysis   
+and Field-subset based analysis, in near future.

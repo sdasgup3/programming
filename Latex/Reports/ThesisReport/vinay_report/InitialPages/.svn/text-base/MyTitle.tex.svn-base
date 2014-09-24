@@ -1,0 +1,37 @@
+\titlepage
+\thispagestyle{empty}
+\begin{center}
+\noindent {\bf{\Large{\sc Field Sensitive Shape Analysis: Implementation and Improvements}}}\\
+\end{center}\vspace{15mm}
+\begin{center}
+{\it{A Thesis Submitted}}\\
+{\it{in Partial Fulfillment of the Requirements}}\\
+{\it{for the Degree of}}\\
+
+{\bf {\large Master of Technology (M.Tech)}}\\
+\vspace{15mm}
+
+{\it{by}} \\
+{\bf{\large P.Vinay Kumar Reddy}}\\
+
+\vspace{1cm}
+{\it{Supervised By}} \\
+%\vspace{.5cm}
+%\hspace{.05cm} 
+{\large \bf {Dr. Amey Karkare}}\\
+\end{center}
+\vspace{8mm}
+\begin{figure}[h] 
+%\hspace{6cm}
+%\vspace{5cm}
+{\centering {\includegraphics[width=.3\linewidth]{diagrams/logoMain.eps}}\par}
+\end{figure} 
+\begin{center}
+\vspace{3mm}
+{\bf {\large {\sc Department of Computer Science and Engineering}}}\\
+\vspace{2mm}
+{\bf {\large INDIAN INSTITUTE OF TECHNOLOGY KANPUR}}\\
+\vspace{3mm}
+{\textbf{June, 2012}}
+\end{center}
+

@@ -1,0 +1,23 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces A motivating example}}{6}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Field Sensitive information for the code in Figure\nobreakspace {}\ref {fig:motivA}(a) }}{6}{figure.3.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Paths in a heap graph}}{10}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces A heap graph and its field sensitive path matrices}}{12}{figure.4.2}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Using boolean variables to improve precision }}{24}{figure.6.1}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces The termination of computation of boolean functions}}{24}{figure.6.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Insertion of an internal node in a singly linked list}}{28}{figure.7.1}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Swapping two nodes of a singly linked list}}{29}{figure.7.2}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Computing mirror image of a binary tree. ``$l$'' and ``$r$'' denotes respectively the left and right fields of tree.}}{30}{figure.7.3}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Example Direction and Interference Matrices}}{36}{figure.A.1}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Example Demonstrating Shape Estimation}}{37}{figure.A.2}
+\contentsline {figure}{\numberline {A.3}{\ignorespaces The Overall Struture of the Analysis}}{38}{figure.A.3}
+\contentsline {figure}{\numberline {A.4}{\ignorespaces Analysis Rules}}{39}{figure.A.4}
+\addvspace {10\p@ }

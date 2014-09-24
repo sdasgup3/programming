@@ -1,0 +1,126 @@
+Hardware  and Software  revolutions  in past  few years  have
+brought in  two significant challenges:  (a) High performance
+computing  is now  accessible  to end  users (scientists  and
+engineers) in the forms of multi-core and GPU processors at a
+very  low cost.   However, these  end users,  who  are domain
+experts,  find  it difficult  to  acquire  expertise to  take
+advantage of  the compute power available  at their disposal.
+As a result, the compute remains significantly underutilized.
+The  tasks  of  helping  programmers ``think  parallel''  and
+providing   them  with   working  parallel   environment  are
+considered   the  top   challenges   in  parallel   computing
+research~\cite{top10,  wrinn08parallel}.   (b)  The  cost  of
+failure of software is increasing with the growing complexity
+of software. The cost of software failure was estimated to be
+USD   6.18  Trillion   in  the   year  2009~\cite{roger09it}.
+Therefore, it  is becoming more and more  important to verify
+the correctness of a  software program before its deployment.
+The complexity of hardware  and software systems require that
+the solutions  to the above challenges have  to be automated.
+We  need  parallelizing   compilers  that  can  automatically
+convert  sequential programs to  parallel one,  and verifying
+compilers that can prove the correctness of programs.
+
+Programs  in  all   modern  programming  languages  use  heap
+intensively.  Any  non  trivial  analysis of  these  programs
+requires  precise reasoning  about the  heap  structures. The
+reasoning  is complex  because  the heap  structures are  not
+static but  are manipulated dynamically  during the execution
+of the  program.  {\em  Shape analysis} is  the term  for the
+class of  static analysis techniques  that are used  to infer
+useful  properties  about heap  structures  and the  programs
+manipulating  the heap.   The shape  information of  the heap
+data structures  can be used by variety  of applications, for
+e.g.    compile  time  optimizations,   compile-time  garbage
+collection,  debugging, verification,  instruction scheduling
+and parallelization.
+
+In the  last two  decades, several shape  analysis techniques
+have  been  proposed  in  literature.  However,  there  is  a
+trade-off between  speed and precision  for these techniques,
+thus  making them  suitable  either for  verification or  for
+optimization,   but  not   both.    Precise  shape   analysis
+algorithms~\cite{Sagiv96,shaham03heap,distefano06local,hackett05region}
+are not  practical for an optimizing compilers  as they scale
+poorly to  the large heap manipulating  programs.  To achieve
+scalability,  the  optimizing  compilers use  shape  analysis
+algorithms~\cite{Chase90,Ghiya96,marron06static}  that  trade
+precision for  speed by  ignoring certain properties  of heap
+structures  (for example,  the calling  context or  the field
+connectivity between the pointers).
+
+In  this  paper,  we   present  a  field  sensitive,  context
+sensitive shape analysis technique that uses field-based path
+information  to  infer the  shapes  of  heap structures.  The
+novelty  of  our  approach  lies  in the  way  we  use  field
+information to remember the paths that result in a particular
+shape  (Tree,  DAG,  Cycle).   This  allows  us  to  identify
+transitions from a conservative shape to a more precise shape
+(i.e., from Cycle to DAG, from  Cycle to Tree and from DAG to
+Tree) due to destructive updates.  This in turn enables us to
+infer precise shape information.
+
+Our analysis captures the field sensitivity information using
+two components: (a) Field based boolean variables to remember
+the direct connections between two pointer variables, and (b)
+Path  matrices  that  store  the  approximate  paths  between
+pointer  variables.  The  shape of  a pointer  variable  at a
+given program point is inferred from these two components.
+
+This paper makes the following contributions:
+\begin{enumerate}
+\item We present a novel field based shape analysis technique
+  that uses  limited path information to  infer precisely the
+  shapes of  heap structures. We  propose the analysis  as an
+  instance  of a  forward data  flow analysis  framework, and
+  describe in details the components of the framework.
+\item We describe a flow sensitive, context sensitive
+  implementation of our analysis as a plug-in for GCC version
+  4.5.0~\cite{gcc-web}. we present experimental evaluation
+  and comparison of our analysis with an existing field
+  insensitive approach~\cite{Ghiya96} on several benchmark
+  programs. 
+\item  We propose some  enhancements to  our analysis:  (a) A
+  {\em Field-subset} based analysis to improve precision when
+  auxiliary  fields\footnote{Fields that  are  used only  for
+    diagnostic   or  debugging  purpose,   or  unused   by  a
+    significant part  of the  program.}  are present  in data
+  structures, and (b)  shape-based context sensitive analysis
+  to improve  memory footprint and  speed when the  number of
+  contexts is huge.
+\end{enumerate}
+
+The paper is organized as follows: 
+We demonstrate the working of our analysis using a motivating
+example  in Section~\ref{sec:motiv}, and  explain intuitively
+the key concepts.
+%%
+Section~\ref{sec:Formal_Definitions}  presents  the notations
+and     definitions    used     by    our     analysis    and
+Section~\ref{sec:Analysis} describes the details of the
+analysis.
+%%
+%Section~\ref{subsec:Interprocedural_Analysis}    describes   the
+%call-strings   approach  we   used  to   incorporate  context
+%sensitivity in the analysis.
+%%
+%The   properties   of   our   analysis   are   described   in
+%Section~\ref{subsec:props}.
+%%
+Section~\ref{sec:implementation_results}     describes    the
+baseline      approach      (field     insensitive      shape
+analysis~\cite{Ghiya96}),  the  benchmark  programs  and  our
+experimental evaluation.
+%%
+Section~\ref{sec:Enhancements} describes some enhancements
+over our current scheme. 
+%%
+We discuss some of the prior works on shape analysis in
+Section~\ref{sec:bgrel}. 
+%% 
+Section~\ref{sec:concl} concludes the
+paper and gives directions for future work.
+
+
+We start  out with  motivating examples that  also illustrate
+the workings of our analysis.

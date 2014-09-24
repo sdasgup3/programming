@@ -1,0 +1,127 @@
+The shape-analysis problem was initially studied in the
+context of functional languages. Jones and
+Muchnick~\cite{Jones79} proposed one of the earliest shape
+analysis technique for Lisp-like languages with destructive
+updates of structure. They used sets of finite shape graphs
+at each program point to describe the heap structure.  To
+keep the shape graphs finite, they introduced the concept of
+$k$-limited graphs where all nodes beyond $k$ distance from
+root of the graph are summarized into a single node. Hence
+the analysis resulted in conservative approximations. The
+analysis is not practical as it is extremely costly both in
+time and space.
+%
+Chase et.~al.~\cite{Chase90} introduced the concept of limited
+reference count to classify heap objects into different
+shapes. They also classified the nodes in concrete and
+summary nodes, where summary nodes were used to guarantee
+termination. Using the reference count and concreteness
+information of the node, they were able to kill relations
+({\em strong updates}) for assignments of the form $\p\rightarrow f = \q$
+in some cases. However, this information is not
+insufficient to compute precise shape, and detects false
+cycles even in case of simple algorithms like destructive list
+reversal.
+
+Sagiv et.~al.~\cite{Sagiv96,Sagiv02toplas} proposed
+generic, unbiased shape analysis algorithms based on {\em
+  Three-Valued} logic. They introduce the concepts of {\em
+  abstraction} and {\em re-materialization}. Abstraction is
+the process of summarizing multiple nodes into one and is
+used to keep the information bounded.  Re-materialization is
+the process of obtaining concrete nodes from summary node and
+is required to handle destructive updates. By identifying
+suitable predicates to track, the analysis can be made very
+precise.  However, the technique has potentially exponential
+run-time in the number of predicates, and therefore not
+suitable for large programs.
+%
+Distefano et.\ al.~\cite{distefano06local} presented a shape
+analysis technique for linear data structures (linked-list
+etc.), which works on symbolic execution of the whole program
+using separation logic. Their technique works on suitable
+abstract domain, and guarantees termination by converting
+symbolic heaps to finite canonical forms, resulting in a
+fixed-point. By using enhanced abstraction scheme and
+predicate logic, Cherini et.~al.~\cite{cherini10shape}
+extended this analysis to support nonlinear data structure
+(tree, graph etc.).
+
+Berdine  et.~al.~\cite{berdine07shape} proposed a  method for
+identifying   composite   data   structures   using   generic
+higher-order  inductive predicates and  parameterized spatial
+predicates.   However,  using of  separation  logic does  not
+perform well  in inference  of heap properties.   Hackett and
+Rugina in~\cite{hackett05region} presented a new approach for
+shape analysis which reasons about the state of a single heap
+location independently. This  results in precise abstractions
+of localized  portions of heap. This local  reasoning is then
+used  to  reason about  global  heap using  context-sensitive
+interprocedural               analysis.                Cherem
+et.\  al.~\cite{cherem07doubly}  use  the  local  abstraction
+scheme of~\cite{hackett05region} to generate local invariants
+to  accurately  compute shape  information  for complex  data
+structures.
+%
+\cmt{
+\todo{COMMENTED OUT
+Susan  et.~al.~\cite{sagivDemand95} have  a  polynomial worst
+case  method for  inter  procedural analysis  provided its  a
+demand  data flow  analysis. It  determines whether  a single
+given data flow value holds at some give point. But the class
+of problems it can handle  was limited.  Using the notions of
+abstraction       and      separation       logic,      Alexy
+et.\ al.\ ~\cite{interAbstr06}  separate the portions of heap
+that is reachable  from a procedure from the  portion of heap
+that is  not reachable.  Its  limitation is that  it supports
+only linked lists, doubly linked lists and trees.
+THESE DON'T MAKE ANY SENSE.}
+}
+
+%
+Jump and McKinley~\cite{maria09dynamic} give a technique for
+dynamic shape analysis that characterizes the shape of
+recursive data structure in terms of dynamic degree metrics
+which uses in-degrees and out-degrees of heap nodes to
+categorize them into classes. While this technique is useful
+for detecting certain types of errors; it fails to visualize
+and understand the shape of heap structure and cannot express
+the sharing information in general.
+
+The present work is an extension of the analysis developed by
+Sandeep et.~al.~\cite{Sandeep}. The major improvements in the
+current  work  include  (a)  removal of  the  computation  of
+interference  matrices ($I_F$), which  improved the  run time
+and the memory significantly,  (b) improving the precision of
+some  dataflow equations,  (c) extensions  to  a call-strings
+based  context-sensitive  interprocedural  analysis  and  (d)
+implementation and evaluation  the analysis for some standard
+benchmarks.   The   work  by  Sandeep  et.~al.~\cite{Sandeep}
+itself  was an enhancement  over the  work proposed  by Ghiya
+et.~al.~\cite{Ghiya96}          and         by         Marron
+et.~al.~\cite{marron06static}.      The     analysis    Ghiya
+et.~al.~\cite{Ghiya96}   keeps  interference   and  direction
+matrices between  any two pointer variables  pointing to heap
+object  and  infer  the  shape  of the  structure  as  \Tree,
+\Dag\  or  \Cycle.   They  have  demonstrated  the  practical
+applications  of their  analysis~\cite{Ghiya98a,Ghiya98b} and
+shown  that it works  well on  practical programs.   The main
+shortcoming of  this approach is  that it cannot  handle kill
+information.   In  particular,  the  approach  is  unable  to
+identify transitions  from \Cycle\  to \Dag, from  \Cycle\ to
+\Tree\  and from  \Dag\  to \Tree,  and hence  conservatively
+identifies the shapes.
+%
+Marron  et.~al.~\cite{marron06static}  presents  a data  flow
+framework  that   uses  heap   graphs  to  model   data  flow
+values.  The analysis  uses a  technique that  is  similar to
+re-materialization. However, unlike parametric shape analysis
+techniques~\cite{Sagiv02toplas},  the  re-materialization  is
+approximate and may result in loss of precision.
+
+Our method is based on  data flow analysis that uses matrices
+and  boolean functions  as  data flow  values.  We use  field
+sensitive  matrices to  store path  information,  and boolean
+variables  to record  field updates.  By  incorporating field
+sensitivity information, we are able to improve the precision
+considerably.

@@ -1,0 +1,23 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}
+\BOOKMARK [1][-]{section.1.1}{A Brief Introduction}{chapter.1}
+\BOOKMARK [1][-]{section.1.2}{Contributions of our Work}{chapter.1}
+\BOOKMARK [1][-]{section.1.3}{Organization of the Thesis}{chapter.1}
+\BOOKMARK [0][-]{chapter.2}{Related Work}{}
+\BOOKMARK [0][-]{chapter.3}{Motivation}{}
+\BOOKMARK [0][-]{chapter.4}{Definitions and Notations}{}
+\BOOKMARK [0][-]{chapter.5}{Analysis}{}
+\BOOKMARK [1][-]{section.5.1}{Analysis of Basic Statements}{chapter.5}
+\BOOKMARK [1][-]{section.5.2}{Inter-procedural Analysis}{chapter.5}
+\BOOKMARK [0][-]{chapter.6}{Properties of our Analysis}{}
+\BOOKMARK [1][-]{section.6.1}{Need for Boolean Variables}{chapter.6}
+\BOOKMARK [1][-]{section.6.2}{Termination}{chapter.6}
+\BOOKMARK [1][-]{section.6.3}{Storage Requirement}{chapter.6}
+\BOOKMARK [0][-]{chapter.7}{Comparison with Other Approaches}{}
+\BOOKMARK [1][-]{section.7.1}{Comparison with Ghiya et. al. Ghiya96}{chapter.7}
+\BOOKMARK [2][-]{subsection.7.1.1}{Inserting an internal node in a singly linked list.}{section.7.1}
+\BOOKMARK [2][-]{subsection.7.1.2}{Swapping Two Nodes of a Singly Linked List.}{section.7.1}
+\BOOKMARK [2][-]{subsection.7.1.3}{Recursively Swapping Binary Tree.}{section.7.1}
+\BOOKMARK [1][-]{section.7.2}{Comparison with Marron et. al. marron06static}{chapter.7}
+\BOOKMARK [0][-]{chapter.8}{Conclusion and Future Work}{}
+\BOOKMARK [0][-]{appendix.A}{Analysis of Ghiya et. al. Ghiya96}{}
+\BOOKMARK [0][-]{appendix.B}{Analysis of Marron et. al. marron06static}{}

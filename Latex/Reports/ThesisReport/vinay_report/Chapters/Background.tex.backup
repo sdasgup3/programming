@@ -1,0 +1,674 @@
+\section{Related Work}
+It was for functional languages that first shape analysis was looked at. Jones and Muchnick~\cite{Muchnick79} 
+suggested a method for finding shape of unbounded data objects in LISP like
+languages using regular tree grammars. They associate with each program point a set of 
+shape graphs and to handle termination of analysis they use k-limiting approach. So they treat all nodes
+whose distance is more than k from root as a single summarized node. Due to its large consumption of space 
+and time the analysis is not practical.
+
+Chase et al.~\cite{Chase90}  has used the concept of heap reference counts. They associate each node with a reference 
+count and then try to find that part of the heap where all nodes
+have reference count as one, such portions are said to be a tree or list. 
+They have tried to tackle the problems with k-limiting to some extent, however their work fails obtaining 
+accurate results for recursive data structures.
+
+Sagiv et al.~\cite{Sagiv99},~\cite{Sagiv02} have presented a family of abstract interpretation algorithms based on three-valued logic. 
+They use abstraction, a method for summarizing node and to handle destructive updates they have 
+come up with re-materialization which refers to the process of splitting summary nodes. An exponential number of shape nodes may arise because of
+abstract interpretation, so its not suitable for practical purposes. Sagiv and Noam~\cite{SagivInter02} have also looked into inter procedural shape 
+analysis for recursive programs but they work only on linked lists. 
+
+Dino et al.~\cite{berdine07shape} work  on shape analysis based on separation logic, it is based on the concept {\red that once 
+we know two collection of cells are in isolation, update in one of the collections does not necessitate updating or checking 
+the cells of other collection.} They use the method of symbolic execution to convert symbolic heap to certain canonical form and as the number 
+of canonical forms are fixed, fixed point is guaranteed. 
+
+The mail idea of Brian et al.~\cite{hackett05region} is to  decompose heap abstractions and independently analyze different parts of the heap.
+They also decompose memory abstraction horizontally and vertically. Now for the local work to propagate globally they proposed 
+and used a context sensitive inter procedural shape analysis algorithm.
+
+A dynamic shape analysis technique was proposed by Jump et al.~\cite{maria09dynamic}. They compute a class field 
+summary graph that summarizes the dynamic object graph. This sumary graph also records the in-degree and out-degree of each 
+object which are the recursive degree metrics. In their analysis they keep track of those node which are of fixed degree and
+also those whose degree is in a particular range. Since running the analysis after each pointer statement is very costly they 
+do it by piggybacking with garbage collection. 
+
+Susan et al.~\cite{sagivDemand95} have a polynomial worst case method for inter procedural analysis provided its a demand 
+data flow analysis. It will determine whether a single given data flow value holds at some give point. But the class of problems 
+it can handle was limited. Alexy~\cite{interAbstr06} represent heap portions independently by using the notions of abstraction and separation logic.
+Their representation helps to easily separate the portion which is reachable and which is not from a procedure. Its limitation is that it 
+supports only linked lists, doubly linked lists and trees.
+
+Ghiya et al.~\cite{Ghiya96} estimates the shapes of heap structures pointed to by pointers as a \emph{Tree}, \emph{Dag} or \emph{Cycle}. 
+They use Direction, Interference matrices and shape attributes as their data flow values which gets generated and killed after each pointer 
+statements. As this is very closely related to our work, we have given a detailed view of it in the Appendix section.
+
+Marron et al.~\cite{marron06static} uses a graph based heap model with objects being vertices and pointers being the labeled edges. 
+A node is considered as a set of cells and each node is associated with a layout saying \emph{Singleton}, \emph{List}, \emph{Tree}, 
+\emph{Multipath} or \emph{Cycle}. These layouts honours the order \emph{Singleton} $<$ \emph{List} $<$ \emph{Tree} $<$ \emph{Multipath} $<$ \emph{Cycle}. 
+This means that suppose a node is of layout \emph{Tree} then it may have properties of \emph{Singleton}, \emph{List} or \emph{Tree}.
+They have methods by which summarized nodes are split to concrete nodes (and edges) but its only for for the most common cases encountered, 
+this enables them to handle strong updates. Then they have proposed a context sensitive analysis~\cite{marron08context} for the same graph based
+heap models. For this they have come up with operations \emph{project}$/$\emph{extend}. \emph{project} removes that part of heap which is 
+unaffected by a called procedure and \emph{extend} rejoins the unreachable portion back after return. 
+
+The work of Sandeep et al.~\cite{Sandeep11thesis}, which is extended in the present paper, is explained in detail in the
+following section for a better understanding of the basis of this work.
+
+\section[Precise Shape Analysis using Field Sensitivity]{Analysis of Sandeep et. al.~\cite{Sandeep11thesis}\footnote{The contents of this section are borrowed from~\cite{Sandeep11thesis}}}
+Most of the definitions and technical terms used in this section are borrowed from the aforementioned paper.
+As we will be using these details so throughout the report we have mentioned this as a separate section in our report.
+They have presented a shape analysis technique that uses limited field sensitivity to infer the shape. 
+As this technique is able to handle destructive updates, so precise shape information can be obtained.
+They generated data flow values in the form of field sensitive matrices and boolean equations at each program point to obtain the shape information.
+
+\subsection{Definitions And Notations}
+At a particular program point, the heap structure is viewed as a directed
+graph, the nodes of which represent the allocated objects and
+the edges represent the connectivity through pointer fields.
+Pictorially, inside a node all the relevant pointer
+variables are shown that can point to the heap object corresponding to
+that node. The edges are labeled by the name of the
+corresponding pointer field. 
+
+Let $\heap$ denotes the set of all heap directed
+pointers at a particular program point and $\fields$
+denotes the set of all pointer fields at that program point.
+Given two heap-directed pointers $\p$, $\q$ $\in$
+$\heap$, a path from $\p$ to $\q$ is the sequence
+of pointer fields that need to be traversed in the heap to
+reach from $\p$ to $\q$.  The length of a path is
+defined as the number of pointer fields in the path.  As the
+path length between two heap objects may be unbounded, only the first field of a path is stored. 
+To distinguish between a path of length one
+(direct path) from a path of length greater than one
+(indirect path) that start at the same field, the
+superscript $\drct$ for a direct path and $\indrct$ for an
+indirect path are used. In pictures, solid edges are used for direct
+paths, and dotted edges for indirect paths.
+
+It is also possible to have multiple paths between two
+pointers starting at a given field $f$, with at most one
+direct path $f^\drct$. However, the number of indirect paths
+$f^\indrct$ may be unbounded. As there can only be a finite
+number of first fields, first fields of paths are stored,
+including the count for the indirect paths, between two
+pointer variables in a set. To bound the size of the set, a limit $k$ is put 
+on number of repetitions of a particular field. If the number goes beyond $k$, the number of
+paths with that field is treated as $\infty$. 
+
+\begin{example} {\rm
+\input{Chapters/defn_fig_0.tex}
+
+Figure~\ref{fig:pathsAndSets}(a) shows a code fragment and
+Fig.~\ref{fig:pathsAndSets}(b) shows a possible heap graph
+at a program point after line {\tt S5}. In any execution, there is one path
+between $\p$ and $\q$, starting with field $f$, whose
+length is statically unknown. This information is stored by
+as the set $\{\fieldI{f}{}{1}\}$. Further, there are
+unbounded number of paths between $\p$ and $\s$, all
+starting with field $f$. There is also a direct path from
+$\p$ to $\s$ using field $g$, and 3 paths starting with
+field $h$ between $\p$ and $\s$. Assuming the limit $k
+\geq 3$, this information can be represented by the set $\{
+g^\drct, f^{\indrct\infty}, h^{\indrct 3} \}$. On the other hand, if $k < 3$,
+then the set would be $\{ g^\drct, f^{\indrct\infty}, h^{\indrct\infty} \}$.
+  } \hfill\psframebox{}
+\end{example}
+
+For brevity, 
+$f^{\anysup}$ is used for the cases when it is irrelevent to
+distinguish between direct or indirect path starting at the
+first field $f$. Next field sensitive matrices are defined.
+
+%FIELD SENSITIVE DIRECTION MATRIX 
+\begin{definition}
+\label{DFM_matrix}
+Field sensitive Direction matrix
+$D_F$ is a matrix that stores information 
+about paths between two pointer variables.
+Given $\p, \q \in
+\heap, f \in \fields$:
+\begin{eqnarray*}
+  \epsilon & \in \DFM{p}{p}& \mbox{ where $\epsilon$
+    denotes the empty path.} \\
+  f^\drct  &\in  \DFM{p}{q} & \mbox{ if there is a direct
+    path $f$ from $\p$ to $\q$.}\\
+  f^{\indrct m} & \in  \DFM{p}{q} & 
+  \mbox{\begin{tabular}[t]{p{105mm}}if there are $m$ indirect
+      paths starting with field $f$ from $\p$ to $\q$ and $m
+      \leq k.$
+    \end{tabular}
+  } \\
+  f^{\indrct\infty} & \in  \DFM{p}{q} &
+  \mbox{\begin{tabular}[t]{p{105mm}}if there are $m$ indirect
+      paths starting with field $f$ from $\p$ to $\q$ and $m >
+      k.$
+  \end{tabular}}  
+\end{eqnarray*}
+\end{definition}
+
+Let \nat\ denote the set of natural numbers. The
+following partial order are defined for approximate paths used by the
+analysis. For $ f \in \fields,\ m,n \in \nat,\ n \leq m$:
+$$
+\epsilon \sqsubseteq \epsilon, \quad 
+f^\drct \sqsubseteq  f^\drct,  \quad
+f^{\indrct\infty}  \sqsubseteq  f^{\indrct\infty}, \quad
+f^{\indrct m} \sqsubseteq f^{\indrct\infty}, \quad
+f^{\indrct n} \sqsubseteq f^{\indrct m} \enspace .
+$$
+The partial order is extended to set of paths $S_{P_1},
+S_{P_2}$ as\footnote{Note that for the analysis, for a given
+  field $f$, these sets contain at most one entry of type
+  $f^\drct$ and at most one entry of type $f^\indrct$}:
+\begin{eqnarray*}
+  S_{P_1} \sqsubseteq S_{P_2} &\Leftrightarrow& \forall \alpha \in
+  S_{P_1}, \exists \beta \in S_{P_2}\ s.t. \alpha \sqsubseteq \beta \enspace .
+\end{eqnarray*}
+For pair of paths:
+\begin{eqnarray*}
+  (\alpha, \beta) \sqsubseteq (\alpha', \beta') 
+  \Leftrightarrow 
+   (\alpha \sqsubseteq \alpha')  \wedge
+  (\beta \sqsubseteq  \beta')
+\end{eqnarray*}
+For set of pairs of paths $R_{P_1}, R_{P_2}$:
+\begin{eqnarray*}
+  R_{P_1} \sqsubseteq R_{P_2} \Leftrightarrow \forall
+  (\alpha, \beta) \in
+  R_{P_1}, \exists (\alpha', \beta') \in
+  R_{P_2}\ s.t. (\alpha, \beta) \sqsubseteq (\alpha', \beta')
+\end{eqnarray*}
+
+
+Two pointers $\p,\q \in \heap$ are said to
+interfere if there exists $\s \in \heap$ such that both
+$\p$ and $\q$ have paths reaching $\s$. Note that $\s$ could
+be $\p$ (or $\q$) itself, in which case the path from $\p$
+(from $\q$) is $\epsilon$.
+
+%FIELD SENSITIVE DIRECTION MATRIX 
+\begin{definition}\label{IFM_matrix}
+Field sensitive Interference matrix $I_F$ between
+two pointers captures the ways in which these pointers are
+interfering.  For $\p, \q, \s \in \heap, \p \not= \q$,
+the following relation holds for $D_F$ and $I_F$: 
+\begin{eqnarray*}
+  \DFM{p}{s} \times \DFM{q}{s} &\sqsubseteq&
+  \IFM{p}{q} \enspace . \label {eq:rel-df-if}
+\end{eqnarray*}
+\end{definition}
+
+The analysis computes over-approximations for the matrices
+$D_F$ and $I_F$ at each program point. While it is possible
+to compute only $D_F$ and use above equation to
+compute $I_F$, computing both explicitly results in better
+approximations for $I_F$. Note that interference relation is
+symmetric, i.e.,
+\begin{eqnarray*}
+  (\alpha, \beta) \in I_F[\p, \q] \Leftrightarrow
+   (\beta, \alpha) \in I_F[\q, \p] \enspace .
+\end{eqnarray*}
+While describing the analysis, the
+above relation is used to show the computation of only one of the two
+entries. 
+
+\input{Chapters/defn_fig_1.tex}
+
+\begin{example}{\rm
+Figure~\ref{fig:DFM_IFM} shows a heap graph and the
+corresponding field sensitive matrices as computed by the
+analysis.  } \hfill\psframebox{}
+\end{example}
+
+As mentioned earlier, for each variable $\p \in \heap$, the
+analysis uses attributes $\p_{\subD}$ and $\p_{\subC}$ to
+store boolean functions telling whether $\p$ can reach a DAG or
+cycle respectively in the heap. The boolean functions
+consist of the values from matrices $D_F$, $I_F$, and the field
+connectivity information. For $f \in \fields, \p, \q \in
+\heap$, field connectivity is captured by boolean variables
+of the form $f_{pq}$, which is true when $f$ field of $\p$ points
+directly to $\q$. 
+The shape of \p, \p.\shape, can be obtained by evaluating
+the functions for the attributes $\p_{\subC}$ and
+$\p_{\subD}$, and using Table~\ref{tbl:det_shape}.
+\begin{table}
+\caption{Determining shape from boolean
+  attributes\label{tbl:det_shape}}
+\begin{center}
+\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}} cccc|c }
+\hline
+$\p_{\subC}$ &$\quad$ & $\p_{\subD}$ &$\quad$& $\p.\shape$ \\ 
+\hline
+\true  && Don't Care  && Cycle        \\ 
+\false  && \true          && DAG    \\ 
+\false  && \false          && Tree   \\ 
+\hline
+\end{tabular*}
+\end{center}
+\end{table}
+
+The following operations are used in the analysis. Let $S$
+denote the set of approximate paths between two nodes, $P$
+denote a set of pair of paths, and $k \in \nat$ denotes the
+limit on maximum indirect paths stored for a given
+field. Then,
+\begin{itemize}
+\item Projection: For $f \in \fields$,
+  \project{S}{f}\ extracts the paths starting at field $f$.
+  $$\project{S}{f} \equiv S \cap \{f^{\drct}, f^{\indrct 1}, \ldots,
+  f^{\indrct k}, f^{\indrct \infty}\} \enspace .$$
+
+\item Counting: The count on the number of paths is defined
+  as :
+  \begin{eqnarray*}
+   \num{\epsilon} =     1, \qquad
+   \num{f^{\drct}} =     1, &\qquad&
+   \num{f^{\indrct\infty}} =     \infty, \qquad
+   \num{f^{\indrct j}} =  j \mbox{ for } j \in \nat \\
+   \num{S} &=&   \sum_{\alpha \in S}\num{\alpha} 
+  \end{eqnarray*}
+
+Also,  
+  \begin{eqnarray*}
+   \num{(\alpha, f^{\indrct m})} &=&  \left\{ \begin{array}{@{}ll}  
+   			m        &  \mbox{if } \alpha \in \{f^{\drct}, \epsilon\} \\
+			m*n      &  \mbox{if } \alpha = f^{\indrct n} \\
+			\infty   &  \mbox{if } \alpha = f^{\indrct\infty} \\
+			\end{array}\right. \\
+   \num{(f^{\indrct m}, \beta)} &=&  \left\{ \begin{array}{@{}ll}  
+   			m        &  \mbox{if } \beta \in \{f^{\drct}, \epsilon\} \\
+			m*n      &  \mbox{if } \beta = f^{\indrct n} \\
+			\infty   &  \mbox{if } \beta = f^{\indrct\infty} \\
+			\end{array}\right. \\
+   \num{(\alpha, \beta)} &=&  \begin{array}{@{}ll}
+   			 1       &  \mbox{if } \alpha, \beta \in \{f^{\drct}, \epsilon\} \\
+			\end{array} \\
+   \num{(f^{\indrct\infty}, \beta)} &=&  \begin{array}{@{}ll}
+   			 \infty       &  \mbox{where }  \beta \in \{f^{\drct}, \epsilon, f^{\indrct\infty}\} \\
+			\end{array} \\
+   \num{(\alpha, f^{\indrct\infty})} &=&  \begin{array}{@{}ll}
+   			 \infty       &  \mbox{where } \alpha \in \{f^{\drct}, \epsilon, f^{\indrct\infty}\} \\
+			\end{array} \\
+	\num{P} &=&   \sum_{(\alpha, \beta) \in P}\num{(\alpha, \beta)}		
+  \end{eqnarray*}
+
+\item Path removal, intersection and union over set of
+  approximate paths : For singleton sets of paths
+    $\{\alpha\}$ and $\{\beta\}$, path removal
+    (\remOne{\{\alpha\}}{\{\beta\}}), intersection
+    ($\{\alpha\} \cap \{\beta\}$) and union($\{\alpha\} \cup
+    \{\beta\}$) operations are defined as given in
+    Table~\ref{tab:path-ops}. These definitions can be extended
+    to set of paths in a natural way. For example,
+	for general sets of paths, $S_1$ and $S_2$, 
+	the definition of removal can be extended as:
+\begin{eqnarray*}
+  \remOne{S_1}{S_2}  = \bigcap_{\beta \in
+    {S_2}}(\bigcup_{\alpha \in {S_1}}  \remOne{\{\alpha\}}{\{\beta\}}  )
+\end{eqnarray*}
+
+\input{Chapters/defn_fig_2.tex}
+
+\begin{table}[t]
+\caption{Multiplication by a scalar\label{tab:path-mult}}
+\begin{center}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}} l@{\ }|cccc }
+  \hline
+  $\star\qquad \alpha$ & $\epsilon$ & $f^{\drct}$      & ${f^{\indrct
+      j}}$ & ${f^{\indrct \infty}}$ \\ 
+  $i$ &&&& \\ \hline 
+  $i$      & $\epsilon$ & ${f^{\indrct i}}$ & $f^{\indrct
+    m}$, $m = \left\{\begin{array}{lcl}
+  i*j    && \mbox { if } i*j \leq k \\
+  \infty && \mbox{ Otherwise} 
+  \end{array}\right.$
+  & ${f^{\indrct \infty}}$ \\ 
+  $\infty$ & $\epsilon$ &${f^{\indrct \infty}}$ &
+  ${f^{\indrct \infty}}$& ${f^{\indrct \infty}}$\\ \hline 
+\end{tabular*}
+\end{center}
+\end{table}
+
+\item Multiplication by a scalar($\star$): Let $i, j
+  \in \nat, i \leq k, j \leq k$. Then, for a path $\alpha$,
+  the multiplication by a scalar $i$,\ $i\star\alpha$ is
+  defined in Table~\ref{tab:path-mult}. The operation is
+  extended to set of paths as:
+\begin{eqnarray*}
+  i \star {S} &=&   \left\{ \begin{array}{lcl}
+    \emptyset &\quad& i = 0 \\
+    \{ i\star \alpha \ \vert\ \alpha \in S\} &\quad& i\in \nat \cup \{\infty\} 
+  \end{array} \right.
+\end{eqnarray*}
+
+\end{itemize}
+
+
+%\input{Chapters/merge_operation}
+%\input{Chapters/removal_operation}
+
+
+\subsection{Analysis}
+For $\{\p, \q\} \subseteq \heap,\ f \in\fields,\ n \in \nat$
+and $\mbox{\tt op} \in \{+, -\}$, 
+the following eight basic statements are identified that can access or modify the heap structures. 
+\begin{enumerate}
+  \item Allocations
+  	\begin{enumerate}
+    	\item {\tt p = malloc();}
+  	\end{enumerate}
+  \item Pointer Assignments
+  	\begin{enumerate}
+    	\item {\tt p = NULL;}
+    	\item {\tt p = q;}
+    	\item {\tt p = q $\rightarrow$ f;}
+    	\item {\tt p = \&(q $\rightarrow$ f);}
+    	\item {\tt p = q op n;}
+  	\end{enumerate}
+  \item Structure Updates
+  	\begin{enumerate}
+    	\item {\tt p $\rightarrow$ f = q;}
+    	\item {\tt p $\rightarrow$ f = NULL;}
+  	\end{enumerate}
+\end{enumerate}
+%%
+They intend to determine, at each program point, the field
+sensitive matrices $D_F$ and $I_F$, and the
+boolean variables capturing field connectivity. The problem is formulated
+ as an instance of forward data flow analysis,
+where the data flow values are the matrices and the boolean
+variables as mentioned above.  For simplicity sake the basic blocks
+are constructed with single statements each
+The definition of 
+the confluence operator (\merge) for various data flow values
+as used by the analysis is given below. The superscripts $x$ and $y$
+are used to denote the values coming along two paths,
+\begin{eqnarray*}
+  \merge( f_{\p\q}^x, f_{\p\q}^y ) &=& f_{\p\q}^x \vee f_{\p\q}^y , f \in \fields,
+  \p,\q \in \heap \\
+   \merge(\p_{\subC}^x, \p_{\subC}^y) &=& \p_{\subC}^x \vee
+   \p_{\subC}^y, \p \in \heap \\
+   \merge(\p_{\subD}^x, \p_{\subD}^y) &=& \p_{\subD}^x \vee
+   \p_{\subD}^y, \p \in \heap \\
+   \merge(D_F^{x}, D_F^{y}) &=& D_F \mbox{ where }
+   D_F[{\p}, {\q}]  = D_F^{x}[{\p}, {\q}] \cup
+   D_F^{y}[{\p}, {\q}],   \forall {\p}, {\q} \in \heap\\ 
+   \merge(I_F^{x}, I_F^{y}) &=& I_F \mbox{ where }
+   I_F[{\p}, {\q}]  = I_F^{x}[{\p}, {\q}] \cup
+   I_F^{y}[{\p}, {\q}],   \forall {\p}, {\q} \in \heap
+\end{eqnarray*}
+The transformation of data flow values due to a statement
+$st$ is captured by the following set of equations:
+\begin{eqnarray*}
+  D_F^{\dout}[\p,\q] &=& (\remOne{D_F^{\din}[\p,\q]}{D_F^{\dkill}[\p,\q]}) \cup
+  D_F^{\dgen}[\p,\q] \\
+  I_F^{\dout}[\p,\q] &=& (\remOne{I_F^{\din}[\p,\q]}{I_F^{\dkill}[\p,\q]}) \cup
+  I_F^{\dgen}[\p,\q] \\
+  \p_{\subC}^{\dout} &=& (\p_{\subC}^{\din} \wedge
+  \neg\p_{\subC}^{\dkill} ) \vee \p_{\subC}^{\dgen}  \\
+  \p_{\subD}^{\dout} &=& (\p_{\subD}^{\din} \wedge
+  \neg\p_{\subD}^{\dkill} ) \vee \p_{\subD}^{\dgen} 
+\end{eqnarray*}
+Field connectivity information is updated directly by the
+statement.
+
+
+Few details about each of this basic statements are given below. The data flow values for each of these statements 
+are shown in Figure~\ref{fig:Data Flow Equations}.
+
+\begin{itemize}
+\item {\tt p = malloc}:
+    After this statement all the existing relationships of $\p$ get killed and it will point to a
+newly allocated object.It is considered that  $\p$ can have an empty path to itself and it can interfere
+with itself using empty paths (or $\epsilon$ paths).
+
+\item {\tt p = NULL}:
+   This statement only kills the existing relations of \p.
+	
+\item{\tt p=q,  p=\&(q$\rightarrow$f),  p=q op n}:
+All these three pointer assignment statements are considered equivalent. 
+After this statement all the existing relationships of $\p$ gets
+killed and it will point to same heap object as pointed to
+by $\q$. In case $\q$ currently points to null, $\p$ will also points
+to null after the statement. So $\p$ will have the same field
+sensitive Direction and Interference relationships as $\q$. 
+The kill effect of this statement is same as that of the previous statement. 
+The generated boolean functions for heap object $\p$ corresponding 
+to DAG or Cycle attribute will be same as that of $\q$, with all occurrences of $\q$ 
+replaced by $\p$.
+	
+\item{\tt p $\rightarrow$ f = NULL}: 
+This statement breaks the existing link $f$ emanating from
+$\p$, thus killing relations of $\p$, that are due to the link
+$f$. The statement does not generate any new relations. 
+           
+\item{\tt p $\rightarrow$ f = q}:
+This statement first breaks
+  the existing link $f$ and then re-links the the heap object
+  pointed to by $\p$ to the heap object pointed to by
+  $\q$. The kill effects are exactly same as described in the
+  case of  {\tt p$\rightarrow$f = null}.  Only the
+  generated relationships are described in Figure~\ref{fig:Data Flow Equations}. 
+
+\item{\tt p = q $\rightarrow$ f}:
+The relations killed by the
+  statement are same as that in case of {\tt p = NULL}. The
+  relations created by this statement are heavily
+  approximated as not much information is available about the heap node pointed by {\tt q $\rightarrow$ f} before the statement.
+  After this statement $\p$ points to the heap object which is accessible from pointer
+  $\q$ through $f$ link. 
+
+\end{itemize}
+\begin{figure}[p] 
+\begin{spacing}{2.0}
+\begin{tabular}{|c|l|}
+\hline
+ {\tt p = malloc()} & 
+
+\scalebox{0.70}{
+\begin{tabular}{lll}
+	  \KillC{p}  = \InC{p} & \KillD{p} = \InD{p} &\\
+	  \GenC{p} = \false  & \GenD{p} = \false &\\
+
+	  $\forall \s \in \heap,\ \s \not= \p,$ && \\
+	  $D_F^{\dkill}[\p,\s]$  =  $D_F^{\din}[\p,\s]$ & $D_F^{\dkill}[\s,\p]$  =  $D_F^{\din}[\s,\p]$ & $D_F^{\dkill}[\p,\p]$  =  $D_F^{\din}[\p,\p]$ \\
+	  $D_F^{\dgen}[\p,\s]$   =  $\emptyset$         & $D_F^{\dgen}[\s,\p]$   =  $\emptyset$          &$D_F^{\dgen}[\p,\p]$   =  $\epsilonset$ \\
+	  $I_F^{\dkill}[\p,\s]$  =  $I_F^{\din}[\p,\s]$ & $I_F^{\dkill}[\p,\p]$  =  $I_F^{\din}[\p,\p]$   &\\
+	  $I_F^{\dgen}[\p,\s]$   =  $\emptyset$         & $I_F^{\dgen}[\p,\p]$   =  $\epsilonpairset$     &\\
+\end{tabular}
+
+  \begin{tabular}{l}
+	  \KillC{p}  = \InC{p} \quad \KillD{p} = \InD{p} \\
+	  \GenC{p} = \false 	 \quad \GenD{p} = \false \\
+
+	  $\forall \s \in \heap, \ \s \not= \p$ \\
+	  $D_F^{\dkill}[\p, \s]$  =  $D_F^{\din}[\p, \s]$ \quad $D_F^{\dgen}[\p, \s]$    =  $\emptyset$ \\
+	  $D_F^{\dkill}[\s, \p]$  =  $D_F^{\din}[\s, \p]$ \quad $D_F^{\dgen}[\s, \p]$    =  $\emptyset$ \\
+	  $D_F^{\dkill}[\p, \p]$  =  $D_F^{\din}[\p, \p]$ \quad $D_F^{\dgen}[\p, \p]$    =  $\epsilonset$\\
+	  $I_F^{\dkill}[\p, \s]$  =  $I_F^{\din}[\p, \s]$ \quad $I_F^{\dgen}[\p, \s]$    =  $\emptyset$ \\
+	  $I_F^{\dkill}[\p, \p]$  =  $I_F^{\din}[\p, \p]$ \quad $I_F^{\dgen}[\p, \p]$    =  $\epsilonpairset$ 
+\end{tabular}
+} \\
+\hline
+ {\tt p = NULL} & 
+\scalebox{0.70}{
+  \begin{tabular}{l}
+	  \KillC{p}  = \InC{p} \quad \KillD{p} = \InD{p} \\
+	  \GenC{p} = \false 	 \quad \GenD{p} = \false \\
+	$\forall \s \in \heap, $ \\
+
+	  $D_F^{\dkill}[\p, \s]$  =  $D_F^{\din}[\p, \s]$ \quad $D_F^{\dgen}[\p, \s]$    =  $\emptyset$ \\  
+	  $D_F^{\dkill}[\s, \p]$  =  $D_F^{\din}[\s, \p]$ \quad $D_F^{\dgen}[\s, \p]$    =  $\emptyset$ \\
+	  $I_F^{\dkill}[\p, \s]$  =  $I_F^{\din}[\p, \s]$ \quad $I_F^{\dgen}[\p, \s]$    =  $\emptyset$ 
+  \end{tabular}
+} \\
+\hline
+\begin{tabular}{l}
+{\tt p = q} \\
+{\tt p = \&(q$\rightarrow$f)} \\
+{\tt p = q op n}
+\end{tabular}
+ &
+\scalebox{0.70}{
+  \begin{tabular}{l}
+
+	\KillC{p} = \InC{p} \quad \KillD{p} = \InD{p} \\ 
+	\GenC{p}   = \InC{q}[q/p] \quad \GenD{p} = \InD{q}[q/p] \\ 
+	where $X[\q / \p]$ creates a copy of $X$ with all occurrences
+	of $\q$ replaced by $\p$.\\
+
+      $\forall \s \in \heap,  \s \not= \p,  \forall f \in \fields$ \\
+
+	$f_{\p\s} = f_{\q\s}$  \quad  $f_{\s\p} = f_{\s\q}$ \\
+	$D_F^{\dkill}[\p, \s]$  =  $D_F^{\din}[\p, \s]$ \quad
+	$D_F^{\dgen}[\p, \s]$    =  $D_F^{\din}[\q, \s]$ \\ 
+	$D_F^{\dkill}[\s, \p]$  =  $D_F^{\din}[\s, \p]$ \quad
+	$D_F^{\dgen}[\s, \p]$    =  $D_F^{\din}[\s, \q]$   \\
+	$D_F^{\dkill}[\p, \p]$  =  $D_F^{\din}[\p, \p]$ \quad
+	$D_F^{\dgen}[\p, \p]$    =  $D_F^{\din}[\q, \q]$  \\
+	$I_F^{\dkill}[\p, \s]$  =  $I_F^{\din}[\p, \s]$ \quad
+	$I_F^{\dgen}[\p, \s]$    =   $I_F^{\din}[\q, \s]$ \\
+	$I_F^{\dkill}[\p, \p]$  =  $I_F^{\din}[\p, \p]$ \quad
+	$I_F^{\dgen}[\p, \p]$    = $I_F^{\din}[\q, \q]$ 
+ 
+  \end{tabular}
+} \\
+\hline
+
+{\tt p$\rightarrow$f = null}
+&
+	\scalebox{0.70}{
+	  \begin{tabular}{l}
+	  \KillC{p}  = \false,  \quad \KillD{p} = \false \\
+	  \GenC{p} = \false,  \quad \GenD{p} = \false  \\
+	$\forall \q, \s \in \heap,  \s \not= \p, $ \\
+	  $f_{\p\q}$ = \false \\
+	  $D_F^{\dkill}[\p, \q]$  = $\project{D_F^{\din}[\p, \q]}{f}$
+
+	  \qquad
+	  {\blue ${D_{F}^{{\dkill}}[\s, \q]}  = \emptyset  $}             %----------------Modified
+	  \\
+ 	  $I_F^{\dkill}[\p, \s] = \{(\alpha,  \beta) \ \vert\ (\alpha, \beta) \in I_F^{\din}[\p,  \q] \mbox, \ \alpha \equiv f^\anysup \}$ \\ 
+
+ 	  {\blue ${I_F^{\dkill}[\q, \s]} = \emptyset \mbox{ if } \q \not= \p$} \qquad\qquad    %----------------Modified 
+ 	  {\blue ${I_F^{\dkill}[\p, \p]} = \emptyset$}   %----------------Modified 
+
+  \end{tabular}
+} \\
+
+\hline
+\end{tabular}
+\end{spacing}
+\end{figure}
+
+\begin{figure}[p]
+\begin{spacing}{2.0}
+\begin{tabular}{|c|l|}
+\hline
+{\tt p$\rightarrow$f = q}
+&
+    \scalebox{0.70}{
+    \begin{tabular}{l}
+
+	The KILL relations are same as that of {\tt p$\rightarrow$f = null} \\
+	  $\GenC{p}   =  (f_{\p\q} \wedge \InC{q}) \vee (f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1))$ \quad {\blue ${\GenD{p}}   =  f_{\p\q} \wedge (\num{\IFM{\p}{\q}} > 1)$}	\\
+ 	  $\GenC{q}   = f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1)$ \qquad\qquad\qquad\qquad $\GenD{q} = \false$\\ 
+	  $f_{\p\q} = \true$ \\
+	  $\GenC{\s} =  ((\num{\DFM{\s}{\p}} \geq 1) \wedge f_{\p\q} \wedge \InC{q})$ $\vee\ ((\num{\DFM{\s}{\p}} \geq 1) \wedge f_{\p\q} \wedge
+ 	  (\num{\DFM{\q}{\p}} \geq 1))$ \\ 
+	  \quad \quad\quad   $\vee\ ((\num{\DFM{\s}{\q}} \geq 1) \wedge f_{\p\q}
+	  \wedge (\num{\DFM{\q}{\p}} \geq 1))$,  \ \   $\forall \s \in \heap,  \s \not= \p,  \s \not=\q$ \\
+	  $\GenD{\s}   = (\num{\DFM{\s}{\p}} \geq 1) \wedge
+	  f_{\p\q} \wedge (\num{\IFM{\s}{\q}} > 1)$,  \ $\forall \s \in \heap,  \s \not= \p,  \s \not=\q $ \\
+	 {\blue $ {D_F^{\dgen}[\myr,  \s]} = \num{D_F^{\din}[\q,  \s]} \star         %-----------------modified
+	  D_F^{\din}[\myr,  \p], \ \s \not= \p, \ \myr \not\in
+	  \{\p,  \q\} $}\\ 
+	  $D_F^{\dgen}[\myr,  \p] = \num{D_F^{\din}[\q, \p]} \star
+	  D_F^{\din}[\myr,  \p],  \ \myr \not= \p$\\
+	  $D_F^{\dgen}[\p,  \myr] = \num{D_F^{\din}[\q,  \myr]} \star
+	(\remOne{D_F^{\din}[\p,  \p]}{\epsilonset} \cup \{f^{\indrct
+	  1}\})$,  \ \  $\myr \not= \q$ \\ 
+	  $D_F^{\dgen}[\p,  \q] =
+	  \{\fieldD{f}{}\}\ \cup\ (\num{D_F^{\din}[\q,  \q] -
+	    \epsilonset} \star
+	  \{\fieldI{f}{}{1}\})\ \cup\ 
+	   (\num{D_F^{\din}[\q,  \q]} \star ( \remOne{D_F^{\din}[\p,  \p]}{\epsilonset}))$ \\ 
+	  $D_F^{\dgen}[\q,  \q] = 1 \star D_F^{\din}[\q,  \p]$ \\
+	  $D_F^{\dgen}[\q,  \myr] = \num{D_F^{\din}[\q,  \myr]} \star
+	  D_F^{\din}[\q,  \p], \ \myr \not\in \{\p, 
+	  \q\}$ \\ 
+	  {\blue ${I_F^{\dgen}[\p,  \q]} = \{(\fieldD{f}{},  \epsilon)\}    %-----------------modified
+	  \cup ((1 \star (\remOne{D_F^{\din}[\p, 
+	      \p]}{\epsilonset})) \times \epsilonset)$} \\	 
+	  $I_F^{\dgen}[\p,  \myr]$ = 
+ 	  $(1 \star (\remOne{D_F^{\din}[\p,  \p]}{\epsilonset})) \times 
+	  \{\beta\ \vert\ (\alpha,  \beta) \in I_F^{\din}[\q,  \myr] \}$  
+	  $\cup\ \{f^\drct\} \times 
+	  \{\beta\ \vert\ (\epsilon,  \beta) \in I_F^{\din}[\q,  \myr] \}$ \\
+	  \quad \quad\quad  $\cup\ \{f^{\indrct 1}\} \times 
+	   \{\beta\ \vert\ (\alpha,  \beta) \in I_F^{\din}[\q,  \myr], 
+	  \alpha \not= \epsilon \}$,  
+	  \qquad\qquad  $\myr \not\in \{\p,  \q\}$ \\
+	  {\blue ${I_F^{\dgen}[\s,  \q]} = (1 \star D_F^{\din}[\s,  \p]) \times    %-----------------modified
+	  \epsilonset, \ \s \not\in \{\p,  \q\}$} \\ 
+	  {\blue ${I_F^{\dgen}[\s,  \myr]} = (1 \star D_F^{\din}[\s,  \p])         %-----------------modified
+	  \times \{\beta\ \vert\ (\alpha,  \beta) \in I_F^{\din}[\q, 
+	    \myr]\}$}, 
+	     \qquad $\s \not\in \{\p,  \q\}, \ \myr \not\in \{\p, 
+	  \q\}, \ \s \not= \myr$
+
+      \end{tabular}
+  } \\
+\hline
+{\tt p = q$\rightarrow$f} &
+    \scalebox{0.70}{
+    \begin{tabular}{l}
+	The KILL relations are same as that of {\tt p = NULL} \\
+	$\GenC{p} = \InC{q} \qquad \GenD{p} = \InD{q}$ \\
+
+	$f_{\q\p} = \true$ \quad
+	${h_{\p\myr}} =
+	\num{\project{D_F^{\din}[\q, \myr]}{f}} \geq 1\quad
+	\forall h \in \fields,  \forall \myr \in \heap$  \\
+
+	$ \upath \quad=\quad \epsilonset \cup \ \bigcup_{f\in\fields} \{f^{\drct}, 
+	f^{\indrct\infty}\}$  \\
+
+	{\blue ${D_1[\p,  \s]} =  \upath \quad
+	\forall \s \in \heap,  \s \not=\p \wedge
+	\project{D_F^{\din}[\q,  \s]}{f} \not= \emptyset$} \\
+
+	$D_1[\p,  \p] = \left \{ \begin{array}{@{}ll}
+	  \upath& \q.\shape \mbox{ evaluates to } \Cycle \\
+	  \epsilonset & \mbox{Otherwise}
+	\end{array}. \right. $  \quad \quad
+	$I_1[\p,  \p] = \upath \times \upath $ \\
+
+	{\blue ${D_2[\s,  \p]} = \infty \star D_F^{\din}[\s,  \q]$ \quad
+	$\forall \s \in \heap,  \s \not=\q$} \\
+	{\blue ${D_2[\q, \p]} = \{ f^{\drct}\} \cup (\infty \star (\remOne{D_F^{\din}[\q,  \q]}{\epsilonset})) \cup \upath$}  \\ 
+	$I_2[\s,  \p] = D_2[\s,  \p] \times
+	\epsilonset \quad \forall \s \in \heap $ \\	
+
+	$D_3[\s,  \p] = \{ \alpha \ \vert \ (f^{\drct},  \alpha) \in I_F^{\din}[\q,  \s] \}$  \\
+	$I_3[\s,  \p] = \{\alpha \ \vert\ (f^\anysup,  \alpha) \in I_F^{\din}[\q,  \s]\} \times \upath$ \\ \\
+
+	Finally $I_F$ and $D_F$ relations are: \\
+	$D_F^{\dgen}[\myr,  \s] =  D_1[\myr,  \s] \cup D_2[\myr,  \s] \cup D_3[\myr,  \s] \quad \forall\myr, \s \in \heap$  \\
+	$I_F^{\dgen}[\myr,  \s] =  I_1[\myr,  \s] \cup I_2[\myr,  \s] \cup I_3[\myr,  \s] \quad \forall\myr, \s \in \heap$ 
+	  
+
+    \end{tabular}
+    } \\
+    \hline
+%     \\
+%     \footnotesize Data Flow Equations
+%   
+\end{tabular}
+\end{spacing}
+\caption{Data flow values corresponding to each statement.}  \label{fig:Data Flow Equations}
+\end{figure}

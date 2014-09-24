@@ -1,0 +1,15 @@
+K 10
+svn:ignore
+V 229
+vinay_presentation.log
+vinay_presentation.ps
+vinay_presentation.nav
+vinay_presentation.toc
+vinay_presentation.aux
+vinay_presentation.out
+vinay_presentation.pdf
+vinay_presentation.dvi
+vinay_presentation.vrb
+vinay_presentation.snm
+
+END

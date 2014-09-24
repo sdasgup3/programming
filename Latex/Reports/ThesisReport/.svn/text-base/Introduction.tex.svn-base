@@ -1,0 +1,79 @@
+\chapter{Introduction} \label{ch:Intro}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{A Brief Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Shape analysis is the term for the class of static analysis
+techniques that are used to infer useful properties about
+heap data and the programs manipulating the heap. The shape
+information of a data structure accessible from a heap
+directed pointer can be used for disambiguating heap accesses
+originating from that pointer. This is useful for variety of
+applications, for e.g. compile time optimizations,
+compile-time garbage collection, debugging, verification,
+instruction scheduling and parallelization.
+
+In last two decades, several shape analysis techniques have
+been proposed in literature. However, there is a trade-off
+between speed and precision for these techniques. Precise
+shape analysis
+algorithms~\cite{Sagiv96,shaham03heap,distefano06local,hackett05region} 
+are not practical as they do not scale to the size of complex
+heap manipulating programs. To achieve scalability,
+the practical shape analysis
+algorithms~\cite{Chase90,Ghiya96,marron06static} trade
+precision for speed.
+
+In this report, we present a shape analysis technique that
+uses limited field sensitivity to infer the shape of the
+heap. The novelty of our approach lies in the way we use
+field information to remember the paths that result in a
+particular shape (Tree, DAG, Cycle).  This allows us to
+identify transitions from conservative shape to more precise
+shape (i.e., from Cycle to DAG, from Cycle to Tree and from
+DAG to Tree) due to destructive updates. This in turn enables
+us to infer precise shape information.
+
+
+The field sensitivity information is captured in two ways:
+(a) we use field based boolean variables to remember the
+direct connections between two pointer variables, and (b) we
+compute field sensitive matrices that store the approximate
+path information between two pointer variable. We generate
+boolean functions at each program point that use the above
+field sensitive information to infer the shape of the pointer
+variables.
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Contributions of our Work}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Our work contributes in the area of analysing pointers that points to 
+dynamically allocated objects (typically in the heap). Inferring the shape 
+of the data structure pointed to by heap allocated objects can be used for disambiguating heap accesses
+originating from that pointer. We proposed a field sensitive shape analysis tecnique that helps in precise
+inference of the shape of the heap data structures. As any field sensitive shape analysis
+algorithm must remember all paths between pointers. Our analysis uses certain approximations to remember such 
+paths. They include: (a) DF :Modified
+direction matrix that stores the first fields of the paths between two pointers; (b) IF :
+Modified interference matrix that stores the pairs of first fields corresponding to the
+pairs of interfering paths, and (c) Boolean Variables that remember the fields directly
+connecting two pointer variables.
+`
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Organization of the Thesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We discuss some of the prior works on shape analysis in
+Chapter~\ref{ch:RelatedWork}. A motivating example is used in
+Chapter~\ref{ch:Motiv} to explain the intuition behind our
+analysis .  The analysis is formalized in
+Chapter~\ref{ch:Definitions} that describes the
+notations used and in Chapter~\ref{ch:Analysis} that
+gives the analysis rules. We describe some properties of our analysis 
+in Chapter~\ref{ch:Properties}. In Chapter~\ref{ch:Comparison} we show some of
+the cases where our analysis performs better than the field insensitive approaches.
+We conclude the presentation in
+Chapter~\ref{ch:Conclusion} and give directions for future work.

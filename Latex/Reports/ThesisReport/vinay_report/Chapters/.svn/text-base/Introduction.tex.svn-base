@@ -1,0 +1,32 @@
+
+\section{Brief Introduction}
+% \label{intro:graphs}
+
+Shape Analysis is  a static analysis technique which works on the heap to find the possible shape of the heap allocated objects.
+This is useful in  many areas like garbage collection, parallelization, compile time optimization, instruction scheduling etc. 
+
+In this report we discuss in detail the effectiveness of the work of Sandeep ~\cite{Sandeep} about field sensitive shape analysis.
+~\cite{Sandeep} shows its preciseness using few typical examples, but lacks deep evaluation of the approach in order to check 
+its scalability and preciseness on large practical benchmark programs. The present work suggests several enhancements over ~\cite{Sandeep},
+involving modifications of the data flow values and intelligent ways of storing the same, which makes the analysis more precise and memory 
+efficient. This work also involves implementing the interprocedural version of the analysis as a dynamic plugin on GCC and deep evaluation of the
+same using large benchmarks.
+
+This work also proposes a refined version of analysis namely subset-based field sensitive analysis (refer Chapter ~\ref{Subsetbased}) which 
+infers more precise shapes depending upon which field pointers are actually accessed in a function. 
+
+The interprocedural analysis is provided with two flavors: context sensitive and context insensitive; a trade-off analysis
+on which of these techniques would be good for this shape analysis technique is described.
+% and a detailed trade-off analysis between
+% complexity and effectiveness/preciseness between the two is discussed with supporting results.
+Also a new method of merging contexts at function calls is proposed whose complexity lies middle way between the above two, namely
+shape sensitive interprocedural analysis, which uses the shape information of
+the arguments of function to decide which context to merge with.
+
+\section{Organization Of Thesis}
+We discuss some of the prior works on shape analysis in
+Chapter~\ref{Background}. Chapter~\ref{Enhancements} discusses all the enhancements suggested to~\cite{Sandeep}.
+The Subset-based analysis is detailed in Chapter~\ref{Subsetbased}. 
+Chapter~\ref{Interprocedural} elaborates on the Interprocedural analysis along with its proposed flavours.
+Implementation details along with detailed evaluation using benchmark programs are given in Chapter~\ref{Implementation}.
+We conclude the presentation in Chapter~\ref{Conclusion} and give directions for future work.

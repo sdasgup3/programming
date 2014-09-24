@@ -1,0 +1,15 @@
+K 10
+svn:ignore
+V 167
+latex-beamer.log
+latex-beamer.nav
+latex-beamer.toc
+latex-beamer.aux
+latex-beamer.out
+latex-beamer.ps
+latex-beamer.dvi
+Benchmark_Stats.odt
+latex-beamer.snm
+modEqns.pdf
+
+END

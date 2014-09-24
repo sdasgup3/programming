@@ -1,0 +1,116 @@
+\begin{figure}[h]
+\centering
+\begin{tabular}{@{}cc@{}}
+{\small\tt
+      \begin{tabular}[b]{l}
+        S1. p = malloc(); \\
+        S2. q = malloc(); \\
+        S3. p$\rightarrow$f = q; \\
+        S4. p$\rightarrow$h = q; \\
+        S5. P$\rightarrow$h = NULL; 
+      \end{tabular}
+    }
+\end{tabular} \\ [2mm]
+{\footnotesize (a) Example program} \\ [5mm]
+
+\centering \scalebox{.80}{
+\begin{tabular}[b]{|l@{}|@{}c@{}|@{}c@{}|} \hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+ {\tt S1} & 
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  & $\emptyset$ \\
+  $\q$ & $\emptyset$  & $\emptyset$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\emptyset$ \\
+  $\q$ & $\emptyset$  & $\emptyset$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\emptyset$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\emptyset$ \\
+  $\q$ &        $\emptyset$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S3} &
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f\right\}$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline
+\end{tabular} \\ \hline
+
+{\tt S4} &
+%\begin{tabular}{|p{3mm}|p{12mm}p{21mm}|} \hline 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$  &    $\left\{f, h\right\}$ \\
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & $\left\{(f, \epsilon), (h, \epsilon)\right\}$ \\
+  $\q$ &        $\left\{(\epsilon, f), (\epsilon, h)\right\}$  & $\left\{(\epsilon, \epsilon)\right\}$\\
+  \hline 
+\end{tabular} \\ \hline
+
+{\tt S5} &
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{\epsilon\right\}$ &    $\left\{f\right\}$ \\ 
+  $\q$ &    $\emptyset$       & $\left\{\epsilon\right\}$\\ 
+  \hline
+\end{tabular} &
+\begin{tabular}{|p{3mm}|p{28mm}p{37mm}|} \hline 
+%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}|} \hline 
+  & $\p$  &  $\q$ \\ \hline
+  $\p$ & $\left\{(\epsilon, \epsilon)\right\}$  & 
+  		$\left\{(f, \epsilon)\right\}$ \\ 
+  $\q$ &        $\left\{(\epsilon, f)\right\}$                   
+  & $\left\{(\epsilon, \epsilon)\right\}$ \\ 
+  \hline
+\end{tabular} \\ \hline
+\end{tabular}} \\[2mm]
+
+{\footnotesize (b) Direction ($D_F$) and Interference ($I_F$) Matrices.} \\ [5mm]
+
+\scalebox{.80}{  \begin{tabular}{|l|l|l|l|l|l|} \hline
+    {\bf After Stmt} & {\tt S1 } & {\tt S2 } &  {\tt S3 } &  {\tt
+      S4 } &  {\tt S5 } \\ \hline
+    {\bf Boolean Vars} & & & & &\\ 
+    $f_{pq}$ & false & false & true   & true  & true  \\ 
+    $h_{pq}$ & false & false & false & true  & false  \\ \hline
+  \end{tabular}} \\[2mm]
+
+{\footnotesize (c) Values for boolean variables corresponding to
+  relevant pointer fields.}
+
+  \caption{Field Sensitive information for an example  \label{fig:exampleInfo}}
+ \end{figure}

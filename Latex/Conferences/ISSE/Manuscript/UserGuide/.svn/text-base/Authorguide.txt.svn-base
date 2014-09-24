@@ -1,0 +1,180 @@
+Title Page
+===========
+The title page should include:
+
+    The name(s) of the author(s)
+    A concise and informative title
+    The affiliation(s) and address(es) of the author(s)
+    The e-mail address, telephone and fax numbers of the corresponding author
+
+Abstract
+Please provide an abstract of 150 to 250 words. The abstract should not contain any undefined abbreviations or unspecified references.
+
+Text
+========
+Text Formatting
+---------------
+Manuscripts should be submitted in LaTeX. Please use Springer’s LaTeX macro package and choose the formatting option “twocolumn”.
+The submission should include the original source (including all style files and figures) and a PDF version of the compiled output.
+
+    LaTeX macro package (zip, 182 kB)
+
+Word files are also accepted. In this case, please use Springer’s Word template for preparing your manuscript.
+
+    Word template (zip, 154 kB)
+
+Headings
+---------------
+Please use the decimal system of headings with no more than three levels.
+Abbreviations
+---------------
+Abbreviations should be defined at first mention and used consistently thereafter.
+Footnotes
+---------------
+Footnotes can be used to give additional information, which may include the citation of a reference included in the reference list. They should not consist solely of a reference citation, and they should never include the bibliographic details of a reference. They should also not contain any figures or tables.
+Footnotes to the text are numbered consecutively; those to tables should be indicated by superscript lower-case letters (or asterisks for significance values and other statistical data). Footnotes to the title or the authors of the article are not given reference symbols.
+Always use footnotes instead of endnotes.
+Acknowledgments
+---------------
+Acknowledgments of people, grants, funds, etc. should be placed in a separate section before the reference list. The names of funding organizations should be written in full.
+
+Reference
+===========
+Citation
+--------
+Reference citations in the text should be identified by numbers in square brackets. Some examples:
+1. Negotiation research spans many disciplines [3].
+2. This result was later contradicted by Becker and Seligman [5].
+3. This effect has been widely studied [1-3, 7].
+
+Reference list
+---------------
+The list of references should only include works that are cited in the text and that have been published or accepted for publication. Personal communications and unpublished works should only be mentioned in the text. Do not use footnotes or endnotes as a substitute for a reference list.
+The entries in the list should be numbered consecutively.
+
+    Journal article
+    Gamelin FX, Baquet G, Berthoin S, Thevenet D, Nourry C, Nottin S, Bosquet L (2009) Effect of high intensity intermittent training on heart rate variability in prepubescent children. Eur J Appl Physiol 105:731-738. doi: 10.1007/s00421-008-0955-8
+    Ideally, the names of all authors should be provided, but the usage of “et al” in long author lists will also be accepted:
+    Smith J, Jones M Jr, Houghton L et al (1999) Future of health insurance. N Engl J Med 965:325–329
+    Article by DOI
+    Slifka MK, Whitton JL (2000) Clinical implications of dysregulated cytokine production. J Mol Med. doi:10.1007/s001090000086
+    Book
+    South J, Blass B (2001) The future of modern genomics. Blackwell, London
+    Book chapter
+    Brown B, Aaron M (2001) The politics of nature. In: Smith J (ed) The rise of modern genomics, 3rd edn. Wiley, New York, pp 230-257
+    Online document
+    Cartwright J (2007) Big stars have weather too. IOP Publishing PhysicsWeb. http://physicsweb.org/articles/news/11/6/16/1. Accessed 26 June 2007
+    Dissertation
+    Trent JW (1975) Experimental acute renal failure. Dissertation, University of California
+
+Always use the standard abbreviation of a journal’s name according to the ISSN List of Title Word Abbreviations, see
+
+    www.issn.org/2-22661-LTWA-online.php
+
+For authors using EndNote, Springer provides an output style that supports the formatting of in-text citations and reference list.
+
+    EndNote style (zip, 2 kB)
+
+Authors preparing their manuscript in LaTeX can use the bibtex file spbasic.bst which is included in Springer’s LaTeX macro package.
+
+
+Tables
+==========
+
+    All tables are to be numbered using Arabic numerals.
+    Tables should always be cited in text in consecutive numerical order.
+    For each table, please supply a table caption (title) explaining the components of the table.
+    Identify any previously published material by giving the original source in the form of a reference at the end of the table caption.
+    Footnotes to tables should be indicated by superscript lower-case letters (or asterisks for significance values and other statistical data) and included beneath the table body.
+
+Artwork and Illustrations Guidelines
+====================================
+For the best quality final product, it is highly recommended that you submit all of your artwork – photographs, line drawings, etc. – in an electronic format. Your art will then be produced to the highest standards with the greatest accuracy to detail. The published work will directly reflect the quality of the artwork provided.
+
+Electronic Supplementary Material
+====================================
+Springer accepts electronic multimedia files (animations, movies, audio, etc.) and other supplementary files to be published online along with an article or a book chapter. This feature can add dimension to the author's article, as certain information cannot be printed or is more convenient in electronic form.
+Submission
+----------
+
+    Supply all supplementary material in standard file formats.
+    Please include in each file the following information: article title, journal name, author names; affiliation and e-mail address of the corresponding author.
+    To accommodate user downloads, please keep in mind that larger-sized files may require very long download times and that some users may experience other problems during downloading.
+
+Audio, Video, and Animations
+-------------------------------
+
+    Always use MPEG-1 (.mpg) format.
+
+Text and Presentations
+-------------------------------
+
+    Submit your material in PDF format; .doc or .ppt files are not suitable for long-term viability.
+    A collection of figures may also be combined in a PDF file.
+
+Spreadsheets
+-------------------------------
+
+    Spreadsheets should be converted to PDF if no interaction with the data is intended.
+    If the readers should be encouraged to make their own calculations, spreadsheets should be submitted as .xls files (MS Excel).
+
+Specialized Formats
+-------------------------------
+
+    Specialized format such as .pdb (chemical), .wrl (VRML), .nb (Mathematica notebook), and .tex can also be supplied.
+
+Collecting Multiple Files
+-------------------------------
+
+    It is possible to collect multiple files in a .zip or .gz file.
+
+Numbering
+-------------------------------
+
+    If supplying any supplementary material, the text must make specific mention of the material as a citation, similar to that of figures and tables.
+    Refer to the supplementary files as “Online Resource”, e.g., "... as shown in the animation (Online Resource 3)", “... additional data are given in Online Resource 4”.
+    Name the files consecutively, e.g. “ESM_3.mpg”, “ESM_4.pdf”.
+
+Captions
+-------------------------------
+
+    For each supplementary material, please supply a concise caption describing the content of the file. 
+
+Processing of supplementary files
+
+    Electronic supplementary material will be published as received from the author without any conversion, editing, or reformatting. 
+
+Accessibility
+-------------------------------
+In order to give people of all abilities and disabilities access to the content of your supplementary files, please make sure that
+
+    The manuscript contains a descriptive caption for each supplementary material
+    Video files do not contain anything that flashes more than three times per second (so that users prone to seizures caused by such effects are not put at risk)
+
+After acceptance
+================
+Upon acceptance of your article you will receive a link to the special Author Query Application at Springer’s web page where you can sign the Copyright Transfer Statement online and indicate whether you wish to order OpenChoice, offprints, or printing of figures in color.
+Once the Author Query Application has been completed, your article will be processed and you will receive the proofs.
+Open Choice
+--------------
+In addition to the normal publication process (whereby an article is submitted to the journal and access to that article is granted to customers who have purchased a subscription), Springer provides an alternative publishing option: Springer Open Choice. A Springer Open Choice article receives all the benefits of a regular subscription-based article, but in addition is made available publicly through Springer’s online platform SpringerLink.
+
+    Springer Open Choice
+
+Copyright transfer
+--------------
+Authors will be asked to transfer copyright of the article to the Publisher (or grant the Publisher exclusive publication and dissemination rights). This will ensure the widest possible protection and dissemination of information under copyright laws.
+Open Choice articles do not require transfer of copyright as the copyright remains with the author. In opting for open access, the author(s) agree to publish the article under the Creative Commons Attribution License.
+Offprints
+--------------
+Offprints can be ordered by the corresponding author.
+Color illustrations
+--------------
+Online publication of color illustrations is free of charge. For color in the print version, authors will be expected to make a contribution towards the extra costs.
+Proof reading
+--------------
+The purpose of the proof is to check for typesetting or conversion errors and the completeness and accuracy of the text, tables and figures. Substantial changes in content, e.g., new results, corrected values, title and authorship, are not allowed without the approval of the Editor.
+After online publication, further changes can only be made in the form of an Erratum, which will be hyperlinked to the article.
+Online First
+--------------
+The article will be published online after receipt of the corrected proofs. This is the official first publication citable with the DOI. After release of the printed version, the paper can also be cited by issue and page numbers.

@@ -1,0 +1,17 @@
+%\vspace*{\fill}
+\vspace*{1.0in}
+
+\begin{center}
+\begin{large}
+{\bf Abstract}
+\end{large}
+\end{center}
+
+Shape Analysis refers to a class of techniques used to analyze heap data structures. Several algorithms have been proposed in literature
+about shape analysis. These algorithms differ in the trade off they have between speed and accuracy.
+    
+  In this thesis we have implemented and proposed enhancements for a field sensitive shape analysis approach. These enhancements involve modification of data flow values, and intelligent
+way of storing the same which makes the analysis more precise and memory efficient. This work also proposes an analysis namely \emph{Subset Based Analysis}
+which infers more precise shapes depending upon which field pointers are actually accessed in a function. To handle functions we have developed
+a new method for interprocedural analysis called \emph{Shape Sensitive Analysis}. This is a middle way between Context Sensitive and Context Insensitive Interprocedural Analysis.
+We have implemented this analysis as a plugin for gcc 4.5.0 and the results for the same are presented. 

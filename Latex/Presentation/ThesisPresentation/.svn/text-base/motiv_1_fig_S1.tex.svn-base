@@ -1,0 +1,7 @@
+\begin{pspicture}(0,3)(3,4.2)
+\psset{linecolor=blue}
+\pscircle(.7,3.6){.3}
+\pscircle(2.3,3.6){.3}
+\rput(2.3,3.6){\psframebox*{\scalebox{.8}{\ttf{q}}}}
+\rput(.7,3.6){\psframebox*{\scalebox{.8}{\ttf{p}}}}
+\end{pspicture}

@@ -1,0 +1,93 @@
+\begin{thebibliography}{10}
+
+\bibitem{Sagiv96}
+Sagiv, M., Reps, T., Wilhelm, R.: Solving shape-analysis problems in
+  languages with destructive updating. In: Proceedings of the 23rd ACM
+  SIGPLAN-SIGACT symposium on Principles of programming languages, pp.
+  16--31. ACM, New York (1996)
+
+\bibitem{shaham03heap}
+ Shaham, R., Yahav, E., Kolodner, E.K., Sagiv, S.:Establishing local
+  temporal heap safety properties with applications to compile-time memory
+  management. In: Proceedings of the 10th International
+  Symposium on Static Analysis, pp. 483--503. Springer-Verlag, London, UK (2003)
+
+\bibitem{distefano06local}
+Distefano, D., O’Hearn, P., Yang, H.:A local shape analysis based on
+  separation logic. In:Tools and Algorithms for the Construction and
+  Analysis of Systems, pp. 287--302. Springer, Berlin Heidelberg (2006)
+
+\bibitem{hackett05region}
+Hackett, B., Rugina, R.:Region-based shape analysis with tracked
+  locations. In: Proceedings of the 32nd ACM SIGPLAN-SIGACT symposium on
+  Principles of programming languages, pp. 310--323. ACM, New York, NY, USA (2005)
+
+\bibitem{Chase90}
+Chase, D.R., Wegman, M., Zadeck, F.K.:Analysis of pointers and
+  structures. In: Proceedings of the ACM SIGPLAN 1990 conference on
+  Programming language design and implementation, pp. 296--310. ACM, New York, NY, USA (1990)
+
+\bibitem{Ghiya96}
+Ghiya, R., Hendren, L.J.:Is it a {Tree}, a {DAG}, or a {Cyclic} graph? a
+  shape analysis for heap-directed pointers in {C}. In Proceedings of
+  the 23rd ACM SIGPLAN-SIGACT symposium on Principles of programming
+  languages, pp. 1--15 (1996)
+
+\bibitem{marron06static}
+Marron, M., Kapur, D., Stefanovic, D., Hermenegildo, M.:A static heap
+  analysis for shape and connectivity: unified memory analysis: the base
+  framework. In: Proceedings of the 19th international conference on
+  Languages and compilers for parallel computing, pp. 345--363. Springer-Verlag, Berlin, Heidelberg (2007)
+
+\bibitem{Jones79}
+Jones, N.D., Muchnick, S.S.:Flow analysis and optimization of lisp-like
+  structures. In: Proceedings of the 6th ACM SIGACT-SIGPLAN symposium on
+  Principles of programming languages, pp. 244--256. ACM, New York, NY, USA (1979) 
+
+\bibitem{Sagiv02toplas}
+Sagiv, S., Reps, T.W., Wilhelm, R.:Parametric shape analysis via 3-valued logic. ACM Transactions on Programming Languages and Systems (TOPLAS).
+24, 217-298 (2002).
+
+\bibitem{Sagiv99}
+Sagiv, M., Reps, T., Wilhelm, R.:Parametric shape analysis via 3-valued
+  logic. In: Proceedings of the 26th ACM SIGPLAN-SIGACT symposium on Principles of programming languages,
+	pp. 105--118. ACM, New York, NY, USA (1999)
+
+\bibitem{cherini10shape}
+Cherini, R., Rearte, L., Blanco, J.:A shape analysis for non-linear data
+  structures. In: Proceedings of the 17th international conference on
+  Static analysis, pp. 201--217. Springer-Verlag, Berlin, Heidelberg (2010)
+
+\bibitem{berdine07shape}
+Berdine, J., Calcagno, C., Cook, B., Distefano, D., O’hearn, P.W., Yang, H., Mary, Q.:Shape analysis for composite data structures. In: In
+  CAV, pp. 178--192. Springer (2007).
+
+\bibitem{cherem07doubly}
+Cherem. S., Rugina, R.:Maintaining doubly-linked list invariants in shape
+  analysis with local reasoning. In: Proceedings of the 8th
+  international conference on Verification, model checking, and abstract
+  interpretation, pp. 234--250. Springer-Verlag, Berlin, Heidelberg (2007)
+
+\bibitem{maria09dynamic}
+Jump, M., McKinley, K.S.:Dynamic shape analysis via degree metrics. In: Proceedings of the 2009 international symposium on Memory management,
+ pp. 119--128. New York, NY, USA (2009)
+
+\bibitem{Ghiya96practicaltechniques}
+R.~Ghiya, ``{\red Practical techniques for interprocedural heap analysis},'' Master's
+  thesis, McGill U, Tech. Rep., 1996.
+
+\bibitem{Ghiya98a}
+Ghiya, R., Hendren, L.J.:Putting pointer analysis to work. In: Proceedings of the 25th ACM SIGPLAN-SIGACT symposium on Principles of
+  programming languages, pp. 121--133. New York, NY, USA (1998)  
+
+\bibitem{Ghiya98b}
+Ghiya, R., Hendren, L.J., Zhu, Y.:Detecting parallelism in c programs with
+  recursive darta structures. In: 7th International Conference on
+  Compiler Construction, pp. 159--173. (1998)
+
+\bibitem{Larus88}
+Larus, J.R., Hilfinger, P.N.:Detecting conflicts between structure
+  accesses. In: Proceedings of the ACM SIGPLAN 1988 conference on
+  Programming Language design and Implementation, pp. 24--31. New York, NY, USA (1998)
+
+\end{thebibliography}

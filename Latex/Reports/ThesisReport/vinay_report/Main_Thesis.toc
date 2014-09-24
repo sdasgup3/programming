@@ -1,0 +1,28 @@
+{\pdfbookmark [0]{Table Of Contents}{toc}}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.3}
+\contentsline {section}{\numberline {1.1}Brief Introduction}{1}{section.4}
+\contentsline {section}{\numberline {1.2}Organization Of Thesis}{1}{section.5}
+\contentsline {chapter}{\numberline {2}Background }{3}{chapter.6}
+\contentsline {section}{\numberline {2.1}Related Work}{3}{section.7}
+\contentsline {section}{\numberline {2.2}Precise Shape Analysis using Field Sensitivity}{4}{section.8}
+\contentsline {subsection}{\numberline {2.2.1}Definitions And Notations}{5}{subsection.9}
+\contentsline {subsection}{\numberline {2.2.2}Analysis}{13}{subsection.22}
+\contentsline {chapter}{\numberline {3}Enhancements to Field Sensitive Analysis}{17}{chapter.35}
+\contentsline {section}{\numberline {3.1}Enhancements}{17}{section.36}
+\contentsline {section}{\numberline {3.2}Final Data Flow Equations}{23}{section.41}
+\contentsline {chapter}{\numberline {4}Subset Based Analysis }{28}{chapter.43}
+\contentsline {section}{\numberline {4.1}Motivating Example}{28}{section.44}
+\contentsline {section}{\numberline {4.2}Analysis}{28}{section.75}
+\contentsline {chapter}{\numberline {5}Inter Procedural Analysis}{33}{chapter.88}
+\contentsline {section}{\numberline {5.1}Callstrings Based Approach}{34}{section.91}
+\contentsline {section}{\numberline {5.2}Shape Sensitive Approach}{35}{section.92}
+\contentsline {chapter}{\numberline {6}Implementation And Results }{39}{chapter.120}
+\contentsline {section}{\numberline {6.1}GCC Internals}{39}{section.121}
+\contentsline {section}{\numberline {6.2}Implementation}{40}{section.143}
+\contentsline {subsection}{\numberline {6.2.1}Storing of boolean equations}{42}{subsection.151}
+\contentsline {subsection}{\numberline {6.2.2}Time optimization}{42}{subsection.153}
+\contentsline {section}{\numberline {6.3}Testing Strategy}{43}{section.154}
+\contentsline {section}{\numberline {6.4}Results}{44}{section.176}
+\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{49}{chapter.180}
+\contentsline {chapter}{\numberline {A}Analysis of Ghiya}{50}{appendix.181}
+\contentsline {chapter}{References}{52}{figure.190}

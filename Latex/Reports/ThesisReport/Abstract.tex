@@ -1,0 +1,131 @@
+\documentclass[12pt,twoside,openright]{report}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{amsthm}
+\usepackage{wrapfig}
+\usepackage{geometry}
+\usepackage{pstricks}
+\usepackage{pst-node,pst-tree}
+\usepackage{pst-rel-points}
+\usepackage{flexiprogram}
+\geometry{verbose,a4paper,tmargin=15mm,bmargin=30mm,lmargin=30mm,rmargin=20mm}
+\usepackage{graphics}
+\usepackage{setspace}
+\usepackage{framed}
+\usepackage{verbatim}
+\usepackage{epsfig}
+\usepackage{fancyheadings}
+\usepackage{multirow}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\onehalfspacing
+\makeatletter
+\setlength{\headheight}{10pt}
+\pagestyle{fancyplain}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\lhead{\fancyplain{}{\thepage}}
+\chead{}
+\rhead{\fancyplain{}{\textit{\leftmark}}}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+\linespread{1.3}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% theorems and definitions %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% New Commands %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\cmt}[1]{} 
+\newcommand{\p}{\ensuremath{p}}
+\newcommand{\q}{\ensuremath{q}}
+\newcommand{\s}{\ensuremath{s}}
+\newcommand{\myr}{\ensuremath{r}}
+
+\newcommand{\B}{\mbox{\tt B}}
+\renewcommand{\a}{\mbox{\tt a}}
+\renewcommand{\b}{\mbox{\tt b}}
+\renewcommand{\c}{\mbox{\tt c}}
+\renewcommand{\d}{\mbox{\tt d}}
+\newcommand{\m}{\mbox{\tt m}}
+
+\newcommand{\drct}{\ensuremath{D}}
+\newcommand{\indrct}{\ensuremath{I}}
+\newcommand{\heap}{\ensuremath{\mathcal{H}}}
+\newcommand{\fields}{\ensuremath{\mathcal{F}}}
+\newcommand{\upath}{\ensuremath{\mathcal{U}}}
+\newcommand{\shape}{\mbox{shape}}
+%\newcommand{\nat}{\ensuremath{\bbbn}}
+\newcommand{\nat}{\ensuremath{\mathcal{N}}}
+
+\newcommand{\mwedge}{\  \wedge \ }
+\newcommand{\mvee}{\  \vee \ }
+\newcommand{\mcup}{\  \cup \ }
+\newcommand{\mjoin}{\  \Join \ }
+\newcommand{\mbackslash}{\  \backslash \ }
+\newcommand{\subC}{\mbox{\scalebox{0.6}{\Cycle}}}
+\newcommand{\subD}{\mbox{\scalebox{0.6}{\Dag}}}
+
+\newcommand{\epsilonset}{\ensuremath{\{\epsilon\}}}
+\newcommand{\epsilonpairset}{\ensuremath{\{\epsilon,\epsilon\}}}
+
+\newcommand{\dout}{\mbox{\footnotesize\em out}}
+\newcommand{\din}{\mbox{\footnotesize\em in}}
+\newcommand{\dkill}{\mbox{\footnotesize\em kill}}
+\newcommand{\dgen}{\mbox{\footnotesize\em gen}}
+
+\newcommand{\GenC}[1]{\ensuremath{{#1}_{\subC}^{\dgen}}}
+\newcommand{\GenD}[1]{\ensuremath{{#1}_{\subD}^{\dgen}}}
+\newcommand{\KillC}[1]{\ensuremath{{#1}_{\subC}^{\dkill}}}
+\newcommand{\KillD}[1]{\ensuremath{{#1}_{\subD}^{\dkill}}}
+\newcommand{\InC}[1]{\ensuremath{{#1}_{\subC}^{\din}}}
+\newcommand{\InD}[1]{\ensuremath{{#1}_{\subD}^{\din}}}
+\newcommand{\OutC}[1]{\ensuremath{{#1}_{\subC}^{\dout}}}
+\newcommand{\OutD}[1]{\ensuremath{{#1}_{\subD}^{\dout}}}
+
+\newcommand{\merge}{\ensuremath{\mathrm{merge}}}
+\newcommand{\project}[2]{\ensuremath{#1\triangleright\!\!#2}}
+\newcommand{\num}[1]{\ensuremath{|#1|}}
+\newcommand{\first}[1]{\ensuremath{#1. \mathrm{fst}}}
+\newcommand{\second}[1]{\ensuremath{#1. \mathrm{snd}}}
+
+\newcommand{\remOne}[2]{\ensuremath{#1 \ominus #2}}
+
+\newcommand{\Gen}[1]{{\mbox{{\tt gen}}_{\mbox{\scalebox{0.6}{{\tt #1}}}}}}
+\newcommand{\Kill}[1]{{\mbox{{\tt kill}}_{\mbox{\scalebox{0.6}{{\tt #1}}}}}}
+\newcommand{\mb}[1]{\mbox{{\tt #1}}}
+\newcommand{\DFM}[2]{\ensuremath{D_F[#1,#2]}}
+\newcommand{\IFM}[2]{\ensuremath{I_F[#1,#2]}}
+\newcommand{\Tree}{{\tt Tree}}
+\newcommand{\Dag}{{\tt Dag}}
+\newcommand{\Cycle}{{\tt Cycle}}
+\newcommand{\upstmt}[1]{{\tt p$\rightarrow$f = #1}}
+\newcommand{\TV}{{\tt TrueVars}}
+\newcommand{\fieldD}[2]{\ensuremath{{#1}_{#2}^\drct}}
+\newcommand{\fieldI}[3]{\ensuremath{{#1}_{#2}^{\indrct#3}}}
+\newcommand{\range}[3]{\ensuremath{{#1} \leq {#2} \leq {#3}}}
+\newcommand{\fig}[1]{\includegraphics[scale=.5]{#1}}
+\newcommand{\false}{\textbf{False}}
+\newcommand{\true}{\textbf{True}}
+\newcommand{\anysup}{\ensuremath{\ast}}
+\makeatother
+\renewcommand\bibname{References}
+
+\begin{document}
+%
+%\thispagestyle{empty}
+%\input{Declaration.tex}
+%
+\input{abstract_matter.tex} 
+
+\end{document}
+
+

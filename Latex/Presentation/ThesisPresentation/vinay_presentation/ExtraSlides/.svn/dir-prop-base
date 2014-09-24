@@ -1,0 +1,15 @@
+K 10
+svn:ignore
+V 159
+extraslides.snm
+extraslides.aux
+extraslides.out
+extraslides.pdf
+extraslides.log
+extraslides.dvi
+extraslides.ps
+extraslides.nav
+extraslides.toc
+extraslides.vrb
+
+END

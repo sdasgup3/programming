@@ -1,0 +1,101 @@
+\documentclass{IOS-Book-Article}
+
+\usepackage{times}
+\normalfont
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pst-rel-points}
+\usepackage{flexiprogram}
+
+\newcommand{\isInterfering}{\mbox{isInterfering}}
+
+\begin{document}
+\begin{frontmatter}                           % The preamble begins here.
+
+\title{ParCo 2011 : Actions Taken on Reviewers's Comments} 
+\subtitle{ID 197 : Heap Dependence Analysis for Sequential Programs}
+%
+\end{frontmatter}
+
+\section{Review 1}
+\subsection{Shape analysis algorithm not specified in
+  detail.}  Section 2 extended the abstract overview of the
+shape analysis algorithm.  The details of this analysis can
+be found in Sandeep's Thesis~\cite{Sandeep11thesis}.
+
+\subsection{Differentiation against closely related work not
+  crisp.} 
+{\red TO DO}
+
+\subsection{No comparative evaluation against previously
+  published work.} 
+{\red TO DO}
+
+\subsection{What if the data structure of Figure 1 is cycle ?
+  In that case there could be a dependence between {\tt S3}
+  and {\tt S5}.}  Thanks for pointing this out. The
+observation is absolutely correct.  The data structure in
+Figure 1 is assumed to be a singly linked list. It is now
+mentioned in the motivational example.
+
+\subsection{Why shape analysis ``framework'' in section 2 ?}
+Using ``framework'' we want to emphasise that any shape
+analysis algorith which can give an interface function
+function {\tt \isInterfering($p$, $\alpha$, $q$, $\beta$)}
+can be plugged in our dependence detection analysis.
+
+
+\subsection{Define ``abstract'' path (referred in section 2)
+  ? Illustrate the concept on the example in Figure 1.} 
+As our shape analysis is field-sensitive, so the anaysis must
+remember the paths between the pointer variables. As the path
+length may be unbounded so we abstracted the path as a fixed
+length prefix of the actual path. Also it may happen that the
+number of paths starting from the same fixed length prefix is
+unbounded. But we will consider only k (a fixed constant)
+such paths i.e.\ k-limiting on the number of paths starting
+with the same fixed length prefixes. The details of this
+abstraction can be found in Sandeep's
+Thesis~\cite{Sandeep11thesis}.
+
+In Section 2, we illustrated the concept of abstract path on
+Figure 1.
+
+\subsection{In section 2, last paragraph, the prime should be
+  on the first mention of  alpha and beta in this paragraph
+  not the second.} 
+Thanks for pointing this out. This has been taken care of.
+
+\subsection{In Table 1, use an emptyset symbol instead of a phi.}
+Thanks for pointing this out. This has been taken care of.
+
+\subsection{Mention up front that your analysis is intra-procedural.}
+Thanks for pointing this out. It is mentioned up front that
+the analysis is intra procedural.  
+
+\subsection{Classify your shape analysis according to path- /
+  flow-sensitivity.} 
+{\red TO DO}
+
+
+\section{Review 2}
+\subsection{How to convert RE, which is used to represent
+  access paths, to some canonical representation before
+  comparing exponents.} 
+{\red TO DO}
+
+\subsection{How relevant is the inclusion of Lamport's work.} 
+{\red TO DO}
+
+\section{Review 3}
+\subsection{To present some advanced examples or results with
+  prototype implementation at the time of presentation.} 
+{\red TO DO}
+
+\bibliographystyle{plain}
+\bibliography{parrefs}
+
+\end{document}

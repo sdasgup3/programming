@@ -1,0 +1,439 @@
+For $\{\p, \q\} \subseteq  \heap,\ f \in\fields,\ n \in \nat$
+and $\mbox{\tt op} \in \{+, -\}$, we have the following eight
+basic  statements   that  can  access  or   modify  the  heap
+structures.
+ \begin{enumerate}
+   \item Allocations
+   	\begin{enumerate}
+     	\item {\tt p = malloc();}
+   	\end{enumerate}
+   \item Pointer Assignments
+   	\begin{enumerate}
+     	\item {\tt p = NULL;}
+     	\item {\tt p = q;}
+     	\item {\tt p = q $\rightarrow$ f;}
+     	\item {\tt p = \&(q $\rightarrow$ f);}
+     	\item {\tt p = q op n;}
+   	\end{enumerate}
+   \item Structure Updates
+   	\begin{enumerate}
+     	\item {\tt p $\rightarrow$ f = q;}
+     	\item {\tt p $\rightarrow$ f = NULL;}
+   	\end{enumerate}
+ \end{enumerate}
+
+Our intend is  to determine, at each program  point, the path
+matrix  $P_F$  and  the  boolean  variables  capturing  field
+connectivity.   We formulate  the problem  as an  instance of
+forward data  flow analysis, where  the data flow  values are
+the boolean variables and the path matrix. For simplicity, we
+construct   basic  blocks   containing  a   single  statement
+each. Before presenting the equations for data flow analysis,
+we define  the confluence operator (\merge)  for various data
+flow values  as used by our analysis.  Using the superscripts
+$x$ and $y$ to denote the values coming along two paths,
+
+\begin{eqnarray*}
+  \merge( f_{\p\q}^x, f_{\p\q}^y ) &=& f_{\p\q}^x \vee f_{\p\q}^y , f \in \fields,
+  \p,\q \in \heap \\
+  \merge(\p_{\subC}^x, \p_{\subC}^y) &=& \p_{\subC}^x \vee
+  \p_{\subC}^y, \p \in \heap \\
+  \merge(\p_{\subD}^x, \p_{\subD}^y) &=& \p_{\subD}^x \vee
+  \p_{\subD}^y, \p \in \heap \\
+  %\merge(P_F^{x}, P_F^{y}) &=& P_F^{xy}
+  \merge(P_F^{x}, P_F^{y})  &=& P_F^{xy} \mbox{ where }
+   P_F^{xy}[{\p}, {\q}]  = \\ 
+   && P_F^{x}[{\p}, {\q}] \cup
+      P_F^{y}[{\p}, {\q}],   \forall {\p}, {\q} \in \heap\\
+\end{eqnarray*}
+The transformation of data flow values due to a statement
+is captured by the following set of equations:
+\begin{eqnarray*}
+  P_F^{\dout}[\p,\q] &=& (\remOne{P_F^{\din}[\p,\q]}{P_F^{\dkill}[\p,\q]}) \cup
+  P_F^{\dgen}[\p,\q] \\
+  I_F^{\dout}[\p,\q] &=& (\remOne{I_F^{\din}[\p,\q]}{I_F^{\dkill}[\p,\q]}) \cup
+  I_F^{\dgen}[\p,\q] \\
+  \p_{\subC}^{\dout} &=& (\p_{\subC}^{\din} \wedge
+  \neg\p_{\subC}^{\dkill} ) \vee \p_{\subC}^{\dgen}  \\
+  \p_{\subD}^{\dout} &=& (\p_{\subD}^{\din} \wedge
+  \neg\p_{\subD}^{\dkill} ) \vee \p_{\subD}^{\dgen} 
+\end{eqnarray*}
+
+Update of field connectivity information, and the computation
+of the  $\dgen$ and $\dkill$ components of  various data flow
+values depends on the type  of statement. This is described
+in details next.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Analysis of Basic
+  Statements} \label{sec:Analysis_Rules}  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We now present  our analysis for each kind  of statement that
+can  modify the heap structures.
+
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\subsubsection{\tt p = NULL}
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+This statement only kills the existing values of
+\p. The heap node pointed-to by \p\ is no longer reachable by
+\p. However, it is possible that the node is part of a DAG or
+a Cycle reachable from some other node \q. To keep the
+analysis safe, we need to first evaluate all terms that involve
+\p\ ($f_{pq}^{\anysup}$, $P_F$[\q,\p], etc.) and use
+the resulting value in the equations using 
+them. Then, we kill the values of \p\ as given by the
+equations:
+\begin{eqnarray*}
+  \KillC{p}  = \InC{p} &\quad& \KillD{p} = \InD{p} \\
+  \GenC{p} = \false 	 &\quad& \GenD{p} = \false \\
+\end{eqnarray*}
+$\forall \s \in \heap,$
+\begin{eqnarray*}
+  f_{\p\s} =\false  &\quad& f_{\s\p} =\false \\
+  P_F^{\dkill}[\p,\s]  =  P_F^{\din}[\p,\s] &\quad&
+  P_F^{\dgen}[\p,\s]   =  \emptyset \\ 
+  P_F^{\dkill}[\s,\p]  =  P_F^{\din}[\s,\p] &\quad&
+  P_F^{\dgen}[\s,\p]   =  \emptyset 
+\end{eqnarray*}
+
+\begin{figure}
+\begin{center}
+\begin{tabular}[t]{@{}c@{}}
+  \\
+    {\tt
+      \renewcommand{\arraystretch}{0.5}
+      \begin{tabular}[t]{l|@{}c@{}}
+	{\em \scriptsize S1:} p$\rightarrow$f = q;	    & 
+	\begin{pspicture}(0,3)(3,4.3)
+          %\psframe(0,3)(3,4.4)
+	  \pscircle(.7,3.6){.3}
+	  \pscircle(2.3,3.6){.3}
+	  \psset{linecolor=black}
+	  \psline[linewidth=1pt,linearc=.5]{->}(1.0,3.6)(1.5, 3.9)(2.0,3.6)
+	  \rput(2.3,3.6){\psframebox*{\scalebox{.8}{$q$}}}
+	  \rput(1.5,4.1){\psframebox*{\scalebox{.8}{$f$}}}
+	  \rput(.7,3.6){\psframebox*{\scalebox{.8}{$p$}}}
+	\end{pspicture}  \\
+	& \\ \hline
+        {\em \scriptsize S2:} q$\rightarrow$f = p; &
+	\begin{pspicture}(0,3)(3,4.4)
+	  \pscircle(.7,3.6){.3}
+	  \pscircle(2.3,3.6){.3}
+	  \psset{linecolor=black}
+	  \psline[linewidth=1pt,linearc=.5]{->}(1.0,3.6)(1.5, 3.9)(2.0,3.6)
+	  \psline[linewidth=1pt,linearc=.5]{<-}(1.0,3.6)(1.5, 3.3)(2.0,3.6)
+	  \rput(2.3,3.6){\psframebox*{\scalebox{.8}{$q$}}}
+	  \rput(1.5,4.1){\psframebox*{\scalebox{.8}{$f$}}}
+	  \rput(1.5,3.1){\psframebox*{\scalebox{.8}{$f$}}}
+	  \rput(.7,3.6){\psframebox*{\scalebox{.8}{$p$}}}
+	\end{pspicture} \\ 
+	& \\	\hline
+        {\em \scriptsize S3:} p = null; &
+	\begin{pspicture}(0,3)(3,4.4)
+	  \pscircle(.7,3.6){.3}
+	  \pscircle(2.3,3.6){.3}
+	  \psset{linecolor=black}
+	  \psline[linewidth=1pt,linearc=.5]{->}(1.0,3.6)(1.5, 3.9)(2.0,3.6)
+	  \psline[linewidth=1pt,linearc=.5]{<-}(1.0,3.6)(1.5, 3.3)(2.0,3.6)
+	  \rput(2.3,3.6){\psframebox*{\scalebox{.8}{$q$}}}
+	  \rput(1.5,4.1){\psframebox*{\scalebox{.8}{$f$}}}
+	  \rput(1.5,3.1){\psframebox*{\scalebox{.8}{$f$}}}
+	  \rput(.7,3.6){\psframebox*{\scalebox{.8}{\mbox{}}}}
+	\end{pspicture}
+      \end{tabular}
+    } \\
+    \scalebox{0.8}{(a)} \\ \\
+    \begin{tabular}[t]{@{}c@{}}
+      $P_F$[\p,\q] = \{\fieldD{f}{}\} \quad  $P_F$[\q,\p] = \{\fieldD{f}{}\} \\ 
+      $\f_{\p\q}$  = \true           \quad $\f_{\q\p}$  = \true \\
+      $q_{\subC}$  = $f_{\q\p} \wedge (\num{P_F[\p,\q] \geq 1})$  \\
+    \end{tabular} \\
+    \scalebox{0.8}{(b)} \\ \\    
+    \begin{tabular}[t]{@{}c@{}}
+      $P_F$[\p,\q] = $\emptyset$ \quad  $P_F$[\q,\p] = $\emptyset$ \\ 
+      $\f_{\p\q}$  = \false            \quad $\f_{\q\p}$  = \false \\
+      $q_{\subC}$  = \true  \\
+    \end{tabular} \\
+    \scalebox{0.8}{(c)}
+\end{tabular}
+\end{center}
+
+\caption{The case  for eager evaluation  of boolean functions
+  involving \p\ for {\tt p  = NULL}.  (a) shows the updates of
+  a heap graph. (b) and  (c) show data-flow values and boolean
+  equations  before   and  after  {\em   S3}.  Without  eager
+  evaluation,  the  equation  for  $q_{\Cycle}$  will  remain
+  $f_{\q\p}  \wedge  (\num{P_F[\p,\q]  \geq  1})$  and  hence
+  evaluate         to         false        after         {\em
+    S3}.\label{fig:p_null_illustrate}}
+\end{figure}
+
+\begin{example}{\rm
+In  the  code segment  Figure~\ref{fig:p_null_illustrate}(a),
+after statement  {\em S2} there is  a \Cycle\ on  \p\ and \q.
+The   cycle   on   \q\    must   remain   after   {\tt   S3}.
+Figure~\ref{fig:p_null_illustrate}(b),  presents the relevant
+data-flow values after {\em S2}.  Before {\em S3}, we evaluate
+terms containing \p\, i.e.\ $f_{\q\p}$ and $\num{P_F[\p,\q] \geq
+  1}$  both to  true, and  use  these values  in the  equation
+\InC{\q} so as to get $\InC{q}$ as true. Then we kill all the
+equations of \p. After {\em  S3}, we still have $\OutC{q}$ as
+true, thus  inferring the shape  of \q\ as \Cycle.  This would
+not  be the  case if  we do  not eagerly  evaluate  the terms
+containing \p\ at {\em S3}.  } \hfill\psframebox{}
+\end{example}
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\subsubsection {{\tt p = malloc()}}
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+After this statement all the existing data-flow values of $\p$
+get  killed and  \p\  starts pointing  to  a newly  allocated
+object. The kill  effect is exactly same as that  of {\tt p =
+  NULL}.  After the statement,  $\p$ can  only have  an empty
+path to itself.
+\begin{eqnarray*}
+  \KillC{p}  = \InC{p} &\quad& \KillD{p} = \InD{p} \\
+  \GenC{p} = \false 	 &\quad& \GenD{p} = \false 
+\end{eqnarray*}
+$\forall \s \in \heap,\ \s \not= \p,$
+\begin{eqnarray*}
+  f_{\p\s} =\false  &\quad& f_{\s\p} =\false \\
+  P_F^{\dkill}[\p,\s]  =  P_F^{\din}[\p,\s] &\quad&
+  P_F^{\dgen}[\p,\s]    =  \emptyset \\ 
+  P_F^{\dkill}[\s,\p]  =  P_F^{\din}[\s,\p] &\quad&
+  P_F^{\dgen}[\s,\p]    =  \emptyset \\
+  P_F^{\dkill}[\p,\p]  =  P_F^{\din}[\p,\p] &\quad&
+  P_F^{\dgen}[\p,\p]    =  \epsilonset
+\end{eqnarray*}
+
+
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\subsubsection{\tt p = q, p = \&(q$\rightarrow$f), p = q op n} 
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+In our  analysis we  consider these three  pointer assignment
+statements  as  equivalent.   After  this statement  all  the
+existing values of $\p$ get  killed and it will point to same
+heap object  (or NULL)  as pointed to  by $\q$. So  $\p$ will
+have the same  paths and field connections as  those of $\q$.
+The  kill effect of  this statement  is same  as that  of the
+previous  cases.  The  generated boolean  functions  for heap
+object $\p$ corresponding to DAG or Cycle attribute will also
+be  same as  those  of  $\q$, with  all  occurrences of  $\q$
+replaced  by $\p$\footnote{The  notation  $X[\q/\p]$ means  a
+  copy  of  boolean  equation  $X$ with  all  occurrences  of
+  \q\ replaced by \p.}.
+
+\begin{eqnarray*}
+  \KillC{p} = \InC{p} &\quad& \KillD{p} = \InD{p} \\ 
+  \GenC{p}   = \InC{q}[q/p]
+  &\quad& \GenD{p} = \InD{q}[q/p] 
+\end{eqnarray*}
+
+
+$\forall \s \in \heap, \s \not= \p, \forall f \in \fields$
+\begin{eqnarray*}
+  f_{\p\s} = f_{\q\s}  &\quad&  f_{\s\p} = f_{\s\q} \\
+  P_F^{\dkill}[\p,\s]  =  P_F^{\din}[\p,\s] &\quad&
+  P_F^{\dgen}[\p,\s]    =  P_F^{\din}[\q,\s]   \\ 
+  P_F^{\dkill}[\s,\p]  =  P_F^{\din}[\s,\p] &\quad&
+  P_F^{\dgen}[\s,\p]    =  P_F^{\din}[\s,\q]   \\
+  P_F^{\dkill}[\p,\p]  =  P_F^{\din}[\p,\p] &\quad&
+  P_F^{\dgen}[\p,\p]    =  P_F^{\din}[\q,\q]  \rule{0mm}{0pt}\\
+\end{eqnarray*}
+
+
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\subsubsection {\tt p$\rightarrow$f = NULL} 
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+This statement  breaks the  existing link $f$  emanating from
+$\p$,  thus killing  equations of  \p\ that  are due  to link
+$f$. The statement does not generate new equations.
+
+\begin{eqnarray*}
+  \KillC{p}  = \false, &\quad& \KillD{p} = \false \\
+  \GenC{p} = \false, &\quad& \GenD{p} = \false  \\
+\end{eqnarray*}
+$\forall \q,\s \in \heap, \s \not= \p,$
+\begin{eqnarray*}
+  f_{\p\q} &=& \false \\
+  P_F^{\dkill}[\p,\q] &=& \project{P_F^{\din}[\p,\q]}{f}
+  \qquad
+  P_F^{\dkill}[\s,\q]  = \emptyset
+\end{eqnarray*}
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\subsubsection {\tt p$\rightarrow$f = q} 
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+This statement  first breaks the  existing link $f$  and then
+re-links the the  heap object pointed to by  $\p$ to the heap
+object pointed to by $\q$.  The kill effects are exactly same
+as described in the case  of {\tt p$\rightarrow$f = null}. We
+only describe the generated values here.
+  
+The  fact that  the shape  of the  variable $\p$  becomes DAG
+after  the statement  is  captured by  the boolean  functions
+$\GenD{p}$.   The  function  simply  say that  variable  $\p$
+reaches  a  DAG  because   there  are  more  than  one  paths
+($\num{I_F[p,q]} > 1$) from $\p$ to $\q$. It also keeps track
+of the  path $f_{pq}$ in this case.   The function $\GenC{q}$
+(or  $\GenC{p}$) captures  the fact  that cycle  on  $\q$ (or
+$\p$) consists  of field $f$  from $\p$ to  $\q$ ($f_{\p\q}$)
+and some path from  $\q$ to $\p$ ($\num{\DFM{q}{p}} \geq 1$).
+The  function $\GenC{p}$($\GenD{p}$)  also  capture the  fact
+that cycle  (DAG) on $\p$ can  be due to  the link $f_{\p\q}$
+reaching an already existing  cycle (DAG) on $\q$.  These are
+summarized as follows:
+
+\begin{eqnarray*}
+  \GenC{p} &=& (f_{\p\q} \wedge \InC{q}) \vee (f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1)) \\
+  \GenD{p} &=& (f_{\p\q} \wedge \InD{q}) \vee (f_{\p\q} \wedge (\num{\IFM{\p}{\q}} > 1) \\
+  \GenC{q} &=& f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1) \\
+  \GenD{q} &=& \false\\ 
+  f_{\p\q} &=& \true
+\end{eqnarray*}
+
+For  nodes  $\s \in  \heap$  other  than  $\p$ or  $\q$,  the
+function  $\GenC{\s}$ captures  the fact  that cycle  on $\s$
+consists  of   some  path  from   $\s$  to  $\p$   (or  $\q$)
+i.e.\  $\num{\DFM{\s}{\p}}  \geq  1$ (or  $\num{\DFM{\s}{\q}}
+\geq 1$) and the fact that a Cycle on $\p$ (or $\q$) has just
+created due to the  statement. Again the function $\GenD{\s}$
+simply say that variable $\s$ reaches a DAG because there are
+more  than one  way  of interference  between  $\s$ and  $\q$
+i.e.\ $\num{\IFM{\s}{\q}}  > 1$.  It also keeps  track of the
+paths $f_{pq}$ and $\DFM{\s}{\p}$ in this case.
+
+\begin{eqnarray*}
+  \GenC{\s} &=&  ((\num{\DFM{\s}{\p}} \geq 1) \wedge f_{\p\q} \wedge \InC{q}) \\
+  && \vee\ ((\num{\DFM{\s}{\p}} \geq 1) \wedge f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1)) \\ 
+  && \vee\ ((\num{\DFM{\s}{\q}} \geq 1) \wedge f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1)), \\
+  && \qquad \qquad  \forall \s \in \heap, \s \not= \p, \s \not=\q \\
+  \GenD{\s}   &=& (\num{\DFM{\s}{\p}} \geq 1) \wedge  f_{\p\q} \wedge (\num{\IFM{\s}{\q}} > 1), \\
+  && \qquad \qquad \forall \s \in \heap, \s \not= \p, \s \not=\q 
+\end{eqnarray*}
+
+After the  statement, all the  nodes that have  paths towards
+$\p$ (including  $\p$) will have  path towards all  the nodes
+reachable  from $\q$  (including  $\q$).  Thus,
+
+For  $\myr, \s  \in
+\heap$:
+\begin{eqnarray*}
+  P_F^{\dgen}[\myr, \s] &=& \num{P_F^{\din}[\q, \s]} \star
+  P_F^{\din}[\myr, \p],\ \s \not= \p,\ \myr \not\in
+  \{\p, \q\}\\ 
+  P_F^{\dgen}[\myr, \p] &=& \num{P_F^{\din}[\q,\p]} \star
+  P_F^{\din}[\myr, \p], \ \myr \not= \p\\
+ P_F^{\dgen}[\p, \myr] &=& \num{P_F^{\din}[\q, \myr]} \star
+ (\remOne{P_F^{\din}[\p, \p]}{\epsilonset} \cup \{f^{\indrct
+   1}\}),\\ 
+   && \qquad \qquad \myr \not= \q \\ 
+  P_F^{\dgen}[\p, \q] &=&
+  \{\fieldD{f}{}\}\ \cup\ (\num{P_F^{\din}[\q, \q] -
+    \epsilonset} \star
+  \{\fieldI{f}{}{1}\})\ \cup\ \\
+  && (\num{P_F^{\din}[\q, \q]} \star ( \remOne{P_F^{\din}[\p, \p]}{\{\project{P_F^{\din}[\p,\p]}{f} \cup \epsilonset \}})) \\ 
+  P_F^{\dgen}[\q, \q] &=& 1 \star P_F^{\din}[\q, \p] \\
+  P_F^{\dgen}[\q, \myr] &=& \num{P_F^{\din}[\q, \myr]} \star
+  P_F^{\din}[\q, \p],\ \myr \not\in \{\p,
+  \q\} \\ 
+\end{eqnarray*}
+
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+\subsubsection {\tt p = q$\rightarrow$f} 
+%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The values killed by  the statement are  same as  that in
+case  of {\tt  p  =  NULL}.  The  values  created by  this
+statement  are heavily approximated  by our  analysis.  After
+this  statement, $\p$  points  to the  heap  object which  is
+accessible  from  pointer $\q$  through  $f$  link. The  only
+inference  we can  draw is  that  \p\ is  reachable from  any
+pointer  \myr\  such  that  \myr\ reaches  $\q\rightarrow  f$
+before  the  assignment.   
+
+As \p\ could potentially point to a cycle (DAG) reachable from
+\q, we set:
+\[\GenC{p} = \InC{q} \qquad \GenD{p} = \InD{q}\]
+Note that shape of no other pointer variable gets affected by
+this statement.
+
+We  record the  fact that  \q\ reaches  \p\ through  the path
+$f$. Also, any  object reachable from \q\ using  field $f$ is
+marked as reachable from \p\ through any possible field.
+\begin{eqnarray*}
+  f_{\q\p} &=& \true \\ %\qquad
+  {h_{\p\myr}} &=&
+  \num{\project{P_F^{\din}[\q,\myr]}{f}} \geq 1\quad
+  \forall h \in \fields, \forall \myr \in \heap 
+\end{eqnarray*}
+
+The equations to compute the generated values for  $P_F$ 
+can be divided into three components. We explain each of the
+component, and give the equations.
+
+As  a side-effect  of the  statement,  any node  \s\ that  is
+reachable from  \q\ through  field $f$ before  the statement,
+becomes reachable  from \p. However, this  information is not
+sufficient to determine the  path from \p\ to \s.  Therefore,
+we conservatively assume that  any path starting from \p\ can
+potentially  reach \s. This  is achieved  in the  analysis by
+using a universal path  set \upath\ for $P_F[\p,\s]$. The set
+\upath\ is defined as:
+\[ \upath \quad=\quad \epsilonset \cup \bigcup_{f\in\fields}
+\{f^{\drct},  f^{\indrct\infty}\} \] 
+%
+Because it is also not possible to determine if there exist a
+path from $\p$  to itself, we safely conclude  a self loop on
+$p$   in  case  a   cycle  is   reachable  from   \q\  (i.e.,
+\q.\shape\ evaluates  to \Cycle).  These  observations result
+in the following equations:
+\[ \forall \s \in \heap, \s \not=\p \wedge
+  \project{P_F^{\din}[\q, \s]}{f} \not= \emptyset \]
+\begin{eqnarray*}
+  P_1[\p, \s] &=&  \left\{\begin{array}{@{}ll}
+    \epsilonset &\quad(\project{P_F^{\din}[\q, \s]}{f} =
+    \fieldD{f}{}) \\ 
+    & \quad \wedge\ \q.\shape \mbox{ evaluates to } \Tree
+    \mbox{ or } \Dag \\
+    \upath & \quad\mbox{Otherwise}
+  \end{array}\right.
+  \\
+  P_1[\p, \p] &=& \left\{\begin{array}{@{}ll}
+    \upath&\quad \q.\shape \mbox{ evaluates to } \Cycle \\
+    \epsilonset &\quad \mbox{Otherwise}
+  \end{array}\right.
+\end{eqnarray*}
+
+
+Any node \s\ (excluding \p\ and \q), that has paths to \q\ before the
+statement,    will   have    paths   to    \p\    after   the
+statement. However, we can not know the exact number of paths
+\s\ to  \p, and  therefore use upper  limit ($\infty$)  as an
+approximation:
+\begin{eqnarray*}
+  P_2[\s, \p] &=& \infty \star P_F^{\din}[\s, \q] \quad
+  \forall \s \in \heap,\ \s \notin \{\p, \q\} 
+\end{eqnarray*}
+If $\p\not=\q$, then we record the path from \q\ to \p\ as:
+\begin{eqnarray*}
+  P_2[\q, \p] &=& \left\{\begin{array}{ll}
+  \{ f^{\drct} \}  &\quad \q.\shape \mbox{ evaluates to } \Tree \\
+  \upath &\quad \mbox{Otherwise}
+  \end{array}\right.
+\end{eqnarray*}
+
+
+The  third  category of  nodes  to  consider  are those  that
+interfere with  the node corresponding  to $\q\rightarrow f$,
+without going through \q.  Any such node \s\ will have paths to
+\p\ after the statement. Thus, we have:
+\[ \forall \myr,\s \in \heap,\ \myr \not\in \{\p,\q\} \]
+\begin{eqnarray*}
+  P_3[\s, \p] &=& \bigcup_{\myr}\{ \alpha \ \vert 
+  \ f^{\drct}  \in P_F^{\din}[\q, \myr] 
+  \wedge \alpha \in  P_F^{\din}[\s, \myr] \ominus P_F^{\din}[\s, \q] \}
+\end{eqnarray*}
+
+Finally, we compute the entries generated for $P_F$ as:
+\begin{eqnarray*}
+P_F^{\dgen}[\myr, \s] &= & P_1[\myr, \s] \cup P_2[\myr, \s]
+\cup P_3[\myr, \s] \quad \forall\myr, \s \in \heap  \\ 
+\end{eqnarray*}

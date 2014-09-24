@@ -1,0 +1,14 @@
+{\tt
+\begin{program}{0}
+%  \FL\ \ldots
+  \UNL{0} void treeAdd(tree p) \{
+  \UNL{1}  if(p == NULL)
+  \UNL{2} return;
+  \NL{1}     tl = p$\rightarrow$left;
+  \NL{1}     \tikz[baseline]{\node[fill=blue!20,anchor=base](t1){treeAdd(tl);};}
+  \NL{1}      tr = p$\rightarrow$right;
+  \NL{1}     \tikz[baseline]{\node[fill=blue!20,anchor=base](t3){treeAdd(tr);};}
+  \UNL{1}	p\rtarrow{num} = tl\rtarrow{num} + tr\rtarrow{num};
+  \UNL{0} \}
+\end{program}
+}

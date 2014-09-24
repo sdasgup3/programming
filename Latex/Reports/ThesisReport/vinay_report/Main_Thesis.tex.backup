@@ -1,0 +1,250 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{wrapfig}
+\usepackage{geometry}
+\usepackage{pstricks}
+\usepackage{pst-node,pst-tree}
+\usepackage{pst-rel-points}
+\usepackage{flexiprogram}
+\geometry{verbose,a4paper,tmargin=15mm,bmargin=30mm,lmargin=30mm,rmargin=20mm}
+\usepackage{graphics}
+\usepackage{framed}
+% \usepackage{fancyheadings}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{epsfig}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{subfigure}
+\usepackage{framed}
+\usepackage{tabularx}
+\usepackage{epstopdf}
+\usepackage{longtable}
+\usepackage[sand]{optional}
+
+% % \usepackage{algpseudocode}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+\lstset{language=C,basicstyle=\footnotesize\ttfamily ,columns=fullflexible,keywordstyle=,morekeywords=}
+
+
+
+%\begin{comment}
+\usepackage[colorlinks,breaklinks=true]{hyperref}% hyperref should be the last package to be included, and perhaps there  should be one line gap between entries of bibliography 
+
+%below block all concerns package hyperref
+\hypersetup{
+	hypertexnames=false,
+	pdftitle={Field Sensitive Analysis Implementation and Improvements},
+	pdfauthor={P Vinay Kumar Reddy},
+	pdfkeywords={},
+	bookmarksnumbered,
+% 	bookmarks=true,
+% 	bookmarksopen=true,
+	pdfstartview={FitH},
+	colorlinks=true,
+	urlcolor=black,
+	linkcolor=black,%: Color for normal internal links
+	anchorcolor=black,%: Color for anchor text.
+	citecolor=black,%: Color for bibliographical citations in text
+	filecolor=black,%: Color for URLs which open local files
+%	pagecolor=blue,%: Color for links to other pages
+}%
+
+% \usepackage{multibib}
+
+% \currentpdfbookmark
+
+%---------------------------------end of packages----------------------------------------------------
+
+\setlength{\topmargin}{-13mm}
+\setlength{\headheight}{6mm}
+\setlength{\headsep}{7mm}
+\setlength{\textheight}{245mm}
+%\setlength{\oddsidemargin}{0.37in}
+\newpage
+%\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{150mm}
+\setlength{\marginparwidth}{0.5in}
+\renewcommand{\baselinestretch}{2}
+
+\setstretch{1.2}     %space between lines
+
+\pagestyle{fancy}
+\setlength{\headheight}{35pt}
+\fancyhead{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength\fboxsep{1pt}
+\setlength\fboxrule{0.25pt}
+%\theoremstyle{definition}
+\newtheorem{mydef}{Definition}[chapter]
+
+\renewcommand\lstlistingname{Program}%                     default is Listing
+\renewcommand\lstlistlistingname{List of Programs}%        default is Listings
+\addtolength{\evensidemargin}{-.875in}
+\begin{document}
+\pagenumbering{roman}
+\fancyfoot[CO]{\thepage}
+\cleardoublepage
+
+
+
+\addtocontents{toc}{\protect{\pdfbookmark[0]{Table Of Contents}{toc}}}
+\addtocontents{lof}{\protect{\pdfbookmark[0]{List of Figures}{lof}}}
+% \addtocontents{lot}{\protect{\pdfbookmark[0]{\contentsname}{lot}}}
+%*******************************************************************************
+%-------------------------Start of my variables-----------------------------------------------
+\newcommand{\cmt}[1]{}
+\newcommand{\p}{\ensuremath{p}}
+\newcommand{\q}{\ensuremath{q}}
+\newcommand{\s}{\ensuremath{s}}
+\newcommand{\myr}{\ensuremath{r}}
+\newcommand{\F}{\ensuremath{F}}
+\newcommand{\I}{\ensuremath{I}}
+\newcommand{\x}{\ensuremath{x}}
+\newcommand{\y}{\ensuremath{y}}
+\newcommand{\f}{\ensuremath{f}}
+\newcommand{\g}{\ensuremath{g}}
+\newcommand{\Left}{\ensuremath{Left}}
+\newcommand{\Right}{\ensuremath{Right}}
+\newcommand{\Parent}{\ensuremath{Parent}}  
+\newcommand{\merge}{\ensuremath{\mathrm{merge}}}
+
+
+\newcommand{\num}[1]{\ensuremath{|#1|}}
+\newcommand{\drct}{\ensuremath{D}}
+\newcommand{\indrct}{\ensuremath{I}}
+\newcommand{\fieldD}[2]{\ensuremath{{#1}_{#2}^\drct}}
+\newcommand{\fieldI}[3]{\ensuremath{{#1}_{#2}^{\indrct#3}}}
+\newcommand{\alias}[1]{\ensuremath{{#1}^{\dag}}}
+\newcommand{\aliasinfo}[1]{\ensuremath{\{\myr | \myr = #1 \vee \epsilon \in D_F^{\din}[\myr,#1] \vee \epsilon \in D_F^{\din}[#1, \myr] \}}}
+%\newcommand{\myT}{\mbox{\tt T}}
+\newcommand{\myL}{\mbox{\tt L}}
+%\newcommand{\R}{\mbox{\tt R}}
+\newcommand{\false}{\textbf{False}}
+\newcommand{\true}{\textbf{True}}
+\newcommand{\subC}{\mbox{\scalebox{0.6}{\Cycle}}}
+\newcommand{\subD}{\mbox{\scalebox{0.6}{\Dag}}}
+
+\newcommand{\dout}{\mbox{\footnotesize\em out}}
+\newcommand{\din}{\mbox{\footnotesize\em in}}
+\newcommand{\dkill}{\mbox{\footnotesize\em kill}}
+\newcommand{\dgen}{\mbox{\footnotesize\em gen}}
+
+\newcommand{\GenC}[1]{\ensuremath{{#1}_{\subC}^{\dgen}}}
+\newcommand{\GenD}[1]{\ensuremath{{#1}_{\subD}^{\dgen}}}
+\newcommand{\KillC}[1]{\ensuremath{{#1}_{\subC}^{\dkill}}}
+\newcommand{\KillD}[1]{\ensuremath{{#1}_{\subD}^{\dkill}}}
+\newcommand{\InC}[1]{\ensuremath{{#1}_{\subC}^{\din}}}
+\newcommand{\InD}[1]{\ensuremath{{#1}_{\subD}^{\din}}}
+\newcommand{\OutC}[1]{\ensuremath{{#1}_{\subC}^{\dout}}}
+\newcommand{\OutD}[1]{\ensuremath{{#1}_{\subD}^{\dout}}}
+
+\newcommand{\Tree}{{\tt Tree}}   %tt stands for typewriter font
+\newcommand{\Dag}{{\tt Dag}}
+\newcommand{\Cycle}{{\tt Cycle}}
+
+\newcommand{\upath}{\ensuremath{\mathcal{U}}}
+\newcommand{\heap}{\ensuremath{\mathcal{H}}}
+\newcommand{\fields}{\ensuremath{\mathcal{F}}}
+\newcommand{\shape}{\mbox{shape}}
+\newcommand{\nat}{\ensuremath{\mathcal{N}}}
+
+\newcommand{\epsilonset}{\ensuremath{\{\epsilon\}}}
+\newcommand{\epsilonpairset}{\ensuremath{\{\epsilon,\epsilon\}}}
+
+\newcommand{\project}[2]{\ensuremath{#1\triangleright\!\!#2}}
+\newcommand{\anysup}{\ensuremath{\ast}}
+
+\newcommand{\DFM}[2]{\ensuremath{D_F[#1,#2]}}
+\newcommand{\IFM}[2]{\ensuremath{I_F[#1,#2]}}
+
+\newcommand{\remOne}[2]{\ensuremath{#1 \ominus #2}}
+\newcommand{\remAll}[2]{\ensuremath{#1\uminus #2}}
+
+
+
+%-------------------------End of my variables----------------------------------------------
+
+
+\input{InitialPages/MyTitle}		% First Inner Page
+\newpage
+%\phantomsection\addcontentsline{toc}{chapter}{Certificate}
+\setcounter{page}{2}
+\input{InitialPages/MyCertificate}	
+\newpage
+%\phantomsection\addcontentsline{toc}{chapter}{Abstract}
+%\phantomsection\addcontentsline{toc}{chapter}{Acknowledgements}
+
+\input{InitialPages/MyAcknowledgement}
+\newpage
+
+\input{InitialPages/MyDedication}
+
+\newpage
+\opt{sand}{\pdfbookmark[1]{Abstract}{abstract}}
+\input{InitialPages/MyAbstract}
+
+
+
+\tableofcontents
+
+\listoffigures
+
+\newpage
+\pagenumbering{arabic}
+\fancyhead[RO]{\thepage}
+\fancyhead[LO]{\slshape \leftmark}
+\fancyfoot[CO]{}
+\renewcommand{\headrulewidth}{0.5pt}
+\noindent
+% %*********************************************************************
+\chapter{Introduction\label{intro}}
+\input{Chapters/Introduction}
+% 
+% 
+\chapter{Background \label{Background}}
+\input{Chapters/Background}
+
+\chapter{Enhancements to Field Sensitive Analysis\label{Enhancements}}
+\input{Chapters/Enhancements}
+
+\chapter{Subset Based Analysis \label{Subsetbased}}
+\input{Chapters/SubsetBased}
+
+
+\chapter{Inter Procedural Analysis\label{Interprocedural}}
+\input{Chapters/Interprocedural}
+
+\chapter{Implementation And Results \label{Implementation}}
+\input{Chapters/Implementation}
+
+\chapter{Conclusion \label{Conclusion}}
+\input{Chapters/Conclusion}
+
+\appendix
+\chapter[Analysis of Ghiya]{Analysis of Ghiya ~\cite{Ghiya96}\footnote{The contents of this section are borrowed from ~\cite{Ghiya96}}}
+\input{Chapters/Appendix}
+
+
+\bibliographystyle{alpha}
+\bibliography{References}
+
+
+\end{document}
+%*******************************************************************************

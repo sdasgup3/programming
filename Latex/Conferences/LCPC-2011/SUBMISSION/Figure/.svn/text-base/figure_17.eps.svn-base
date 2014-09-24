@@ -1,0 +1,336 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: figure_17.fig
+%%Creator: fig2dev Version 3.2 Patchlevel 5a
+%%CreationDate: Thu May  5 13:27:32 2011
+%%BoundingBox: 0 0 121 65
+%Magnification: 1.0000
+%%EndComments
+%%BeginProlog
+/$F2psDict 200 dict def
+$F2psDict begin
+$F2psDict /mtrx matrix put
+/col-1 {0 setgray} bind def
+/col0 {0.000 0.000 0.000 srgb} bind def
+/col1 {0.000 0.000 1.000 srgb} bind def
+/col2 {0.000 1.000 0.000 srgb} bind def
+/col3 {0.000 1.000 1.000 srgb} bind def
+/col4 {1.000 0.000 0.000 srgb} bind def
+/col5 {1.000 0.000 1.000 srgb} bind def
+/col6 {1.000 1.000 0.000 srgb} bind def
+/col7 {1.000 1.000 1.000 srgb} bind def
+/col8 {0.000 0.000 0.560 srgb} bind def
+/col9 {0.000 0.000 0.690 srgb} bind def
+/col10 {0.000 0.000 0.820 srgb} bind def
+/col11 {0.530 0.810 1.000 srgb} bind def
+/col12 {0.000 0.560 0.000 srgb} bind def
+/col13 {0.000 0.690 0.000 srgb} bind def
+/col14 {0.000 0.820 0.000 srgb} bind def
+/col15 {0.000 0.560 0.560 srgb} bind def
+/col16 {0.000 0.690 0.690 srgb} bind def
+/col17 {0.000 0.820 0.820 srgb} bind def
+/col18 {0.560 0.000 0.000 srgb} bind def
+/col19 {0.690 0.000 0.000 srgb} bind def
+/col20 {0.820 0.000 0.000 srgb} bind def
+/col21 {0.560 0.000 0.560 srgb} bind def
+/col22 {0.690 0.000 0.690 srgb} bind def
+/col23 {0.820 0.000 0.820 srgb} bind def
+/col24 {0.500 0.190 0.000 srgb} bind def
+/col25 {0.630 0.250 0.000 srgb} bind def
+/col26 {0.750 0.380 0.000 srgb} bind def
+/col27 {1.000 0.500 0.500 srgb} bind def
+/col28 {1.000 0.630 0.630 srgb} bind def
+/col29 {1.000 0.750 0.750 srgb} bind def
+/col30 {1.000 0.880 0.880 srgb} bind def
+/col31 {1.000 0.840 0.000 srgb} bind def
+
+end
+
+/cp {closepath} bind def
+/ef {eofill} bind def
+/gr {grestore} bind def
+/gs {gsave} bind def
+/sa {save} bind def
+/rs {restore} bind def
+/l {lineto} bind def
+/m {moveto} bind def
+/rm {rmoveto} bind def
+/n {newpath} bind def
+/s {stroke} bind def
+/sh {show} bind def
+/slc {setlinecap} bind def
+/slj {setlinejoin} bind def
+/slw {setlinewidth} bind def
+/srgb {setrgbcolor} bind def
+/rot {rotate} bind def
+/sc {scale} bind def
+/sd {setdash} bind def
+/ff {findfont} bind def
+/sf {setfont} bind def
+/scf {scalefont} bind def
+/sw {stringwidth} bind def
+/tr {translate} bind def
+/tnt {dup dup currentrgbcolor
+  4 -2 roll dup 1 exch sub 3 -1 roll mul add
+  4 -2 roll dup 1 exch sub 3 -1 roll mul add
+  4 -2 roll dup 1 exch sub 3 -1 roll mul add srgb}
+  bind def
+/shd {dup dup currentrgbcolor 4 -2 roll mul 4 -2 roll mul
+  4 -2 roll mul srgb} bind def
+/$F2psBegin {$F2psDict begin /$F2psEnteredState save def} def
+/$F2psEnd {$F2psEnteredState restore end} def
+
+/pageheader {
+save
+newpath 0 65 moveto 0 0 lineto 121 0 lineto 121 65 lineto closepath clip newpath
+-331.6 323.0 translate
+1 -1 scale
+$F2psBegin
+10 setmiterlimit
+0 slj 0 slc
+ 0.06299 0.06299 sc
+} bind def
+/pagefooter {
+$F2psEnd
+restore
+} bind def
+%%EndProlog
+pageheader
+%
+% Fig objects follow
+%
+% 
+% here starts figure with depth 50
+% Polyline
+0 slj
+0 slc
+7.500 slw
+n 5535 4770 m
+ 5490 4815 l gs col0 s gr 
+% Polyline
+n 5535 4770 m
+ 5580 4815 l gs col0 s gr 
+% Polyline
+n 6075 4770 m
+ 6030 4815 l gs col0 s gr 
+% Polyline
+n 6075 4770 m
+ 6120 4815 l gs col0 s gr 
+% Polyline
+n 5940 4230 m
+ 5985 4275 l gs col0 s gr 
+% Polyline
+n 6030 4230 m
+ 5985 4275 l gs col0 s gr 
+% Polyline
+n 5625 4410 m
+ 5580 4455 l gs col0 s gr 
+% Polyline
+n 5625 4410 m
+ 5670 4455 l gs col0 s gr 
+% Polyline
+n 6705 4590 m
+ 6660 4635 l gs col0 s gr 
+% Polyline
+n 6705 4590 m
+ 6750 4635 l gs col0 s gr 
+% Polyline
+n 5760 4590 m
+ 5805 4635 l gs col0 s gr 
+% Polyline
+n 5850 4590 m
+ 5805 4635 l gs col0 s gr 
+% Polyline
+n 6210 4410 m
+ 6255 4455 l gs col0 s gr 
+% Polyline
+n 6300 4410 m
+ 6255 4455 l gs col0 s gr 
+% Arc
+ [15 45] 45 sd
+n 6202.5 4822.5 574.0 -107.4880 -28.9092 arc
+gs col0 s gr
+ [] 0 sd
+% Polyline
+n 5850 4680 m
+ 6030 4770 l gs col0 s gr 
+% Polyline
+ [15 45] 45 sd
+n 6030 4860 m
+ 5940 4950 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 6120 4860 m
+ 6210 4950 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 6660 4680 m
+ 6570 4770 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 6750 4680 m
+ 6840 4770 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 6300 4455 m
+ 6615 4590 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 6210 4455 m
+ 5895 4590 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 5670 4500 m
+ 5805 4590 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 5580 4770 m
+ 5760 4680 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 5580 4860 m
+ 5670 4950 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 5490 4860 m
+ 5400 4950 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 5940 4275 m
+ 5670 4410 l gs col0 s gr  [] 0 sd
+% Polyline
+ [15 45] 45 sd
+n 5580 4500 m
+ 5445 4590 l gs col0 s gr  [] 0 sd
+% Polyline
+2 slj
+ [60] 0 sd
+n 5843 4590 m 5858 4592 l 5875 4595 l 5892 4599 l 5910 4603 l 5929 4609 l
+ 5949 4614 l 5969 4621 l 5991 4629 l 6013 4637 l 6035 4645 l
+ 6058 4655 l 6081 4665 l 6104 4675 l 6126 4686 l 6149 4697 l
+ 6171 4708 l 6192 4719 l 6213 4731 l 6234 4743 l 6255 4755 l
+ 6276 4768 l 6296 4781 l 6317 4794 l 6338 4808 l 6358 4823 l
+ 6379 4838 l 6399 4854 l 6417 4870 l 6435 4886 l 6452 4902 l
+ 6467 4918 l 6480 4933 l 6491 4948 l 6500 4963 l 6507 4976 l
+ 6511 4989 l 6512 5001 l 6512 5012 l 6508 5023 l 6503 5033 l
+ 6495 5041 l 6485 5048 l 6473 5056 l 6458 5062 l 6441 5069 l
+ 6422 5075 l 6401 5080 l 6378 5085 l 6353 5090 l 6326 5094 l
+ 6298 5098 l 6268 5102 l 6238 5105 l 6207 5107 l 6176 5109 l
+ 6144 5111 l 6113 5112 l 6082 5113 l 6051 5114 l 6021 5115 l
+ 5992 5115 l 5963 5115 l 5934 5115 l 5905 5115 l 5876 5114 l
+ 5846 5114 l 5817 5113 l 5787 5112 l 5758 5111 l 5728 5110 l
+ 5698 5108 l 5669 5107 l 5641 5105 l 5613 5104 l 5586 5102 l
+ 5560 5100 l 5535 5098 l 5512 5096 l 5490 5094 l 5469 5093 l
+ 5450 5091 l 5432 5089 l 5416 5087 l 5400 5085 l 5389 5084 l
+ 5378 5082 l 5367 5080 l 5357 5079 l 5348 5077 l 5339 5075 l
+ 5331 5073 l 5323 5071 l 5315 5069 l 5309 5066 l 5303 5064 l
+ 5297 5061 l 5292 5058 l 5288 5054 l 5284 5051 l 5281 5047 l
+ 5279 5043 l 5278 5038 l 5277 5034 l 5276 5029 l 5277 5024 l
+ 5278 5018 l 5279 5013 l 5281 5007 l 5284 5000 l 5287 4994 l
+ 5291 4987 l 5295 4980 l 5302 4968 l 5311 4955 l 5321 4941 l
+ 5332 4926 l 5345 4910 l 5358 4893 l 5372 4875 l 5387 4857 l
+ 5402 4839 l 5417 4820 l 5433 4802 l 5447 4785 l 5462 4769 l
+ 5475 4753 l 5488 4739 l 5500 4725 l 5510 4713 l 5520 4703 l
+ 5535 4686 l 5548 4671 l 5559 4660 l 5568 4650 l 5577 4642 l
+ 5585 4636 l 5592 4631 l 5600 4627 l 5608 4624 l 5618 4620 l
+ 5625 4617 l 5635 4613 l 5645 4610 l 5657 4606 l 5671 4602 l
+ 5686 4598 l 5703 4594 l 5721 4591 l 5740 4589 l 5759 4587 l
+ 5779 4586 l 5800 4586 l 5821 4588 l
+ cp gs col0 s gr  [] 0 sd
+/Times-Roman ff 63.50 scf sf
+5940 4185 m
+gs 1 -1 sc (q) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+5985 4185 m
+gs 1 -1 sc (cycle) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6210 4365 m
+gs 1 -1 sc (s) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+6255 4365 m
+gs 1 -1 sc (cycle) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6030 4725 m
+gs 1 -1 sc (p) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+6075 4725 m
+gs 1 -1 sc (cycle) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6120 5040 m
+gs 1 -1 sc (D) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+6165 5040 m
+gs 1 -1 sc (F) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6345 5040 m
+gs 1 -1 sc (|) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6210 5040 m
+gs 1 -1 sc ([p,s]) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6075 5040 m
+gs 1 -1 sc (|) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6840 4860 m
+gs 1 -1 sc ([s,q]) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6750 4860 m
+gs 1 -1 sc (D) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6705 4860 m
+gs 1 -1 sc (|) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+6795 4860 m
+gs 1 -1 sc (F) col0 sh gr
+/Times-Roman ff 63.50 scf sf
+6975 4860 m
+gs 1 -1 sc (|) col0 sh gr
+/Times-Roman ff 95.25 scf sf
+6480 4860 m
+gs 1 -1 sc (f) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+6525 4815 m
+gs 1 -1 sc (2) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+6525 4860 m
+gs 1 -1 sc (qs) col0 sh gr
+/Times-Roman ff 95.25 scf sf
+5310 5040 m
+gs 1 -1 sc (f) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+5355 4995 m
+gs 1 -1 sc (1) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+5355 5040 m
+gs 1 -1 sc (sp) col0 sh gr
+/Times-Roman ff 95.25 scf sf
+5850 5040 m
+gs 1 -1 sc (f) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+5895 4995 m
+gs 1 -1 sc (1) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+5895 5040 m
+gs 1 -1 sc (sp) col0 sh gr
+/Times-Roman ff 95.25 scf sf
+5355 4635 m
+gs 1 -1 sc (f) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+5400 4590 m
+gs 1 -1 sc (2) col0 sh gr
+/Times-Roman ff 31.75 scf sf
+5400 4635 m
+gs 1 -1 sc (qs) col0 sh gr
+/Times-Roman ff 47.63 scf sf
+6390 5040 m
+gs 1 -1 sc (>=1) col0 sh gr
+/Times-Roman ff 47.63 scf sf
+7020 4860 m
+gs 1 -1 sc (>=1) col0 sh gr
+/Times-Roman ff 95.25 scf sf
+5670 5040 m
+gs 1 -1 sc (F) col0 sh gr
+% here ends figure;
+pagefooter
+showpage
+%%Trailer
+%EOF

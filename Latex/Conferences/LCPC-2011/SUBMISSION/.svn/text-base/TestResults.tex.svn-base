@@ -1,0 +1,518 @@
+
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+
+\usepackage{url}
+\urldef{\mailsa}\path|{dsand, karkare}cse.iitk.ac.in|
+%\urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|
+%\urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|    
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+%%%%%% Non recom packages
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pst-rel-points}
+\usepackage{latexsym}
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% theorams and definitions %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{defn}{Definition}[section]
+\newtheorem{exmpl}{Example}[section]
+\newtheorem{prop}{Property}[section]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% New Commands %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\cmt}[1]{} % commented out stuff
+% Review these names
+\newcommand{\p}{\mbox{\tt p}}
+\newcommand{\nO}{\mbox{\tt n1}}
+\newcommand{\nT}{\mbox{\tt n2}}
+\newcommand{\myt}{\mbox{\tt t}}
+\newcommand{\q}{\mbox{\tt q}}
+\newcommand{\s}{\mbox{\tt s}}
+\newcommand{\myr}{\mbox{\tt r}}
+
+\newcommand{\B}{\mbox{\tt B}}
+\renewcommand{\a}{\mbox{\tt a}}
+\renewcommand{\b}{\mbox{\tt b}}
+\renewcommand{\c}{\mbox{\tt c}}
+\renewcommand{\d}{\mbox{\tt d}}
+\newcommand{\m}{\mbox{\tt m}}
+
+\newcommand{\drct}{\ensuremath{D}}
+\newcommand{\indrct}{\ensuremath{I}}
+\newcommand{\heap}{\ensuremath{\mathcal{H}}}
+\newcommand{\fields}{\ensuremath{\mathcal{F}}}
+\newcommand{\upath}{\ensuremath{\mathcal{U}}}
+\newcommand{\shape}{\mbox{shape}}
+\newcommand{\nat}{\ensuremath{\bbbn}}
+
+\newcommand{\mwedge}{\; \wedge \;}
+\newcommand{\mvee}{\; \vee \;}
+\newcommand{\mcup}{\; \cup \;}
+\newcommand{\mjoin}{\; \Join \;}
+\newcommand{\mbackslash}{\; \backslash \;}
+\newcommand{\subC}{\mbox{\scalebox{.6}{\Cycle}}}
+\newcommand{\subD}{\mbox{\scalebox{.6}{\Dag}}}
+
+\newcommand{\epsilonset}{\ensuremath{\{\epsilon\}}}
+\newcommand{\epsilonpairset}{\ensuremath{\{\epsilon,\epsilon\}}}
+
+\newcommand{\dout}{\mbox{\footnotesize\em out}}
+\newcommand{\din}{\mbox{\footnotesize\em in}}
+\newcommand{\dkill}{\mbox{\footnotesize\em kill}}
+\newcommand{\dgen}{\mbox{\footnotesize\em gen}}
+
+\newcommand{\GenC}[1]{\ensuremath{{#1}_{\subC}^{\dgen}}}
+\newcommand{\GenD}[1]{\ensuremath{{#1}_{\subD}^{\dgen}}}
+\newcommand{\KillC}[1]{\ensuremath{{#1}_{\subC}^{\dkill}}}
+\newcommand{\KillD}[1]{\ensuremath{{#1}_{\subD}^{\dkill}}}
+\newcommand{\InC}[1]{\ensuremath{{#1}_{\subC}^{\din}}}
+\newcommand{\InD}[1]{\ensuremath{{#1}_{\subD}^{\din}}}
+\newcommand{\OutC}[1]{\ensuremath{{#1}_{\subC}^{\dout}}}
+\newcommand{\OutD}[1]{\ensuremath{{#1}_{\subD}^{\dout}}}
+
+\newcommand{\project}[2]{\red
+  \ensuremath{#1\triangleright\!\!#2}}
+\newcommand{\num}[1]{\red
+  \ensuremath{|#1|}}
+\newcommand{\first}[1]{\ensuremath{#1. \mathrm{fst}}}
+\newcommand{\second}[1]{\ensuremath{#1. \mathrm{snd}}}
+
+\newcommand{\remOne}[2]{\red \ensuremath{#1 \ominus #2}}
+\newcommand{\remAll}[2]{\red \ensuremath{#1\ominus #2}}
+
+\newcommand{\Gen}[1]{{\mbox{{\tt gen}}_{\mbox{\scalebox{.6}{{\tt #1}}}}}}
+\newcommand{\Kill}[1]{{\mbox{{\tt kill}}_{\mbox{\scalebox{.6}{{\tt #1}}}}}}
+\newcommand{\mb}[1]{\mbox{{\tt #1}}}
+\newcommand{\D}[2]{\mb{$D$}[\mb{#1},\mb{#2}]}
+\newcommand{\I}[2]{\mb{$I$}[\mb{#1},\mb{#2}]}
+\newcommand{\DFM}[2]{\mb{$D_F$}[\mb{#1},\mb{#2}]}
+\newcommand{\IFM}[2]{\mb{$I_F$}[\mb{#1},\mb{#2}]}
+\newcommand{\DFMI}[2]{\mb{$D_{F}$}^{\tt in}[\mb{#1},\mb{#2}]}
+\newcommand{\IFMI}[2]{\mb{$I_{F}$}^{\tt in}[\mb{#1},\mb{#2}]}
+\newcommand{\DFMO}[2]{\mb{$D_{F}$}^{\tt out}[\mb{#1},\mb{#2}]}
+\newcommand{\IFMO}[2]{\mb{$I_{F}$}^{\tt out}[\mb{#1},\mb{#2}]}
+\newcommand{\Tree}{{\tt Tree}}
+\newcommand{\Dag}{{\tt Dag}}
+\newcommand{\Cycle}{{\tt Cycle}}
+\newcommand{\upstmt}[1]{{\tt p$\rightarrow$f = #1}}
+\newcommand{\TV}{{\tt TrueVars}}
+\newcommand{\fieldD}[2]{\ensuremath{{#1}_{#2}^\drct}}
+\newcommand{\fieldI}[3]{\ensuremath{{#1}_{#2}^{\indrct#3}}}
+\newcommand{\range}[3]{\ensuremath{{#1} \leq {#2} \leq {#3}}}
+\newcommand{\U}{{\rm Unknown}}
+\newcommand{\fig}[1]{\includegraphics[scale=.5]{#1}}
+\newcommand{\false}{\textbf{False}}
+\newcommand{\true}{\textbf{True}}
+
+\newcommand{\sub}[2]{\ensuremath{{#1}_{#2}}}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Precise Shape Analysis using Field Sensitivity}
+
+% a short form should be given in case it is too long for the running head
+\titlerunning{Precise Shape Analysis using Field Sensitivity}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Sandeep Dasgupta \and Amey Karkare}
+%
+\authorrunning{Precise Shape Analysis using Field Sensitivity}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{Department of Computer Science and Engineering,\\
+Indian Institute of Technology Kanpur, Kanpur, India\\
+\mailsa\\
+%\mailsb\\
+%\mailsc\\
+\url{http://www.cse.iitk.ac.in}}
+
+
+\toctitle{Lecture Notes in Computer Science}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Testing Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For comparison purpose the testcases must 
+involve shape transitions like Cycle to DAG, Cycle to Tree, and DAG to Tree. The
+transition like Tree to DAG, DAG to Cycle, or Tree to Cycle are not of much importance as 
+these can be detected by any of the field insensitive approaches. Following are the cases that 
+meet our requirement and better demonstrate the accuracy of our analysis
+as compared to field insensitive analysis.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Swapping Two Nodes of a Singly Linked List}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Consider the code fragment Fig.~\ref{fig:benchmark_1}(a) which swaps the two
+pointers $p$ and $p\rightarrow f$ in a singly linked list $L$
+with link field as $f$, given the pointer $p$. Figure~\ref{fig:benchmark_1}(b) shows the 
+field sensitive matrices.
+
+\begin{figure}[t]
+\centering
+  \begin{tabular}{@{}lc@{}}
+%    \hspace{-16mm}
+{\small\tt
+      \begin{tabular}[b]{l}
+        S1. n1 = p$\rightarrow$f; \\
+        S2. n2 = n1$\rightarrow$f; \\
+        S3. t  = n2$\rightarrow$f; \\
+        S4. n2$\rightarrow$f = n1; \\
+        S5. n1$\rightarrow$f = t; \\
+        S6. p$\rightarrow$f = n2;
+      \end{tabular}
+    } &
+\scalebox{0.50}{
+\begin{tabular}[b]{|l|@{}c@{}|@{}c@{}|}
+\hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+
+{\tt S1} & 
+\begin{tabular}{|c|cccc|} \hline 
+            & $\nO$  		& $\nT$ 		& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\nT$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\p$ 		& $\{\fieldD{f}{}\}$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\myt$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|cccc|} \hline
+			& $\nO$  						& $\nT$ 		& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$					& $\emptyset$	& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$ \\ \hline
+  $\nT$ 	& $\emptyset$					& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\myt$ 	& $\emptyset$					& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+\begin{tabular}{|c|cccc|} \hline
+            & $\nO$  				& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$			& $\{\fieldD{f}{}\}$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\nT$ 	& $\emptyset$			& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+  $\p$ 		& $\{\fieldD{f}{}\}$	& $\fieldI{f}{}{1}$		& $\emptyset$	& $\emptyset$ \\ \hline
+  $\myt$ 	& $\emptyset$			& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|cccc|} \hline
+			& $\nO$  						& $\nT$ 							& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$					& $\{(\fieldD{f}{}, \epsilon)\}$		& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$ \\ \hline
+  $\nT$ 	& $\{(\epsilon, \fieldD{f}{})\}$					& $\emptyset$		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\myt$ 	& $\emptyset$					& $\emptyset$						& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular} \\ \hline
+
+{\tt S3} & 
+\begin{tabular}{|c|cccc|} \hline
+            & $\nO$  				& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$			& $\{\fieldD{f}{}\}$	& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\nT$ 	& $\emptyset$			& $\emptyset$			& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\p$ 		& $\{\fieldD{f}{}\}$	& $\fieldI{f}{}{1}$		& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\myt$ 	& $\emptyset$			& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|cccc|} \hline
+			& $\nO$  						& $\nT$ 							& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$					& $\{(\fieldD{f}{}, \epsilon)\}$		& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\nT$ 	& $\{(\epsilon, \fieldD{f}{})\}$					& $\emptyset$		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\{(\fieldD{f}{}, \epsilon)\}$ \\ \hline
+  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\emptyset$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\myt$ 	& $\{(\epsilon, \fieldI{f}{}{1})\}$					& $\{(\epsilon, \fieldD{f}{})\}$						& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+\end{tabular} \\ \hline
+
+{\tt S4} & 
+\begin{tabular}{|c|cccc|} \hline
+            & $\nO$  								& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\{\fieldI{f}{}{1}\}$						& $\{\fieldD{f}{}, \fieldI{f}{}{1}\}$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\nT$ 	& $\{\fieldD{f}{}\}$						& $\{\fieldI{f}{}{1}\}$			& $\emptyset$	& $\emptyset$ \\ \hline
+  $\p$ 		& $\{\fieldD{f}{}, \fieldI{f}{}{1}\}$	& $\fieldI{f}{}{2}$		& $\emptyset$	& $\emptyset$ \\ \hline
+  $\myt$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|cccc|} \hline
+			& $\nO$  											& $\nT$ 														& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\{(\fieldI{f}{}{1}, \epsilon)\}$					& $\{(\fieldD{f}{}, \epsilon), (\epsilon, \fieldD{f}{})\}$		& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$ \\ \hline
+  $\nT$ 	& $\{(\fieldD{f}{}, \epsilon), (\epsilon, \fieldD{f}{})\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$						& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\myt$ 	& $\emptyset$						& $\emptyset$						& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular} \\ \hline
+
+{\tt S5} & 
+\begin{tabular}{|c|cccc|} \hline
+            & $\nO$  								& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\{\fieldD{f}\}$ \\ \hline
+  $\nT$ 	& $\{\fieldD{f}{}\}$					& $\emptyset$			& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\p$ 		& $\{\fieldD{f}{}\}$					& $\emptyset$			& $\emptyset$	& $\fieldI{f}{}{1}$ \\ \hline
+  $\myt$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|cccc|} \hline
+			& $\nO$  							& $\nT$ 							& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$						& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\fieldD{f}{},\epsilon)\}$ \\ \hline
+  $\nT$ 	& $\{(\fieldD{f}{}, \epsilon)\}$	& $\emptyset$						& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\emptyset$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\myt$ 	& $\{(\epsilon, \fieldD{f}{})\}$		& $\{(\epsilon, \fieldI{f}{}{1})\}$		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+\end{tabular} \\ \hline
+
+{\tt S6} & 
+\begin{tabular}{|c|cccc|} \hline
+            & $\nO$  								& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\nT$ 	& $\{\fieldD{f}{}\}$					& $\emptyset$			& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\p$ 		& $\{\fieldI{f}{}{1}\}$					& $\{\fieldD{f}{}\}$	& $\emptyset$	& $\fieldI{f}{}{1}$ \\ \hline
+  $\myt$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|cccc|} \hline
+			& $\nO$  							& $\nT$ 							& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$						& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\{(\fieldD{f}{},\epsilon)\}$ \\ \hline
+  $\nT$ 	& $\{(\fieldD{f}{}, \epsilon)\}$	& $\emptyset$						& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\p$ 		& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\{(\fieldD{f}{}, \epsilon)\}$	& $\emptyset$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\myt$ 	& $\{(\epsilon, \fieldD{f}{})\}$		& $\{(\epsilon, \fieldI{f}{}{1})\}$		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+\end{tabular}  \\ \hline
+\end{tabular} 
+} \\ \\
+\footnotesize (a) A code fragment & \footnotesize (b) Direction ($\sub{D}{F}$) and Interference ($\sub{I}{F}$) matrices 
+\end{tabular}
+\caption{Analysis of ``Swapping Two Nodes of a Singly Linked List''}
+\label{fig:benchmark_1}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Benchmarks ``sim'', ``block2'', and ``nbody''} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\on}{old\_node}
+\newcommand{\nn}{new\_node}
+Consider the code fragment Fig.~\ref{fig:benchmark_3}(a) which mimics a case applied to the above mentioned benchmarks. Figure~\ref{fig:benchmark_3}(b) shows the 
+field sensitive matrices.
+
+\begin{figure}[t]
+\centering
+  \begin{tabular}{@{}lc@{}}
+%    \hspace{-16mm}
+{\small\tt
+      \begin{tabular}[b]{l}
+        S1. \on$\rightarrow$f = q; \\
+        S2. \nn = malloc(); \\
+        S3. \nn$\rightarrow$f = q;  \\
+        S4. \on$\rightarrow$f = \nn;  
+      \end{tabular}
+    } &
+\scalebox{0.50}{
+\begin{tabular}[b]{|l|@{}c@{}|@{}c@{}|}
+\hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+
+{\tt S1} & 
+\begin{tabular}{|c|ccc|} \hline 
+            & $\on$  		& $\nn$ 		& $\q$ 	 \\ \hline
+  $\on$ 	& $\emptyset$	& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\nn$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\q$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|ccc|} \hline
+            & $\on$  		& $\nn$ 		& $\q$ 	 \\ \hline
+  $\on$ 	& $\emptyset$	& $\emptyset$	& $\{(\fieldD{f}{}, \epsilon)\}$ \\ \hline
+  $\nn$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\q$ 		& $\{(\epsilon, \fieldD{f}{})$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+\begin{tabular}{|c|ccc|} \hline 
+            & $\on$  		& $\nn$ 		& $\q$ 	 \\ \hline
+  $\on$ 	& $\emptyset$	& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\nn$ 	& $\emptyset$	& $\{\epsilon\}$	& $\emptyset$	\\ \hline
+  $\q$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|ccc|} \hline
+            & $\on$  		& $\nn$ 		& $\q$ 	 \\ \hline
+  $\on$ 	& $\emptyset$	& $\emptyset$	& $\{(\fieldD{f}{}, \epsilon)\}$ \\ \hline
+  $\nn$ 	& $\emptyset$	& $\{(\epsilon, \epsilon)\}$	& $\emptyset$	\\ \hline
+  $\q$ 		& $\{(\epsilon, \fieldD{f}{})$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S3} & 
+\begin{tabular}{|c|ccc|} \hline 
+            & $\on$  		& $\nn$ 		& $\q$ 	 \\ \hline
+  $\on$ 	& $\emptyset$	& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\nn$ 	& $\emptyset$	& $\{\epsilon\}$	& $\{\fieldD{f}{}\}$	\\ \hline
+  $\q$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|ccc|} \hline
+            & $\on$  		& $\nn$ 		& $\q$ 	 \\ \hline
+  $\on$ 	& $\emptyset$	& $\emptyset$	& $\{(\fieldD{f}{}, \epsilon)\}$ \\ \hline
+  $\nn$ 	& $\emptyset$	& $\{(\epsilon, \epsilon)\}$	& $\{(\fieldD{f}{}, \epsilon)\}$	\\ \hline
+  $\q$ 		& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S4} & 
+\begin{tabular}{|c|ccc|} \hline 
+            & $\on$  		& $\nn$ 		& $\q$ 	 \\ \hline
+  $\on$ 	& $\emptyset$	& $\{\fieldD{f}{}\}$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\nn$ 	& $\emptyset$	& $\{\epsilon\}$	& $\{\fieldD{f}{}\}$	\\ \hline
+  $\q$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|ccc|} \hline
+            & $\on$  		& $\nn$ 		& $\q$ 	 \\ \hline
+  $\on$ 	& $\emptyset$	& $\{(\fieldD{f}{}, \epsilon)\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\nn$ 	& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\epsilon, \epsilon)\}$	& $\{(\fieldD{f}{}, \epsilon)\}$	\\ \hline
+  $\q$ 		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+\end{tabular} 
+} \\ \\
+\footnotesize (a) A code fragment & \footnotesize (b) Direction ($\sub{D}{F}$) and Interference ($\sub{I}{F}$) matrices 
+\end{tabular}
+\caption{Analysis of ``Benchmarks ``sim'', ``block2'', and ``nbody''''}
+\label{fig:benchmark_3}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Recursively Swapping Binary Tree}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Consider the code fragment Fig.~\ref{fig:benchmark_2}(a) which generates a mirror copy 
+of a binary tree rooted at $T$. While swapping the left and right sub-tree a temporary DAG is created (after statement {\tt S6}), 
+which gets destroyed after the very next statement {\tt S7}. Figure~\ref{fig:benchmark_2}(b) shows the 
+field sensitive matrices.
+ 
+\newcommand{\T}{\mbox{\tt T}}
+\newcommand{\myL}{\mbox{\tt L}}
+\newcommand{\R}{\mbox{\tt R}}
+
+\begin{figure}[t]
+\centering
+\begin{tabular}{@{}lc@{}}
+  {\small \tt
+    \begin{tabular}[b]{l}
+        S1. mirror(tree T) \{ \\
+        S2.     L  = T->left; \\
+        S3.     R = T->right; \\
+        S4.     mirror(L); \\
+        S5.     mirror(R); \\
+        S6.     T->left = R; \\
+        S7.     T->right = L; \\
+        S8 \}  
+      \end{tabular}
+  } &
+\scalebox{0.50}{
+\begin{tabular}[b]{|l|@{}c@{}|@{}c@{}|}
+\hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+
+{\tt S2} & 
+\begin{tabular}{|c|ccc|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{\fieldD{left}{}\}$	& $\emptyset$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|ccc|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{(\fieldD{left}{}, \epsilon)\}$	& $\emptyset$ \\ \hline
+  $\myL$ 	& $\{(\epsilon, \fieldD{left}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S3} & 
+\begin{tabular}{|c|ccc|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{\fieldD{left}{}\}$	& $\{\fieldD{right}{}\}$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|ccc|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 	& $\emptyset$	& $\{(\fieldD{left}{}, \epsilon)\}$	& $\{(\fieldD{right}{}, \epsilon)\}$ \\ \hline
+  $\myL$ 	& $\{(\epsilon, \fieldD{left}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{(\epsilon, \fieldD{right}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S6} & 
+\begin{tabular}{|c|ccc|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\emptyset$	& $\{\fieldD{right}{}, \fieldD{left}{}\}$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|ccc|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\emptyset$	& $\{(\fieldD{right}{}, \epsilon), (\fieldD{left}{}, \epsilon)\}$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{(\epsilon, \fieldD{right}{}), (\epsilon, \fieldD{left}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+{\tt S7} & 
+\begin{tabular}{|c|ccc|} \hline 
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\{\fieldD{right}{}\}$	& $\{\fieldD{left}{}\}$ \\ \hline
+  $\myL$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|c|ccc|} \hline
+            & $\T$  		& $\myL$ 		& $\R$ 	 \\ \hline
+  $\T$ 		& $\emptyset$	& $\{(\fieldD{right}{}, \epsilon)\}$	& $\{(\fieldD{left}{}, \epsilon)\}$ \\ \hline
+  $\myL$ 	& $\{(\epsilon, \fieldD{right}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+  $\R$ 		& $\{(\epsilon, \fieldD{left}{})\}$	& $\emptyset$	& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+
+
+\end{tabular} 
+} \\ \\
+\footnotesize (a) A code fragment & \footnotesize (b) Direction ($\sub{D}{F}$) and Interference ($\sub{I}{F}$) matrices 
+\end{tabular}
+\caption{Analysis of ``Recursively Swapping Binary Tree''}
+\label{fig:benchmark_2}
+\end{figure}
+
+
+
+\end{document}

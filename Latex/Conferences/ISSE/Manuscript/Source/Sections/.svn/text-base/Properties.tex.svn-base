@@ -1,0 +1,156 @@
+In   this  section   we  discuss   some  properties   of  our
+analysis. First  we discuss  the need of  introducing boolean
+variables on  the top of  field sensitive matrices.   We then
+discuss termination guarantees  for our analysis.  We finally
+give bounds  corresponding to the storage  requirement of our
+analysis.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Need for Boolean Variables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Because we compute approximations for field sensitive
+matrices under certain conditions (e.g. for statement $\p =
+\q\rightarrow f$), these matrices can result in imprecise
+shape. Boolean variables help us retain some precision in
+such cases, as demonstrated next.
+%
+\begin{figure}[t]
+  \centering
+  \begin{tabular}{@{}cc@{}}
+    \scalebox{0.99}{
+      \tt
+      \begin{tabular}[b]{l}
+        \qquad \qquad \ldots \\
+        {\em \scriptsize S1:} r = s$\rightarrow$g;\\
+        {\em \scriptsize S2:} p$\rightarrow$f = q;  \\
+        {\em \scriptsize S3:} p$\rightarrow$f = NULL; \\
+        \qquad \qquad \ldots \\
+      \end{tabular}
+    } &
+    \scalebox{0.8}{\psset{unit=1mm}
+    \begin{pspicture} (0,0)(30,16)
+      \putnode{p0}{origin}{3}{3}{\pscirclebox[framesep=3pt]{\p}}
+      \putnode{s0}{p0}{0}{10}{\pscirclebox[framesep=4pt]{\s}}
+      \putnode{t0}{s0}{15}{0}{\pscirclebox[framesep=5pt]{\ }}
+      \putnode{q0}{p0}{15}{0}{\pscirclebox[framesep=3pt]{\q}}
+      \putnode{u0}{q0}{10}{5}{\pscirclebox[framesep=3pt]{t}}
+
+      \ncline{->}{s0}{t0}
+      \Aput[0.1]{$g$}
+      \ncline[nodesep=-0.5]{->}{t0}{p0}
+      \Aput[0.1]{$f$}
+      \ncline[nodesep=-0.5]{->}{t0}{u0}
+      \Aput[0.1]{$g$}
+      \ncline[nodesep=-0.5]{->}{q0}{u0}
+      \Aput[0.1]{$h$}
+
+    \end{pspicture}}
+    \\
+    \scalebox{0.80}{(a)} &
+    \scalebox{0.80}{(b)} \\ \\
+    \multicolumn{2}{c}{
+      \scalebox{0.99}{
+        \begin{tabular}[b]{|c|c|c|c|}
+          \hline
+	      {After}                    & $f_{pq}$  & $\DFM{r}{p}$ & $\vert\IFM{r}{p}\vert > 1 $ \\ \hline
+	      {\em \scriptsize S1}       &  \false  & \upath       & \true \\ \hline
+	      {\em \scriptsize S2}       &  \true   & \upath       & \true \\ \hline
+	      {\em \scriptsize S3}       &  \false  & \upath       & \true \\ \hline
+    \end{tabular}}}  \\
+    \multicolumn{2}{c}{\scalebox{0.80}{(c)}}
+  \end{tabular}
+  \caption{Using boolean variables to improve
+    precision \label{fig:conclusion}. (a) shows a program
+    fragment, (b) shows the heap structure at the start of
+    the fragment (before {\em S1}) , and (c) shows the values
+    for the boolean variables and paths between variables of
+    interest.} 
+\end{figure}
+
+\begin{example} {\rm
+    Fig.~\ref{fig:conclusion}  shows a program  fragment, and
+    heap  graph at  the program  point before  statement {\em
+      S1}.  At {\em  S2}, a DAG is created  that is reachable
+    from   \myr\  which  gets   destroyed  after   {\em  S3}.
+    Fig.~\ref{fig:conclusion}(c) shows the path information 
+	between
+    \myr\ and \p\ and  the boolean variable $f_{pq}$ at
+    various  program  points.    First  we  note  that  after
+    statement   {\em   S2},   the   analysis   conservatively
+    approximates the path \DFM{r}{p} using the universal path
+    \upath.  As a consequence,  more than  one pair  of paths
+    from  \q\  and \myr\  are  considered  interfering at  t.
+    Further,  these  entries  will  not be  affected  by  the
+    kill-effects   of   statement    {\em   S3}.    Thus,   a
+    \Dag\ inferred using only  the $P_F$ matrix will continue
+    to exist even after {\em S3}.
+
+    The  use  of field  based  boolean  variables avoid  this
+    situation  as follows.  The fact  that the  shape  of the
+    variable \myr\ becomes \Dag\ after {\em  S2} is captured
+    by  the following boolean function and variable:
+    \begin{eqnarray*}
+      \mb{r}_{\subD} &=& (|\DFM{r}{p}| \geq 1) \wedge f_{pq}
+      \wedge (|\IFM{r}{q}| > 1) \\
+      f_{pq} &=& \true
+    \end{eqnarray*}
+    After {\em S2}, $\mb{r}_{\subD}$ becomes {\true}, thus
+    implying that $\myr.\shape$ is \Dag.  Later, at statement
+    {\em S3}, the path due to $f_{pq}$ is broken. Even
+    though $|\DFM{r}{p}| \geq 1|$ and $\vert \IFM{r}{q} \vert
+    > 1 $ still hold (because of presence of \upath), we can
+    still infer the shape transition 
+    from \Dag\ to \Tree\ because the boolean variable $f_{pq}$
+    becomes {\false}, setting $\mb{r}_{\subD}$ to \false.}
+  \hfill\psframebox{}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Termination} \label{Termination_Criteria}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The computation of $P_F$  matrices follows from the fact that
+the  data  flow  functions  are  monotonic and  the  sets  of
+approximate  paths  are   bounded.   The  number  of  boolean
+variables for a program are  bounded by the number of pointer
+variables, and  the fields in  the program. Thus, the  set of
+boolean functions is also bounded as it uses a a fixed set of
+boolean variables and  fixed operators ($\vee$ and $\wedge$).
+The  termination  of  computation  of boolean  functions  for
+\Cycle\ and  \Dag\ follows from the monotonicity  of the flow
+functions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Storage Requirement}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The  memory  requirement  of  our analysis  consists  of  the
+storage space  for the path matrices ($P_F$)  and the boolean
+functions.  Let  $n \in \nat$ denotes the  cardinality of the
+set $\heap$ at  a program point. Obviously $n$  is bounded by
+the total number of pointer  variables in the program. Let $m
+\in  \nat$ denotes  the maximum  number of  possible distinct
+pointer fields emanating from  a heap directed pointer, which
+is again  a bounded quantity.  Between two  pointer, for each
+field, we only use: (a) the ($k$-limited) count of the number
+of indirect  paths starting  at that given  field, and  (b) a
+direct path using that field  (if there is one).  The storage
+requirement for  the path matrices  $P_F$ is thus  bounded by
+$O(n^{2}* m)$.
+
+In our  empirical evaluation, we have observed  that the path
+matrices  are  sparse  for   large  programs,  as  a  pointer
+typically   has  paths   only  to   a  small   set   of  heap
+nodes.  Therefore, a sparse  matrix based  representation can
+be used to store path matrices efficiently.
+ 
+The  boolean functions at  each program  point are  stored as
+bdds, using the {\em  BuDDy}~\cite{buddy} library.  As can be
+seen from the equations for the boolean functions, the height
+and width of the expression tree for a function is polynomial
+in    the   number   of    pointer   instructions    in   the
+program. However, because BDDs  keep the boolean functions in
+canonical form, it allow reusing the BDDs for the expressions
+at  different program  points. This  results in  an efficient
+storage of the boolean functions.
+

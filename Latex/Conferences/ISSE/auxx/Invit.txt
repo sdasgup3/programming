@@ -1,0 +1,29 @@
+Invitation to the Special Issue of ISSE
+
+Dear Authors,
+
+Thank you for having submitted your paper to ACM SAC - SVT 2012 and thank you for your presentations.
+
+We are delighted to invite to submit an extended version of your paper to the special issue of Innovations in Systems and Software Engineering, published by Springer, devoted to the selected papers of SVT 2012.
+
+Please let us know at your earliest convenience and no later than April 10, 2012, whether you intend to accept our invitation. The tentative plan for the journal publication is given below:
+
+Submission of papers: July 13, 2012
+First review decision: November 16, 2012
+Revision due: December 21, 2012
+Acceptance notification: March 8, 2013
+Final manuscript due:  April 12, 2013
+Expected publication: Summer 2013
+
+Please note that the journal submission should contain sufficient new material (about 30%) compared to the conference publication. The journal submissions will go through another review process and hence, this invitation does not automatically guarantee acceptance.
+
+If you accept our invitation and intend to submit to the journal website, please use the following URL:
+
+http://www.editorialmanager.com/isse/
+
+and choose the special issue article type "SI: SAC-SVT'12"
+
+We are looking forward to hearing from you,
+
+Best Regards,
+Jun and Mohammad

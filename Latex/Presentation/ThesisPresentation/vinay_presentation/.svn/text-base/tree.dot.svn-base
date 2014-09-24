@@ -1,0 +1,14 @@
+
+digraph graphname {
+     a -> b -> d;
+     a -> c[ color="blue"]; 
+     c -> g; 
+     b -> e[ color="blue"];
+     c -> f[ color="blue"];
+     f -> c[ color="red"];
+     g -> c[ color="red"];
+     d -> b[ color="red"];
+     e -> b[ color="red"];
+     b -> a[ color="red"];
+     c -> a[ color="red"];     
+ }

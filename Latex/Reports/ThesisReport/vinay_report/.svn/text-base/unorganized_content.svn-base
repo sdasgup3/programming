@@ -1,0 +1,19 @@
+Memory fault handling---
+
+The equatuons generated can be very very large,for a simple program such as this testycase it can be 2gb
+By use of pointers to previous equations and maintaining versions of boolean equations at each statement...    (2gb--64mb) {Not sure of the numbers}
+
+Reducing the time:
+
+Initially 4hours for merge_iter_create_fixed.cpp
+Step1)Started storing the postfix instead of the infix --reduced to 2 hours
+step2)Started keeping the stored result with us----reduced to 9 seconds.
+
+
+
+@inproceedings{Two Approach,
+  author 	= {Micha Sharir,Amir Pnuleli},
+  title 	= {Two Approaches To Inter procedural Data flow analysis},
+  year 		= {1976}
+}
+

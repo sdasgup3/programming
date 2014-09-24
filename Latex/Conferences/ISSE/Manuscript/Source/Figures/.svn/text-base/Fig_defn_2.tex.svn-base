@@ -1,0 +1,39 @@
+\begin{figure}[!t]
+  \centering
+  \begin{tabular}{@{}c|c@{}}
+    \psset{unit=1.2mm}
+    \begin{pspicture}(0,0)(18,20)
+      %  \psframe(0,0)(15,20)
+      \putnode{q0}{origin}{3}{9}{\pscirclebox{\q}}
+      \putnode{p0}{q0}{5}{7}{\pscirclebox{\p}}
+      \putnode{r0}{p0}{0}{-14}{\pscirclebox{\myr}}
+      \putnode{s0}{q0}{10}{0}{\pscirclebox{\s}}
+      
+      \ncline[nodesep=-.3]{->}{p0}{q0}
+      \bput[0.2](0.2){$\scriptstyle f$}
+      \ncline{->}{q0}{s0}
+      \aput[0.2](0.2){$\scriptstyle g$}
+      \ncline[nodesep=-.5]{->}{s0}{r0}
+      \aput[0.2](0.2){$\scriptstyle h$}
+      \nccurve[angleA=45,angleB=0,linestyle=dotted,dotsep=0.2,ncurv=1,nodesepA=-.7]{->}{p0}{s0}
+      \aput[0.2](0.2){$\scriptstyle g$}
+      \nccurve[angleA=180,angleB=225,linestyle=dotted,dotsep=0.2,ncurv=1,nodesepB=-.5]{->}{q0}{r0}
+      \bput[0.2](0.2){$\scriptstyle f$}
+    \end{pspicture} &
+    \scalebox{0.8}{
+      \renewcommand{\arraystretch}{1.2}
+      \begin{tabular}[b]{|c|c|c|c|c|}
+        \hline
+        $P_F$& \p & \q &  \s &  \myr \\ \hline \hline 
+        \p   & $\{\epsilon\}$ & $\{\fieldD{f}{}\}$ & $\{\fieldI{f}{}{1}, \fieldI{g}{}{1}\}$ & $\{\fieldI{f}{}{2}, \fieldI{g}{}{1}\}$  \\ \hline 
+        \q   & $\emptyset$ & $\{\epsilon\}$ & $\{\fieldD{g}{}\}$ & $\{\fieldI{g}{}{1}, \fieldI{f}{}{1}\}$ \\ \hline
+        \s   & $\emptyset$ & $\emptyset$ & $\{\epsilon\}$ & $\{\fieldD{h}{}\}$ \\ \hline
+        \myr & $\emptyset$ & $\emptyset$ & $\emptyset$ & $\{\epsilon\}$ \\ \hline
+    \end{tabular} } \\
+    \scalebox{0.80}{ (a) } &
+    \scalebox{0.80}{ (b) }  \\
+  \end{tabular}
+  \caption{A heap graph (a) and its field sensitive path
+    matrix (b).\label{fig:DFM_IFM}}
+\end{figure}
+

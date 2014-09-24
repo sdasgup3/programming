@@ -1,0 +1,28 @@
+\titlepage
+\begin{center}
+\noindent {\bf{\Large{\sc Field Sensitive Shape Analysis: Implementation and Improvements}}}\\
+\end{center}
+\vspace{50mm}
+\begin{center}
+{\it by}\\
+\vspace{5mm}
+{\bf{\Large P.Vinay Kumar Reddy}}\\
+\end{center}
+\vspace{45mm}
+%\begin{figure}[h]
+%\centering
+% \begin{center}
+{\centering {\includegraphics[width=.3\linewidth]{diagrams/logoMain.eps}}\par}
+% \end{center}
+%\caption{}
+%\end{figure}
+\begin{center}
+\vspace{3mm}
+{\bf {\large {\sc Department of Computer Science and Engineering}}}\\
+\vspace{2mm}
+{\bf {\large INDIAN INSTITUTE OF TECHNOLOGY KANPUR}}\\
+\vspace{3mm}
+{\textbf{ June, 2012}}\\
+\end{center}
+
+

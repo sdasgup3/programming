@@ -1,0 +1,13 @@
+# R1
+====
+1.The paper considers only the first field in a path to classify the shape of the pointed-to graph. This limitation clearly brings inaccuracy in the classification. However, not much motivation is provided for this choices.
+
+# R2
+====
+1.Because there are unbounded number of paths between two variables, the authors use approximation (k-limits) for the number of paths. This kind of approximation will lead to imprecision and this needs to quantified empirically.
+
+
+# R3
+====
+1.This looks like a paper that is worthy of publication somewhere, but LCPC doesn't seem like a good fit because the paper does not contain any text motivating why field sensitivity is relevant to languages and compilers for parallelism.
+<<Amey>> We can reuse the parco example here (treeadd), with propoer modification. I think it is not there in the SAC paper. We can also refer to the parco paper.

@@ -1,0 +1,27 @@
+
+\begin{table}[htbp]
+\scalebox{0.70}{
+\begin{tabular}{|l|l|c|l|c|c|}
+\hline
+\multicolumn{ 1}{|c|}{Benchmark} & \multicolumn{ 2}{c|}{Ghiya} & \multicolumn{ 2}{c|}{Field} & Result \\ \cline{ 2- 6}
+\multicolumn{ 1}{|l|}{} & Shape & \multicolumn{1}{l|}{Time(Sec)} & Shape & \multicolumn{1}{l|}{Time(Sec)} &  \\ \hline
+100\_create\_iter.cpp & (30,0,0) & 0 & (30,0,0) & 0.033 &  \\ \hline
+100\_create\_recur.cpp & (36,0,0) & 0 & (36,0,0) & 0.03 &  \\ \hline
+200\_delall\_iter\_create\_fixed.cpp & (168,0,0) & 0.001 & (168,0,0) & 0.036 &  \\ \hline
+200\_delall\_iter\_create\_iter.cpp & (63,0,0) & 0.001 & (63,0,0) & 0.033 &  \\ \hline
+200\_delall\_recur\_create\_fixed.cpp & (12,0,0) & 0 & (12,0,0) & 0.031 &  \\ \hline
+200\_delall\_recur\_create\_iter.cpp & (56,0,0) & 0.001 & (56,0,0) & 0.034 &  \\ \hline
+\red{300\_insert\_iter\_create\_fixed.cpp} & (341,19,0) & 0.003 & (354,0,6) & 0.08 & \# \\ \hline
+\red{300\_insert\_iter\_create\_iter.cpp} & (161,19,0) & 0.003 & (174,0,6) & 0.075 &  \# \\ \hline
+300\_insert\_recur\_create\_fixed.cpp & (225,0,27) & 0.002 & (225,0,27) & 0.044 &  \\ \hline
+300\_insert\_recur\_create\_iter.cpp & (113,0,27) & 0.002 & (113,0,27) & 0.049 &  \\ \hline
+\blue{400\_remove\_iter\_create\_fixed.cpp} & (314,0,26) & 0.002 & (340,0,0) & 0.05 &  \$ \\ \hline
+\blue{400\_remove\_iter\_create\_iter.cpp} & (154,0,26) & 0.002 & (180,0,0) & 0.058 &  \$ \\ \hline
+400\_remove\_recur\_create\_fixed.cpp & (243,0,18) & 0.002 & (243,0,18) & 0.043 &  \\ \hline
+400\_remove\_recur\_create\_iter.cpp & (108,0,18) & 0.002 & (108,0,18) & 0.047 &  \\ \hline
+\end{tabular}
+}
+
+\centering{ \footnotesize \$-Field sensitive analysis is more precise  \quad  \footnotesize \#- Ghiya's analysis is more precise}
+\label{LatestRes_noI1}
+\end{table}

@@ -1,0 +1,350 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: figure_3.fig
+%%Creator: fig2dev Version 3.2 Patchlevel 5a
+%%CreationDate: Mon Jun 27 23:22:27 2011
+%%BoundingBox: 0 0 471 234
+%Magnification: 1.0000
+%%EndComments
+%%BeginProlog
+/$F2psDict 200 dict def
+$F2psDict begin
+$F2psDict /mtrx matrix put
+/col-1 {0 setgray} bind def
+/col0 {0.000 0.000 0.000 srgb} bind def
+/col1 {0.000 0.000 1.000 srgb} bind def
+/col2 {0.000 1.000 0.000 srgb} bind def
+/col3 {0.000 1.000 1.000 srgb} bind def
+/col4 {1.000 0.000 0.000 srgb} bind def
+/col5 {1.000 0.000 1.000 srgb} bind def
+/col6 {1.000 1.000 0.000 srgb} bind def
+/col7 {1.000 1.000 1.000 srgb} bind def
+/col8 {0.000 0.000 0.560 srgb} bind def
+/col9 {0.000 0.000 0.690 srgb} bind def
+/col10 {0.000 0.000 0.820 srgb} bind def
+/col11 {0.530 0.810 1.000 srgb} bind def
+/col12 {0.000 0.560 0.000 srgb} bind def
+/col13 {0.000 0.690 0.000 srgb} bind def
+/col14 {0.000 0.820 0.000 srgb} bind def
+/col15 {0.000 0.560 0.560 srgb} bind def
+/col16 {0.000 0.690 0.690 srgb} bind def
+/col17 {0.000 0.820 0.820 srgb} bind def
+/col18 {0.560 0.000 0.000 srgb} bind def
+/col19 {0.690 0.000 0.000 srgb} bind def
+/col20 {0.820 0.000 0.000 srgb} bind def
+/col21 {0.560 0.000 0.560 srgb} bind def
+/col22 {0.690 0.000 0.690 srgb} bind def
+/col23 {0.820 0.000 0.820 srgb} bind def
+/col24 {0.500 0.190 0.000 srgb} bind def
+/col25 {0.630 0.250 0.000 srgb} bind def
+/col26 {0.750 0.380 0.000 srgb} bind def
+/col27 {1.000 0.500 0.500 srgb} bind def
+/col28 {1.000 0.630 0.630 srgb} bind def
+/col29 {1.000 0.750 0.750 srgb} bind def
+/col30 {1.000 0.880 0.880 srgb} bind def
+/col31 {1.000 0.840 0.000 srgb} bind def
+
+end
+
+/cp {closepath} bind def
+/ef {eofill} bind def
+/gr {grestore} bind def
+/gs {gsave} bind def
+/sa {save} bind def
+/rs {restore} bind def
+/l {lineto} bind def
+/m {moveto} bind def
+/rm {rmoveto} bind def
+/n {newpath} bind def
+/s {stroke} bind def
+/sh {show} bind def
+/slc {setlinecap} bind def
+/slj {setlinejoin} bind def
+/slw {setlinewidth} bind def
+/srgb {setrgbcolor} bind def
+/rot {rotate} bind def
+/sc {scale} bind def
+/sd {setdash} bind def
+/ff {findfont} bind def
+/sf {setfont} bind def
+/scf {scalefont} bind def
+/sw {stringwidth} bind def
+/tr {translate} bind def
+/tnt {dup dup currentrgbcolor
+  4 -2 roll dup 1 exch sub 3 -1 roll mul add
+  4 -2 roll dup 1 exch sub 3 -1 roll mul add
+  4 -2 roll dup 1 exch sub 3 -1 roll mul add srgb}
+  bind def
+/shd {dup dup currentrgbcolor 4 -2 roll mul 4 -2 roll mul
+  4 -2 roll mul srgb} bind def
+/reencdict 12 dict def /ReEncode { reencdict begin
+/newcodesandnames exch def /newfontname exch def /basefontname exch def
+/basefontdict basefontname findfont def /newfont basefontdict maxlength dict def
+basefontdict { exch dup /FID ne { dup /Encoding eq
+{ exch dup length array copy newfont 3 1 roll put }
+{ exch newfont 3 1 roll put } ifelse } { pop pop } ifelse } forall
+newfont /FontName newfontname put newcodesandnames aload pop
+128 1 255 { newfont /Encoding get exch /.notdef put } for
+newcodesandnames length 2 idiv { newfont /Encoding get 3 1 roll put } repeat
+newfontname newfont definefont pop end } def
+/isovec [
+8#055 /minus 8#200 /grave 8#201 /acute 8#202 /circumflex 8#203 /tilde
+8#204 /macron 8#205 /breve 8#206 /dotaccent 8#207 /dieresis
+8#210 /ring 8#211 /cedilla 8#212 /hungarumlaut 8#213 /ogonek 8#214 /caron
+8#220 /dotlessi 8#230 /oe 8#231 /OE
+8#240 /space 8#241 /exclamdown 8#242 /cent 8#243 /sterling
+8#244 /currency 8#245 /yen 8#246 /brokenbar 8#247 /section 8#250 /dieresis
+8#251 /copyright 8#252 /ordfeminine 8#253 /guillemotleft 8#254 /logicalnot
+8#255 /hyphen 8#256 /registered 8#257 /macron 8#260 /degree 8#261 /plusminus
+8#262 /twosuperior 8#263 /threesuperior 8#264 /acute 8#265 /mu 8#266 /paragraph
+8#267 /periodcentered 8#270 /cedilla 8#271 /onesuperior 8#272 /ordmasculine
+8#273 /guillemotright 8#274 /onequarter 8#275 /onehalf
+8#276 /threequarters 8#277 /questiondown 8#300 /Agrave 8#301 /Aacute
+8#302 /Acircumflex 8#303 /Atilde 8#304 /Adieresis 8#305 /Aring
+8#306 /AE 8#307 /Ccedilla 8#310 /Egrave 8#311 /Eacute
+8#312 /Ecircumflex 8#313 /Edieresis 8#314 /Igrave 8#315 /Iacute
+8#316 /Icircumflex 8#317 /Idieresis 8#320 /Eth 8#321 /Ntilde 8#322 /Ograve
+8#323 /Oacute 8#324 /Ocircumflex 8#325 /Otilde 8#326 /Odieresis 8#327 /multiply
+8#330 /Oslash 8#331 /Ugrave 8#332 /Uacute 8#333 /Ucircumflex
+8#334 /Udieresis 8#335 /Yacute 8#336 /Thorn 8#337 /germandbls 8#340 /agrave
+8#341 /aacute 8#342 /acircumflex 8#343 /atilde 8#344 /adieresis 8#345 /aring
+8#346 /ae 8#347 /ccedilla 8#350 /egrave 8#351 /eacute
+8#352 /ecircumflex 8#353 /edieresis 8#354 /igrave 8#355 /iacute
+8#356 /icircumflex 8#357 /idieresis 8#360 /eth 8#361 /ntilde 8#362 /ograve
+8#363 /oacute 8#364 /ocircumflex 8#365 /otilde 8#366 /odieresis 8#367 /divide
+8#370 /oslash 8#371 /ugrave 8#372 /uacute 8#373 /ucircumflex
+8#374 /udieresis 8#375 /yacute 8#376 /thorn 8#377 /ydieresis] def
+/Times-Roman /Times-Roman-iso isovec ReEncode
+ /DrawEllipse {
+	/endangle exch def
+	/startangle exch def
+	/yrad exch def
+	/xrad exch def
+	/y exch def
+	/x exch def
+	/savematrix mtrx currentmatrix def
+	x y tr xrad yrad sc 0 0 1 startangle endangle arc
+	closepath
+	savematrix setmatrix
+	} def
+
+/$F2psBegin {$F2psDict begin /$F2psEnteredState save def} def
+/$F2psEnd {$F2psEnteredState restore end} def
+
+/pageheader {
+save
+newpath 0 234 moveto 0 0 lineto 471 0 lineto 471 234 lineto closepath clip newpath
+-137.5 401.1 translate
+1 -1 scale
+$F2psBegin
+10 setmiterlimit
+0 slj 0 slc
+ 0.06299 0.06299 sc
+} bind def
+/pagefooter {
+$F2psEnd
+restore
+} bind def
+%%EndProlog
+pageheader
+%
+% Fig objects follow
+%
+% 
+% here starts figure with depth 50
+% Arc
+7.500 slw
+0 slc
+gs  clippath
+3968 2724 m 4145 2778 l 4163 2720 l 3986 2666 l 3986 2666 l 4121 2739 l 3968 2724 l cp
+eoclip
+ [60] 0 sd
+n 3917.2 3249.2 551.2 -169.6333 -66.1612 arc
+gs col0 s gr
+ gr
+ [] 0 sd
+% arrowhead
+0 slj
+n 3968 2724 m 4121 2739 l 3986 2666 l 4006 2704 l 3968 2724 l 
+ cp gs 0.00 setgray ef gr  col0 s
+% Arc
+gs  clippath
+4031 4623 m 4208 4569 l 4190 4511 l 4013 4565 l 4013 4565 l 4166 4551 l 4031 4623 l cp
+eoclip
+ [60] 0 sd
+n 3963.2 4046.8 545.3 174.9279 66.0032 arcn
+gs col0 s gr
+ gr
+ [] 0 sd
+% arrowhead
+n 4031 4623 m 4166 4551 l 4013 4565 l 4051 4585 l 4031 4623 l 
+ cp gs 0.00 setgray ef gr  col0 s
+% Ellipse
+n 4275 2925 225 225 0 360 DrawEllipse gs col0 s gr
+
+% Ellipse
+n 4275 4275 225 225 0 360 DrawEllipse gs col0 s gr
+
+% Polyline
+n 2250 2700 m
+ 2250 4500 l gs col0 s gr 
+% Polyline
+n 3375 2700 m
+ 3375 4500 l gs col0 s gr 
+% Polyline
+n 2250 3825 m
+ 3375 3825 l gs col0 s gr 
+% Polyline
+n 2250 4275 m
+ 3375 4275 l gs col0 s gr 
+% Polyline
+n 2250 3375 m
+ 3375 3375 l gs col0 s gr 
+% Polyline
+n 2250 2925 m
+ 3375 2925 l gs col0 s gr 
+% Polyline
+gs  clippath
+4245 3880 m 4245 4065 l 4305 4065 l 4305 3880 l 4305 3880 l 4275 4030 l 4245 3880 l cp
+eoclip
+n 4275 3195 m
+ 4275 4050 l gs col0 s gr gr
+
+% arrowhead
+n 4245 3880 m 4275 4030 l 4305 3880 l 4275 3910 l 4245 3880 l 
+ cp gs 0.00 setgray ef gr  col0 s
+% Arc
+gs  clippath
+8243 2769 m 8420 2823 l 8438 2765 l 8261 2711 l 8261 2711 l 8396 2784 l 8243 2769 l cp
+eoclip
+ [60] 0 sd
+n 8192.2 3294.2 551.2 -169.6333 -66.1612 arc
+gs col0 s gr
+ gr
+ [] 0 sd
+% arrowhead
+n 8243 2769 m 8396 2784 l 8261 2711 l 8281 2749 l 8243 2769 l 
+ cp gs 0.00 setgray ef gr  col0 s
+% Arc
+gs  clippath
+8306 4668 m 8483 4614 l 8465 4556 l 8288 4610 l 8288 4610 l 8441 4596 l 8306 4668 l cp
+eoclip
+ [60] 0 sd
+n 8238.2 4091.8 545.4 174.9279 66.0033 arcn
+gs col0 s gr
+ gr
+ [] 0 sd
+% arrowhead
+n 8306 4668 m 8441 4596 l 8288 4610 l 8326 4630 l 8306 4668 l 
+ cp gs 0.00 setgray ef gr  col0 s
+% Ellipse
+n 8550 2970 225 225 0 360 DrawEllipse gs col0 s gr
+
+% Ellipse
+n 8550 4320 225 225 0 360 DrawEllipse gs col0 s gr
+
+% Polyline
+n 6525 2745 m
+ 6525 4545 l gs col0 s gr 
+% Polyline
+n 7650 2745 m
+ 7650 4545 l gs col0 s gr 
+% Polyline
+n 6525 3870 m
+ 7650 3870 l gs col0 s gr 
+% Polyline
+n 6525 4320 m
+ 7650 4320 l gs col0 s gr 
+% Polyline
+n 6525 3420 m
+ 7650 3420 l gs col0 s gr 
+% Polyline
+n 6525 2970 m
+ 7650 2970 l gs col0 s gr 
+% Polyline
+gs  clippath
+8520 3925 m 8520 4110 l 8580 4110 l 8580 3925 l 8580 3925 l 8550 4075 l 8520 3925 l cp
+eoclip
+n 8550 3240 m
+ 8550 4095 l gs col0 s gr gr
+
+% arrowhead
+n 8520 3925 m 8550 4075 l 8580 3925 l 8550 3955 l 8520 3925 l 
+ cp gs 0.00 setgray ef gr  col0 s
+% Polyline
+15.000 slw
+n 2205 4995 m 4455 4995 l 4455 6345 l 2205 6345 l
+ cp gs col0 s gr 
+% Polyline
+n 6525 4995 m 8730 4995 l 8730 6345 l 6525 6345 l
+ cp gs col0 s gr 
+% Arc
+7.500 slw
+gs  clippath
+8985 3152 m 8819 3071 l 8793 3125 l 8959 3206 l 8959 3206 l 8838 3114 l 8985 3152 l cp
+eoclip
+n 8648.2 3611.5 534.8 81.1982 -71.2587 arcn
+gs col0 s gr
+ gr
+
+% arrowhead
+n 8985 3152 m 8838 3114 l 8959 3206 l 8945 3166 l 8985 3152 l 
+ cp gs 0.00 setgray ef gr  col0 s
+% Polyline
+15.000 slw
+gs  clippath
+6085 3630 m 6270 3630 l 6270 3570 l 6085 3570 l 6085 3570 l 6235 3600 l 6085 3630 l cp
+eoclip
+n 4950 3600 m
+ 6255 3600 l gs col0 s gr gr
+
+% arrowhead
+7.500 slw
+n 6085 3630 m 6235 3600 l 6085 3570 l 6115 3600 l 6085 3630 l 
+ cp gs col7 1.00 shd ef gr  col0 s
+/Times-Roman-iso ff 190.50 scf sf
+2745 3195 m
+gs 1 -1 sc (q) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+2745 4140 m
+gs 1 -1 sc (p) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+4365 3645 m
+gs 1 -1 sc (next) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+7020 3240 m
+gs 1 -1 sc (q) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+7020 4185 m
+gs 1 -1 sc (p) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+8640 3690 m
+gs 1 -1 sc (next) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+2520 5400 m
+gs 1 -1 sc (D[q,p] = 1 D[p,q] = 0) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+2655 5715 m
+gs 1 -1 sc (p.shape = Tree) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+2655 6030 m
+gs 1 -1 sc (q.shape =Tree) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+6885 5445 m
+gs 1 -1 sc (D[q,p] = 1 D[p,q] = 1) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+6930 5715 m
+gs 1 -1 sc (p.shape = Cycle) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+6930 6030 m
+gs 1 -1 sc (q.shape = Cycle) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+5130 3465 m
+gs 1 -1 sc (p->prev = q) col0 sh gr
+/Times-Roman-iso ff 190.50 scf sf
+9270 3645 m
+gs 1 -1 sc (prev) col0 sh gr
+% here ends figure;
+pagefooter
+showpage
+%%Trailer
+%EOF

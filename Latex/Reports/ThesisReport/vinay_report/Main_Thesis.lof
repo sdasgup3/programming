@@ -1,0 +1,27 @@
+{\pdfbookmark [0]{List of Figures}{lof}}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Paths in a heap graph}}{5}{figure.11}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces A heap graph and its field sensitive path matrices}}{7}{figure.14}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Union operation between two singleton sets of pair of paths, where $\{\alpha , \beta \}$ denote any other pair of paths and $x$, $y$, $m$, $n$ can be any positive integer or $\infty $ }}{10}{figure.18}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Intersection operation between two singleton sets of pair of paths, where $\{\alpha , \beta \}$ denote any other pair of paths and $a \star b$ = min(a,b). }}{11}{figure.19}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Removal operation between two singleton sets of pair of paths, where $\{\alpha , \beta \}$ denote any other pair of paths and $a\#b$ = max(a-b,0). }}{12}{figure.20}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Data flow values corresponding to each statement.}}{16}{figure.34}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Heap graphs}}{19}{figure.38}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces DataFlow values and CFG}}{21}{figure.39}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Example with Heap graph and Set of statements}}{23}{figure.40}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Modified Data Flow Equations}}{27}{figure.42}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Data Flow Values at each statement for Program.\nobreakspace {}\ref {MotivatingExample} }}{30}{figure.74}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Global control flow graph}}{34}{figure.90}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Data Flow Values at Function Calls}}{37}{figure.119}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces CFG example}}{43}{figure.152}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Example Direction and Interference Matrices}}{51}{figure.186}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Example Demonstrating Shape Estimation}}{52}{figure.187}
+\contentsline {figure}{\numberline {A.3}{\ignorespaces The Overall Struture of the Analysis}}{53}{figure.189}
+\contentsline {figure}{\numberline {A.4}{\ignorespaces Analysis Rules}}{54}{figure.190}

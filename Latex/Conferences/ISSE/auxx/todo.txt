@@ -1,0 +1,18 @@
+Sandeep 
+=======
+1. To prepare the initial draft version of the paper for ISSE.[Done]
+2.To revisit the reviews and see what else needs to be done.
+3.To strengthen the related work section. 
+	To identify the relevent papers.
+4. Get familiarity with the code and look for any scope of optimization.
+5.To come up with relevent benchmark programs.
+
+
+
+Vinay
+
+1.To complete the implementation for Interprocedural Context Insensitive
+and Shape Insensitive 
+
+
+

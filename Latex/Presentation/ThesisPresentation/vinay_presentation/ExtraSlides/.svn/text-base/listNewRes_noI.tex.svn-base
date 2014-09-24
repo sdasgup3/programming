@@ -1,0 +1,39 @@
+\begin{table}[htbp]
+\caption{Results}
+\begin{tabular}{|l|l|r|l|r|l|}
+\hline
+\multicolumn{ 1}{|l|}{Benchmark} & \multicolumn{ 2}{l|}{Ghiya} & \multicolumn{ 2}{l|}{Field} & \multicolumn{ 1}{l|}{Result} \\ \cline{ 2- 5}
+\multicolumn{ 1}{|l|}{} & Shape & \multicolumn{1}{l|}{Time(Sec)} & Field & \multicolumn{1}{l|}{Time(Sec)} & \multicolumn{ 1}{l|}{} \\ \hline
+100\_create\_iter.cpp & (30,0,0) & 0.004 & (30,0,0) & 0.037 &  \\ \hline
+100\_create\_recur.cpp & (36,0,0) & 0.003 & (36,0,0) & 0.036 &  \\ \hline
+200\_delall\_iter\_create\_fixed.cpp & (168,0,0) & 0.008 & (168,0,0) & 0.041 &  \\ \hline
+200\_delall\_iter\_create\_iter.cpp & (63,0,0) & 0.008 & (63,0,0) & 0.049 &  \\ \hline
+200\_delall\_recur\_create\_fixed.cpp & (12,0,0) & 0.003 & (12,0,0) & 0.029 &  \\ \hline
+200\_delall\_recur\_create\_iter.cpp & (56,0,0) & 0.007 & (56,0,0) & 0.051 &  \\ \hline
+300\_insert\_iter\_create\_fixed.cpp & (341,19,0) & 0.031 & (354,0,6) & 0.116 & \# \\ \hline
+300\_insert\_iter\_create\_iter.cpp & (161,19,0) & 0.038 & (174,0,6) & 0.128 & \# \\ \hline
+300\_insert\_recur\_create\_fixed.cpp & (225,0,27) & 0.012 & (225,0,27) & 0.061 &  \\ \hline
+300\_insert\_recur\_create\_iter.cpp & (113,0,27) & 0.017 & (113,0,27) & 0.078 &  \\ \hline
+400\_remove\_iter\_create\_fixed.cpp & (314,0,26) & 0.011 & (340,0,0) & 0.085 &  \\ \hline
+400\_remove\_iter\_create\_iter.cpp & (154,0,26) & 0.012 & (180,0,0) & 0.087 &  \\ \hline
+400\_remove\_recur\_create\_fixed.cpp & (243,0,18) & 0.013 & (243,0,18) & 0.068 &  \\ \hline
+400\_remove\_recur\_create\_iter.cpp & (108,0,18) & 0.012 & (108,0,18) & 0.061 &  \\ \hline
+500\_search\_iter\_create\_fixed.cpp & (168,0,0) & 0.007 & (168,0,0) & 0.043 &  \\ \hline
+500\_search\_iter\_create\_iter.cpp & (63,0,0) & 0.007 & (63,0,0) & 0.042 &  \\ \hline
+500\_search\_recur\_create\_fixed.cpp & (208,0,0) & 0.008 & (208,0,0) & 0.048 &  \\ \hline
+500\_search\_recur\_create\_iter.cpp & (88,0,0) & 0.008 & (88,0,0) & 0.048 &  \\ \hline
+600\_append\_iter\_create\_fixed.cpp & (358,6,0) & 0.023 & (343,0,21) & 0.106 & \# \\ \hline
+600\_append\_iter\_create\_iter.cpp & (163,6,0) & 0.018 & (148,0,21) & 0.096 & \# \\ \hline
+600\_append\_recur\_create\_fixed.cpp & (354,0,38) & 0.024 & (363,0,29) & 0.119 &  \\ \hline
+600\_append\_recur\_create\_iter.cpp & (144,0,38) & 0.031 & (153,0,29) & 0.106 &  \\ \hline
+700\_merge\_iter\_create\_fixed.cpp & (311,0,109) & 0.076 & (311,0,109) & 0.27 &  \\ \hline
+700\_merge\_iter\_create\_iter.cpp & (242,0,142) & 0.092 & (242,0,142) & 0.311 &  \\ \hline
+700\_merge\_recur\_create\_fixed.cpp & (498,0,114) & 0.067 & (498,0,114) & 0.298 &  \\ \hline
+700\_merge\_recur\_create\_iter.cpp & (228,0,114) & 0.079 & (228,0,114) & 0.279 &  \\ \hline
+800\_reverse\_iter\_create\_fixed.cpp & (233,0,47) & 0.013 & (241,0,39) & 0.069 &  \\ \hline
+800\_reverse\_iter\_create\_iter.cpp & (83,0,47) & 0.013 & (91,0,39) & 0.066 &  \\ \hline
+800\_reverse\_recur\_create\_fixed.cpp & (499,0,62) & 0.04 & (507,0,54) & 0.193 &  \\ \hline
+800\_reverse\_recur\_create\_iter.cpp & (244,0,62) & 0.041 & (252,0,54) & 0.178 &  \\ \hline
+\end{tabular}
+\label{LatestRes}
+\end{table}

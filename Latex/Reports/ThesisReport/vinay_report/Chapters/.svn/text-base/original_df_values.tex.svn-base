@@ -1,0 +1,188 @@
+\begin{figure}[p] 
+\begin{spacing}{2.0}
+%\begin{tabular}{|c|l|}
+\begin{tabular}{|p{2.6cm}|p{12cm}|}
+\hline
+ {\tt p = malloc()} & 
+
+\scalebox{0.70}{
+\begin{tabular}{lll}
+	  \KillC{p}  = \InC{p} & \KillD{p} = \InD{p} &\\
+	  \GenC{p} = \false  & \GenD{p} = \false &\\
+
+	  $\forall \s \in \heap,\ \s \not= \p,$ && \\
+	  $D_F^{\dkill}[\p,\s]$  =  $D_F^{\din}[\p,\s]$ & $D_F^{\dkill}[\s,\p]$  =  $D_F^{\din}[\s,\p]$ & $D_F^{\dkill}[\p,\p]$  =  $D_F^{\din}[\p,\p]$ \\
+	  $D_F^{\dgen}[\p,\s]$   =  $\emptyset$         & $D_F^{\dgen}[\s,\p]$   =  $\emptyset$          &$D_F^{\dgen}[\p,\p]$   =  $\epsilonset$ \\
+	  $I_F^{\dkill}[\p,\s]$  =  $I_F^{\din}[\p,\s]$ & $I_F^{\dkill}[\p,\p]$  =  $I_F^{\din}[\p,\p]$   &\\
+	  $I_F^{\dgen}[\p,\s]$   =  $\emptyset$         & $I_F^{\dgen}[\p,\p]$   =  $\epsilonpairset$     &
+\end{tabular}
+} \\
+\hline
+ {\tt p = NULL} & 
+\scalebox{0.70}{
+\begin{tabular}{ll}
+	  \KillC{p}  = \InC{p} & \KillD{p} = \InD{p} \\
+	  \GenC{p} = \false    & \GenD{p} = \false \\
+
+	   $\forall \s \in \heap,$ & \\
+	  $D_F^{\dkill}[\p,\s]$  =  $D_F^{\din}[\p,\s]$ & $D_F^{\dkill}[\s,\p]$  =  $D_F^{\din}[\s,\p]$ \\
+	  $D_F^{\dgen}[\p,\s]$    =  $\emptyset$  & $D_F^{\dgen}[\s,\p]$    =  $\emptyset$ \\
+	  $I_F^{\dkill}[\p,\s]$  =  $I_F^{\din}[\p,\s]$ & $I_F^{\dgen}[\p,\s]$    =  $\emptyset$ 
+  \end{tabular}
+} \\
+\hline
+\begin{tabular}{l}
+{\tt p = q} \\
+{\tt p = \&(q$\rightarrow$f)} \\
+{\tt p = q op n}
+\end{tabular}
+ &
+\scalebox{0.70}{
+  \begin{tabular}{l}
+
+	\KillC{p} = \InC{p} \quad\qquad \KillD{p} = \InD{p} \\ 
+	\GenC{p}   = \InC{q}[q/p] \quad \GenD{p} = \InD{q}[q/p] \\ 
+	where $X[\q / \p]$ creates a copy of $X$ with all occurrences
+	of $\q$ replaced by $\p$.\\
+
+      $\forall \s \in \heap,  \s \not= \p,  \forall f \in \fields,$ \\
+
+	$f_{\p\s} = f_{\q\s}$  \quad  $f_{\s\p} = f_{\s\q}$ \\
+	$D_F^{\dkill}[\p, \s]$  =  $D_F^{\din}[\p, \s]$ \quad $D_F^{\dkill}[\s, \p]$  =  $D_F^{\din}[\s, \p]$ \quad $D_F^{\dkill}[\p, \p]$  =  $D_F^{\din}[\p, \p]$ \\
+	$D_F^{\dgen}[\p, \s]$    =  $D_F^{\din}[\q, \s]$ \quad $D_F^{\dgen}[\s, \p]$    =  $D_F^{\din}[\s, \q]$ \quad $D_F^{\dgen}[\p, \p]$    =  $D_F^{\din}[\q, \q]$  \\
+	$I_F^{\dkill}[\p, \s]$  =  $I_F^{\din}[\p, \s]$ \qquad $I_F^{\dgen}[\p, \s]$    =   $I_F^{\din}[\q, \s]$ \\
+	$I_F^{\dkill}[\p, \p]$  =  $I_F^{\din}[\p, \p]$ \qquad $I_F^{\dgen}[\p, \p]$    = $I_F^{\din}[\q, \q]$ 
+  \end{tabular}
+} \\
+\hline
+
+{\tt p$\rightarrow$f = null}
+&
+	\scalebox{0.70}{
+	  \begin{tabular}{l}
+	  \KillC{p}  = \false,  \quad \KillD{p} = \false \\
+	  \GenC{p} = \false,  \quad \GenD{p} = \false  \\
+	$\forall \q, \s \in \heap,  \s \not= \p, $ \\
+	  $f_{\p\q}$ = \false \\
+	  $D_F^{\dkill}[\p, \q]$  = $\project{D_F^{\din}[\p, \q]}{f}$ \qquad \; \;  {\blue ${D_{F}^{{\dkill}}[\s, \q]}  = \emptyset  $}   %-------Modified
+	  \\
+ 	  $I_F^{\dkill}[\p, \s] = \{(\alpha,  \beta) \ \vert\ (\alpha, \beta) \in I_F^{\din}[\p,  \q] \mbox, \ \alpha \equiv f^\anysup \}$ \\ 
+
+ 	  {\blue ${I_F^{\dkill}[\q, \s]} = \emptyset \mbox{ if } \q \not= \p$} \qquad\qquad    %----------------Modified 
+ 	  {\blue ${I_F^{\dkill}[\p, \p]} = \emptyset$}   %----------------Modified 
+
+  \end{tabular}
+} \\
+
+\hline
+\end{tabular}
+\end{spacing}
+\end{figure}
+
+\begin{figure}[p]
+\begin{spacing}{2.0}
+\begin{tabular}{|p{2.6cm}|p{12cm}|}
+\hline
+{\tt p$\rightarrow$f = q}
+&
+    \scalebox{0.70}{
+    \begin{tabular}{l}
+
+	The KILL relations are same as that of {\tt p$\rightarrow$f = null} \\
+	  $\GenC{p}   =  (f_{\p\q} \wedge \InC{q}) \vee (f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1))$ \quad {\blue ${\GenD{p}}   =  f_{\p\q} \wedge (\num{\IFM{\p}{\q}} > 1)$}	\\
+ 	  $\GenC{q}   = f_{\p\q} \wedge (\num{\DFM{\q}{\p}} \geq 1)$ \qquad\qquad\qquad\qquad $\GenD{q} = \false$\\ 
+	  $f_{\p\q} = \true$ \\
+	  $\GenC{\s} =  ((\num{\DFM{\s}{\p}} \geq 1) \wedge f_{\p\q} \wedge \InC{q})$ $\vee\ ((\num{\DFM{\s}{\p}} \geq 1) \wedge f_{\p\q} \wedge
+ 	  (\num{\DFM{\q}{\p}} \geq 1))$ \\ 
+	  \quad \quad\quad   $\vee\ ((\num{\DFM{\s}{\q}} \geq 1) \wedge f_{\p\q}
+	  \wedge (\num{\DFM{\q}{\p}} \geq 1))$,  \ \   $\forall \s \in \heap,  \s \not= \p,  \s \not=\q$ \\
+	  $\GenD{\s}   = (\num{\DFM{\s}{\p}} \geq 1) \wedge
+	  f_{\p\q} \wedge (\num{\IFM{\s}{\q}} > 1)$,  \ $\forall \s \in \heap,  \s \not= \p,  \s \not=\q $ \\
+	 {\blue $ {D_F^{\dgen}[\myr,  \s]} = \num{D_F^{\din}[\q,  \s]} \star         %-----------------modified
+	  D_F^{\din}[\myr,  \p], \ \s \not= \p, \ \myr \not\in
+	  \{\p,  \q\} $}\\ 
+	  $D_F^{\dgen}[\myr,  \p] = \num{D_F^{\din}[\q, \p]} \star
+	  D_F^{\din}[\myr,  \p],  \ \myr \not= \p$\\
+	  $D_F^{\dgen}[\p,  \myr] = \num{D_F^{\din}[\q,  \myr]} \star
+	(\remOne{D_F^{\din}[\p,  \p]}{\epsilonset} \cup \{f^{\indrct
+	  1}\})$,  \ \  $\myr \not= \q$ \\ 
+	  $D_F^{\dgen}[\p,  \q] =
+	  \{\fieldD{f}{}\}\ \cup\ (\num{D_F^{\din}[\q,  \q] -
+	    \epsilonset} \star
+	  \{\fieldI{f}{}{1}\})\ \cup\ 
+	   (\num{D_F^{\din}[\q,  \q]} \star ( \remOne{D_F^{\din}[\p,  \p]}{\epsilonset}))$ \\ 
+	  $D_F^{\dgen}[\q,  \q] = 1 \star D_F^{\din}[\q,  \p]$ \\
+	  $D_F^{\dgen}[\q,  \myr] = \num{D_F^{\din}[\q,  \myr]} \star
+	  D_F^{\din}[\q,  \p], \ \myr \not\in \{\p, 
+	  \q\}$ \\ 
+	  {\blue ${I_F^{\dgen}[\p,  \q]} = \{(\fieldD{f}{},  \epsilon)\}    %-----------------modified
+	  \cup ((1 \star (\remOne{D_F^{\din}[\p, 
+	      \p]}{\epsilonset})) \times \epsilonset)$} \\	 
+	  $I_F^{\dgen}[\p,  \myr]$ = 
+ 	  $(1 \star (\remOne{D_F^{\din}[\p,  \p]}{\epsilonset})) \times 
+	  \{\beta\ \vert\ (\alpha,  \beta) \in I_F^{\din}[\q,  \myr] \}$  
+	  $\cup\ \{f^\drct\} \times 
+	  \{\beta\ \vert\ (\epsilon,  \beta) \in I_F^{\din}[\q,  \myr] \}$ \\
+	  \quad \quad\quad  $\cup\ \{f^{\indrct 1}\} \times 
+	   \{\beta\ \vert\ (\alpha,  \beta) \in I_F^{\din}[\q,  \myr], 
+	  \alpha \not= \epsilon \}$,  
+	  \qquad\qquad  $\myr \not\in \{\p,  \q\}$ \\
+	  {\blue ${I_F^{\dgen}[\s,  \q]} = (1 \star D_F^{\din}[\s,  \p]) \times    %-----------------modified
+	  \epsilonset, \ \s \not\in \{\p,  \q\}$} \\ 
+	  {\blue ${I_F^{\dgen}[\s,  \myr]} = (1 \star D_F^{\din}[\s,  \p])         %-----------------modified
+	  \times \{\beta\ \vert\ (\alpha,  \beta) \in I_F^{\din}[\q, 
+	    \myr]\}$}, 
+	     \qquad $\s \not\in \{\p,  \q\}, \ \myr \not\in \{\p, 
+	  \q\}, \ \s \not= \myr$
+
+      \end{tabular}
+  } \\
+\hline
+{\tt p = q$\rightarrow$f} &
+    \scalebox{0.70}{
+    \begin{tabular}{l}
+	The KILL relations are same as that of {\tt p = NULL} \\
+	$\GenC{p} = \InC{q} \qquad \GenD{p} = \InD{q}$ \\
+
+	$f_{\q\p} = \true$ \quad
+	${h_{\p\myr}} =
+	\num{\project{D_F^{\din}[\q, \myr]}{f}} \geq 1\quad
+	\forall h \in \fields,  \forall \myr \in \heap$  \\
+
+	$ \upath \quad=\quad \epsilonset \cup \ \bigcup_{f\in\fields} \{f^{\drct}, 
+	f^{\indrct\infty}\}$  \\
+
+	{\blue ${D_1[\p,  \s]} =  \upath \quad
+	\forall \s \in \heap,  \s \not=\p \wedge
+	\project{D_F^{\din}[\q,  \s]}{f} \not= \emptyset$} \\
+
+	$D_1[\p,  \p] = \left \{ \begin{array}{@{}ll}
+	  \upath& \q.\shape \mbox{ evaluates to } \Cycle \\
+	  \epsilonset & \mbox{Otherwise}
+	\end{array}. \right. $  \quad \quad
+	$I_1[\p,  \p] = \upath \times \upath $ \\
+
+	{\blue ${D_2[\s,  \p]} = \infty \star D_F^{\din}[\s,  \q]$ \quad
+	$\forall \s \in \heap,  \s \not=\q$} \\
+	{\blue ${D_2[\q, \p]} = \{ f^{\drct}\} \cup (\infty \star (\remOne{D_F^{\din}[\q,  \q]}{\epsilonset})) \cup \upath$}  \\ 
+	$I_2[\s,  \p] = D_2[\s,  \p] \times
+	\epsilonset \quad \forall \s \in \heap $ \\	
+
+	$D_3[\s,  \p] = \{ \alpha \ \vert \ (f^{\drct},  \alpha) \in I_F^{\din}[\q,  \s] \}$  \\
+	$I_3[\s,  \p] = \{\alpha \ \vert\ (f^\anysup,  \alpha) \in I_F^{\din}[\q,  \s]\} \times \upath$ \\ \\
+
+	Finally $I_F$ and $D_F$ relations are: \\
+	$D_F^{\dgen}[\myr,  \s] =  D_1[\myr,  \s] \cup D_2[\myr,  \s] \cup D_3[\myr,  \s] \quad \forall\myr, \s \in \heap$  \\
+	$I_F^{\dgen}[\myr,  \s] =  I_1[\myr,  \s] \cup I_2[\myr,  \s] \cup I_3[\myr,  \s] \quad \forall\myr, \s \in \heap$ 
+	  
+
+    \end{tabular}
+    } \\
+    \hline
+%     \\
+%     \footnotesize Data Flow Equations
+%   
+\end{tabular}
+\end{spacing}
+\caption{Data flow values corresponding to each statement.}  \label{fig:Data Flow Equations}
+\end{figure}

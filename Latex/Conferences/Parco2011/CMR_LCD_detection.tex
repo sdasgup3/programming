@@ -1,0 +1,592 @@
+% -*- LaTeX -*-
+\documentclass{IOS-Book-Article}
+
+\usepackage{times}
+\normalfont
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pst-rel-points}
+\usepackage{flexiprogram}
+\newtheorem{example}{Example}
+
+\newcommand{\ak}[1]{{\blue #1}}
+\newcommand{\sd}[1]{{\green #1}}
+\newcommand{\bb}[1]{{\red #1}}
+\newcommand{\cmt}[1]{}
+\newcommand{\p}{\ensuremath{p}}
+\newcommand{\q}{\ensuremath{q}}
+\newcommand{\s}{\ensuremath{s}}
+\newcommand{\myr}{\ensuremath{r}}
+\newcommand{\loc}{\ensuremath{l_0}}
+\newcommand{\mynext}{\mbox{\tt next}}
+\newcommand{\lt}{\mbox{\tt left}}
+\newcommand{\rt}{\mbox{\tt right}}
+\newcommand{\isInterfering}{\mbox{isInterfering}}
+\newcommand{\interf}[2]{\mbox{\sf interfere}(#1,\ #2)}
+\newcommand{\drct}{\ensuremath{D}}
+\newcommand{\indrct}{\ensuremath{I}}
+\newcommand{\fieldD}[2]{\ensuremath{{#1}_{#2}^\drct}}
+\newcommand{\fieldI}[3]{\ensuremath{{#1}_{#2}^{\indrct#3}}}
+\newcommand{\ttf}[1]{{\tt #1}}
+\newcommand{\rtarrow}{$\rightarrow$}
+\bibliographystyle{unsrt}
+\begin{document}
+\begin{frontmatter}                           % The preamble begins here.
+
+%\pretitle{Pretitle}
+\title{Heap Dependence Analysis for Sequential Programs}
+%
+%\subtitle{An extended abstract}
+
+\author{\fnms{Barnali} \snm{Basak}},
+\author{\fnms{Sandeep} \snm{Dasgupta}}
+and
+\author{\fnms{Amey} \snm{Karkare}}
+
+\address{{\tt \{barnali, dsand, karkare\}@cse.iitk.ac.in}\\
+  Department of CSE, IIT Kanpur, India}
+
+\begin{abstract}
+In this paper we demonstrate a novel intra-procedural
+technique for detecting heap dependences in sequential
+programs that use recursive data structures.  The novelty of
+our technique lies in the way we compute, for each statement,
+abstract {\em heap access paths} that approximate the
+locations accessed by the statement, and the way we convert
+these paths into equations that can be solved using
+traditional tests, e.g. GCD test, Banerjee test and Lamport
+test.  The dependence test also uses a field sensitive shape
+analysis to detect dependences among heap locations arising
+out of sharing within the data structure. In presence of
+loops, the technique can be used to discover {\em loop
+  dependences}.  i.e. the dependence among two different
+iterations of the same loop. This information can be used by
+a parallelizing compiler to transform sequential input
+program for better parallel execution.
+\end{abstract}
+
+\begin{keyword}
+Dependence Analysis\sep
+Shape Analysis \sep {Parallelizing
+  Compilers} \sep {Recursive Data Structures}
+\end{keyword}
+\end{frontmatter}
+
+\thispagestyle{empty}
+\pagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Introduction}
+
+In the recent arena of parallel architectures (multi-cores,
+GPUs, etc.), software side lags behind hardware in terms of
+parallelism. Parallelization of sequential programs, without
+violating their correctness, is a key step in increasing
+their performance and efficiency. Over the past years, lot of
+work has been done on automatically parallelizing sequential
+programs. These approaches have mainly been developed for
+programs written in languages, such as FORTRAN, having only
+static data structures (fixed sized
+arrays)~\cite{Allen87automatic,Banerjee93automatic,Wolf91loop,
+  Kennedy01Optimizing}.  Almost all programming languages
+today use the heap for dynamic memory structures. Therefore,
+any parallelization must also take into account the data
+dependency due to the access of common heap
+locations. Finding parallelism in sequential programs written
+in languages with dynamically allocated data structures, such
+as C, C++, JAVA, LISP etc., has been less successful. One of
+the reason being the presence of pointer-induced aliasing,
+which occurs when multiple pointer expressions refer to same
+storage location. Compared to the analysis of static and
+stack data, analyzing properties of heap data is challenging
+because the structure of heap is unknown at compile time, it
+is also potentially unbounded and the lifetime of a heap
+object is not limited by the scope that creates it. As a
+consequence, properties of heap (including dependence) are
+approximated very conservatively. The approximation of the
+heap dependence information inhibits the parallelization. The
+following example motivates the need for a precise dependence
+analysis.
+  \begin{figure}[t]
+    \centering
+    \input{fig_motivational_example}
+    \caption{A motivating example\label{fig:motiv}}
+    \hrule
+  \end{figure}
+\begin{example}{\rm
+  Figure~\ref{fig:motiv}
+  shows a singly linked list  and a code fragment traversing that
+  list. The performance of the code can be improved if the loop can
+  be executed in parallel. However, without the knowledge of
+  precise heap dependences, we have to assume worst case
+  scenario, i.e.,  the  location read by the statement {\tt
+    S3} in some iteration could be the same as the location
+  written by the statement {\tt S5} in some other iteration.
+  In that case,  it is not possible to parallelize the loop.
+ 
+  Our dependence analysis can show that the locations read by
+  {\tt S3} and those written by {\tt S5} are mutually
+  exclusive. Further, it also shows the absence of any other
+  dependences.  This information, along with the information
+  from classical control and data dependence analysis, can be
+  used by a parallelizing compiler to parallelize the loop.
+}
+\hfill\psframebox{}  \end{example}
+
+The rest of this paper explains our approach for a practical
+intra-procedural heap data dependence analysis. As it is
+understood that we are only talking about data dependences,
+we drop the term data in the rest of the paper. We first
+describe a shape analysis  that is used by our
+analysis to detect sharing (also called interference) among
+the data structures created on the heap.  The details of 
+dependence analysis are explained next.  We then
+present our method to handle loops in a more precise way.  We
+finish the paper by giving the directions for the future
+research.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Shape Analysis}
+The goal of our shape analyzer is to detect the shape of the
+data structure pointed to by the heap directed pointers at
+each program point. Our approach is similar to the work
+proposed by Ghiya et. al.~\cite{Ghiya96Tree} in that it also
+uses the {\em Direction Matrix} and the {\em Interference
+  Matrix} to keep track of shapes of data structures.
+However, our shape analysis is {\em field sensitive}; it
+remembers abstracted paths between two heap nodes. The path
+abstraction is done by using fixed length prefixes (sequence
+of field names) of the paths between two heap nodes. As the
+number of paths starting with the same fixed length prefixes
+may be unbounded so we use k-limiting on that number
+i.e.\ only k such paths will be considered. 
+
+The novelty of our approach lies in the way we
+use field information to remember the paths that result in a
+particular shape (Tree, DAG, Cycle). We associate the field
+information with a shape in two ways: (a) through boolean
+functions that capture the shape transition due to change in
+a particular field, and (b) through matrices that store the
+field sensitive path information among two pointer variables.
+This allows us to easily identify transitions from Cycle to
+DAG, from Cycle to Tree and from DAG to Tree, thus making the
+shape more precise.  This is an improvement over earlier
+approaches like Ghiya et. al.~\cite{Ghiya96Tree} where once a
+data structure is marked cyclic, it remains so for the rest
+of the analysis.
+
+For dependence detection, our shape analysis technique
+provides an interface function {\tt \isInterfering(\p,
+  $\alpha$, \q, $\beta$)}. For heap pointers \p, \q\ and
+field sequences $\alpha, \beta, \alpha', \beta'$, this
+function returns true if the paths \p.$\alpha'$ and
+\q.$\beta'$ interfere (potentially reach the same heap node
+at run-time), and $\alpha'$ and $\beta'$ are prefixes of
+$\alpha$ and $\beta$ respectively. The result of the
+interface function is based on the following observations:
+\noindent\begin{enumerate}
+\item If the shape attribute of a pointer
+  variable is Tree, then two access paths rooted at that
+  variable cannot interfere. Two access paths can only visit
+  a common node if the paths are equivalent. Let \ttf{lp} be
+  the pointer variable. Hence \ttf{lp\rtarrow{f}} and
+  \ttf{lp\rtarrow{f}} are equivalent paths leading to a
+  common node, whereas \ttf{lp\rtarrow{f}} and
+  \ttf{lp\rtarrow{g}} lead to different nodes.
+\item If the shape attribute is DAG and if it
+  is traversed using a sequence of fields, then every
+  sub-sequence accesses a distinct node. If an access path is a
+  proper sub-path of another access path then they surely
+  visit distinct nodes. However, if the paths equivalent or
+  distinct (i.e.\ having different pointer field references),
+  they may access a common node. For example,
+  \ttf{lp\rtarrow{f}} is a proper sub-path of
+  \ttf{lp\rtarrow{f}\rtarrow{g}} whereas, \ttf{lp\rtarrow{f}}
+  and \ttf{lp\rtarrow{g}} are not. Hence in the former case
+  they do not share a common node, whereas in later case they
+  might result in sharing of node.
+\item If shape attribute of a pointer
+  variable is Cycle, we make conservative decision such that
+  the access paths originating from that pointer interfere.
+\end{enumerate}
+ The details of the path abstraction and the shape analysis can
+ be found elsewhere~\cite{Sandeep11thesis}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dependence Analysis}
+
+Two statements are said to be heap dependent on each other if
+both statements access the same heap location and at least
+one of the statements writes to that location. We have
+developed a novel technique which finds out heap induced
+dependencies, between any two statements in the program. The
+novelty of our approach lies in the separation of shape
+analysis phase from the dependence detection phase For each
+statement our analysis computes two sets of heap access paths
+(a) {\em Read set}: the set of paths which are accessed to
+read a heap location, and (b) {\em Write set}: the set of
+paths which are accessed to write a heap location.
+
+Our approach is conservative in the sense that the read set
+and write set we compute for a statement are over
+approximations of the actual locations that are read or
+written by the statement. Therefore it is possible that our
+analysis reports two statement to be dependent when they are
+not really dependent on each other. However, this can inhibit
+some parallelizing optimization but can not result in an
+incorrect parallelization. Function calls are handled by
+using conservative read/write sets that over approximate the
+heap locations that could potentially be read or written
+inside the called function.
+\begin{figure}
+%\hrule
+{\tt
+  \begin{program}{0}
+  \FL analyze(f, k)  \{
+  \UNL{0} initialize(); \COMMENT{Initialize all parameters and
+  globals}
+  \UNL{0} States = computeStates(k)
+  \UNL{0} computeReadWrite(States)
+  \UNL{-1} \}
+  \end{program}
+}
+%\hrule
+  \caption{Algorithm to analyze a function {\tt f} for
+    dependence detection. Parameter {\tt k} is used for
+    limiting the length of access paths, to keep the analysis
+    bounded. \label{fig:algoTopLevel}}
+\hrule  
+\end{figure}
+
+Figure~\ref{fig:algoTopLevel} gives top level pseudo code for
+analyzing a function {\tt f} in the program. The pseudo codes
+for the utility functions used by the above code is given
+in~\cite{barnali11thesis}. We describe their functionality in
+brief.
+
+
+Function {\tt initialize()} initializes the parameters of the
+function and global variables with symbolic values. The
+initialization information is also accessible to the shape
+analyzer that requires it for making interference decisions.
+  
+The function {\tt computeStates(k)} computes the bindings of
+pointer variables to the access paths using traditional
+iterative data flow analysis.  The access paths are either
+symbolic locations, e.g. $\loc$, or symbolic location
+followed by pointer fields, e.g.
+$\loc\rightarrow$\emph\mynext$\rightarrow$\emph{\tt next}. To
+guarantee termination, we limit the length of access paths to
+{\tt k}, that is a parameter to {\tt computeStates}. A
+special summary field `{$*$}' is used to limit the access
+paths. which stands for any field dereferenced beyond length
+{\tt k}. Hence, for {\tt k = 1}, all the access paths in the
+set \{\loc$\rightarrow${\tt next}$\rightarrow$\mynext,
+\loc$\rightarrow${\tt
+  next}$\rightarrow$\mynext$\rightarrow$\mynext,
+\loc$\rightarrow$\mynext$\rightarrow${\tt
+  next}$\rightarrow$\mynext$\cdots\rightarrow${\tt next}\}
+can be abstracted as a single summarized path
+\loc$\rightarrow$\mynext$\rightarrow{*}$. Similarly, assuming
+a data structure has two reference fields \lt\ and \rt, the
+summarized path
+$\loc\rightarrow\lt\rightarrow\rt\rightarrow{*}$ could stand
+for any of the access paths
+$\loc\rightarrow\lt\rightarrow\rt\rightarrow\lt,\ \loc\rightarrow\lt\rightarrow\rt\rightarrow\rt,\ \loc\rightarrow\lt\rightarrow\rt\rightarrow\lt\rightarrow\lt,\ \loc\rightarrow\lt\rightarrow\rt\rightarrow\lt\rightarrow\rt$
+and more such paths.
+  
+Given a variable to access path mapping {\tt States}, {\tt
+  computeReadWrite(States)} computes read and write sets for
+each statement in the program in a single pass. This
+information can be used for computation of various
+dependencies (flow, anti or output). Let $S$ and $S'$ be
+statements in the program such that there exists an execution
+path from $S$ to $S'$. Then, the dependence of $S'$ on $S$ is
+computed as follows: \\
+ %in Figure~\ref{fig:depcomp}.
+\newcommand{\flowdep}{\mbox{flow-dep}}
+\newcommand{\antidep}{\mbox{anti-dep}}
+\newcommand{\outputdep}{\mbox{output-dep}}
+\newcommand{\rs}[1]{\mbox{read}(#1)}
+\newcommand{\ws}[1]{\mbox{write}(#1)}
+\newcommand{\rst}[2]{\mbox{read}(#1, #2)}
+\newcommand{\wst}[2]{\mbox{write}(#1, #2)}
+\newcommand{\set}{\mbox{set}}
+\noindent
+
+$\begin{array}{rcl}
+\interf{\set_1}{\set_2} &\equiv& \isInterfering(\p, \alpha, \q,
+\beta) \; \mbox{where } 
+\p.\alpha \in \set_1   \wedge  \q.\beta \in \set_2 \\ 
+\flowdep(S, S') &\equiv& \interf{\ws{S}}{\rs{S'}} \\ 
+\antidep(S, S') &\equiv& \interf{\rs{S}}{\ws{S'}} \\
+\outputdep(S, S') &\equiv& \interf{\ws{S}}{\ws{S'}}
+\end{array}$ \\
+
+\noindent where \isInterfering\ is the function provided by
+shape analysis.
+
+\newcommand{\mapp}{$\equiv$}
+\begin{table}
+\centering
+\caption{Simple dependence analysis for code in
+  Figure~\ref{fig:motiv} \label{fig:table_simple_dep}}
+\begin{tabular}{|c|l|c|c|c|}
+\hline 
+Stmt & Variables and Locations of Interest & Read Set & Write
+Set \\ 
+\hline
+S1 & \p  \mapp\  \{$\loc$\} & $\emptyset$ & $\emptyset$ \\
+S2 & \q \mapp\   \{$\loc\rightarrow$\mynext, $\loc\rightarrow$\mynext$\rightarrow *$\}& $\emptyset$ & $\emptyset$ \\
+S3 & \q \mapp\  \{$\loc\rightarrow$\mynext, $\loc\rightarrow$\mynext$\rightarrow *$\} & \{$\loc\rightarrow$\mynext, $\loc\rightarrow$\mynext$\rightarrow *$\} & $\emptyset$ \\
+S4 & \myr \mapp\   \{$\loc\rightarrow$\mynext$\rightarrow *$\} & $\emptyset$ & $\emptyset$ \\
+S5 & \myr \mapp\ \{$\loc\rightarrow$\mynext$\rightarrow *$\} & $\emptyset$ & \{$\loc\rightarrow$\mynext$\rightarrow *$\} \\
+S6 & \p \mapp\ \{$\loc\rightarrow$\mynext$\rightarrow *$\} & $\emptyset$ & $\emptyset$ \\
+\hline
+\end{tabular}
+
+\noindent \loc\ is the symbolic location representing the
+value of the variable {\tt list} at the start of the program.
+
+\hrule
+\end{table}
+
+\begin{example} {\label{ex:dep}\rm
+Table~\ref{fig:table_simple_dep} shows the state (pointer
+variables and symbolic memory locations referred by the
+variables) and the read and write sets for each statement in
+the example code of Figure~\ref{fig:motiv}. From the table,
+we can infer the following dependences:
+\begin{enumerate}
+\item loop independent anti-dependence  from statement {S3} to
+statement {S5}
+\item loop carried flow-dependence  from statement {S5} to
+statement {S3}
+\end{enumerate}
+Note that the dependences inferred by our analysis are a
+super-set of actual dependences that exist in the program.
+  }\hfill\psframebox{} \end{example}
+
+Next we explain how we can further refine our dependence
+analysis to filter out some spurious dependences.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Loop Dependence Analysis}
+As can be seen from the Example~\ref{ex:dep} above, our
+approach, as explained earlier, does not work well for
+loops. This is because it combines the paths being accessed
+in different iterations of a loop. To get better result in
+presence of loops we need to keep the accesses made by
+different iterations of a loop separate. To do so, we have
+devised another novel approach, which works as follows: Given
+a loop, we first identify the navigators\footnote{a navigator
+  consists of a pointer variable and a set of field
+  references that are used to traverse a data structure
+  inside the loop.}~\cite{ghiya98detecting} for the loop,
+then by a single symbolic traversal over the loop, we compute
+the read and write accesses made by each statement in terms
+of the values of the navigators. Using the iteration number
+as a parameter, the read and write sets are generalized to
+{\em symbolic access paths}~\cite{Deutsch94klimit} to
+represent arbitrary iteration of the loop.
+
+Let $S$ and $S'$ be two statements inside a loop. Further,
+let $\wst{S}{i}$ denote the set of access paths written by
+statement $S$ in the iteration number $i$, and let
+$\rst{S'}{j}$ denote the set of access paths read by
+statement $S'$ in the iteration number $j$. Then, 
+\begin{itemize}
+\item $S'$ is loop independent flow dependent on $S$ if there
+  is an execution path from $S$ to $S'$ that does not cross
+  the loop boundary and there exist $i$ within loop
+  bounds\footnote{in case loop bounds can not be computed at
+    compile time, we can assume them to be $(-\infty,
+    \infty)$} such that $\interf{\wst{S}{i}}{\rst{S'}{i}}$ is
+  true.
+\item $S'$ is loop dependent flow dependent on $S$ if there
+  exist $i$ and $j$ within loop bounds such that $j > i$, and
+  $\interf{\wst{S}{i}}{\rst{S'}{j}}$ is true.
+\end{itemize}
+
+We can similarly define loop independent and loop carried
+anti-dependence and flow-dependence. The following example
+explains our approach for the loop dependence detection.
+
+\begin{figure}[t]
+  \begin{center}
+    \scalebox{.85}{\begin{tabular}{@{}c@{}|@{}c@{}}
+      \input{fig_code_no_dep}
+      &
+      \input{fig_code_dep} \\
+      {(a) Loop without Dependence.} &
+      {(b) Loop with Dependence.}
+    \end{tabular}}
+  \end{center}
+  \caption{\label{fig:loopdep} Identifying Loop Dependences}
+\hrule
+\end{figure}
+\begin{example}\label{ex:loopdeps}{\rm 
+    Consider Figure~\ref{fig:loopdep}. Assume in each case
+    \loc\ is the symbolic variable pointed to by the variable
+    {\tt list}.
+             
+    For the code in Figure~\ref{fig:loopdep}(a), the
+    navigator is $\langle\loc,
+    \mynext\rightarrow\mynext\rangle$. Using $i$ to represent
+    the iteration number, the generalized access path read by
+    S11 is \loc$\rightarrow\mynext^{2i}\rightarrow\mynext$ and
+    the generalized access path written by S12 is
+    \loc$\rightarrow\mynext^{2i+1}\rightarrow\mynext$ Clearly
+    there is no loop independent dependence. To find out loop
+    carried dependence, we have to find out whether for
+    iterations $i$ and $j$, the two paths point to the same
+    heap location. This reduces to finding out if there is a
+    possible solution to the following equation:
+      \[ \loc\rightarrow\mynext^{2i}\rightarrow\mynext  =
+      \loc\rightarrow\mynext^{2j+1}\rightarrow\mynext \] 
+      In other words, we have to find out if  the following
+      equation has integer solutions:
+      \[2*i  = 2*j + 1\]
+      GCD~\cite{Kennedy01Optimizing} or
+      Lamport~\cite{Lamport1974parallel} test tell us that
+      this equation can not have integer solutions. Thus,
+      there is no dependence among the statements.
+
+      For the code in Figure~\ref{fig:loopdep}(b), the navigator
+      is $\langle\loc,
+    \mynext\rangle$. In this case the equation to find 
+      out the loop carried dependences among statements S21
+      and S22 reduces to: 
+      \[ i = j + 1\]
+      which has integer solutions. So we have to
+      conservatively report dependence between the two statements
+
+In both the cases, we also need the shape analyzer to assert
+that there is no sharing within the underlying data
+structure. Had there been a sharing, we would have to report
+conservatively that there exists a dependence.  }
+\end{example}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related Work}
+Data dependence analysis for sequential programs, working on
+only static and stack related data structure, such as array,
+is well explored in literature~\cite{Allen87automatic,
+  Wolf91loop, Banerjee93automatic, Kennedy01Optimizing} etc.
+Our work extends the work to handle heap data
+structure. Various approaches have been suggested for data
+flow analysis of programs in the presence of dynamic data
+structures. We describe briefly some of the earlier work done
+in this area.
+  
+The work by Hendren et al. in ~\cite{Hendren90parallel}
+considers shape information and approximates the
+relationships between accessible nodes in larger aggregate
+data structures. These relationships are represented by path
+expressions, a restricted form of regular expressions, and
+are encoded in path matrices. Such matrices are used to
+deduce the interference information between any two heap
+nodes, and to extract parallelism. Their method focuses on
+three levels of parallelization; (a) if two statements can be
+executed in parallel, (b) identifies procedure-call
+parallelism, and (c) whether two sequences of statements can
+be parallelized.
+
+Ghiya et. al.~\cite{ghiya98detecting} uses coarse
+characterization of the underlying data structure as Tree,
+DAG or Cycle. They compute complete access
+paths for each statement in terms of \emph{anchor} pointer,
+which points to a fixed heap node in the data structure
+within the whole body of the program.  The test for aliasing
+of the access paths, relies on connection and shape
+information that is automatically computed. They have also
+extended their work to identify loop carried dependences for
+loop level parallelism.
+
+Hwang and Saltz~\cite{Hwang03Identify} present a technique to
+identify parallelism in programs with cyclic graphs. The
+method identifies the patterns of the traversal of program
+code over the underlying data structure.  In the next step
+the shape of the traversal pattern is detected. If the
+traversal pattern is acyclic, dependence analysis is
+performed to extract parallelism from the program.
+
+Navarro et. al. in ~\cite{navarro05dependence, Navarro05loop}
+propose a intra-procedural dependence test which intermixes
+shape analysis and dependence analysis together. During the
+analysis, the abstract structure of the dynamically allocated
+data is computed and is also tagged with read/write tags to
+find out dependencies. The resulting analysis is very
+precise, but it is costly. Further their shape analysis
+component is tightly integrated within the dependence
+analysis, while in our approach we keep the two separate as
+it gives us modularity and the scope to improve the precision
+of our dependence analysis by using a more precise shape
+analysis, if available. They have extended their dependence
+related work in ~\cite{Navarro08irregular}, where
+they have implemented a context-sensitive interprocedural
+analysis which successfully detects dependences for both
+non-recursive and recursive functions.
+
+Work done by Marron et. al. in~\cite{Kapur08} tracks a two
+program location, one read and one write location, for each
+heap object field.  The technique uses an explicit store heap
+model which captures the tag information of objects for each
+program statement. The read and write information are used to
+detect dependences. This space effective and time efficient
+technique analyses bigger benchmarks in shorter time. But the
+effectiveness of this approach lies in the use of predefined
+semantics for library functions~\cite{Kapur06shape}, which
+recognizes a traversal over a generic structure.
+
+
+Our approach is closest to the technique proposed by Horwitz
+et. al.~\cite{horwitz89dependence}. They also associate read
+and write sets with each program statement to detect heap
+dependencies. They have also proposed technique to compute
+dependence distances for loop constructs. However, there
+technique requires iterating over a loop till a fixed point
+is reached, which is different from our method of computing
+loop dependences as a set of equations in a single pass, and
+then solving these equations using classical tests.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion and Future Work}
+
+In this report we have presented our work on heap dependence
+analysis that can be utilized by a parallelizing compiler to
+parallelize sequential programs. Our method is divided into
+three phases - the shape analysis phase, the state
+computation phase, and the loop analysis phase, with
+carefully chosen interfaces between phases to combine work
+done by individual phases. This gives us the flexibility to
+work on testing and improving each phase independently.  Our
+loop dependence analysis abstracts the dependence information
+in forms of linear equations, that can be solved using
+traditional dependence analysis
+tests~\cite{Allen87automatic,Wolf91loop,Banerjee93automatic}
+that exist for finding array dependences.
+
+Our analysis is intra-procedural, and we use conservative
+approximation of function calls assuming worst case scenario.
+Our next challenge is to develop an inter procedural analysis
+to handle function calls more precisely. We have to further
+develop our shape analysis technique and the loop analysis to
+handle more of frequently occurring programming patterns to find
+precise dependences for these patterns.  We  also want to
+improve our summarization technique. Earlier we have used
+graph based approximations of access
+paths~\cite{khedker07heap} to compute liveness of heap
+data. We plan to explore if the same summarization technique
+can also be applied here.
+
+Finally, to show that our analysis is practical, we are
+developing a prototype model using GCC
+compiler framework to show the effectiveness on large
+benchmarks. However, this work is still in very early stages.
+
+\bibliography{parrefs}
+
+\end{document}

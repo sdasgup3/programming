@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/tsp
+END
+build.c
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/tsp/build.c
+END
+main.c
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/tsp/main.c
+END
+tsp.c
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/tsp/tsp.c
+END
+tsp.h
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/tsp/tsp.h
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/tsp/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/tsp/README
+END
+args.c
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/tsp/args.c
+END

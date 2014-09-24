@@ -1,0 +1,33 @@
+\chapter{Conclusion and Future Work} \label{ch:Conclusion}
+
+In this report we proposed a field sensitive shape analysis
+technique. We demonstrated how boolean functions along with
+field sensitive matrices help in inferring the precise shape
+of the data structure.  While field sensitive matrices help
+in generating the kill information for strong updates,
+boolean functions help in remembering the shape transition
+history with respect to each heap-directed pointer. We have
+shown some example scenarios that can be handled more
+precisely by our analysis as compared to an existing field
+insensitive analysis. Our shape analysis can be utilized by
+an optimizing compiler to disambiguate memory references.
+
+%%Our analysis is mainly intra procedural.  
+We use a very simple inter procedural framework to handle
+function calls, that computes safe approximate summaries to
+reach fix point .  Our next challenge is to develop a better
+inter procedural analysis to handle function calls more
+precisely. Further, we plan to extend our shape analysis
+technique to handle more of frequently occurring programming
+patterns to find precise shape for these patterns. \cmt{{ We
+    also want to improve our summarization technique. Earlier
+    we have used graph based approximations of access
+    paths~\cite{khedker07heap} to compute liveness of heap
+    data. We plan to explore if the same summarization
+    technique can also be applied here instead of
+    $k$-limiting.}} We are developing a prototype model using
+GCC framework to show the effectiveness on large
+benchmarks. However, this work is still in very early stages,
+and requires manual intervention. We plan to automate the
+prototype in near future.
+

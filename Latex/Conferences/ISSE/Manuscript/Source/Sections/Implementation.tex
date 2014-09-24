@@ -1,0 +1,189 @@
+
+\begin{table*}[t]
+\caption{Comparison of our analysis with baseline
+  analysis~\cite{Ghiya96} for List~\cite{linkedlist} and Olden~\cite{Olden} benchmarks\label{bm:list-olden}}
+\begin{center}
+\scalebox{0.75} {
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{| l | c | c | c || c | c | c || c | c |}
+  \hline
+  \multirow{3}{*}{Benchmark} & \multicolumn{3}{|c||}{Baseline Analysis}& \multicolumn{3}{|c|}{Our Analysis} & \multicolumn{2}{|c|}{Ratio}\\  \cline{2-9}
+  & \#Shape               & Time (T1)   & Memory (M1) & \#Shape               & Time (T2)  & Memory (M2) & Time  & Memory \\  \cline{2-9}
+  & (\Tree, \Dag, \Cycle) & (MilliSec)       & (MB)        & (\Tree, \Dag, \Cycle) & (MilliSec)      & (MB)        & T2/T1 & M2/M1  \\  \hline
+  \multicolumn{9}{|c|}{\bf List Benchmarks} \\ \hline
+   100\_create\_iter                 & (99, 0, 0)   & 0.747&6.91& (99, 0, 0)   & 31.777  & 3.19&42.539 & 0.46\\ \hline
+   100\_create\_recur                & (110, 0, 0)  & 1.124&6.12& (110, 0, 0)  & 36.96   & 7.09&32.883 & 1.16\\ \hline
+   200\_delall\_iter\_create\_fixed  & (319, 0, 0)  & 1.671&5.33& (319, 0, 0)  & 50.951  & 8.48&30.491 & 1.59\\ \hline
+   200\_delall\_iter\_create\_iter   & (154, 0, 0)  & 1.349&5.59& (154, 0, 0)  & 49.845  & 3.44&36.950 & 0.62\\ \hline
+   200\_delall\_recur\_create\_fixed & (308, 0, 0)  & 1.767&5.33& (308, 0, 0)  & 54.716  & 4.98&30.965 & 0.93\\ \hline
+   200\_delall\_recur\_create\_iter  & (143, 0, 0)  & 1.626&4.80& (143, 0, 0)  & 54.645  & 4.99&33.607 & 1.04\\ \hline
+   300\_insert\_iter\_create\_fixed  & (509, 51, 0) & 3.398&6.64& (551, 9, 0)  & 138.304 &34.02&40.702 & 5.12\\ \hline
+   300\_insert\_iter\_create\_iter   & (269, 51, 0) & 3.109&5.33& (311, 9, 0)  & 138.022 &34.70&44.394 & 6.51\\ \hline
+   300\_insert\_recur\_create\_fixed   & (429, 0, 0)    & 2.794  &5.33& (425, 4, 0)    & 81.688    & 7.35&29.237 & 1.38\\ \hline
+   300\_insert\_recur\_create\_iter  & (266, 0, 0)  & 2.653&9.75& (266, 0, 0)  & 93.013  & 5.51&35.060 & 0.57\\ \hline
+   400\_remove\_iter\_create\_fixed  & (616, 0, 40) & 2.348&7.17& (643, 13, 0) & 79.065  & 6.30&33.673 & 0.88\\ \hline
+   400\_remove\_iter\_create\_iter   & (360, 0, 40) & 1.994&8.24& (387, 13, 0) & 77.639  & 5.35&38.936 & 0.64\\ \hline
+   400\_remove\_recur\_create\_fixed & (540, 0, 0)  & 2.364&8.23& (540, 0, 0)  & 75.946  & 5.28&32.126 & 0.64\\ \hline
+   400\_remove\_recur\_create\_iter  & (315, 0, 0)  & 2.07 &6.91& (315, 0, 0)  & 73.2    & 5.51&35.362 & 0.80\\ \hline
+   500\_search\_iter\_create\_fixed  & (403, 0, 0)  & 1.573&8.13& (403, 0, 0)  & 53.295  & 4.76&33.881 & 0.58\\ \hline
+   500\_search\_iter\_create\_iter   & (208, 0, 0)  & 1.388&5.36& (208, 0, 0)  & 55.279  & 4.99&39.826 & 0.93\\ \hline
+   500\_search\_recur\_create\_fixed & (462, 0, 0)  & 1.862&5.85& (462, 0, 0)  & 66.251  & 4.74&35.581 & 0.81\\ \hline      
+   500\_search\_recur\_create\_iter  & (252, 0, 0)  & 1.531&8.91& (252, 0, 0)  & 67.305  & 6.83&43.961 & 0.77\\ \hline
+   600\_append\_iter\_create\_fixed    & (544, 0, 0)    & 2.231  &5.32& (537, 7, 0)    & 72.673    & 7.09&32.574 & 1.33\\ \hline
+   600\_append\_iter\_create\_iter
+  & (304, 0, 0)    & 1.87
+  &6.64& (297, 7, 0)    & 74.618    & 4.99&39.903 & 0.75\\ \hline
+   600\_append\_recur\_create\_fixed & (578, 0, 0)  & 2.718&5.32& (578, 0, 0)  & 84.543  & 4.99&31.105 & 0.94\\ \hline
+   600\_append\_recur\_create\_iter  & (323, 0, 0)  & 2.196&5.86& (323, 0, 0)  & 84.383  & 4.98&38.426 & 0.85\\ \hline
+   700\_merge\_iter\_create\_fixed   & (641, 0, 124)& 3.93 &6.91& (719, 46, 0) & 132.557 &34.57&33.730 & 5.00\\ \hline
+   700\_merge\_iter\_create\_iter    & (432, 0, 138)& 6.362&6.39& (452, 54, 64)& 279.995 &39.68&44.011 & 6.21\\ \hline
+   700\_merge\_recur\_create\_fixed  & (840, 0, 0)  & 6.635&6.12& (840, 0, 0)  & 367.089 &63.24&55.326 &10.34\\ \hline
+   700\_merge\_recur\_create\_iter   & (525, 0, 0)  & 6.238&5.59& (525, 0, 0)  & 370.47  &64.15&59.389 &11.47\\ \hline
+   800\_reverse\_iter\_create\_fixed & (470, 0, 55) & 2.33 &7.17& (495, 30, 0) & 74.318  & 4.75&31.896 & 0.66\\ \hline
+   800\_reverse\_iter\_create\_iter  & (245, 0, 55) & 2.074&5.32& (270, 30, 0) & 73.538  & 6.83&35.457 & 1.28\\ \hline
+   800\_reverse\_recur\_create\_fixed& (880, 0, 0)  & 4.253&6.38& (880, 0, 0)  & 184.456 &36.60&43.371 & 5.73\\ \hline
+   800\_reverse\_recur\_create\_iter& (550, 0, 0)   & 3.804&5.36& (550, 0, 0)  & 181.946 &38.14&47.830 & 7.12\\ \hline
+  \multicolumn{9}{|c|}{\bf Olden Benchmarks} \\ \hline
+   Health   & (2800, 0, 216)& 99.654&55.98& (3005, 4, 7)  & 28011.195 &1492.74& 281.085& 26.67\\ \hline
+   MST      & (1439, 6, 165)& 40.341& 6.18& (1665, 83, 0) & 2435.497  & 200.96&  60.373& 32.52\\ \hline
+   Power    & (397, 63, 0)  & 13.774& 4.93& (460, 0, 0)   & 2367.233  & 343.98& 171.862& 69.80\\ \hline
+   em3d     & (1008, 0, 0)  & 16.192& 6.17& (1008, 0, 0)  & 805.818   & 187.27&  49.766& 30.34\\ \hline
+   Perimeter& (850, 0, 0)   & 30.451& 5.45& (850, 0, 0)   & 31390.858 &2396.63&1030.865&439.59\\ \hline
+   TreeAdd  & (63, 0, 0)    & 0.764 & 5.45& (63, 0, 0)    & 35.31     &   3.38&  46.217&  0.62\\ \hline
+   Tsp      & (5718, 0, 277)& 78.166&55.60& (5861, 0, 244)& 446519.18 &7834.14&5712.448&140.91\\ \hline
+\end{tabular}
+}
+\end{center}
+\end{table*}
+
+\section{Implementation And Experimental
+  Results} \label{sec:implementation_results} 
+We  have implemented  our technique  as  a context-sensitive,
+flow sensitive  interprocedural analysis~\cite{ASU} in  C for
+GCC version 4.5.0~\cite{gcc-web} as  a dynamic  plug-in.   To achieve
+context   sensitivity,  we   use  {\em   Call-strings}  based
+approach~\cite{TwoApproach}.
+
+The   analysis  works  on   {\em  GIMPLE},   the  intermediate
+representation   used   by  GCC.   GIMPLE   is  a   3-address
+representation with at max  one load/store per statement.  To
+simplify  the analysis, we  treat each  statement as  a basic
+block  in itself, except  the call  statement which  is split
+into     two     blocks:     call    block     and     return
+block~\cite{TwoApproach}. Our analysis computes the path
+matrix, boolean field variables and boolean shape functions
+at the IN and OUT of each basic block.
+
+The analysis is preceded by a pre-processing phase that
+collects the information about heap pointers present in the
+program, for example the data type, number of fields, scope
+of the pointer variable. The analysis uses a worklist based
+implementation of data flow analysis.
+
+The data structures used by the analysis are as follows. We
+use dynamically allocated two dimensional matrix to store
+the path information ($P_F$) at each program point. The field
+variables are stored in {\tt bool} data type. We represent
+boolean functions as Binary Decision Diagrams
+(BDDs)~\cite{bdd},  using the {\em BuDDY}~\cite{buddy}
+package. 
+
+
+We have also implemented  an existing field insensitive shape
+analysis~\cite{Ghiya96}.    It    is    implemented   as    a
+context-sensitive,  flow-sensitive analysis,  and is  used as
+baseline approach to compare against.
+
+\subsection{Benchmarks}
+\label{sec:exp-bms}
+We  have  experimented  with  benchmarks  obtained  from  two
+sources.    The   {\em   List}   benchmarks~\cite{linkedlist}
+implement  basic  operations on  linked  lists  in C++.  This
+include  the recursive and  iterative implementations  of the
+following operations on  linked lists: insert, remove, delete
+all,  search, append,  merge  and reverse.   The {\em  Olden}
+benchmarks~\cite{Olden}  are used  to show  how  our analysis
+performs  on real  life  code with  large  number of  complex
+function  calls, including  recursive calls.  The  method and
+results of our  experiments are described in the  rest of the
+section.
+
+\subsection{Methodology}
+\label{sec:exp-method}
+
+We ran our experiments on a
+Intel\textsuperscript{\textregistered}
+Xeon\textsuperscript{\textregistered} 2.40GHz CPU with 8GB of
+RAM and 8 GB of swap space. The effectiveness of analysis is
+measured in terms of the following parameters:
+\begin{description}
+\item[{\bf Shapes inferred.}] We counted the number of each
+  type of shapes (\Tree,\Dag,\Cycle) reported by our analysis
+  and the baseline approach. The analysis which reports more
+  {\Tree}s and fewer {\Dag}s and {\Cycle}s is considered
+  better. 
+\item[{\bf Time for the analysis.}] We computed the total time taken by
+  each of the analysis. While it is expected that the
+  baseline approach will always have better time (due to
+  fewer computations involved), we would like to have an
+  estimate of the slowdown to better understand the
+  scalability of our analysis.
+\item[{\bf Peak memory  usage.}] Again, the baseline approach
+  will always  perform better in  terms of peak  memory usage
+  for  non  trivial  programs   because  it  does  not  store
+  equations  and only  stores boolean  values in  matrices as
+  opposed   to   approximate   path   sets  stored   by   our
+  analysis.  This  metric  also  gives  us  an  idea  of  the
+  scalability of our analysis. 
+\end{description}
+We set the limiting factor $k$ to $3$ for our analysis.
+
+\subsection{Results and Explanations}
+\label{sec:results}
+
+Table~\ref{bm:list-olden} shows the comparison of our
+approach with the baseline approach for the above mentioned
+benchmarks. The general observation is that our analysis is
+costly in terms of both memory usage as well as time
+taken. However, for complex programs, it is able to find
+precise shape for the heap structures. 
+
+For    some    simple     benchmarks    (for    e.g.,    {\tt
+  100\_create\_iter}),  our  memory   usage  is  better  than
+baseline approach.  The baseline approach stores interference
+matrix explicitly, that we  do not store. For large programs,
+this saving is offset by  the large number of paths stored in
+our path matrices.  The benchmark {\tt 100\_create\_iter} and
+some   other  programs   have  very   few  paths   among  the
+pointers. Thus, the size of  path matrices is small and hence
+our analysis takes less memory, .
+
+Our  analysis  gives  safe  results  (more  {\Dag}s  as
+  compared  to baseline  approach)  for 3  of the
+  benchmarks. These are: 
+  \begin{itemize}
+  \item {\tt 300\_insert\_recur\_create\_fixed},
+  \item {\tt 600\_append\_iter\_create\_fixed}, and
+  \item {\tt 600\_append\_iter\_create\_iter}
+  \end{itemize}
+  This  is due  to the
+  fact that our computation  of interference from path matrix
+  can  result in some  spurious interference  being detected.
+  That is why our analysis sometimes infers spurious {\Dag}s.
+  Since the shape \Cycle\ does not depend on interference but
+  only  on  paths,  we  never  detect more  cycles  than  the
+  baseline approach.
+
+
+Our analysis takes very long time and large amounts of memory
+to analyze  the benchmarks {\tt Health},  {\tt Perimeter} and
+{\tt Tsp}. However,  for these cases it is  also able to find
+substantially  more  precise  shapes.  The profiling  of  our
+analysis on  these programs revealed that  the these programs
+use a large number of pointers. As a result the sizes of path
+matrices are huge. On  deeper inspection it was revealed that
+the path  matrices have very  few non empty entries  (each of
+these entries is complex with large number of paths). Most of
+the time is spent in  manipulation of these path matrices. We
+believe  that a  sparse matrix  based implementation  of path
+matrices will overcome these inefficiencies.

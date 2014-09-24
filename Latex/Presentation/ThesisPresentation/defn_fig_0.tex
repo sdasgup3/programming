@@ -1,0 +1,64 @@
+\begin{figure}
+\centering
+\newcommand{\smf}{$f$}%%\scriptstyle f$}
+\newcommand{\smh}{$h$}%%\scriptstyle h$}
+\newcommand{\smg}{$g$}%%\scriptstyle g$}
+\begin{tabular}{@{}cc@{}}
+{\small \tt
+    \begin{tabular}[b]{l}
+      S1. q = p; \\
+      S2. {\bf while}(...) \{ \\
+      S3. \ \ \ \ q$\rightarrow$g = s; \\
+      S4. \ \ \ \ q = q$\rightarrow$f; \\
+      S5. \} \\
+    \end{tabular}
+  } &
+ \scalebox{0.8}{ \psset{unit=1mm}
+  \begin{pspicture}(0,0)(50,30)
+    %%\psframe(0,0)(50,30)
+    \putnode{q0}{origin}{3}{3}{}
+    \putnode{q1}{q0}{0}{0}{\pscirclebox{\mbox{\p}}}
+    \putnode{q2}{q1}{10}{0}{\pscirclebox[framesep=2.5]{\mbox{}}}
+    \putnode{q3}{q2}{10}{0}{\mbox{\ldots}}
+    \putnode{q4}{q3}{10}{0}{\pscirclebox{\mbox{\q}}}
+    \putnode{q5}{q4}{10}{0}{\pscirclebox[framesep=2.5]{\mbox{}}}
+    
+    \ncline{->}{q1}{q2}
+    \Bput[0.2]{\smf}
+    \ncline{->}{q2}{q3}
+    \Bput[0.2]{\smf}
+    \ncline{->}{q3}{q4}
+    \Bput[0.2]{\smf}
+    \ncline{->}{q4}{q5}
+    \Bput[0.2]{\smf}
+    
+    \putnode{s0}{q4}{15}{15}{\pscirclebox{\mbox{\s}}}
+    \nccurve[angleA=90,angleB=145,ncurv=1]{->}{q1}{s0}
+    \Aput[.1]{\smg}
+    
+    \putnode{t0}{q2}{0}{15}{\pscirclebox[framesep=2.5]{\mbox{}}}
+    \nccurve[linestyle=dotted, dotsep=.5, angleA=-55,angleB=-165,
+      ncurv=.2,nodesepA=-.3]{->}{t0}{s0}
+    
+    \ncline[linestyle=dotted, dotsep=.5]{->}{t0}{s0}
+    \nccurve[linestyle=dotted, dotsep=.5,angleA=55,angleB=165,
+      ncurv=.3,nodesepA=-.3]{->}{t0}{s0}
+    
+
+    \ncline[nodesepA=-.5,nodesepB=-.5]{->}{q1}{t0}
+    \Aput[.1]{\smh}
+    
+    \ncline{->}{q2}{s0}
+    \Bput[0.2]{\smg}
+    \ncline[nodesepA=-.75,nodesepB=-.75]{->}{q4}{s0}
+    \Bput[0.2]{\smg}
+\end{pspicture}} \\
+\scalebox{0.80}{ (a) A code fragment} & \scalebox{0.80}{ (b) 
+  \begin{tabular}[t]{@{}p{95mm}}
+    A possible heap graph for code in (a). Solid edges are the
+    direct paths, dotted edges are the indirect paths.
+  \end{tabular}}
+  \end{tabular}
+\caption{Paths in a heap graph}
+\label{fig:pathsAndSets}
+\end{figure}

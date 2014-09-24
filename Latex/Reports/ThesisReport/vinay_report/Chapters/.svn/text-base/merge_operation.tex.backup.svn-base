@@ -1,0 +1,180 @@
+% 
+% Merge: 
+% 
+% 
+% \scalebox{0.80}{
+% \begin{tabular}{|c|c|c|c|c|}
+% \hline
+% $\cup$ &  (\fieldD{f}{},\fieldD{g}{}) &   (\fieldI{f}{}{m},\fieldD{g}{}) &  (\fieldD{f}{},\fieldI{g}{}{n})  &  (\fieldI{f}{}{m},\fieldI{g}{}{n})  \\ \hline
+% 
+% (\fieldD{f}{},\fieldD{g}{}) &  (\fieldD{f}{},\fieldD{g}{}) &  (\fieldD{f}{},\fieldD{g}{}), &  (\fieldD{f}{},\fieldD{g}{}),  &   (\fieldD{f}{},\fieldD{g}{}),(\fieldD{f}{},\fieldI{g}{}{n}),\\
+% & & (\fieldI{f}{}{m},\fieldD{g}{})  & (\fieldD{f}{},\fieldI{g}{}{n}) & (\fieldI{f}{}{m},\fieldD{g}{}) , (\fieldI{f}{}{m},\fieldI{g}{}{n}) \\ \hline
+% 
+% (\fieldI{f}{}{x},\fieldD{g}{}) & (\fieldI{f}{}{x},\fieldD{g}{}), & (\fieldI{f}{}{x+m},\fieldD{g}{}) &  (\fieldI{f}{}{x},\fieldD{g}{}) , (\fieldD{f}{},\fieldI{g}{}{n}), & (\fieldI{f}{}{x+m},\fieldD{g}{}),\\
+% & (\fieldD{f}{},\fieldD{g}{}) & & (\fieldI{f}{}{x},\fieldI{g}{n}) , (\fieldD{f}{},\fieldD{g}{}) &  (\fieldI{f}{}{x+m},\fieldI{g}{}{n}) \\ \hline
+% 
+%  (\fieldD{f}{},\fieldI{g}{}{y}) & (\fieldD{f}{},\fieldD{g}{}) & (\fieldD{f}{},\fieldI{g}{}{y}) , (\fieldI{f}{}{m},\fieldD{g}{}), & (\fieldD{f}{},\fieldI{g}{}{n+y}) & (\fieldD{f}{},\fieldI{g}{}{n+y}), \\
+% & (\fieldD{f}{},\fieldI{g}{}{y}) & (\fieldI{f}{}{m},\fieldI{g}{}{y}) , (\fieldD{f}{},\fieldD{g}{}), & & (\fieldI{f}{}{m},\fieldI{g}{}{n+y}), \\ \hline
+% 
+%  (\fieldI{f}{}{x},\fieldI{g}{}{y}) & (\fieldD{f}{},\fieldD{g}{}),(\fieldI{f}{}{x},\fieldI{g}{}{y}) & (\fieldI{f}{}{x+m},\fieldD{g}{}) & (\fieldD{f}{},\fieldI{g}{}{n+y}) & (\fieldI{f}{}{m+x},\fieldI{g}{}{n+y}) \\
+% & (\fieldD{f}{},\fieldI{g}{}{x}),(\fieldI{f}{}{x},\fieldD{g}{}) &  (\fieldI{f}{}{x+m},\fieldI{g}{}{y}) & (\fieldI{f}{}{x},\fieldI{g}{}{n+y}) & \\ \hline
+% \end{tabular}
+% }
+
+\scalebox{0.80}{
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\cup$ &  (\fieldD{f}{},\fieldD{g}{}) &   (\fieldI{f}{}{m},\fieldD{g}{}) &  (\fieldD{f}{},\fieldI{g}{}{n})  &  (\fieldI{f}{}{m},\fieldI{g}{}{n})  \\ \hline
+
+($\epsilon$,$\epsilon$) &  ($\epsilon$,$\epsilon$),(\fieldD{f}{},\fieldD{g}{}) & ($\epsilon$,$\epsilon$),(\fieldI{f}{}{m},\fieldD{g}{}) & ($\epsilon$,$\epsilon$),(\fieldD{f}{},\fieldI{g}{}{n}) &($\epsilon$,$\epsilon$),(\fieldI{f}{}{m},\fieldI{g}{}{n}) \\
+& ($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},$\epsilon$ ) & ($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},$\epsilon$ ) & ($\epsilon$,\fieldI{g}{}{n}),(\fieldD{f}{},$\epsilon$ ) & ($\epsilon$,\fieldI{g}{}{n}),(\fieldI{f}{}{m},$\epsilon$ ) \\ \hline
+
+($\epsilon$,\fieldD{g}{}) & ($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},\fieldD{g}{}) & ($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},\fieldD{g}{}) & ($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},\fieldI{g}{}{n}) &($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},\fieldI{g}{}{n}) \\
+& & & ($\epsilon$,\fieldI{g}{}{n}),(\fieldD{f}{},\fieldD{g}{}) &($\epsilon$,\fieldI{g}{}{n}),(\fieldI{f}{}{m},\fieldD{g}{}) \\ \hline
+
+($\epsilon$,\fieldI{g}{}{y}) & ($\epsilon$,\fieldI{g}{}{y}),(\fieldD{f}{},\fieldD{g}{}) & ($\epsilon$,\fieldI{g}{}{y}),(\fieldI{f}{}{m},\fieldD{g}{}) & ($\epsilon$,\fieldI{g}{}{n+y}),(\fieldD{f}{},\fieldI{g}{}{n+y}) &($\epsilon$,\fieldI{g}{}{n+y}),(\fieldI{f}{}{m},\fieldI{g}{}{n+y}) \\
+& ($\epsilon$,\fieldD{g}{}),(\fieldD{f}{},\fieldI{g}{}{y}) & ($\epsilon$,\fieldD{g}{}),(\fieldI{f}{}{m},\fieldI{g}{}{y}) & & \\ \hline
+
+(\fieldD{f}{},$\epsilon$) & (\fieldD{f}{},$\epsilon$),(\fieldD{f}{},\fieldD{g}{}) & (\fieldD{f}{},$\epsilon$),(\fieldI{f}{}{m},\fieldD{g}{}) & (\fieldD{f}{},$\epsilon$),(\fieldD{f}{},\fieldI{g}{}{n}) &(\fieldD{f}{},$\epsilon$),(\fieldI{f}{}{m},\fieldI{g}{}{n}) \\
+& & (\fieldI{f}{}{m},$\epsilon$) & &  (\fieldI{f}{}{m},$\epsilon$) \\ \hline
+
+(\fieldI{f}{}{x},$\epsilon$) & (\fieldI{f}{}{x},$\epsilon$),(\fieldD{f}{},\fieldD{g}{}) & (\fieldI{f}{}{x+m},$\epsilon$),(\fieldI{f}{}{x+m},\fieldD{g}{}) & (\fieldI{f}{}{x},$\epsilon$),(\fieldD{f}{},\fieldI{g}{}{n}) &(\fieldI{f}{}{x+m},$\epsilon$),(\fieldI{f}{}{x+m},\fieldI{g}{}{n}) \\
+& (\fieldI{f}{}{x},\fieldD{g}{}),(\fieldD{f}{},$\epsilon$) & & (\fieldI{f}{}{x},\fieldI{g}{}{n}),(\fieldD{f}{},$\epsilon$)& \\ \hline
+
+(\fieldD{f}{},\fieldD{g}{}) &  (\fieldD{f}{},\fieldD{g}{}) &  (\fieldD{f}{},\fieldD{g}{}), &  (\fieldD{f}{},\fieldD{g}{}),  &   (\fieldD{f}{},\fieldD{g}{}),(\fieldD{f}{},\fieldI{g}{}{n}),\\
+& & (\fieldI{f}{}{m},\fieldD{g}{})  & (\fieldD{f}{},\fieldI{g}{}{n}) & (\fieldI{f}{}{m},\fieldD{g}{}) , (\fieldI{f}{}{m},\fieldI{g}{}{n}) \\ \hline
+
+(\fieldI{f}{}{x},\fieldD{g}{}) & (\fieldI{f}{}{x},\fieldD{g}{}), & (\fieldI{f}{}{x+m},\fieldD{g}{}) &  (\fieldI{f}{}{x},\fieldD{g}{}) , (\fieldD{f}{},\fieldI{g}{}{n}), & (\fieldI{f}{}{x+m},\fieldD{g}{}),\\
+& (\fieldD{f}{},\fieldD{g}{}) & & (\fieldI{f}{}{x},\fieldI{g}{n}) , (\fieldD{f}{},\fieldD{g}{}) &  (\fieldI{f}{}{x+m},\fieldI{g}{}{n}) \\ \hline
+
+ (\fieldD{f}{},\fieldI{g}{}{y}) & (\fieldD{f}{},\fieldD{g}{}) & (\fieldD{f}{},\fieldI{g}{}{y}) , (\fieldI{f}{}{m},\fieldD{g}{}), & (\fieldD{f}{},\fieldI{g}{}{n+y}) & (\fieldD{f}{},\fieldI{g}{}{n+y}), \\
+& (\fieldD{f}{},\fieldI{g}{}{y}) & (\fieldI{f}{}{m},\fieldI{g}{}{y}) , (\fieldD{f}{},\fieldD{g}{}), & & (\fieldI{f}{}{m},\fieldI{g}{}{n+y}), \\ \hline
+
+ (\fieldI{f}{}{x},\fieldI{g}{}{y}) & (\fieldD{f}{},\fieldD{g}{}),(\fieldI{f}{}{x},\fieldI{g}{}{y}) & (\fieldI{f}{}{x+m},\fieldD{g}{}) & (\fieldD{f}{},\fieldI{g}{}{n+y}) & (\fieldI{f}{}{m+x},\fieldI{g}{}{n+y}) \\
+& (\fieldD{f}{},\fieldI{g}{}{x}),(\fieldI{f}{}{x},\fieldD{g}{}) &  (\fieldI{f}{}{x+m},\fieldI{g}{}{y}) & (\fieldI{f}{}{x},\fieldI{g}{}{n+y}) & \\ \hline
+
+
+
+\end{tabular}
+}
+
+
+% 
+% x,y,m,n can be any positive integer or $\infty$ .
+
+
+% Intersection\\
+% 
+% \scalebox{0.80}{ 
+% \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+% \hline
+% $\bigcap$ & ($\epsilon$,$\epsilon$) &  ($\epsilon$,\fieldD{g}{}) & ($\epsilon$,\fieldI{g}{}{n}) & ($\epsilon$,\fieldI{g}{}{\infty}) & (\fieldD{f}{},$\epsilon$) &(\fieldD{f}{},\fieldD{g}{}) & (\fieldD{f}{},\fieldI{g}{}{n}) & (\fieldD{f}{},\fieldI{g}{}{\infty}) \\ \hline
+% 
+% ($\epsilon$,$\epsilon$) & ($\epsilon$,$\epsilon$) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% ($\epsilon$,\fieldD{g}{}) & $\phi$ & ($\epsilon$,\fieldD{g}{}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% ($\epsilon$,\fieldI{g}{}{y}) & $\phi$ & $\phi$ & ($\epsilon$,\fieldI{g}{}{y \star n}) & ($\epsilon$,\fieldI{g}{}{y}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% ($\epsilon$,\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & ($\epsilon$,\fieldI{g}{}{n}) & ($\epsilon$,\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldD{f}{},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ & $\phi$ &(\fieldD{f}{},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldD{f}{},\fieldD{g}{}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & (\fieldD{f}{},\fieldD{g}{}) & $\phi$ & $\phi$ \\ \hline 
+% (\fieldD{f}{},\fieldI{g}{}{y}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & (\fieldD{f}{},\fieldI{g}{}{y \star n}) & (\fieldD{f}{},\fieldI{g}{}{y}) \\ \hline
+% (\fieldD{f}{},\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & (\fieldD{f}{},\fieldI{g}{}{n}) & (\fieldD{f}{},\fieldI{g}{}{\infty}) \\ \hline
+% (\fieldI{f}{}{x},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{x},\fieldD{g}{}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{x},\fieldI{g}{}{y}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{x},\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{\infty},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{\infty},\fieldD{g}{}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{\infty},\fieldI{g}{}{y}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% 
+% \end{tabular}
+% }
+% 
+% 
+% contd \\ 
+% \scalebox{0.80}{
+% \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+% \hline
+% $\bigcap$ & (\fieldI{f}{}{m},$\epsilon$) &  (\fieldI{f}{}{m},\fieldD{g}{}) & (\fieldI{f}{}{m},\fieldI{g}{}{n}) & (\fieldI{f}{}{m},\fieldI{g}{}{\infty}) & (\fieldI{f}{}{\infty},$\epsilon$) &(\fieldI{f}{}{\infty},\fieldD{g}{}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{n}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}) \\ \hline
+% 
+% ($\epsilon$,$\epsilon$) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% ($\epsilon$,\fieldD{g}{}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% ($\epsilon$,\fieldI{g}{}{y}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% ($\epsilon$,\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldD{f}{},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldD{f}{},\fieldD{g}{}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldD{f}{},\fieldI{g}{}{y}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldD{f}{},\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{x},$\epsilon$) & (\fieldI{f}{}{x \star m},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ & (\fieldI{f}{}{x},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{x},\fieldD{g}{}) & $\phi$ & (\fieldI{f}{}{x \star m},\fieldD{g}{}) & $\phi$ & $\phi$ & $\phi$ & (\fieldI{f}{}{x},\fieldD{g}{}) & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{x},\fieldI{g}{}{y}) & $\phi$ & $\phi$ & (\fieldI{f}{}{x \star m},\fieldI{g}{}{y \star n}) & (\fieldI{f}{}{x \star m},\fieldI{g}{}{y}) & $\phi$ & $\phi$ & (\fieldI{f}{}{x},\fieldI{g}{}{y \star n}) & (\fieldI{f}{}{x},\fieldI{g}{}{y}) \\ \hline
+% (\fieldI{f}{}{x},\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & (\fieldI{f}{}{x \star m},\fieldI{g}{}{n}) &  (\fieldI{f}{}{x \star m},\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & (\fieldI{f}{}{x},\fieldI{g}{}{n}) & (\fieldI{f}{}{x},\fieldI{g}{}{n}) \\ \hline
+% (\fieldI{f}{}{\infty},$\epsilon$) & (\fieldI{f}{}{m},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ & (\fieldI{f}{}{\infty},$\epsilon$) & $\phi$ & $\phi$ & $\phi$ \\ \hline
+% (\fieldI{f}{}{\infty},\fieldD{g}{}) & $\phi$ & (\fieldI{f}{}{m},\fieldD{g}{}) & $\phi$ & $\phi$ & $\phi$ & (\fieldI{f}{}{\infty},\fieldD{g}{}) & $\phi$ & $\phi$  \\ \hline
+% (\fieldI{f}{}{\infty},\fieldI{g}{}{y}) & $\phi$ & $\phi$ & (\fieldI{f}{}{m},\fieldI{g}{}{y \star n}) & (\fieldI{f}{}{m},\fieldI{g}{}{y}) & $\phi$ & $\phi$ & (\fieldI{f}{}{\infty},\fieldI{g}{}{y \star n}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{y}) \\ \hline
+% (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}) & $\phi$ & $\phi$ & (\fieldI{f}{}{m},\fieldI{g}{}{n}) & (\fieldI{f}{}{m},\fieldI{g}{}{\infty}) &  $\phi$ &  $\phi$ & (\fieldI{f}{}{\infty},\fieldI{g}{}{n}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}) \\ \hline
+% \end{tabular}
+% }
+% 
+% where $a \star b$ = min(a,b) \\
+
+%  (\fieldD{f}{},$\epsilon$) &(\fieldD{f}{},\fieldD{g}{}) & (\fieldD{f}{},\fieldI{g}{}{n}) & (\fieldD{f}{},\fieldI{g}{}{\infty}) \\ \hline
+
+Union \\
+
+\scalebox{0.50}{
+\begin{tabular}{|c||c|c|c|c|}
+\hline
+$\bigcup$ & ($\epsilon$,$\epsilon$) &  ($\epsilon$,\fieldD{g}{}) & ($\epsilon$,\fieldI{g}{}{n}) & ($\epsilon$,\fieldI{g}{}{\infty})\\ \hline \hline
+($\epsilon$,$\epsilon$) & ($\epsilon$,$\epsilon$) & ($\epsilon$,$\epsilon$),($\epsilon$,\fieldD{g}{}) & ($\epsilon$,$\epsilon$),($\epsilon$,\fieldI{g}{}{n}) & ($\epsilon$,$\epsilon$),($\epsilon$,\fieldI{g}{}{\infty})\\ \hline
+($\epsilon$,\fieldD{g}{}) & ($\epsilon$,\fieldD{g}{}),($\epsilon$,$\epsilon$) & ($\epsilon$,\fieldD{g}{}) &($\epsilon$,\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{n})  & ($\epsilon$,\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+($\epsilon$,\fieldI{g}{}{y}) & ($\epsilon$,\fieldI{g}{}{y}),($\epsilon$,$\epsilon$)& ($\epsilon$,\fieldI{g}{}{y}),($\epsilon$,\fieldD{g}{}) &($\epsilon$,\fieldI{g}{}{y+n}) & ($\epsilon$,\fieldI{g}{}{y}),($\epsilon$,\fieldI{g}{}{\infty})\\ \hline
+($\epsilon$,\fieldI{g}{}{\infty}) & ($\epsilon$,\fieldI{g}{}{\infty}),($\epsilon$,$\epsilon$) & ($\epsilon$,\fieldI{g}{}{\infty}),($\epsilon$,\fieldD{g}{}) & ($\epsilon$,\fieldI{g}{}{\infty}) & ($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+
+(\fieldD{f}{},$\epsilon$) & (\fieldD{f}{},$\epsilon$),($\epsilon$,$\epsilon$) & (\fieldD{f}{},$\epsilon$), ($\epsilon$,\fieldD{g}{}) & (\fieldD{f}{},$\epsilon$),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldD{f}{},$\epsilon$),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+(\fieldD{f}{},\fieldD{g}{}) & (\fieldD{f}{},\fieldD{g}{}),($\epsilon$,$\epsilon$) & (\fieldD{f}{},\fieldD{g}{}), ($\epsilon$,\fieldD{g}{}) & (\fieldD{f}{},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldD{f}{},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline			  
+(\fieldD{f}{},\fieldI{g}{}{y}) & (\fieldD{f}{},\fieldI{g}{}{y}),($\epsilon$,$\epsilon$) & (\fieldD{f}{},\fieldI{g}{}{y}), ($\epsilon$,\fieldD{g}{}) & (\fieldD{f}{},\fieldI{g}{}{y}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldD{f}{},\fieldI{g}{}{y}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+(\fieldD{f}{},\fieldI{g}{}{\infty}) & (\fieldD{f}{},\fieldI{g}{}{\infty}),($\epsilon$,$\epsilon$) & (\fieldD{f}{},\fieldI{g}{}{\infty}), ($\epsilon$,\fieldD{g}{}) & (\fieldD{f}{},\fieldI{g}{}{\infty}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldD{f}{},\fieldI{g}{}{\infty}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+
+(\fieldI{f}{}{x},$\epsilon$) & (\fieldI{f}{}{x},$\epsilon$),($\epsilon$,$\epsilon$) & (\fieldI{f}{}{x},$\epsilon$), ($\epsilon$,\fieldD{g}{}) & (\fieldI{f}{}{x},$\epsilon$),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldI{f}{}{x},$\epsilon$),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+(\fieldI{f}{}{x},\fieldD{g}{}) & (\fieldI{f}{}{x},\fieldD{g}{}),($\epsilon$,$\epsilon$) & (\fieldI{f}{}{x},\fieldD{g}{}), ($\epsilon$,\fieldD{g}{}) & (\fieldI{f}{}{x},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldI{f}{}{x},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+(\fieldI{f}{}{x},\fieldI{g}{}{y}) & (\fieldI{f}{}{x},\fieldI{g}{}{y}),($\epsilon$,$\epsilon$) & (\fieldI{f}{}{x},\fieldI{g}{}{y}), ($\epsilon$,\fieldD{g}{}) & (\fieldI{f}{}{x},\fieldI{g}{}{y}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldI{f}{}{x},\fieldI{g}{}{y}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+(\fieldI{f}{}{x},\fieldI{g}{}{\infty}) & (\fieldI{f}{}{x},\fieldI{g}{}{\infty}),($\epsilon$,$\epsilon$) & (\fieldI{f}{}{x},\fieldI{g}{}{\infty}), ($\epsilon$,\fieldD{g}{}) & (\fieldI{f}{}{x},\fieldI{g}{}{\infty}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldI{f}{}{x},\fieldI{g}{}{\infty}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+
+(\fieldI{f}{}{\infty},$\epsilon$) & (\fieldI{f}{}{\infty},$\epsilon$),($\epsilon$,$\epsilon$) & (\fieldI{f}{}{\infty},$\epsilon$), ($\epsilon$,\fieldD{g}{}) & (\fieldI{f}{}{\infty},$\epsilon$),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldI{f}{}{\infty},$\epsilon$),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+(\fieldI{f}{}{\infty},\fieldD{g}{}) & (\fieldI{f}{}{\infty},\fieldD{g}{}),($\epsilon$,$\epsilon$) & (\fieldI{f}{}{\infty},\fieldD{g}{}), ($\epsilon$,\fieldD{g}{}) & (\fieldI{f}{}{\infty},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldI{f}{}{\infty},\fieldD{g}{}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+(\fieldI{f}{}{\infty},\fieldI{g}{}{y}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{y}),($\epsilon$,$\epsilon$) & (\fieldI{f}{}{\infty},\fieldI{g}{}{y}), ($\epsilon$,\fieldD{g}{}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{y}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldI{f}{}{\infty},\fieldI{g}{}{y}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+(\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}),($\epsilon$,$\epsilon$) & (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}), ($\epsilon$,\fieldD{g}{}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}),($\epsilon$,\fieldI{g}{}{n}) &   (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}),($\epsilon$,\fieldI{g}{}{\infty}) \\ \hline
+
+% (\fieldI{f}{}{\infty},$\epsilon$) &\\
+% (\fieldI{f}{}{\infty},\fieldD{g}{}) & \\
+% (\fieldI{f}{}{\infty},\fieldI{g}{}{y}) & \\
+% (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}) &\\
+\end{tabular}
+}
+
+% 
+% \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+% \hline
+% - & (\fieldI{f}{}{m},$\epsilon$) &  (\fieldI{f}{}{m},\fieldD{g}{}) & (\fieldI{f}{}{m},\fieldI{g}{}{n}) & (\fieldI{f}{}{m},\fieldI{g}{}{\infty}) & (\fieldI{f}{}{\infty},$\epsilon$) &(\fieldI{f}{}{\infty},\fieldD{g}{}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{n}) & (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}) \\ \hline
+% 
+% % ($\epsilon$,$\epsilon$) &
+% % ($\epsilon$,\fieldD{g}{}) & 
+% % ($\epsilon$,\fieldI{g}{}{y}) & 
+% % ($\epsilon$,\fieldI{g}{}{\infty}) &
+% % (\fieldD{f}{},$\epsilon$) &
+% % (\fieldD{f}{},\fieldD{g}{}) & 
+% % (\fieldD{f}{},\fieldI{g}{}{y}) & 
+% % (\fieldD{f}{},\fieldI{g}{}{\infty}) &
+% % (\fieldI{f}{}{x},$\epsilon$) & 
+% % (\fieldI{f}{}{x},\fieldD{g}{}) & 
+% % (\fieldI{f}{}{x},\fieldI{g}{}{y}) & 
+% % (\fieldI{f}{}{x},\fieldI{g}{}{\infty}) & 
+% % (\fieldI{f}{}{\infty},$\epsilon$) &
+% % (\fieldI{f}{}{\infty},\fieldD{g}{}) & 
+% % (\fieldI{f}{}{\infty},\fieldI{g}{}{y}) & 
+% % (\fieldI{f}{}{\infty},\fieldI{g}{}{\infty}) &
+% 
+% 
+% 
+% \end{tabular}

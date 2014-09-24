@@ -1,0 +1,16 @@
+REVIEWER #1
+===========
+[DONE] 1.Section 5 :  "Our intend" --> "Our intent"
+[DONE] 2.Some unnecessary white spaces which need to be removed.
+3.To explain the advantages of our approach in comparison with [4], discuss the setting of a limit k on the number of repetitions of a particular field and how it affects our approach.
+4.Clarify the limitations of our approach and its precision in comparison with other related works.
+
+REVIEWER #2
+===========
+1.It is better to externalize the proofs into some technical reports/appendix, so that more space is gained for explanation.   
+  ==> In journal, there is no space limitation, so we should explain better.
+
+REVIEWER #4
+===========
+1.Deep evaluation of the approach in order to check its effectiveness.
+  ==> Implementation related

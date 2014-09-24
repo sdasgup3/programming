@@ -1,0 +1,35 @@
+\begin{figure}
+\centering
+\begin{tabular}{c@{$\qquad\qquad$}c}
+\multicolumn{2}{c}{
+\scalebox{0.80} { \includegraphics[scale=1]{Figure/figure_2}}
+} \\
+\multicolumn{2}{c}{
+\scalebox{0.80}{ (a) Heap Structure }
+} \\ \\
+\scalebox{0.80} { \begin{tabular}{|c||c|c|c|c|c|c|}
+\hline
+$D$ & $p$ & $q$ & $r$ & $s$ & $t$ & $u$ \\ \hline \hline
+$p$ & $1$ & $1$ & $0$ & $0$ & $0$ & $0$ \\ \hline 
+$q$ & $0$ & $1$ & $0$ & $0$ & $0$ & $0$ \\ \hline 
+$r$ & $0$ & $0$ & $1$ & $0$ & $0$ & $0$ \\ \hline 
+$s$ & $0$ & $0$ & $1$ & $1$ & $1$ & $0$ \\ \hline 
+$t$ & $0$ & $0$ & $0$ & $0$ & $1$ & $0$ \\ \hline 
+$u$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ \\ \hline 
+\end{tabular}} 
+& 
+\scalebox{0.80} {\begin{tabular}{|c||c|c|c|c|c|c|}
+\hline
+$I$ & $p$ & $q$ & $r$ & $s$ & $t$ & $u$ \\ \hline \hline
+$p$ & $1$ & $1$ & $0$ & $0$ & $0$ & $0$ \\ \hline 
+$q$ & $1$ & $1$ & $0$ & $0$ & $0$ & $0$ \\ \hline 
+$r$ & $0$ & $0$ & $1$ & $1$ & $0$ & $1$ \\ \hline 
+$s$ & $0$ & $0$ & $1$ & $1$ & $1$ & $1$ \\ \hline 
+$t$ & $0$ & $0$ & $0$ & $1$ & $1$ & $0$ \\ \hline 
+$u$ & $0$ & $0$ & $1$ & $1$ & $0$ & $1$ \\ \hline 
+\end{tabular}}  \\
+\scalebox{0.80}{ (b) Direction Matrix}  & \scalebox{0.80} {(c) Interference Matrix}
+\end{tabular}
+\caption{Example Direction and Interference Matrices}
+\label{fig:relwork_1}
+\end{figure}

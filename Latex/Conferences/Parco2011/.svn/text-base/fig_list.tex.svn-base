@@ -1,0 +1,50 @@
+\newcommand{\lnode}[2]{
+\psset{unit=1mm}
+\begin{pspicture}(0,0)(13,14)
+%\psframe(0,0)(13,14)
+\putnode{z}{origin}{6}{7}{\rnode{#1}{
+    \tt\begin{tabular}{|c|}
+      \hline
+      next \\\hline
+      num\\\hline
+      prev \\ \hline
+    \end{tabular}}}
+\end{pspicture}%
+}
+\scalebox{.95}{
+\begin{tabular}{@{}c@{}|c@{}}
+\psset{unit=1mm}
+\begin{pspicture}(0,28)(62,40)
+%\psframe(0,28)(62,40)
+\putnode{head}{origin}{2}{7}{p\ }
+\putnode{fst}{head}{12}{0}{\lnode{a1}{b1}}
+\putnode{snd}{fst}{20}{0}{\lnode{a2}{b2}}
+\putnode{thr}{snd}{20}{0}{\lnode{a3}{b3}}
+\ncline[offset=4]{->}{a1}{a2}
+\ncline[offset=4]{->}{a2}{a3}
+\ncline[offset=4]{->}{a2}{a1}
+\ncline[offset=4]{->}{a3}{a2}
+\ncline{->}{head}{fst}
+\end{pspicture} & 
+{\tt
+\begin{program}{0}
+  \FL\ \ldots
+  \UNL{0} p = list;
+  \UNL{0} \WHILE (p->next != NULL) \{
+  \NL{1}     temp = p->num;
+  \UNL{1}   \IF (cond) \{
+  \NL{2}     p\_nxt = p->next;
+  \NL{2}     p\_nxt->num = temp;
+  \UNL{1}   \} \ELSE \{
+  \NL{2}     p\_prv = p->prev;
+  \NL{2}     p\_prv->num = temp;
+  \UNL{1}   \}
+  \NL{1}     p = p->next;
+  \UNL{0} \}
+  \UNL{0} \ldots
+\end{program}
+}
+\\
+(a) Data Structure & (b) Code Fragment 
+\end{tabular}
+}

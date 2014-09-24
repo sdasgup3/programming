@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+
+\bibitem{Sandeep}
+Sandeep Dasgupta and Dr.Amey Karkare.
+\newblock Precise shape analysis using field sensitivity.
+
+\bibitem{Ghiya96}
+Rakesh Ghiya and Laurie~J. Hendren.
+\newblock Is it a {Tree}, a {DAG}, or a {Cyclic} graph? a shape analysis for
+  heap-directed pointers in {C}.
+\newblock In {\em POPL '96}.
+
+\bibitem{plugin}
+\url{http://gcc.gnu.org/wiki/plugins}.
+
+\bibitem{Sandeep11thesis}
+Sandeep Dasgupta.
+\newblock Precise shape analysis using field sensitivity.
+\newblock Technical report, Master's thesis, IIT Kanpur, 2011.
+\newblock
+  \url{http://www.cse.iitk.ac.in/users/karkare/MTP/2010-11/sandeep2010precise.%
+pdf}.
+
+\end{thebibliography}

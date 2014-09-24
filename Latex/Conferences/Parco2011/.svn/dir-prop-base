@@ -1,0 +1,18 @@
+K 10
+svn:ignore
+V 156
+parco2011src.zip
+parco2011src
+*.log
+*.ps
+*.dvi
+*.aux
+*.bbl
+*.blg
+*.pdf
+IOS-Book-Article.tex
+IOS-Book-Article.tmpl
+parco_final_oct_13.zip
+parco_final_oct_13
+
+END

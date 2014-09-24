@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/power
+END
+build.c
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/power/build.c
+END
+power.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/power/power.h
+END
+main.c
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/power/main.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/power/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/power/README
+END
+args.c
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/power/args.c
+END
+compute.c
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/svnroot/!svn/ver/3880/trunk/IITK/MTP/2010-11/dsand/conferences/LCPC-2011/SUBMISSION/Tbenchmark/benchmarks_Olden/power/compute.c
+END

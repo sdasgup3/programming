@@ -1,0 +1,57 @@
+\begin{figure}
+\centering
+\scalebox{0.90}{
+\begin{tabular}{|c|c|c|}
+\hline
+\begin{tabular}{l}
+Allocation \\
+1. {\tt p = malloc();} \\
+\\
+Pointer Assignments \\
+2. {\tt p = q;} \\
+3. {\tt p = \&(q$\rightarrow$f);} \\
+4. {\tt p = q op k;} \\
+5. {\tt p = NULL;} \\
+6. {\tt p = q$\rightarrow$f;} \\
+\\
+Structure Updates \\
+7. {\tt p$\rightarrow$f = q;} \\
+8. {\tt p$\rightarrow$f = NULL;}
+\end{tabular}  &
+\begin{tabular}{c}
+\scalebox{0.80}{\includegraphics[scale=1]{diagrams/Appendix_4.eps}}
+\end{tabular}
+&
+\begin{tabular}{l}
+Build the new matrices\\
+$\begin{array}{lll} 
+\forall r,s \in H, & D_n[r,s] = D[r,s], & I_n[r,s] = I[r,s] \\
+\forall s \in H, & A_n[s] = A[s]
+\end{array}$ \\
+\\
+Delete Killed relationships \\
+$\begin{array}{ll} 
+\forall entries\ D[r,s] \in D\_kill\_set, & D_n[r,s] = 0\\  
+\forall entries\ I[r,s] \in I\_kill\_set, & I_n[r,s] = 0\\  
+\end{array}$ \\
+\\
+Add generated relationships \\
+$\begin{array}{ll} 
+\forall entries\ D[r,s] \in D\_gen\_set, & D_n[r,s] = 1\\  
+\forall entries\ I[r,s] \in I\_gen\_set, & I_n[r,s] = 1\\  
+\end{array}$ \\
+\\
+Update shape attributes of affected pointers \\
+Compute $H_s$ and $A_s$ \\
+$\begin{array}{ll} 
+\forall s \in H_s, & A_n[s] = A[s]\\  
+\end{array}$
+\end{tabular}
+\\
+\scalebox{0.80}{(a) Basic statements} & \scalebox{0.80}{(b) Analysis Structure} & \scalebox{0.80}{(c) General Form of Analysis Rules} \\
+\hline
+\end{tabular}
+}
+\caption{The Overall Struture of the Analysis}
+\label{fig:relwork_3} 
+\end{figure}

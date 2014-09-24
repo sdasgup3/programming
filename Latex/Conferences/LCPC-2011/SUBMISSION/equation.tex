@@ -1,0 +1,141 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+%%%%%% Non recom packages
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pst-rel-points}
+\usepackage{latexsym}
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% New Commands %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\cmt}[1]{} % commented out stuff
+% Review these names
+\newcommand{\p}{\ensuremath{p}}
+\newcommand{\q}{\ensuremath{q}}
+\newcommand{\s}{\ensuremath{s}}
+\newcommand{\myr}{\ensuremath{r}}
+
+\newcommand{\B}{\mbox{\tt B}}
+\renewcommand{\a}{\mbox{\tt a}}
+\renewcommand{\b}{\mbox{\tt b}}
+\renewcommand{\c}{\mbox{\tt c}}
+\renewcommand{\d}{\mbox{\tt d}}
+\newcommand{\m}{\mbox{\tt m}}
+
+\newcommand{\drct}{\ensuremath{D}}
+\newcommand{\indrct}{\ensuremath{I}}
+\newcommand{\heap}{\ensuremath{\mathcal{H}}}
+\newcommand{\fields}{\ensuremath{\mathcal{F}}}
+\newcommand{\upath}{\ensuremath{\mathcal{U}}}
+\newcommand{\shape}{\mbox{shape}}
+\newcommand{\nat}{\ensuremath{\bbbn}}
+
+\newcommand{\mwedge}{\; \wedge \;}
+\newcommand{\mvee}{\; \vee \;}
+\newcommand{\mcup}{\; \cup \;}
+\newcommand{\mjoin}{\; \Join \;}
+\newcommand{\mbackslash}{\; \backslash \;}
+\newcommand{\subC}{\mbox{\scalebox{0.6}{\Cycle}}}
+\newcommand{\subD}{\mbox{\scalebox{0.6}{\Dag}}}
+
+\newcommand{\epsilonset}{\ensuremath{\{\epsilon\}}}
+\newcommand{\epsilonpairset}{\ensuremath{\{\epsilon,\epsilon\}}}
+
+\newcommand{\dout}{\mbox{\footnotesize\em out}}
+\newcommand{\din}{\mbox{\footnotesize\em in}}
+\newcommand{\dkill}{\mbox{\footnotesize\em kill}}
+\newcommand{\dgen}{\mbox{\footnotesize\em gen}}
+
+\newcommand{\GenC}[1]{\ensuremath{{#1}_{\subC}^{\dgen}}}
+\newcommand{\GenD}[1]{\ensuremath{{#1}_{\subD}^{\dgen}}}
+\newcommand{\KillC}[1]{\ensuremath{{#1}_{\subC}^{\dkill}}}
+\newcommand{\KillD}[1]{\ensuremath{{#1}_{\subD}^{\dkill}}}
+\newcommand{\InC}[1]{\ensuremath{{#1}_{\subC}^{\din}}}
+\newcommand{\InD}[1]{\ensuremath{{#1}_{\subD}^{\din}}}
+\newcommand{\OutC}[1]{\ensuremath{{#1}_{\subC}^{\dout}}}
+\newcommand{\OutD}[1]{\ensuremath{{#1}_{\subD}^{\dout}}}
+
+\newcommand{\merge}{\ensuremath{\mathrm{merge}}}
+\newcommand{\project}[2]{\ensuremath{#1\triangleright\!\!#2}}
+\newcommand{\num}[1]{\ensuremath{|#1|}}
+\newcommand{\first}[1]{\ensuremath{#1. \mathrm{fst}}}
+\newcommand{\second}[1]{\ensuremath{#1. \mathrm{snd}}}
+
+\newcommand{\remOne}[2]{\ensuremath{#1 \ominus #2}}
+\newcommand{\remAll}[2]{\red \ensuremath{#1\uminus #2}}
+
+\newcommand{\Gen}[1]{{\mbox{{\tt gen}}_{\mbox{\scalebox{0.6}{{\tt #1}}}}}}
+\newcommand{\Kill}[1]{{\mbox{{\tt kill}}_{\mbox{\scalebox{0.6}{{\tt #1}}}}}}
+\newcommand{\mb}[1]{\mbox{{\tt #1}}}
+\newcommand{\DFM}[2]{\ensuremath{D_F[#1,#2]}}
+\newcommand{\IFM}[2]{\ensuremath{I_F[#1,#2]}}
+\newcommand{\Tree}{{\tt Tree}}
+\newcommand{\Dag}{{\tt Dag}}
+\newcommand{\Cycle}{{\tt Cycle}}
+\newcommand{\upstmt}[1]{{\tt p$\rightarrow$f = #1}}
+\newcommand{\TV}{{\tt TrueVars}}
+\newcommand{\fieldD}[2]{\ensuremath{{#1}_{#2}^\drct}}
+\newcommand{\fieldI}[3]{\ensuremath{{#1}_{#2}^{\indrct#3}}}
+\newcommand{\range}[3]{\ensuremath{{#1} \leq {#2} \leq {#3}}}
+\newcommand{\U}{{\rm Unknown}}
+\newcommand{\fig}[1]{\includegraphics[scale=.5]{#1}}
+\newcommand{\false}{\textbf{False}}
+\newcommand{\true}{\textbf{True}}
+
+\newcommand{\sub}[2]{\ensuremath{{#1}_{#2}}}
+\renewcommand{\green}{\blue}
+
+\begin{document}
+
+
+\begin{table}
+\centering
+\scalebox{.8} {
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$D_F^{gen}$& \p & \q & \myr & \s \\
+\hline
+\hline
+\p & 	$\num{D_F^{\din}[\q, \p]} \star (\remOne{D_F^{\din}[\p, \p]}{\epsilonset} \cup$ & 
+		$\{\fieldD{f}{}\} \cup \num{D_F^{\din}[\q,\q]}\star \fieldI{f}{}{1} \cup $ &
+		$\num{D_F^{\din}[\q, \myr]}(\remOne{D_F^{\din}[\p, \p]}{\epsilonset} \cup $ & 
+		$\num{D_F^{\din}[\q, \s]} \star (\remOne{D_F^{\din}[\p, \p]}{\epsilonset} \cup$ \\ 
+   & 	$\fieldI{f}{}{1})$ & $\num{D_F^{\din}[\q,\q]} \star \remOne{D_F^{\din}[\p,\p]}{\epsilonset}$ &  $\fieldI{f}{}{1})$ &  $\fieldI{f}{}{1})$ \\
+\hline
+\q & $\num{D_F^{\din}[\q, \p]} \star D_F^{\din}[\q, \p]$ & $1 \star D_F^{\din}[\q,\p]$ & $ \num{D_F^{\din}[\q,\myr]} \star D_F^{\din}[\q,\p]$ &  $\num{D_F^{\din}[\q,\s]} \star D_F^{\din}[\q,\p]$ \\
+\hline
+\myr & $\num{D_F^{\din}[\q, \p]} \star D_F^{\din}[\myr, \p]$ & $\num{D_F^{\din}[\q,\q]} \star D_F^{\din}[\myr,\p]$ & $\num{D_F^{\din}[\q,\myr]} \star D_F^{\din}[\myr,\p]$ &  $\num{D_F^{\din}[\q,\s]} \star D_F^{\din}[\myr,\p]$ \\
+\hline
+\s & $\num{D_F^{\din}[\q, \p]} \star D_F^{\din}[\s, \p]$ & $\num{D_F^{\din}[\q,\q]} \star D_F^{\din}[\s,\p]$ & $\num{D_F^{\din}[\q,\myr]} \star D_F^{\din}[\s,\p]$ &  $\num{D_F^{\din}[\q,\s]} \star D_F^{\din}[\s,\p]$ \\
+\hline
+\end{tabular}
+}
+\scalebox{.8} {
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$I_F^{gen}$& \p & \q & \myr & \s \\
+\hline
+\hline
+\p & 	$\emptyset$ &
+		$\{\fieldD{f}{}, \epsilon\} \cup (1 \star \remOne{D_F^{\din}[\p,\p]}{\epsilonset}) \times \epsilonset$ &
+		$(1 \star \remOne{D_F^{\din}[\p,\p]}{\epsilonset}) \times \second{I_F^{\din}[\q,\myr]} \cup$ & 
+		$(1 \star \remOne{D_F^{\din}[\p,\p]}{\epsilonset}) \times \second{I_F^{\din}[\q,\s]}   \cup$ \\  
+		& & & $\{\fieldD{f}{}\} \times S \cup \{\fieldI{f}{}{1}\} \times S'$ & $\{\fieldD{f}{}\} \times S \cup \{\fieldI{f}{}{1}\} \times S'$ \\
+\hline
+\q & $symetric$ & $\emptyset$ &  $symetric$ & $symetric$ \\
+\hline
+\myr & $symetric$ & $(1 \star D_F^{\din}[\myr,\p]) \times \epsilonset$ & $\emptyset$ & $1 \star D_F^{\din}[\myr,\p] \times \second{I_F^{\din}[\q,\s]}$ \\
+\hline
+\s & $symetric$ & $(1 \star D_F^{\din}[\s,\p]) \times \epsilonset$ & $symetric$ & $\emptyset$ \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\end{document}

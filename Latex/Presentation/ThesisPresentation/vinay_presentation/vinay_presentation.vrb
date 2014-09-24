@@ -1,0 +1,42 @@
+\frametitle {\subsecname}
+  \begin{itemize}
+   \item Generated Unit test cases depending on number of heap manipulation statements
+  \end{itemize}
+
+\begin{center}
+\begin{tabular}{ll}
+
+\begin{tabular}{c}
+\begin{lstlisting}
+#include <stdlib.h>
+int main()
+{
+ typedef struct _node node;
+ struct _node {
+ node* f;
+ node* g;
+};
+
+ node* p = (node*)malloc(sizeof(node));
+ node* q = (node*)malloc(sizeof(node));
+
+/* HEAP MANIPULATION STARTS */
+.......
+.......
+/* HEAP MANIPULATION ENDS   */
+}
+\end{lstlisting}
+\end{tabular}
+&
+\scalebox{0.80}{
+\begin{tabular}{|c|c|}
+ \hline
+ {\bf No Of Stmts} & {\bf TestCases Generated} \\ \hline
+  1  & 42 \\ \hline
+  2  & 1764 \\ \hline
+  3  & 74088 \\ \hline
+\end{tabular}
+} \\
+\end{tabular}
+\end{center}
+

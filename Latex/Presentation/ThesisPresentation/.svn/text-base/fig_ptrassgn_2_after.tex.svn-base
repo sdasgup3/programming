@@ -1,0 +1,12 @@
+\begin{pspicture}(0,3)(3,4.2)
+\psset{linecolor=blue}
+\pscircle(1.3,3.6){.3}
+\pscircle(2.7,3.6){.3}
+\psset{linecolor=black}
+\psline[linewidth=1pt,linearc=.5]{->}(0.4,3.6)(1,3.6)
+\psline[linewidth=1pt,linearc=.5]{->}(1.6,3.6)(2.4,3.6)
+\psline[linewidth=1pt,linearc=.5]{->}(1.8,3.1)(2.4,3.6)
+\rput(0.2,3.6){\psframebox*{\scalebox{1}{\ttf{q}}}}
+\rput(2,3.9){\psframebox*{\scalebox{1}{\ttf{f}}}}
+\rput(1.6,3.1){\psframebox*{\scalebox{1}{\ttf{p}}}}
+\end{pspicture}

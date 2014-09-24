@@ -1,0 +1,462 @@
+%\documentclass{beamer}
+\documentclass[mathserif,10pt]{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{algorithm}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{pstricks}
+\usepackage{pst-node,pst-tree}
+\usepackage{pst-rel-points}
+\usepackage{flexiprogram}
+\usepackage[UKenglish]{babel}
+\usepackage{hyperref}
+\usepackage{pst-coil}
+\usepackage{color}
+\usepackage{epsfig}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{graphviz}
+\usefonttheme{serif}
+
+
+
+\newcommand{\cmt}[1]{}
+\newcommand{\epsilonset}{\ensuremath{\{\epsilon\}}}
+\newcommand{\epsilonpairset}{\ensuremath{\{\epsilon,\epsilon\}}}
+\newcommand{\num}[1]{\ensuremath{|#1|}}
+\newcommand{\upath}{\ensuremath{\mathcal{U}}}
+\newcommand{\mb}[1]{\mbox{{\tt #1}}}
+\newcommand{\ttf}[1]{{\tt #1}}
+\newcommand{\rtarrow}{$\rightarrow$}
+\newcommand{\Tree}{{\tt Tree}}
+\newcommand{\Dag}{{\tt Dag}}
+\newcommand{\Cycle}{{\tt Cycle}}
+\newcommand{\p}{\ensuremath{p}}
+\newcommand{\q}{\ensuremath{q}}
+\newcommand{\s}{\ensuremath{s}}
+\newcommand{\f}{\ensuremath{f}}
+\newcommand{\myr}{\ensuremath{r}}
+\newcommand{\shape}{\mbox{shape}}
+\newcommand{\drct}{\ensuremath{D}}
+\newcommand{\indrct}{\ensuremath{I}}
+\newcommand{\heap}{\ensuremath{\mathcal{H}}}
+\newcommand{\fields}{\ensuremath{\mathcal{F}}}
+\newcommand{\DFM}[2]{\ensuremath{D_F[#1,#2]}}
+\newcommand{\IFM}[2]{\ensuremath{I_F[#1,#2]}}
+\newcommand{\nat}{\ensuremath{\mathcal{N}}}
+\newcommand{\fieldD}[2]{\ensuremath{{#1}_{#2}^\drct}}
+\newcommand{\fieldI}[3]{\ensuremath{{#1}_{#2}^{\indrct#3}}}
+\newcommand{\subC}{\mbox{\scalebox{0.6}{\Cycle}}}
+\newcommand{\subD}{\mbox{\scalebox{0.6}{\Dag}}}
+\newcommand{\false}{\textbf{False}}
+\newcommand{\true}{\textbf{True}}
+
+\newcommand{\dout}{\mbox{\footnotesize\em out}}
+\newcommand{\din}{\mbox{\footnotesize\em in}}
+\newcommand{\dkill}{\mbox{\footnotesize\em kill}}
+\newcommand{\dgen}{\mbox{\footnotesize\em gen}}
+
+
+\newcommand{\GenC}[1]{\ensuremath{{#1}_{\subC}^{\dgen}}}
+\newcommand{\GenD}[1]{\ensuremath{{#1}_{\subD}^{\dgen}}}
+\newcommand{\KillC}[1]{\ensuremath{{#1}_{\subC}^{\dkill}}}
+\newcommand{\KillD}[1]{\ensuremath{{#1}_{\subD}^{\dkill}}}
+\newcommand{\InC}[1]{\ensuremath{{#1}_{\subC}^{\din}}}
+\newcommand{\InD}[1]{\ensuremath{{#1}_{\subD}^{\din}}}
+\newcommand{\OutC}[1]{\ensuremath{{#1}_{\subC}^{\dout}}}
+\newcommand{\OutD}[1]{\ensuremath{{#1}_{\subD}^{\dout}}}
+
+\newcommand{\Left}{\ensuremath{Left}}
+\newcommand{\Right}{\ensuremath{Right}}
+\newcommand{\Parent}{\ensuremath{Parent}}  
+
+\newcommand{\project}[2]{\ensuremath{#1\triangleright\!\!#2}}
+%\noindent
+
+\newcommand{\labelitemi}{$\bullet$}
+
+\setcounter{tocdepth}{1}
+
+\lstset{
+basicstyle=\footnotesize,
+breakatwhitespace=true,
+language=[ANSI]C,
+columns=fullflexible,
+keepspaces=true,
+breaklines=true,
+tabsize=3, 
+showstringspaces=false,
+extendedchars=true
+}
+
+
+% \lstset{language=[ANSI]C}
+% \lstset{% general command to set parameter(s)
+% basicstyle=\footnotesize\tt, % print whole listing small
+% identifierstyle=, % nothing happens
+% commentstyle=\color{red}, % white comments
+% showstringspaces=false, % no special string spaces
+% lineskip=1pt,
+% captionpos=b,
+% frame=single,
+% breaklines=true
+% %\insertauthor[width={3cm},center,respectlinebreaks]
+% }
+% \lstset{classoffset=0,
+% morekeywords={},keywordstyle=\color{black},
+% classoffset=1,
+% classoffset=0}% restore default
+
+%\usetheme{Warsaw}
+\usetheme{CambridgeUS}
+%\usetheme{Antibes}
+%\usecolortheme{lily}
+%\useinnertheme{rectangles} 
+%\useoutertheme{infolines} 
+%\setbeamercolor{alerted text}{fg=cyan}
+%\beamertemplatetransparentcovereddynamicmedium
+%\definecolor{bbrown}{rgb}{.6588,.4,.1647}
+%\definecolor{blueviolet}{rgb}{.098039216,.050980392,.929411765}
+%\definecolor{periwinkle}{rgb}{.423529412,.458823529,.988235294}
+%\mode<presentation>
+%{ \usetheme{boxes} }
+\usecolortheme{dolphin}
+
+
+
+\definecolor{orange}{rgb}{1,0.5,0}
+
+\title[Shape Analysis]{Field Sensitive Shape Analysis: Implementation and Improvements}
+\author[P.Vinay Kumar Reddy]{
+\large{\textbf{P.Vinay Kumar Reddy}}
+\newline
+\newline \small{Supervisor}
+\newline \large{\textbf{Dr. Amey Karkare}}
+}
+\institute[CSE, IIT Kanpur]{\textbf{Department of Computer Science and Engineering}
+\newline \textbf{Indian Institute of Technology, Kanpur}}
+\date{June , 2012}
+%\begin{comment}
+\begin{document}
+
+\section{Precise Shape Analysis using Field Sensitivity}
+\frame
+{
+    \frametitle{Analysis}
+    
+    \begin{itemize}
+     \item  Heap structure at a program point as a directed graph. %\pause
+	    \begin{itemize}
+	      \item  {\blue $D_F$}: Direction matrix. \cmt{ that stores the first fields of the paths between two pointers.}
+% 	      \pause
+	      \item {\blue $I_F$}: Interference matrix. \cmt{ that stores the pairs of first fields corresponding to the pairs of interfering paths.}
+% 	      \pause
+	      \item {\blue Boolean Variables}: For $f \in \fields, \p, \q \in \heap$, \\ 
+			\begin{center}
+			$f_{pq} = \left\{\begin{array}{@{}ll}
+			                  \true & \f \ field \ of \  \p \ points \ directly \ to \ \q \\
+					  \false & Otherwise
+			                 \end{array}\right.$
+			\end{center}
+	    \end{itemize}
+
+    \end{itemize}
+}
+
+\section{Subset Based Analysis}
+\subsection{Example explained}
+\begin{frame}[fragile]
+  \frametitle{\subsecname}
+\begin{tabular}{cc}
+\begin{lstlisting}
+Struct Node {
+  Struct Node *Left,*Right;
+  Struct Node *Parent;
+  int key;
+};
+typedef Struct Node Node;
+
+bool search(Node *root,int key){
+if(root)
+  return (key==root->key)||
+	  search(root->Left,key)||
+	  search(root->Right,key);
+return 0;
+}
+\end{lstlisting} 
+&
+\begin{lstlisting}
+ void insert(Node *root,int key){
+    Node *s=root; 
+    ..
+    //New node is inserted as a child of s(s can be any node of the tree)
+    Node *p;
+    S1. p=(Node *)malloc(sizeof(Node));    	
+    S2. p->Left=NULL;			
+    S3. p->Right=NULL;			
+    S4. p->key=key;				
+    S5. s->Left=p;				
+    S6. p->Parent = s;			
+    ..
+}
+\end{lstlisting} \\
+\end{tabular}
+\pause
+
+ \begin{eqnarray*}
+  S5:  {\tt s_{cycle}} &=& \{  (\Left_{s,p}  \wedge {\blue \InC{p}} ) \vee (\Left_{s,p} \wedge   ( \num{D[p,s]} >= 1)) \} \\ \pause
+  S6:  {\tt s_{cycle}} &=& \{ \Parent_{p,s} \wedge ( \num{D[s,p]} >= 1) \} \vee \{  (\Left_{s,p}  \wedge False) \vee \\
+ && (\Left_{s,p} \wedge   ( \num{D[p,s]} >= 1)) \}
+  \end{eqnarray*}
+
+% Boolean function of $root$ at the entry of \emph{search} function.
+% \begin{eqnarray*}
+% {\tt root_{cycle}} &=& \{ \Parent_{p,root} \wedge ( \num{D[root,p]} >= 1) \} \vee \{  (\Left_{root,p}  \wedge False) \vee \\
+%  && (\Left_{root,p} \wedge   ( \num{D[p,root]} >= 1)) \} \\
+% \end{eqnarray*}
+\end{frame}
+
+\frame
+{
+  \frametitle{\subsecname}
+\scalebox{0.70}{
+\begin{tabular}[b]{|@{}c@{}|@{}c@{}|} \hline
+\begin{tabular}{|p{6mm}|p{15mm}p{15mm}|} \hline 
+   D         & $\p$  		& $root$   \\ \hline
+  $\p$ 	& $\epsilon$	& $\{\fieldD{Parent}{}\}$	 \\ \hline
+  $root$ 	& $\{\fieldD{Left}{}\}$	& $\emptyset$	\\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{6mm}|p{34mm}p{34mm}|} \hline 
+   I         & $\p$  		& $root$   \\ \hline
+  $\p$ 	& $\{(\epsilon,\epsilon)\}$	&  $\{( \epsilon,\fieldD{Left}{}),(\fieldD{Parent}{},\epsilon)\}$	 \\ \hline
+  $root$ 	& $\{(\fieldD{Left}{}, \epsilon),(\epsilon,\fieldD{Parent}{})\}$		& $\emptyset$	\\ \hline
+\end{tabular} \\ \hline
+\end{tabular}  \ $\Left_{root,p} = \true$
+}
+
+\begin{eqnarray*}
+{\tt root_{cycle}} &=& \{ \Parent_{p,root}^{\#} \wedge ( \num{D^{\#}[root,p]} >= 1) \} \vee \{ (\Left_{root,p}^{\#} \wedge False ) \vee \\
+&& (\Left_{root,p}^{\#} \wedge   ( \num{D^{\#}[p,root]} >= 1)) \} \\
+\end{eqnarray*}
+\begin{eqnarray*}
+ Parent_{p,root}^{\#} &=& \false  \ \ \ (Parent \not \in S_{Search} ) \\
+ Left_{root,p}^{\#} &=& Left_{root,p} \  (Left \in S_{Search} ) \\
+ D^{\#}[root,p] &=& D[root,p] - \project{D[root,p]}{Parent} \\
+		&=& D[root,p] - \phi \\
+		&=& \{\fieldD{Left}{}\} \\
+ D^{\#}[p,root] &=& D[p,root] - \project{D[p,root]}{Parent} \\
+		&=& D[p,root] - \{\fieldD{Parent}{}\} \\
+		&=& \phi
+\end{eqnarray*}
+
+}
+
+\section{Inter Procedural Analysis}
+\subsection{Shape Sensitive}
+\begin{frame}[fragile]
+  \frametitle{\subsecname}
+\centering    
+\begin{tabular}[t]{cl}
+\begin{lstlisting}
+struct Node
+{
+  struct Node *f,*g;
+};
+
+void foo(struct Node *s)
+{
+  struct Node *t;
+  S: t=s;
+  ....
+}
+\end{lstlisting}
+&
+\begin{lstlisting}
+int main()
+{
+  struct Node *p,*q;
+  p=(struct Node *)malloc(sizeof(struct Node));
+  q=(struct Node *)malloc(sizeof(struct Node));
+
+  S1: p->f=q;
+  S2: q->f=p;
+  c1: foo(p);
+  S3: q->f=NULL;
+  c2: foo(p);
+}
+\end{lstlisting}
+\end{tabular}
+
+\end{frame}
+
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize}
+   \item Each function will be attached with some set of dataflow value versions
+   \item IN[0] $\rightarrow$ Tree , IN[1] $\rightarrow$ Dag , IN[2] $\rightarrow$ Cycle 
+  \end{itemize}
+
+\begin{tabular}{lc}
+  \multirow{15}{*}{
+  \scalebox{0.70}{
+  \begin{tabular}{ll}
+  S1: & p $\rightarrow$ f=q; \\
+  S2: & q $\rightarrow$ f=p;\\
+  c1: & foo(p);\\
+  S3: & q $\rightarrow$ f=NULL;\\
+  c2: &  foo(p);\\
+  \end{tabular}
+  }
+  } & \\ \pause
+
+   & \scalebox{0.6}{
+\begin{tabular}{cc}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline
+$D_F$     & \p & \q &  \s  \\ \hline \hline 
+\p 	& $\{\epsilon\}$ & $\{\fieldD{f}{} \}$ & $\{\epsilon\}$  \\ \hline 
+\q             & $\{\fieldD{f}{}\}$      & $\{\epsilon\}$          & $\{\fieldD{f}{}\}$  \\ \hline
+\s             & $\{\epsilon\}$           &$\{\fieldD{f}{}\}$      & $\{\epsilon\}$      \\ \hline
+\end{tabular} 
+&
+
+\renewcommand{\arraystretch}{1.2}
+% % \newcommand{\iwd}{0.23\columnwidth}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline 
+$\ I_F$     & $\p$	               & $\q$
+&  $\s$              \\ \hline \hline 
+%%
+$\p$ & $\{ (\epsilon, \epsilon)\}$    & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+$\q$ & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $ \\ \hline
+$\s$ & $\{ (\epsilon, \epsilon)\}$    & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+\end{tabular} \\
+% \caption{C1:Context Insensitive}
+\end{tabular}
+} \\
+& \scriptsize (a) c1:IN[2] \\ \\ \pause
+
+& \scalebox{0.6}{
+\begin{tabular}{cc}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline
+$D_F$     & \p & \q &  \s  \\ \hline \hline 
+\p 	& $\{\epsilon\}$ &  & $\{\epsilon\}$  \\ \hline 
+\q 	&  & $\{\epsilon\}$ &   \\ \hline 
+\s 	& $\{\epsilon\}$ &  & $\{\epsilon\}$  \\ \hline 
+\end{tabular} 
+&
+
+\renewcommand{\arraystretch}{1.2}
+% % \newcommand{\iwd}{0.23\columnwidth}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline 
+$\ I_F$     & $\p$	               & $\q$
+&  $\s$              \\ \hline \hline 
+%%
+$\p$ & $\{ (\epsilon, \epsilon)\}$    &   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+$\q$ &     & $\{ (\epsilon, \epsilon)\}$   &  \\ \hline
+$\s$ & $\{ (\epsilon, \epsilon)\}$    &    & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+\end{tabular} \\
+% \caption{C1:Context Insensitive}
+\end{tabular}
+} \\
+
+& \scriptsize (b) c2: IN[0] \\ \\ \pause
+
+   & \scalebox{0.6}{
+\begin{tabular}{cc}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline
+$D_F$     & \p & \q &  \s  \\ \hline \hline 
+\p 	& $\{\epsilon\}$ & $\{\fieldD{f}{} \}$ & $\{\epsilon\}$  \\ \hline 
+\q             & $\{\fieldD{f}{}\}$      & $\{\epsilon\}$          & $\{\fieldD{f}{}\}$  \\ \hline
+\s             & $\{\epsilon\}$           &$\{\fieldD{f}{}\}$      & $\{\epsilon\}$      \\ \hline
+\end{tabular} 
+&
+
+\renewcommand{\arraystretch}{1.2}
+% % \newcommand{\iwd}{0.23\columnwidth}
+\begin{tabular}[b]{|c|c|c|c|}
+\hline 
+$\ I_F$     & $\p$	               & $\q$
+&  $\s$              \\ \hline \hline 
+%%
+$\p$ & $\{ (\epsilon, \epsilon)\}$    & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+$\q$ & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $ \\ \hline
+$\s$ & $\{ (\epsilon, \epsilon)\}$    & $\{(\fieldD{f}{},\epsilon),(\epsilon,\fieldD{f}{}) \} $   & $\{ (\epsilon, \epsilon)\}$ \\ \hline
+\end{tabular} \\
+% \caption{C1:Context Insensitive}
+\end{tabular}
+} \\
+& \scriptsize (a) Context Insensitive c2:IN
+\end{tabular}
+}
+
+
+\section{Implementation,Testing and Results}
+\subsection{Implementation}
+
+\begin{frame}[fragile]
+  \frametitle{\subsecname}
+  \begin{itemize}
+   \item Plugins
+    \begin{itemize}
+     \item Plugin’s make the developer add new features to the compiler without modifying the compiler itself. 
+     \item Adding a pass to the compiler
+     \item No need of compiling source code every time 
+    \end{itemize}
+   \item Tree
+      \begin{itemize}
+       \item The central data structure used by the internal representation of GCC is the Tree. 
+       \item A tree is a pointer type, but the object to which it points may be of a variety of types.
+       \item TREE\_CODE , TREE\_TYPE, TREE\_FIELD 
+      \end{itemize}
+    \item {\small GIMPLE}
+      \begin{itemize}
+       \item 3-address representation with at max one load/store per statement. 
+       \item GCC front end converts source code to GIMPLE
+       \item is\_gimple\_assign(stmt)		
+      \end{itemize} 
+  \end{itemize}
+\end{frame}
+
+
+% \subsection{Results}
+% \frame
+% {
+%   \frametitle{New Results}
+%   \input{listNewRes1.tex}	
+% }
+% 
+% \frame
+% {
+%   \frametitle{New Results}
+%   \input{listNewRes2.tex}
+% }
+
+
+\subsection{Results}
+\frame
+{
+  \frametitle{New Results}
+  \input{listNew_noI_Res1.tex}	
+}
+
+\frame
+{
+  \frametitle{New Results}
+  \input{listNew_noI_Res2.tex}
+}
+
+
+\end{document}

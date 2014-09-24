@@ -1,0 +1,172 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Swapping Two Nodes of a Singly Linked List.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Consider the code fragment Fig.~\ref{fig:benchmark_2}(a)
+which swaps the two pointers $p\rightarrow f$ (say $n1$) and $p\rightarrow f\rightarrow f$ (say $n2$) in a
+singly linked list $L$ with link field as $f$, given the
+pointer $p$. Also let $t$ be the node
+following the heap object $n2$ using $f$ link. 
+After {\tt S1}, a temporary Cycle is created on $\p, n1 \mbox{ and } n2$, which get destroyed
+after the statement {\tt S2}. This temporary shape transition is detected by our analysis.
+The table in Fig.~\ref{fig:benchmark_2}(b) shows the
+comparison between the shape decision given by our approach
+and the field insensitive approaches.
+Consider the following boolean functions generated after {\tt
+  S1} using our approach.
+\begin{eqnarray*}
+  n2_{\subC} &=&   (f_{n2,n1} \wedge \num{D_F[n1,n2]} \geq 1) \\ 
+  n1_{\subC} &=&   (f_{n2,n1} \wedge \num{D_F[n1,n2]} \geq 1) \\ 
+  \p_{\subC} &=&   (\num{D_F[p,n2]} \geq 1 \wedge f_{n2,n1} \wedge \num{D_F[n1,n2]} \geq 1) \\ 
+  \p_{\subC} &=&   (\num{D_F[p,n1]} \geq 1 \wedge f_{n2,n1} \wedge \num{D_F[n1,n2]} \geq 1) \\
+  f_{n2,n1} &=& \true 
+\end{eqnarray*}
+As depicted in Fig.~\ref{fig:benchmark_2}(c) which summarises the $D_F$ and $I_F$ matrices computed using our analysis, 
+beyond {\tt S2} the condition $\num{D_F[n1,n2]} \geq 1$ becomes \false\ and thus the shape transition from Cycle 
+to Tree is reported.
+
+
+\begin{figure}
+\centering
+\scalebox{0.8}{
+\begin{tabular}{@{}c@{}}
+\begin{tabular}{@{}cc@{}}
+  {\small\tt
+    \begin{tabular}[b]{l}
+      %S1. n1 = p$\rightarrow$f; \\
+      %S2. n2 = n1$\rightarrow$f; \\
+      %S3. t  = n2$\rightarrow$f; \\
+      S1. n2$\rightarrow$f = n1; \\
+      S2. n1$\rightarrow$f = t; \\
+      S3. p$\rightarrow$f = n2;
+    \end{tabular}
+  } &
+  \scalebox{0.80}{
+    \begin{tabular}[b]{|c||c|c|c|}
+      \hline
+          {\bf After} & Actual Shape & Field Insensitive
+          Analysis & Field Sensitive Analysis \\ 
+          \hline \hline
+         % {\tt S1}       & Tree		  & Tree                       & Tree \\ \hline
+         % {\tt S2}       & Tree		  & Tree                       & Tree \\ \hline
+	  %{\tt S3}       & Tree		  & Tree                       & Tree \\ \hline
+	  {\tt S1}       & Cycle (at {\tt p}, {\tt n1}, {\tt n2}) 	   & Cycle (at {\tt p}, {\tt n1}, {\tt n2}) & Cycle (at {\tt p}, {\tt n1}, {\tt n2}) \\ \hline
+	  {\tt S2}       & Tree		  & Cycle (at {\tt p}, {\tt n1}, {\tt n2})                       & Tree \\ \hline
+	  {\tt S3}       & Tree		  & Cycle (at {\tt p}, {\tt n1}, {\tt n2})                       & Tree \\ \hline
+    \end{tabular}
+  } \\ 
+  \footnotesize (a) A code fragment & \footnotesize (b) Shape Inference \\ \\
+  \end{tabular} \\ 
+  \scalebox{0.80}{
+\begin{tabular}[b]{|l@{}|@{}c@{}|@{}c@{}|} \hline
+ {\bf After} & $D_F$ & $I_F$ \\ 
+ {\bf Stmt} & & \\ \hline
+{\tt S1} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}p{12mm}|} \hline 
+            & $\nO$  								& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\{\fieldI{f}{}{1}\}$						& $\{\fieldD{f}{}, \fieldI{f}{}{1}\}$	& $\{\fieldI{f}{}{1}\}$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\nT$ 	& $\{\fieldD{f}{}\}$						& $\{\fieldI{f}{}{1}\}$			& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\p$ 		& $\{\fieldD{f}{}, \fieldI{f}{}{1}\}$	& $\{\fieldI{f}{}{2}\}$		& $\emptyset$	& $\{\fieldI{f}{}{2}\}$ \\ \hline
+  $\myt$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}p{28mm}|} \hline 
+			& $\nO$  											& $\nT$ 														& $\p$ 			& $\myt$ \\ \hline
+	$\nO$ 	& $\{(\fieldI{f}{}{1}, \epsilon)\}$					& $\{(\fieldD{f}{}, \epsilon), (\epsilon, \fieldD{f}{})\}$		& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$ \\ \hline
+  $\nT$ 	& $\{(\fieldD{f}{}, \epsilon), (\epsilon, \fieldD{f}{})\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$						& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\emptyset$	& $\emptyset$ \\ \hline
+  $\myt$ 	& $\emptyset$						& $\emptyset$						& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular} \\ \hline
+
+{\tt S2} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}p{12mm}|} \hline
+            & $\nO$  								& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\{\fieldD{f}\}$ \\ \hline
+  $\nT$ 	& $\{\fieldD{f}{}\}$					& $\{\fieldI{f}{}{1}\}$			& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\p$ 		& $\{\fieldD{f}{}, \fieldI{f}{}{1}\}$	& $\{\fieldD{f}{}, \fieldI{f}{}{3}\}$			& $\emptyset$	& $\fieldI{f}{}{2}$ \\ \hline
+  $\myt$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}p{28mm}|} \hline
+			& $\nO$  							& $\nT$ 							& $\p$ 			& $\myt$ \\ \hline
+			 $\nO$ 	& $\emptyset$						& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\fieldD{f}{},\epsilon)\}$ \\ \hline
+  $\nT$ 	& $\{(\fieldD{f}{}, \epsilon)\}$	& $\emptyset$						& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\emptyset$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\myt$ 	& $\{(\epsilon, \fieldD{f}{})\}$		& $\{(\epsilon, \fieldI{f}{}{1})\}$		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+\end{tabular} \\ \hline
+
+{\tt S3} & 
+\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}p{12mm}|} \hline
+            & $\nO$  								& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+  $\nO$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+  $\nT$ 	& $\{\fieldD{f}{}\}$					& $\{\fieldI{f}{}{1}\}$			& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\p$ 		& $\{\fieldI{f}{}{1}\}$					& $\{\fieldD{f}{}, \fieldI{f}{}{1}\}$	& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+  $\myt$ 	& $\emptyset$							& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+\end{tabular}
+ &
+\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}p{28mm}|} \hline
+			& $\nO$  							& $\nT$ 							& $\p$ 			& $\myt$ \\ \hline
+			 $\nO$ 	& $\emptyset$						& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\{(\fieldD{f}{},\epsilon)\}$ \\ \hline
+  $\nT$ 	& $\{(\fieldD{f}{}, \epsilon)\}$	& $\emptyset$						& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\p$ 		& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\{(\fieldD{f}{}, \epsilon)\}$	& $\emptyset$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+  $\myt$ 	& $\{(\epsilon, \fieldD{f}{})\}$		& $\{(\epsilon, \fieldI{f}{}{1})\}$		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+\end{tabular}  \\ \hline
+\end{tabular} 
+}  \\
+  \footnotesize (c) Direction ($D_F$) and Interference ($I_F$) matrices  \\ \\
+\end{tabular}}
+\caption{Swapping two nodes of a singly linked list\label{fig:benchmark_2}}
+\end{figure}
+
+
+
+%%{\tt S1} & 
+%%\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}p{12mm}|} \hline 
+%%            & $\nO$  		& $\nT$ 		& $\p$ 			& $\myt$ \\ \hline
+ %% $\nO$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%  $\nT$ 	& $\emptyset$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%  $\p$ 		& $\{\fieldD{f}{}\}$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%  $\myt$ 		& $\emptyset$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%\end{tabular}
+%% &
+%%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}p{28mm}|} \hline 
+%%			& $\nO$  						& $\nT$ 		& $\p$ 			& $\myt$ \\ \hline
+%%  $\nO$ 	& $\emptyset$					& $\emptyset$	& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$ \\ \hline
+%%  $\nT$ 	& $\emptyset$					& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$	& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%  $\myt$ 	& $\emptyset$					& $\emptyset$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%\end{tabular} \\ \hline
+%%
+%%{\tt S2} & 
+%%\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}p{12mm}|} \hline 
+%%            & $\nO$  				& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+ %%%% $\nO$ 	& $\emptyset$			& $\{\fieldD{f}{}\}$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%  $\nT$ 	& $\emptyset$			& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+%%  $\p$ 		& $\{\fieldD{f}{}\}$	& $\fieldI{f}{}{1}$		& $\emptyset$	& $\emptyset$ \\ \hline
+ %%%% $\myt$ 	& $\emptyset$			& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+%%end{tabular}
+%% &
+%%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}p{28mm}|} \hline 
+%%			& $\nO$  						& $\nT$ 							& $\p$ 			& $\myt$ \\ \hline
+%%  $\nO$ 	& $\emptyset$					& $\{(\fieldD{f}{}, \epsilon)\}$		& $\{(\epsilon, \fieldD{f}{})\}$	& $\emptyset$ \\ \hline
+%%  $\nT$ 	& $\{(\epsilon, \fieldD{f}{})\}$					& $\emptyset$		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+%%  $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\emptyset$	& $\emptyset$ \\ \hline
+%%  $\myt$ 	& $\emptyset$					& $\emptyset$						& $\emptyset$	& $\emptyset$ \\ \hline
+%%\end{tabular} \\ \hline
+
+%%{\tt S3} & 
+%%\begin{tabular}{|p{3mm}|p{12mm}p{12mm}p{12mm}p{12mm}|} \hline 
+%%            & $\nO$  				& $\nT$ 				& $\p$ 			& $\myt$ \\ \hline
+%%  $\nO$ 	& $\emptyset$			& $\{\fieldD{f}{}\}$	& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+%%  $\nT$ 	& $\emptyset$			& $\emptyset$			& $\emptyset$	& $\{\fieldD{f}{}\}$ \\ \hline
+%%  $\p$ 		& $\{\fieldD{f}{}\}$	& $\fieldI{f}{}{1}$		& $\emptyset$	& $\{\fieldI{f}{}{1}\}$ \\ \hline
+%%  $\myt$ 	& $\emptyset$			& $\emptyset$			& $\emptyset$	& $\emptyset$ \\ \hline
+%%\end{tabular}
+%% &
+%%\begin{tabular}{|p{3mm}|p{28mm}p{28mm}p{28mm}p{28mm}|} \hline 
+%%			& $\nO$  						& $\nT$ 							& $\p$ 			& $\myt$ \\ \hline
+%%  $\nO$ 	& $\emptyset$					& $\{(\fieldD{f}{}, \epsilon)\}$		& $\{(\epsilon, \fieldD{f}{})\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+%%  $\nT$ 	& $\{(\epsilon, \fieldD{f}{})\}$					& $\emptyset$		& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\{(\fieldD{f}{}, \epsilon)\}$ \\ \hline
+ %% $\p$ 		& $\{(\fieldD{f}{}, \epsilon)\}$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$	& $\emptyset$	& $\{(\fieldI{f}{}{1}, \epsilon)\}$ \\ \hline
+%%  $\myt$ 	& $\{(\epsilon, \fieldI{f}{}{1})\}$					& $\{(\epsilon, \fieldD{f}{})\}$						& $\{(\epsilon, \fieldI{f}{}{1})\}$	& $\emptyset$ \\ \hline
+%%\end{tabular} \\ \hline
+

@@ -1,0 +1,23 @@
+In  context insensitive analysis  we compromise  on accuracy,
+whereas  in  context  sensitive  analysis, we  compromise  on
+memory   consumption.  To   compromise  between   the  memory
+consumption and  precision, we propose  a shape-based context
+sensitive  analysis which  is  midway between  the above  two
+approaches.
+
+It  is evident  that  merging all  possible calling  contexts
+during function call  leads to conservative incoming data-flow
+values  which  results  in  inferring  imprecise  shapes.  In
+shape-based context sensitive approach,   we  keep  separate  
+set  of data-flow  values for  each  possible shape  at   the 
+start  of functions and the merging of calling contexts    is 
+based on the shape of the   heap    pointer  arguments during 
+function call.
+
+We  expect that  this methods  helps in  reducing  the memory
+consumption as compared to context sensitive analysis without
+loosing much  on precision. However,  we are yet  to complete
+the   implementation  of  this   approach  and   evaluate  it
+experimentally.
+
+

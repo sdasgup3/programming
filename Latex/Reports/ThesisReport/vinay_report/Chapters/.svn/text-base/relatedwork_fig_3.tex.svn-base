@@ -1,0 +1,96 @@
+\begin{figure}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+1. {\tt p  = malloc();} &  
+					$\begin{array}{lll}
+						D\_kill\_set &=& \{D[p,s] \vert s \in H \wedge D[p,s]\}\ \cup\\
+                                     &&   \{D[s,p] \vert s \in H \wedge D[s,p]\} \\
+						I\_kill\_set &=& \{I[p,s] \vert s \in H \wedge I[p,s]\} \\
+						D\_gen\_set &=& \{D[p,p]\} \quad I\_gen\_set = \{I[p,p]\} \\
+						H_s &=& \{p\} \quad A_c[p] = Tree 	\\
+					\end{array}$
+								\\
+\hline
+\begin{tabular}{l}
+2. {\tt p = q;} \\
+3. {\tt p = \&(q$\rightarrow$f);} \\
+4. {\tt p = q op k;} \\
+\end{tabular}
+ & 
+				\begin{tabular}{l}
+					Kill set same as that of {\tt p  = malloc();} \\
+					$\begin{array}{lll}
+						D\_gen\_set\_from &=& \{D[s,p] \vert s \in H \wedge s \not= p \wedge D[s,q]\} \\
+						D\_gen\_set\_to &=& \{D[p,s] \vert s \in H \wedge s \not= p \wedge D[q,s]\} \\
+						I\_gen\_set	&=& \{I[p,s] \vert s \in H \wedge s \not= p \wedge I[q,s]\}\ \cup \\
+											&&  \{I[p,p] \vert I[q,q]\} \\
+						D\_gen\_set	&=& D\_gen\_set\_from\ \cup D\_gen\_set\_to \\
+						H_s &=& \{p\} \quad A_c[p] = A[q] 	\\
+					\end{array}$
+				\end{tabular}
+								\\
+\hline
+5. {\tt p = NULL;} & 
+				\begin{tabular}{l}
+					Kill set same as that of {\tt p  = malloc();} \\
+					$\begin{array}{lll}
+						D\_gen\_set &=& \{\} \quad I\_gen\_set = \{\} \\
+						H_s &=& \{p\} \quad A_c[p] = Tree 	\\
+					\end{array}$
+				\end{tabular}
+								\\
+\hline
+6. {\tt p = q$\rightarrow$f;} & 
+				\begin{tabular}{l}
+					Kill set same as that of {\tt p  = malloc();} \\
+					$\begin{array}{lll}
+						D\_gen\_set\_from 	&=& \{D[s,p] \vert s \in H \wedge s \not= p \wedge I[s,q]\} \\
+						D\_gen\_set\_to 	&=& \{D[p,s] \vert s \in H \wedge s \not= p \wedge s \not= q\ \wedge \\
+                                            &&    D[q,s]\}\ \cup \{D[p,q] \vert A[q] = Cycle\}\ \cup \\
+											&& \{D[p,p] \vert D[q,q]\} \\
+						D\_gen\_set 		&=& D\_gen\_set\_from\ \cup D\_gen\_set\_to \\
+						I\_gen\_set 		&=& \{I[p,s] \vert s \in H \wedge s \not= p \wedge I[q,s]\}\ \cup \\
+											&&  \{I[p,p] \vert I[q,q]\} \\
+						A_c[p] &=& A[q] 	\\
+					\end{array}$
+				\end{tabular}
+								\\
+\hline
+7. {\tt p$\rightarrow$f = NULL;} & 
+					$\begin{array}{lll}
+						D\_kill\_set &=& \{\} \quad I\_kill\_set = \{\}\\
+						D\_gen\_set 		&=& \{\} \quad I\_gen\_set  = \{\}\\
+						A_c[p] &=& A[p]\ \forall p \in H  	\\
+					\end{array}$
+								\\
+\hline
+7. {\tt p$\rightarrow$f = q;} & 
+				\begin{tabular}{l}
+					Kill set same as that of {\tt p$\rightarrow$f = NULL;} \\
+					$\begin{array}{lll}
+						D\_gen\_set		&=& \{D[r,s] \vert r,s \in H \wedge D[r,p] \wedge D[q,s]\}  \\
+						I\_gen\_set  	&=& \{I[r,s] \vert r,s \in H \wedge D[r,p] \wedge I[q,s]\} \\
+					\end{array}$ \\ \\
+					\underline{Pointer q already has a path to p, D[q,p] = 1} \\
+					$\begin{array}{lll}
+						H_s 			&=& \{s \vert s \in H \wedge (D[s,p] \vee D[s,q])\} \\
+						D[q,p] &\Rightarrow& A_c[s] = Cycle\ \forall s \in H_s  	\\
+					\end{array}$ \\ \\
+					\underline{A[q] = Tree} \\
+					$\begin{array}{lll}
+						H_s 			&=& \{s \vert s \in H \wedge (D[s,p] \vee I[s,q])\} \\
+						(\neg D[q,p] \wedge (A[q] = Tree)) &\Rightarrow& A_c[s] = A[s] \Join Dag\ \forall s \in H_s  	\\
+					\end{array}$ \\ \\
+					\underline{A[q] $\not=$ Tree} \\
+					$\begin{array}{lll}
+						H_s 			&=& \{s \vert s \in H \wedge D[s,p]\} \\
+						(\neg D[q,p] \wedge (A[q] \not= Tree)) &\Rightarrow& A_c[s] = A[s] \Join A[q]\ \forall s \in H_s  	\\
+					\end{array}$
+				\end{tabular}
+								\\
+\hline							
+\end{tabular}
+\caption{Analysis Rules}
+\label{fig:relwork_4}
+\end{figure}

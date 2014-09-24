@@ -1,0 +1,13 @@
+{\small \tt
+      \begin{tabular}[b]{l}
+		{\bf int} treeAdd(tree *t) \{     \\ 
+		\ \ \ \ {\bf if} (t == NULL)           \\ 
+		\ \ \ \ \ \ \ \ return 0;           \\ 
+		\ \ \ \ tl = t$\rightarrow$left;    \\
+        \ \ \ \ treeAdd(tl); \\
+        \ \ \ \ tr = t$\rightarrow$right; \\
+		\ \ \ \ treeAdd(tl); \\
+		\ \ \ \ t$\rightarrow${num} = tl$\rightarrow${num} + tr$\rightarrow${num}; \\
+		\}
+      \end{tabular}
+}	  

@@ -1,0 +1,93 @@
+\begin{figure}
+\caption{Intersection operation between two singleton sets of pair of paths, where $\{\alpha, \beta\}$ denote any other pair of paths and $a \star b$ = min(a,b).
+\label{tab:intersection_path_pair}}
+\begin{tabular}{c}
+\\
+\scalebox{0.65}{ 
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+
+$\bigcap$ & \{($\epsilon$,$\epsilon$)\} & \{($\epsilon$,\fieldD{g}{})\} & \{($\epsilon$,\fieldI{g}{}{n})\} & \{($\epsilon$,\fieldI{g}{}{\infty})\} & \{(\fieldD{f}{},$\epsilon$)\} & \{(\fieldD{f}{},\fieldD{g}{})\} & \{(\fieldD{f}{},\fieldI{g}{}{n})\} & \{(\fieldD{f}{},\fieldI{g}{}{\infty})\} & \{($\alpha$, $\beta$)\} \\ \hline
+
+
+\{($\epsilon$,$\epsilon$)\} & \{($\epsilon$,$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{($\epsilon$,\fieldD{g}{})\} & $\phi$ & \{($\epsilon$,\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{($\epsilon$,\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & \{($\epsilon$,\fieldI{g}{}{y \star n})\} & \{($\epsilon$,\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{($\epsilon$,\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & \{($\epsilon$,\fieldI{g}{}{n})\} & \{($\epsilon$,\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldD{f}{},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & \{(\fieldD{f}{},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldD{f}{},\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & \{(\fieldD{f}{},\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$\\ \hline
+ 
+\{(\fieldD{f}{},\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & \{(\fieldD{f}{},\fieldI{g}{}{y \star n})\} & \{(\fieldD{f}{},\fieldI{g}{}{y})\} & $\phi$\\ \hline
+
+\{(\fieldD{f}{},\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & \{(\fieldD{f}{},\fieldI{g}{}{n})\} & \{(\fieldD{f}{},\fieldI{g}{}{\infty})\} & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{x},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{x},\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{x},\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{x},\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{\infty},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{\infty},\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{\infty},\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{\infty},\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+
+\end{tabular}
+}
+
+\\ \\ \\
+
+\scalebox{0.65}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+
+$\bigcap$ & \{(\fieldI{f}{}{m},$\epsilon$)\} & \{(\fieldI{f}{}{m},\fieldD{g}{})\} & \{(\fieldI{f}{}{m},\fieldI{g}{}{n})\} & \{(\fieldI{f}{}{m},\fieldI{g}{}{\infty})\} & \{(\fieldI{f}{}{\infty},$\epsilon$)\} & \{(\fieldI{f}{}{\infty},\fieldD{g}{})\} & \{(\fieldI{f}{}{\infty},\fieldI{g}{}{n})\} & \{(\fieldI{f}{}{\infty},\fieldI{g}{}{\infty})\} & \{($\alpha$, $\beta$)\}\\ \hline
+
+
+\{($\epsilon$,$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{($\epsilon$,\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{($\epsilon$,\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{($\epsilon$,\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldD{f}{},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldD{f}{},\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldD{f}{},\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\ \hline
+
+\{(\fieldD{f}{},\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{x},$\epsilon$)\} & \{(\fieldI{f}{}{x \star m},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & \{(\fieldI{f}{}{x},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{x},\fieldD{g}{})\} & $\phi$ & \{(\fieldI{f}{}{x \star m},\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$ & \{(\fieldI{f}{}{x},\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{x},\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & \{(\fieldI{f}{}{x \star m},\fieldI{g}{}{y \star n})\} & \{(\fieldI{f}{}{x \star m},\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & \{(\fieldI{f}{}{x},\fieldI{g}{}{y \star n})\} & \{(\fieldI{f}{}{x},\fieldI{g}{}{y})\} & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{x},\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & \{(\fieldI{f}{}{x \star m},\fieldI{g}{}{n})\} & \{(\fieldI{f}{}{x \star m},\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & \{(\fieldI{f}{}{x},\fieldI{g}{}{n})\} & \{(\fieldI{f}{}{x},\fieldI{g}{}{n})\} & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{\infty},$\epsilon$)\} & \{(\fieldI{f}{}{m},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & \{(\fieldI{f}{}{\infty},$\epsilon$)\} & $\phi$ & $\phi$ & $\phi$ & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{\infty},\fieldD{g}{})\} & $\phi$ & \{(\fieldI{f}{}{m},\fieldD{g}{})\} & $\phi$ & $\phi$ & $\phi$ & \{(\fieldI{f}{}{\infty},\fieldD{g}{})\} & $\phi$ & $\phi$  & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{\infty},\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & \{(\fieldI{f}{}{m},\fieldI{g}{}{y \star n})\} & \{(\fieldI{f}{}{m},\fieldI{g}{}{y})\} & $\phi$ & $\phi$ & \{(\fieldI{f}{}{\infty},\fieldI{g}{}{y \star n})\} & \{(\fieldI{f}{}{\infty},\fieldI{g}{}{y})\} & $\phi$\\ \hline
+
+\{(\fieldI{f}{}{\infty},\fieldI{g}{}{\infty})\} & $\phi$ & $\phi$ & \{(\fieldI{f}{}{m},\fieldI{g}{}{n})\} & \{(\fieldI{f}{}{m},\fieldI{g}{}{\infty})\} &  $\phi$ &  $\phi$ & \{(\fieldI{f}{}{\infty},\fieldI{g}{}{n})\} & \{(\fieldI{f}{}{\infty},\fieldI{g}{}{\infty})\} & $\phi$\\ \hline
+
+\end{tabular}
+}\\
+\end{tabular}
+\end{figure}

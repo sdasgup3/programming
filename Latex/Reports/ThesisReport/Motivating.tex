@@ -1,0 +1,131 @@
+\chapter{Motivation} \label{ch:Motiv}
+%
+For each pointer variable, our analysis computes the shape
+attribute of the data structure pointed to by the variable.
+Following the existing
+literature~\cite{Ghiya96,Sagiv96,Ghiya96practicaltechniques,marron06static}, we define the shape attribute $\p.\shape$
+for a pointer $\p$ as follows:
+%%
+\begin{eqnarray*}
+  \p.\shape = \left\{ \begin{array}{@{}rl@{}}
+    \Cycle & \mbox{If a cycle can be reached from $\p$} \\ 
+    \Dag & \mbox{Else if a DAG can be reached from $\p$} \\
+    \Tree & \mbox{Otherwise} \\
+  \end{array} \right.
+\end{eqnarray*}
+%%
+where the heap is visualized as a directed graph, and cycle
+and DAG have there natural graph-theoretic meanings.
+
+We use the code fragment in Fig.~\ref{fig:motivA}(a) to
+motivate the need for a field sensitive shape analysis.
+
+\begin{example}{\rm
+\input{motiv_fig_1.tex}
+\input{motiv_fig_2.tex}
+
+Consider the code segment in the Fig.~\ref{fig:motivA}(a),
+At {\tt S4}, a DAG is created that is reachable from $\p$. 
+At {\tt S5}, a cycle is created that is reachable from
+both $\p$ and $\q$. This cycle is destroyed at line
+{\tt S6} and the DAG is destroyed at {\tt S7}.
+
+Field insensitive shape analysis algorithms use conservative
+kill information and hence they are, in general, unable to
+infer the shape transition from cycle to DAG or from DAG to
+Tree.  For example, the algorithm by Ghiya
+et. al.~\cite{Ghiya96} can correctly report the shape
+transition from DAG to cycle\ (at {\tt S5}), but fails to
+infer the shape transition from cycle to DAG (at {\tt S6})
+and from DAG\ to \Tree\ (at {\tt S7}). This is evident from
+Fig.~\ref{fig:motivA}(b) that shows the Direction ($D$)
+and Interference ($I$) matrices computed using their
+algorithm.  We get conservative shape information at {\tt S6}
+and {\tt S7} because the kill-effect of statements {\tt S6}
+and {\tt S7} are not taken into account for computing $D$
+and $I$.  } \hfill\psframebox{}
+\end{example}
+
+We now show how we have incorporated limited field
+sensitivity at each program point  in our shape
+analysis. The details of our analysis will be presented later
+(Chapter~\ref{ch:Analysis}).
+
+\begin{example}{\rm 
+The statement at {\tt S4} creates a new DAG structure
+reachable from $\p$, because there are two paths ($\p
+\rightarrow f$ and $\p \rightarrow h$) reaching $\q$. Any
+field sensitive shape analysis algorithm must remember all
+paths from $\p$ to $\q$.  Our analysis approximates any
+path between two variables by the first field that is
+dereferenced on the path.  Further, as there may be an
+unbounded number of paths between two variables, we use
+$k$-limiting to approximate the number of paths starting at a
+given field.
+
+Our analysis remembers the path information using the
+following: (a) $D_F$: Modified direction matrix that stores
+the first fields of the paths between two pointers; (b)
+$I_F$: Modified interference matrix that stores the pairs of
+first fields corresponding to the pairs of interfering paths,
+and (c) Boolean Variables that remember the fields directly
+connecting two pointer variables.
+
+Figures~\ref{fig:motivB}(a) and~\ref{fig:motivB}(b) show the
+values computed by our analysis for the example program.  In
+this case, the fact that the shape of the variable $\p$
+becomes DAG after {\tt S4} is captured by the following
+boolean functions\footnote{The functions and values shown in
+  this example and in Fig.~\ref{fig:motivB} are simplified
+  to avoid references to concepts not defined yet.}
+:
+\begin{eqnarray*}
+  p_{\subD} &=& (h_{pq} \wedge (\num{\IFM{p}{q}} > 1)) \vee
+  (f_{pq} \wedge (\num{\IFM{p}{q}} > 1)), \qquad h_{pq} =
+  \true \enspace .
+\end{eqnarray*}
+Where $h_{pq}$ is a boolean variable that is true if $h$
+field of $\p$ points to $\q$, $f_{pq}$ is a boolean
+variable that is true if $f$ field of $\p$ points to
+$\q$, $I_F$ is field sensitive interference matrix,
+$\num{I_F[p,q]}$ is the count of number of interfering paths
+between $\p$ and $\q$. 
+
+The functions simply say that variable $\p$ reaches a DAG
+because there are more than one paths ($\num{I_F[p,q]} > 1$)
+from $\p$ to $\q$. It also keeps track of the paths ($f_{pq}$
+and $h_{pq}$ in this case).  Later, at statement {\tt S7},
+the path due to $h_{pq}$ is broken, causing $\num{I_F[p,q]} =
+1$. This causes $\p_{\subD}$ to become false.  Note that we
+{\em do not} evaluate the boolean functions immediately, but
+associate the unevaluated functions with the statements. When
+we want to find out the shape at a given statement, only then
+we evaluate the function using the $D_F$ and $I_F$ matrices,
+and the values of boolean variables at that statement.
+
+Our analysis uses  another attribute ${\Cycle}$ to capture the
+cycles reachable  from a  variable. For our  example program,
+assuming  the   absence  of  cycles  before   {\tt  S5},  the
+simplified  functions for  detecting cycle  on $\p$ after
+{\tt S5} are:
+\begin{eqnarray*}
+p_{\subC} &=& g_{qp} \wedge (\num{\DFM{p}{q}} \geq 1), \qquad
+g_{qp} = \true \enspace .
+\end{eqnarray*}
+
+Here, the functions captures the fact that cycle on $\p$
+ consists of field $g$ from $\q$ to $\p$ ($g_{qp}$)
+and some path from $\p$ to $\q$ ($\num{\DFM{p}{q}} \geq
+1$). This cycle is broken either when the path from $\p$
+to $\q$ is broken ($\num{\DFM{p}{q}} = 0$) or when the link $g$
+changes ($g_{qp} = \false$). The latter occurs after
+{\tt S6} in Fig.~\ref{fig:motivB}(a).  
+}
+\hfill\psframebox{}  
+\end{example}
+
+
+
+In the rest of the report, we formalize the intuitions
+presented above and describe our analysis in details.
+%

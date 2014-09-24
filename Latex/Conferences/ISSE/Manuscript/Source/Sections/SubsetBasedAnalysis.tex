@@ -1,0 +1,105 @@
+Many a  times data  structures include auxiliary  fields used
+mainly  for traversing  the data  structure for  debugging or
+diagnostic purposes. The presence of such fields, however can
+result  in imprecise  shapes.  We illustrate  this using  the
+following example.
+\begin{example}
+Consider  the code  segment in  Figure~\ref{fig:subset-motiv2} which
+defines  a function  {\tt search},  for searching  data  in a
+binary tree and a function {\tt insert}, for inserting a node
+into  a binary  tree.  In  {\tt insert},  a cycle  is getting
+created between  {\tt s} and  {\tt p} after {\em S18}.  Also
+the  field sensitive  analysis infers  the shape  of  \p\ and
+\s\ as cycles at that point.
+
+Note that in the  {\tt search} function, the \parent\ pointer
+is not  at all  used. Therefore, the shape of the heap graph accessible to (and
+traversed by) the
+{\tt search} function is a Tree.  But, as the
+function is  called with  the variable {\tt root},  whose shape
+gets  evaluated to  \Cycle\ in  the {\tt  insert}  function, we
+infer that the shape of the root remains \Cycle\ at all
+program points in the {\tt search}
+function. This inhibits the parallel scheduling  of recursive
+calls to {\tt search} on lines {\em S23} and {\em S24}.
+\hfill\psframebox{}
+\end{example}
+        
+\begin{figure}[t]
+\begin{center}
+  \scalebox{.99}{
+    \begin{tabular}{c}
+      {\small \tt
+        \begin{tabular}[b]{rl}
+			&typedef struct treenode tree;\\
+          	&struct treenode \{ \\
+           & \quad tree left, right, parent; \\
+           & \quad int key; \\
+           & \}; \\ \\
+          &int main() \{ \\
+	  {\em \scriptsize S1:}& \quad tree root; \\
+	  {\em \scriptsize S2:}& \quad \ldots        \\
+          {\em \scriptsize S3:}& \quad insert(root, key); \\
+          {\em \scriptsize S4:}& \quad search(root, key); \\ 
+          {\em \scriptsize S5:}& \quad \ldots \\ 
+          &\} \\ \\
+          & void insert(tree t, int key) \{ \\
+          {\em \scriptsize S11:}& \quad tree s = root; \\
+          {\em \scriptsize S12:}& \quad \ldots\ /* find 
+          the place to insert key */\\ 
+          {\em \scriptsize S13:}& \quad  tree p; \\
+          {\em \scriptsize S14:}& \quad p->left = NULL; \\
+          {\em \scriptsize S15:}& \quad p->right = NULL; \\
+          {\em \scriptsize S16:}& \quad p->key = key; \\
+          {\em \scriptsize S17:}& \quad s->left = p; \\
+          {\em \scriptsize S18:}& \quad p->parent = s; \\
+          &\} \\ \\
+	  & int search(tree t, int key) \{     \\ 
+	  {\em \scriptsize S21:}& \quad if (root)           \\ 
+	  {\em \scriptsize S22:}& \quad \quad return (key == root->key) || \\
+	  {\em \scriptsize S23:}& \quad \quad \quad search(root->left,key) || \\
+	  {\em \scriptsize S24:}& \quad \quad \quad search(root->right,key);  \\
+	  {\em \scriptsize S25:}& \quad return 0; \\
+	  &\}
+        \end{tabular}
+      } \\ \hline 
+    \end{tabular}}
+\end{center}
+\caption{\label{fig:subset-motiv2} The binary search program.}
+\end{figure}		
+
+For  the above  case,  unlike the  field sensitive  analysis,
+field-subset based  analysis can correctly  identify the shape
+by  considering the  fields  accessed within  a function  and
+using only those  fields to infer the shape.   We now present
+intuition behind the analysis for the above example.
+
+\begin{example}
+Let us consider  the simplified equation of $\myroot_{\subC}$
+along  with  the  relevant  data-flow  values at  the  end  of
+statement {\em S18} (or at the beginning of {\tt search}).
+\begin{eqnarray*}
+\myroot_{\subC} &=& (\parent_{\mtt{p},\myroot} \wedge ( \num{P_F[\myroot,\mtt{p}]} \geq 1)) \\
+\parent_{\mtt{p},\myroot} &=& \true \\
+P_F[\myroot, \mtt{p}] &=& {\tt \{\fieldD{\lft}{}\} }
+\end{eqnarray*}
+
+In  field-subset based  analysis,  we use  only those  fields
+which are accessed within  a function to evaluate the boolean
+equations.   In  {\tt  search},  the field  \parent\  is  not
+accessed,  hence  all the  data-flow  values  (like the  path
+matrix entries  and boolean  variables) which use  this field
+treat it as being absent (\false).  In this case, the boolean
+variable  $\parent_{\mtt{p},\myroot}$ is treated  as \false,
+which makes  the above equation  of $\myroot_{\subC}$ \false,
+inferring the shape  of \myroot\ as \Tree\ ($\myroot_{\subD}$
+is also  \false\ in this case). A  parallelizing compiler can
+schedule the recursive calls on lines {\em S23} and {\em S24}
+in parallel. \hfill\psframebox{}
+\end{example}
+
+The key  motivation behind using  field-subset based analysis
+is that if  a function does not refer to a  field $f$ at all,
+it can not  access sharing due to those  {\Cycle}s or {\Dag}s
+that necessarily involves the field $f$. We plan to implement
+it in near future.

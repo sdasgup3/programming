@@ -1,0 +1,15 @@
+K 10
+svn:ignore
+V 159
+Main_Thesis.bbl
+Main_Thesis.blg
+Main_Thesis.out
+Main_Thesis.pdf
+Main_Thesis.lof
+Main_Thesis.log
+Main_Thesis.ps
+Main_Thesis.dvi
+Main_Thesis.toc
+Main_Thesis.aux
+
+END
