@@ -1,2 +1,2 @@
 alias c clear
-tain -n 18  ~/commands.txt
+tail -n 18  ~/commands.txt
