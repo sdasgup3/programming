@@ -8,3 +8,8 @@ du -sh .
 "\en": history-search-forward
 
 gitk
+
+
+update and upgrade
+=========================
+sudo apt-get update && sudo apt-get upgrade
