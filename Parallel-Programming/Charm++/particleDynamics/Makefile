@@ -3,9 +3,9 @@ TESTOPTS = ++local
 
 OBJS = particle.o
 
-#N = 10000
+N = 10000
 K = 16
-N = 1000
+#N = 1000
 #N = 10
 #K = 3
 

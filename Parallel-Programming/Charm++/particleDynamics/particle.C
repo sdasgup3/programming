@@ -227,11 +227,17 @@ class Cell: public CBase_Cell {
       double x = p.x;
       double y = p.y;
       
-      if(x >= GRID_MAX || x < GRID_MIN) {
-        p.x  = wrap_loc((int) (x + GRID_MAX));
+      if(x >= GRID_MAX) {
+        p.x  = x - GRID_MAX;
       }
-      if(y >= GRID_MAX || y < GRID_MIN) {
-        p.y  = wrap_loc((int) (y + GRID_MAX));
+      if(x < GRID_MIN) {
+        p.x  = x + GRID_MAX;
+      }
+      if(y >= GRID_MAX ) {
+        p.y  = y - GRID_MAX;
+      }
+      if(y < GRID_MIN) {
+        p.y  = y + GRID_MAX;
       }
 
       //Still positioned in the same cell
