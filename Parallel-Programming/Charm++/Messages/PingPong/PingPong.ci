@@ -1,0 +1,17 @@
+mainmodule PingPong {
+message startMsg;
+message pingPongMsg;
+
+mainchare Main {
+  entry Main(CkArgMsg* )  ;
+};
+
+array [1D] Worker {
+  entry Worker()  ;
+  entry void start(startMsg* );
+  entry void ping(pingPongMsg* msg);
+  entry void pong(pingPongMsg* msg);
+};
+
+
+};
