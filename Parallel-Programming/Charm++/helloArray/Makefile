@@ -1,5 +1,4 @@
-#CHARMC=/home/acun2/charm/net-linux-x86_64/bin/charmc $(OPTS)
-CHARMC=charmc $(OPTS)
+CHARMC=~/CS598LVK/charm/net-linux-x86_64/bin/charmc $(OPTS)
 TEST=MyModule
 
 all: $(TEST)
@@ -14,7 +13,7 @@ $(TEST).def.h $(TEST).decl.h : $(TEST).ci
 	$(CHARMC) $(TEST).ci
 
 test: all
-	charmrun +p4 $(TEST) 4 ++local
+	./charmrun +p4 $(TEST) 4 ++local
 
 clean:
 	rm -f conv-host *.o charmrun $(TEST)

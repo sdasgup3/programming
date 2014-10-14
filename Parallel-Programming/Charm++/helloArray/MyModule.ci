@@ -7,6 +7,7 @@ mainchare Main {
 array [1D] hello {
   entry hello();
   entry void printHello();
+  entry void actualPrint(int , int);
 };
 
 };
