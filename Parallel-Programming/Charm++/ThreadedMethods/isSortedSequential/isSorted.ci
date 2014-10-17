@@ -1,0 +1,19 @@
+mainmodule isSorted {
+
+readonly CProxy_Main mainProxy;  
+readonly CProxy_Worker workerarray;
+readonly int numchares;
+
+mainchare Main {
+  entry Main(CkArgMsg* )  ;
+  entry void result(int )  ;
+};
+
+array [1D] Worker {
+  entry Worker()  ;
+  entry void run();
+  entry void compare(int );
+};
+
+
+};
