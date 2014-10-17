@@ -1,0 +1,39 @@
+mainmodule isSorted {
+
+readonly CProxy_Main mainProxy;  
+readonly CProxy_Worker workerarray;
+readonly int numchares;
+message myMsg;
+
+mainchare Main {
+  entry Main(CkArgMsg* )  ;
+  entry void result(int )  ;
+  entry [reductiontarget] void done(bool);
+};
+
+array [1D] Worker {
+  entry Worker()  ;
+  entry [sync] myMsg* getValue();
+
+  entry [threaded] void run() {
+    serial "Sending to right" {
+
+      int isSorted = 1;  
+      myMsg* rightVal = NULL;
+      if(thisIndex == numchares - 1 ) {
+        isSorted = 1;
+      } else {
+        rightVal = workerarray[wrap(thisIndex + 1)].getValue(); 
+
+        isSorted = (val <= rightVal->val );
+        CkPrintf("[%d](val: %d) Received from [%d](val:%d):::isSorted: %d\n", thisIndex,val, wrap(thisIndex + 1), rightVal->val, isSorted);
+      }
+
+      contribute(sizeof(int), &isSorted, CkReduction::logical_and);
+    }
+  };
+  
+};
+
+
+};
