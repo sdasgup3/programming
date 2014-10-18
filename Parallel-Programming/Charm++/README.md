@@ -5,6 +5,8 @@ General
 3. Add Worker(CkMigrateMessage*) {}
 4. Given a CProxy_worker arra; you cannot do array[index].memberVar. The only way to get  a member var is to pass it using a entry method.
 5. The place where we do mainProxy.entryM(); the control does not go to the mainchare, but instead it will call in asuynchronously and go ahead, so better make sure that the following code has a cleaner exit in case you do  not want to do anything else after calling mainchare entry method.
+6. array [1D] Worker NOT chare [1D] ...
+7. Worker(CkMigrateMessage* msg) {} //In C file only
 
 SDAG
 =====
@@ -60,6 +62,17 @@ Reduction
     contribute(cb); // or
     contribute(sizeof(int),&myInt,CkReduction::sum_int, cb)
 ```
+4. Sync reductions:
+```C++
+//In .ci
+entry void done(CkReductionMsg* );
+//In C
+contribute(CkCallback(CkIndex_Main::done(NULL), mainproxy)); //OR
+//In .ci
+entry [reductiontarget] void barrierH();
+//In C
+contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray));
+```
 
 Threaded Entry Methods
 ===========================
@@ -71,8 +84,23 @@ To Dos
 1. Quicense detection
 2. Let e be an threaded entry method and we call e on an array of size 2 chares c0 and c1 and lets suppose there are scedules on the same core. Let the scheduler picks c0.e() and runs it. There will be  a thread t0 corresponding to the that entry method e. Now suppose that thread t0 call a sync method SM on c1. 
 Is C1.SM a lead to a normal process or it will also generate a thread to run on the core?? 
-
 Now t0 will suspend till it is awakened by the return of the sync method. 
 c1.SM will be in the scheduler queue?? 
 While t0 is suspended can a different entry method get scheduled??
 If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
+
+1.  Charm++ basics: entry methods etc.Principle of Persistence
+2. Chare Arrays
+3. SDAG
+4. Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
+5. Grain Size
+6. Collective Communication: Reduction, reduction managers, callback, broadcast
+
+
+7.  Quiescence detection
+8. Threaded methods / Futures / Messages
+9. Groups / Node groups
+10. Charm++ tools: LiveViz, Projections, CharmDebug
+11. Array Sections / Multicast
+12. SMP Mode/CkLoop  
+13. Cannon's Algorithm / Parallel Prefix
