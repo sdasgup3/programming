@@ -61,9 +61,18 @@ Reduction
     contribute(sizeof(int),&myInt,CkReduction::sum_int, cb)
 ```
 
+Threaded Entry Methods
+===========================
+1. 
 
 
 To Dos
 ========
 1. Quicense detection
-2. 
+2. Let e be an threaded entry method and we call e on an array of size 2 chares c0 and c1 and lets suppose there are scedules on the same core. Let the scheduler picks c0.e() and runs it. There will be  a thread t0 corresponding to the that entry method e. Now suppose that thread t0 call a sync method SM on c1. 
+Is C1.SM a lead to a normal process or it will also generate a thread to run on the core?? 
+
+Now t0 will suspend till it is awakened by the return of the sync method. 
+c1.SM will be in the scheduler queue?? 
+While t0 is suspended can a different entry method get scheduled??
+If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
