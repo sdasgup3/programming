@@ -1,0 +1,21 @@
+mainmodule oddEven {
+  readonly int numelements;
+  readonly CProxy_Main mainproxy;
+  readonly CProxy_Worker workerarray;
+  message myMsg;
+
+  mainchare Main {
+    entry Main(CkArgMsg*);
+    entry void done(CkReductionMsg* );
+
+  };
+
+  array [1D] Worker {
+    entry Worker();
+    entry [threaded] void run();
+    entry [sync] myMsg* sendSmaller(int);
+    entry void dump();
+    entry [reductiontarget] void barrierH();
+  };
+
+};
