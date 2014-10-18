@@ -1,0 +1,47 @@
+mainmodule fib {
+  readonly CProxy_Main mainProxy;
+  
+
+  mainchare Main {
+    entry Main(CkArgMsg *);
+    entry void result(int );
+      
+  };
+
+
+  chare Worker {
+    entry Worker(int isRoot, CProxy_Worker p);
+    entry void respond(int);
+
+    entry void run (int n) {
+        
+        
+        if(n < THRESHOLD) {
+          serial {
+            int ret = seqFib(n);
+            CkPrintf("%d - %d\n",n, ret);
+            if(isRoot) {
+              mainProxy.result(ret); 
+            } else {
+              parent.respond(ret);
+            }
+          }
+        } else {
+          serial {
+            CProxy_Worker w1 = CProxy_Worker::ckNew(0, thisProxy);
+            CProxy_Worker w2 = CProxy_Worker::ckNew(0, thisProxy);
+            w1.run(n-1);
+            w1.run(n-2);
+          }
+          when respond(int n1), respond(int n2) serial {
+            if(isRoot) {
+              mainProxy.result(n1+n2); 
+            } else {
+              parent.respond(n1+n2);
+            }
+          }
+        }
+    };
+
+  };
+};
