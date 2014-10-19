@@ -91,6 +91,28 @@ entry [reductiontarget] void barrierH();
 //In C
 contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray));
 ```
+Quiescence Detection
+==========================
+```C++
+//In .ci
+    entry void Qdetect(CkReductionMsg*);
+    entry [reductiontarget]void Qdetect2();
+//In .C
+    Main::Main(CkArgMsg* msg) {    
+        //CkStartQD(CkIndex_Main::Qdetect(NULL), &thishandle); or
+        //CkCallback cb = CkCallback(CkIndex_Main::Qdetect(NULL), thisProxy); or
+        CkCallback cb = CkCallback(CkReductionTarget(Main, Qdetect2), thisProxy); 
+        CkStartQD(cb);
+    }
+    void Qdetect(CkReductionMsg* msg) {
+        CkPrintf("Quiescence detecetd\n");
+        CkExit();
+    }
+    void Qdetect2() {
+        CkPrintf("Quiescence2 detecetd\n");
+        CkExit();
+    }
+```
 
 Threaded Entry Methods
 ===========================
@@ -200,6 +222,7 @@ While t0 is suspended can a different entry method get scheduled??
 If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
 ++ppn what is that
 CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv in non smp)
+thishandle vs thisProxy
 
 
 
@@ -213,9 +236,10 @@ CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv i
 
 
 7. Quiescence detection ; 
+10. Charm++ tools: LiveViz, Projections, CharmDebug, Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
 8. Threaded methods / Futures / Messages
 13. Cannon's Algorithm / Parallel Prefix
-10. Charm++ tools: LiveViz, Projections, CharmDebug, Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
+14. ENtry method tags
 
 11. Array Sections / Multicast
 12. SMP Mode/CkLoop  
