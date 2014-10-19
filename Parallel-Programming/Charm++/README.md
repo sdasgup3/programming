@@ -22,7 +22,9 @@ General
     
     array::array(int p1) {}
 ```
-
+12. MPI: a node have cores and which in turn has hardware threads. In MPI, if we have a 100 nodes each with 10 cores we run a 1000 rank mpi prog with each process on each core. Even if the cores share the same node, they still do message passing.
+13. Adding more cores does not help in parallelism as the memory contemtion occurs as all the core will be shareing the memry bus and if there is lot of memory request then there might be contention.
+14. setcpuaffinity: to say operating system that if a thread is cintext swicthed due to some reason then again host that in the same core. Hosting in other cores lead to loosing chached data.
 
 SDAG
 =====
@@ -89,6 +91,28 @@ entry [reductiontarget] void barrierH();
 //In C
 contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray));
 ```
+Quiescence Detection
+==========================
+```C++
+//In .ci
+    entry void Qdetect(CkReductionMsg*);
+    entry [reductiontarget]void Qdetect2();
+//In .C
+    Main::Main(CkArgMsg* msg) {    
+        //CkStartQD(CkIndex_Main::Qdetect(NULL), &thishandle); or
+        //CkCallback cb = CkCallback(CkIndex_Main::Qdetect(NULL), thisProxy); or
+        CkCallback cb = CkCallback(CkReductionTarget(Main, Qdetect2), thisProxy); 
+        CkStartQD(cb);
+    }
+    void Qdetect(CkReductionMsg* msg) {
+        CkPrintf("Quiescence detecetd\n");
+        CkExit();
+    }
+    void Qdetect2() {
+        CkPrintf("Quiescence2 detecetd\n");
+        CkExit();
+    }
+```
 
 Threaded Entry Methods
 ===========================
@@ -112,10 +136,10 @@ class Worker: public CBase_Worker  {
 ```
 2. Sync methods should always   return message
 3. If respond is a sync method, then the following recurcive calls will serialize them as the second sync call cannot proceed before the first returns. 
-```C++
+    ```C++
     myMsg* n1 = w1.respond(n-1);
     myMsg* n2 = w1.respond(n-2);
-```  
+    ```
 4. Any method that calls a sync method must be able to suspend : threaded method of a chare C Can suspend, without blocking the processor, Other chares can then be executed, Even other methods of chare C can be executed
 5. You can suspend a thread and “awaken” it
     * CthThread CthSelf(): Returns the ID of the (calling) thread 
@@ -130,6 +154,7 @@ Messages
 1. Messages passed to Charm belong to Charm – Deleted or reused by Charm after sending
 2. Message delivered by Charm belongs to user – Must be reused or deleted; If you don’t delete or reuse, memory leaks happen
 3. Priority
+
 ```C++
     MyVarsizeMsg *msg = new (10,7, 8*sizeof(int))  MyVarsizeMsg(<constructor args>);
     *(int*)CkPriorityPtr(msg) = prio; //set priority OR
@@ -144,7 +169,9 @@ Messages
     opts2.setQueueing(CK_QUEUEING_LIFO);
     opts2.setPriority(int prioBits,const prio_t *prioPtr);
     chare.entry_name(arg1, arg2, **opts1**);
-    chare.entry_name(arg1, arg2, **opts2**);    
+    chare.entry_name(arg1, arg2, **opts2**);  
+```
+
 Tags
 ====
 1. nokeep: User code should not free messages; 
@@ -181,6 +208,9 @@ Group and NodeGroup
         }
     }
 ```
+4. When an entry method is invoked on a particular branch of a nodegroup, it may be executed by any PE in that logical node. Thus two invocations of a single entry method on a particular branch of a NodeGroup may be executed concurrently by two different PEs in the logical node.
+5. If a method M of a nodegroup NG is marked exclusive, it means that while an instance of M is being executed by a PE within a logical node, no other PE within that logical node will execute any other exclusive methods. However, PEs in the logical node may still execute non-exclusive entry method invocations.
+6. 
 To Dos
 ========
 1. Quicense detection
@@ -190,23 +220,27 @@ Now t0 will suspend till it is awakened by the return of the sync method.
 c1.SM will be in the scheduler queue?? 
 While t0 is suspended can a different entry method get scheduled??
 If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
+++ppn what is that
+CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv in non smp)
+thishandle vs thisProxy
 
 
 
 
 
-1.  Charm++ basics: entry methods etc.Principle of Persistence
+1. Charm++ basics: entry methods etc.Principle of Persistence
 2. Chare Arrays
 3. SDAG
-4. Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
 5. Grain Size
 6. Collective Communication: Reduction, reduction managers, callback, broadcast
 
 
-7.  Quiescence detection
+7. Quiescence detection ; 
+10. Charm++ tools: LiveViz, Projections, CharmDebug, Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
 8. Threaded methods / Futures / Messages
-9. Groups / Node groups
-10. Charm++ tools: LiveViz, Projections, CharmDebug
+13. Cannon's Algorithm / Parallel Prefix
+14. ENtry method tags
+
 11. Array Sections / Multicast
 12. SMP Mode/CkLoop  
-13. Cannon's Algorithm / Parallel Prefix
+9. Groups / Node groups
