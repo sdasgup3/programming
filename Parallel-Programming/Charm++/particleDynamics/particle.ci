@@ -11,8 +11,6 @@ mainmodule ParticleExercise {
     entry Main(CkArgMsg* m);
     //TODO: add an entry methods to receive the reductions
     entry [reductiontarget] void done();
-    //entry [reductiontarget] void total(int x);
-    entry void total(CkReductionMsg *msg);
     entry void Result(CkReductionMsg *msg);
   };
 

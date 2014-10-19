@@ -7,7 +7,6 @@
 #define ITERATION (100)
 #define GRID_MAX (100)
 #define GRID_MIN (0)
-#define wrap_loc(a)  ((a)%(GRID_MAX))
 #define wrap_chare(a)  (((a)+cellDimension)%cellDimension)
 
 /*readonly*/ CProxy_Main mainProxy;
@@ -65,6 +64,11 @@ class Main: public CBase_Main {
       mainProxy = thisProxy;
       particlesPerCell = atoi(m->argv[1]);
       cellDimension = atoi(m->argv[2]);
+
+      if(cellDimension > 100 || cellDimension < 1) {
+        CkAbort("The cellDimension must be in the range [1,100]\n");
+      }
+
       delete m;
 
       //TODO: Create the grid and start the simulation by calling run()
@@ -83,17 +87,6 @@ class Main: public CBase_Main {
       CkExit();
     }
 
-/*
-    void total(int x) {
-       CkPrintf("Total %d\n", x);
-    }
-    */
-    void total(CkReductionMsg *msg) {
-      int *data=(int *) msg->getData();
-      CkPrintf("Max %d\n", *data);
-      delete msg;
-    }
-
     void Result(CkReductionMsg *msg) {
       int *data=(int *) msg->getData();
       printTotal(data[2],data[1],data[0]); //DSAND: iteratioon
@@ -103,7 +96,6 @@ class Main: public CBase_Main {
 
     void printTotal(int total, int max, int iter){
         CkPrintf("ITER %d, MAX: %d, TOTAL: %d\n", iter, max, total);
-        //CkPrintf("ITER %d, MAX: %d, TOTAL: %d\n", iter, max, total); TO ASK
     }
 };
 
@@ -118,15 +110,13 @@ class Cell: public CBase_Cell {
     vector<Particle> particles;
     //TODO: more variables might be needed
     double xMin, xMax, yMin, yMax;
-    vector<Particle> N, S, E, W, NE, NW, SE, SW;
+    vector<Particle> N, S, E, W, NE, NW, SE, SW, MINE;
     int count_neighbours;
-    //int size;
-    //int reduction_array[3];
 
     Cell() {
       __sdag_init();
       iteration = 0;
-      initializeBoundary(); //TO ASK
+      initializeBoundary(); 
       populateCell(particlesPerCell); //creates random particles within the cell
       usesAtSync = CmiTrue;
     }
@@ -150,6 +140,7 @@ class Cell: public CBase_Cell {
       p|NW;
       p|SE;
       p|SW;
+      p|MINE;
       p|count_neighbours;
       //TODO: if you added more variable, decide if they need to go into the pup method
     }
@@ -158,11 +149,10 @@ class Cell: public CBase_Cell {
 
       //Clear the buffers for the next iteration
       N.clear(); NE.clear(); E.clear(); SE.clear();
-      S.clear(); SW.clear(); W.clear(); NW.clear();
+      S.clear(); SW.clear(); W.clear(); NW.clear(); MINE.clear();
       
       //TODO:use perturb function for the location of new particles
       //TODO:move the particles
-
 
       std::vector<Particle>::iterator itr = particles.begin();
       std::vector<Particle>::iterator end = particles.end();
@@ -173,15 +163,10 @@ class Cell: public CBase_Cell {
 
         perturb(*itr);
 
-        bool deleteFromLocal = false;
-        deleteFromLocal = prepareForMovement(*itr);
-        if (deleteFromLocal) {
-          particles.erase(itr++); 
-        } else {
-          ++itr;
-        }
+        prepareForMovement(*itr);
+        itr++;
       }
-
+      particles = MINE;
     }
     //you can add more methods if you want or need to
 
@@ -222,7 +207,7 @@ class Cell: public CBase_Cell {
       */
     }
 
-    bool prepareForMovement(Particle &p) {
+    void prepareForMovement(Particle &p) {
       
       double x = p.x;
       double y = p.y;
@@ -240,10 +225,6 @@ class Cell: public CBase_Cell {
         p.y  = y + GRID_MAX;
       }
 
-      //Still positioned in the same cell
-      if(x >= xMin && x < xMax && y >= yMin && y < yMax) {
-        return false;
-      }
 
       if(x >= xMax && y >= yMin && y < yMax) {
         //Particle moved to East: (thisIndex.x, thisIndex.y) to (thisIndex.x + 1, thisIndex,y)
@@ -270,9 +251,9 @@ class Cell: public CBase_Cell {
       //Particle moved to NorthEast: (thisIndex.x, thisIndex.y) to (thisIndex.x + 1, thisIndex.y -1)
           NE.push_back(p);
       } else {
-        CkAbort("Error In Movement\n\n");
+      //Still positioned in the same cell
+          MINE.push_back(p);
       }
-      return true;
     }
 
 
