@@ -7,6 +7,7 @@
 #define ITERATION (100)
 #define GRID_MAX (100)
 #define GRID_MIN (0)
+#define LB_INTERVAL 5
 #define wrap_chare(a)  (((a)+cellDimension)%cellDimension)
 
 /*readonly*/ CProxy_Main mainProxy;
@@ -283,6 +284,7 @@ class Cell: public CBase_Cell {
      * range as x = [xMin,xMax), y = [yMin,yMax)
      */
     void populateCell(int initialElements) {
+      initialElements = initialElements / 2 + (thisIndex.x *initialElements) / cellDimension;
       srand(time(NULL) + thisIndex.x + thisIndex.y); //TO ASK 
       for(int i = 0 ; i < initialElements;  i++) {
         double f_x = (double)rand() / RAND_MAX;

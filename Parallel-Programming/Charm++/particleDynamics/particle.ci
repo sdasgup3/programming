@@ -17,6 +17,7 @@ mainmodule ParticleExercise {
   array [2D] Cell {
     entry Cell(void);
     entry void updateNeighbor(int iter, std::vector<Particle> incoming);
+    entry void ResumeFromSync();
 
     // Main computation
     entry void run() {
@@ -46,6 +47,13 @@ mainmodule ParticleExercise {
             }
           }
           
+          if(iteration % LB_INTERVAL == 0 ) {
+            serial {
+              AtSync();
+            }
+            when ResumeFromSync() {}
+          }
+
           //TODO: Add contribute calls for reductions of max and avg calculation
           if(0 == iteration%10) serial "Sending Result" {
               int size =  particles.size();
