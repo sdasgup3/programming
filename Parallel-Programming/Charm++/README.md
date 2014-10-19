@@ -161,6 +161,7 @@ Group and NodeGroup
     GroupType *g=groupProxy.ckLocalBranch();
 ```
 3. If the mainchare wants to broadcast an entry method on a chare array and after they finishes they must all return back to a specific fun F.
+
 ```C++
     ckCallback cb = ckCallback(ckReductionTarget(Main, comaeBackAfterRegistration), mainProxy);
     workerarray.registerToNodeGroup(cb);
