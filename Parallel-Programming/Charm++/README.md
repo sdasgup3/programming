@@ -22,7 +22,9 @@ General
     
     array::array(int p1) {}
 ```
-
+12. MPI: a node have cores and which in turn has hardware threads. In MPI, if we have a 100 nodes each with 10 cores we run a 1000 rank mpi prog with each process on each core. Even if the cores share the same node, they still do message passing.
+13. Adding more cores does not help in parallelism as the memory contemtion occurs as all the core will be shareing the memry bus and if there is lot of memory request then there might be contention.
+14. setcpuaffinity: to say operating system that if a thread is cintext swicthed due to some reason then again host that in the same core. Hosting in other cores lead to loosing chached data.
 
 SDAG
 =====
@@ -181,6 +183,9 @@ Group and NodeGroup
         }
     }
 ```
+4. When an entry method is invoked on a particular branch of a nodegroup, it may be executed by any PE in that logical node. Thus two invocations of a single entry method on a particular branch of a NodeGroup may be executed concurrently by two different PEs in the logical node.
+5. If a method M of a nodegroup NG is marked exclusive, it means that while an instance of M is being executed by a PE within a logical node, no other PE within that logical node will execute any other exclusive methods. However, PEs in the logical node may still execute non-exclusive entry method invocations.
+6. 
 To Dos
 ========
 1. Quicense detection
@@ -190,6 +195,8 @@ Now t0 will suspend till it is awakened by the return of the sync method.
 c1.SM will be in the scheduler queue?? 
 While t0 is suspended can a different entry method get scheduled??
 If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
+++ppn what is that
+CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv in non smp)
 
 
 
