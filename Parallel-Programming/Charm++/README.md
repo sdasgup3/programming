@@ -114,10 +114,10 @@ class Worker: public CBase_Worker  {
 ```
 2. Sync methods should always   return message
 3. If respond is a sync method, then the following recurcive calls will serialize them as the second sync call cannot proceed before the first returns. 
-```C++
+    ```C++
     myMsg* n1 = w1.respond(n-1);
     myMsg* n2 = w1.respond(n-2);
-```  
+    ```
 4. Any method that calls a sync method must be able to suspend : threaded method of a chare C Can suspend, without blocking the processor, Other chares can then be executed, Even other methods of chare C can be executed
 5. You can suspend a thread and “awaken” it
     * CthThread CthSelf(): Returns the ID of the (calling) thread 
@@ -132,6 +132,7 @@ Messages
 1. Messages passed to Charm belong to Charm – Deleted or reused by Charm after sending
 2. Message delivered by Charm belongs to user – Must be reused or deleted; If you don’t delete or reuse, memory leaks happen
 3. Priority
+
 ```C++
     MyVarsizeMsg *msg = new (10,7, 8*sizeof(int))  MyVarsizeMsg(<constructor args>);
     *(int*)CkPriorityPtr(msg) = prio; //set priority OR
@@ -146,7 +147,9 @@ Messages
     opts2.setQueueing(CK_QUEUEING_LIFO);
     opts2.setPriority(int prioBits,const prio_t *prioPtr);
     chare.entry_name(arg1, arg2, **opts1**);
-    chare.entry_name(arg1, arg2, **opts2**);    
+    chare.entry_name(arg1, arg2, **opts2**);  
+```
+
 Tags
 ====
 1. nokeep: User code should not free messages; 
