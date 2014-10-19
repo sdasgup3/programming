@@ -155,11 +155,12 @@ Tags
 Group and NodeGroup
 ========================
 1. Note that there can be several instances of each group type. In such a case, each instance has a unique group identifier, and its own set of branches.
-2. This call returns a regular C++ pointer to the actual object (not a proxy) referred to by the proxy groupProxy. Once a proxy to the local branch of a group is obtained, that branch can be accessed as a regular C++ object. Its public methods can return values, and its public data is readily accessible
+2. This call returns a regular C++ pointer to the actual object (not a proxy) referred to by the proxy groupProxy. Once a proxy to the local branch of a group is obtained, that branch can be accessed as a regular C++ object. Its public methods can return values, and its public data is readily accessible.
 
 ```C++
     GroupType *g=groupProxy.ckLocalBranch();
 ```
+
 3. If the mainchare wants to broadcast an entry method on a chare array and after they finishes they must all return back to a specific fun F.
 
 ```C++
