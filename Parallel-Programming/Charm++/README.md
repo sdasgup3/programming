@@ -7,6 +7,22 @@ General
 5. The place where we do mainProxy.entryM(); the control does not go to the mainchare, but instead it will call in asuynchronously and go ahead, so better make sure that the following code has a cleaner exit in case you do  not want to do anything else after calling mainchare entry method.
 6. array [1D] Worker NOT chare [1D] ...
 7. Worker(CkMigrateMessage* msg) {} //In C file only
+8. In ci, Main constructor is also an entry method 
+9. To enable generation of the serialization code, the entry method signatures must be declared in the interface file.
+10. Since Charm++ runs on distributed memory machines, we cannot pass an array via a pointer in the usual C++ way. The array length expression is evaluated exactly once per invocation, on the sending side only. Thus executing the doGeneral method above will invoke the (user-defined) product function exactly once on the sending processor.
+```C++
+    entry void doLine(float data[n],int n);
+    entry void doPlane(float data[n*n],int n);
+    entry void doSpace(int n,int m,int o,float data[n*m*o]);
+    entry void doGeneral(int nd,int dims[nd],float data[product(dims,nd)]);
+```
+11. For creating chare arrays
+```C++
+    CProxy_array A = CProxy_array::ckNew(p1, size); // size must be the last arg
+    
+    array::array(int p1) {}
+```
+
 
 SDAG
 =====
@@ -76,9 +92,95 @@ contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray));
 
 Threaded Entry Methods
 ===========================
-1. 
+1. This is a way to have thread sync. Note that The place where the chares elements are going after the reduction is their own respective thisIndex.barrierH(), where they have they owned CthThread t to awaken. After calling contribute the threads suspend them self till all the thread call contribute when the reduction happen and barrierH is called and all are awakened.
+```C++
+class Worker: public CBase_Worker  {
+
+  public:
+   
+    CthThread t;
+   
+    void barrier() {
+      contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray));
+      t = CthSelf();
+      CthSuspend();
+    } 
+
+    void barrierH() {
+      CthAwaken(t);
+    } 
+```
+2. Sync methods should always   return message
+3. If respond is a sync method, then the following recurcive calls will serialize them as the second sync call cannot proceed before the first returns. 
+```C++
+    myMsg* n1 = w1.respond(n-1);
+    myMsg* n2 = w1.respond(n-2);
+```  
+4. Any method that calls a sync method must be able to suspend : threaded method of a chare C Can suspend, without blocking the processor, Other chares can then be executed, Even other methods of chare C can be executed
+5. You can suspend a thread and “awaken” it
+    * CthThread CthSelf(): Returns the ID of the (calling) thread 
+    * CthSuspend: wrap it up, and give control to the scheduler. This is what happens underneath a “blocking invocation” of a sync method
+    * CthAwaken(threadID):Put this thread in the list of ready threads (and other method invocations). Scheduler will run it when it comes to the head of the queue
+6. Threads are still a cooperative rather than pre-emptive multi-threading, and it is still true that only a single method is actually running at a time on a give chare; but it is now possible for multiple method invocations to be “active” with suspended threads.
+7. Threaded methods are used in (relatively rare) situations when the blocking wait happens deep from nested function calls, since structured dagger notation requires such waiting to be lifted to the top level of the control flow. 
+8. Structured dagger based methods have a slightly smaller overhead than threaded methods, don’t need allocation of a separate stack, and are typically perceived as clearer to understand by Charm++ programmers.
+
+Messages
+==========
+1. Messages passed to Charm belong to Charm – Deleted or reused by Charm after sending
+2. Message delivered by Charm belongs to user – Must be reused or deleted; If you don’t delete or reuse, memory leaks happen
+3. Priority
+```C++
+    MyVarsizeMsg *msg = new (10,7, 8*sizeof(int))  MyVarsizeMsg(<constructor args>);
+    *(int*)CkPriorityPtr(msg) = prio; //set priority OR
+    void CkSetQueueing(MsgType message, int queueingtype)
+    int * prioMsg = CkPriorityPtr(msg); //get priority
+    queueingType: CK_QUEUEING_XIFO, CK_QUEUEING_IXIFO, CK_QUEUEING_BXIFO where X = F or L 
+    
+    OR
+    CkEntryOptions opts1, opts2;
+    opts1.setQueueing(CK_QUEUEING_FIFO);
+    opts1.setPriority(prio_t integerPrio);
+    opts2.setQueueing(CK_QUEUEING_LIFO);
+    opts2.setPriority(int prioBits,const prio_t *prioPtr);
+    chare.entry_name(arg1, arg2, **opts1**);
+    chare.entry_name(arg1, arg2, **opts2**);    
+Tags
+====
+1. nokeep: User code should not free messages; 
+    * Common usage: avoiding a copy for each chare on a PE during a broadcast
+    * Also note: you cannot modify contents of nokeep messages
 
 
+Group and NodeGroup
+========================
+1. Note that there can be several instances of each group type. In such a case, each instance has a unique group identifier, and its own set of branches.
+2. This call returns a regular C++ pointer to the actual object (not a proxy) referred to by the proxy groupProxy. Once a proxy to the local branch of a group is obtained, that branch can be accessed as a regular C++ object. Its public methods can return values, and its public data is readily accessible.
+
+```C++
+    GroupType *g=groupProxy.ckLocalBranch();
+```
+3. If the mainchare wants to broadcast an entry method on a chare array and after they finishes they must all return back to a specific fun F.
+
+```C++
+    ckCallback cb = ckCallback(ckReductionTarget(Main, comaeBackAfterRegistration), mainProxy);
+    workerarray.registerToNodeGroup(cb);
+    
+    Worker::registerToNodeGroup(ckCallback &cb) {
+        groupProxy.ckLocalBranch()->registerMe();
+        contribute(cb);
+    }
+    
+    myGroup::registerMe {
+        countOfCharesOnThisPE++;
+    }
+
+    myGroup::submitToMain() {
+        if(membersContactedMe == countOfCharesOnThisPE) {
+            contribute(..To Main .. );
+        }
+    }
+```
 To Dos
 ========
 1. Quicense detection
@@ -88,6 +190,10 @@ Now t0 will suspend till it is awakened by the return of the sync method.
 c1.SM will be in the scheduler queue?? 
 While t0 is suspended can a different entry method get scheduled??
 If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
+
+
+
+
 
 1.  Charm++ basics: entry methods etc.Principle of Persistence
 2. Chare Arrays
