@@ -205,18 +205,18 @@ CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv i
 
 
 
-1.  Charm++ basics: entry methods etc.Principle of Persistence
+1. Charm++ basics: entry methods etc.Principle of Persistence
 2. Chare Arrays
 3. SDAG
-4. Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
 5. Grain Size
 6. Collective Communication: Reduction, reduction managers, callback, broadcast
 
 
-7.  Quiescence detection
+7. Quiescence detection ; 
 8. Threaded methods / Futures / Messages
-9. Groups / Node groups
-10. Charm++ tools: LiveViz, Projections, CharmDebug
+13. Cannon's Algorithm / Parallel Prefix
+10. Charm++ tools: LiveViz, Projections, CharmDebug, Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
+
 11. Array Sections / Multicast
 12. SMP Mode/CkLoop  
-13. Cannon's Algorithm / Parallel Prefix
+9. Groups / Node groups
