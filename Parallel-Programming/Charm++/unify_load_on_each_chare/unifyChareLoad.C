@@ -42,6 +42,20 @@ class Main : public CBase_Main {
     delete msg;
 
     chareArray = CProxy_ChareElem::ckNew(chare_array_size);
+    //CkStartQD(CkIndex_Main::Qdetect(NULL), &thishandle); or
+    //CkCallback cb = CkCallback(CkIndex_Main::Qdetect(NULL), thisProxy); or
+    CkCallback cb = CkCallback(CkReductionTarget(Main, Qdetect2), thisProxy); 
+    CkStartQD(cb);
+
+  }
+
+  void Qdetect(CkReductionMsg* msg) {
+    CkPrintf("Quiescence detecetd\n");
+    CkExit();
+  }
+  void Qdetect2() {
+    CkPrintf("Quiescence2 detecetd\n");
+    CkExit();
   }
 
   Main(CkMigrateMessage* msg) {}
@@ -69,7 +83,7 @@ class Main : public CBase_Main {
       CkPrintf("Correctness Criteria FAILED %d %d\n",finalCheckSum, checksum_before_balance); 
     } 
     CkPrintf("Exiting...\n\n");
-    CkExit();
+    //CkExit();
   }
 };
 

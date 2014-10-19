@@ -10,6 +10,8 @@ mainmodule unifyChareLoad {
     entry [reductiontarget] void collectAverage(int );
     entry [reductiontarget] void collectInitChecksum(int );
     entry [reductiontarget] void done(int);
+    entry void Qdetect(CkReductionMsg*);
+    entry [reductiontarget]void Qdetect2();
   };
   
   array [1D] ChareElem { 

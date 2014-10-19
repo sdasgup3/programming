@@ -1,5 +1,5 @@
-#CHARMC=/home/acun2/charm/net-linux-x86_64/bin/charmc $(OPTS)
-CHARMC=charmc $(OPTS)
+CHARMC=~/charm/net-linux-x86_64/bin/charmc $(OPTS)
+#CHARMC=charmc $(OPTS)
 TEST=unifyChareLoad
 
 all: $(TEST)
@@ -14,7 +14,7 @@ $(TEST).def.h $(TEST).decl.h : $(TEST).ci
 	$(CHARMC) $(TEST).ci
 
 test: all
-	charmrun +p4 $(TEST) 1024 5000 30000  ++local
+	./charmrun +p4 $(TEST) 1024 5000 30000  ++local
 #charmrun +p4   $(TEST) 8 10 100   ++local
 
 clean:
