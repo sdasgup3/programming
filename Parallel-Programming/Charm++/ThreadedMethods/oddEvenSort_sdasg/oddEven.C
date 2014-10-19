@@ -38,6 +38,7 @@ class Worker: public CBase_Worker  {
   public:
     Worker_SDAG_CODE
     int val;
+    int i;
     CthThread t;
     Worker() {
       __sdag_init();
@@ -46,7 +47,7 @@ class Worker: public CBase_Worker  {
       CkPrintf("Initial: [%d]: val :  %d\n", thisIndex, val);
     }
 
-    void dump() {
+    void dump() { 
       CkPrintf("Final: [%d]: val :  %d\n", thisIndex, val);
     }
 
@@ -61,21 +62,6 @@ class Worker: public CBase_Worker  {
     void barrierH() {
       CthAwaken(t);
     } 
-
-
-    myMsg* sendSmaller(int leftVal) {
-      myMsg* msg = new myMsg();
-      if(leftVal > val) {
-        msg->val  = val;
-        val = leftVal;
-      } else {
-        msg->val  = leftVal;
-      }
-      return msg;
-    }
-    
-
-
 };
 
 

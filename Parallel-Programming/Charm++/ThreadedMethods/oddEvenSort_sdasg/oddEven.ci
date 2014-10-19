@@ -12,29 +12,62 @@ mainmodule oddEven {
 
   array [1D] Worker {
     entry Worker();
-    entry [sync] myMsg* sendSmaller(int);
+    entry void sendToRight(int, int);
+    entry void responseFromRight(int, int);
 
     entry [threaded] void run() {
-      serial {
-      for (int i = 0 ; i < numelements; i++) {
+      for ( i = 0 ; i < numelements; i++) {
         
         if(thisIndex % 2 == 0 && thisIndex != numelements -1 ) {
-          myMsg* m = workerarray[thisIndex + 1].sendSmaller(val);
-          val = m->val;
-          delete m;
+          serial {
+            workerarray[thisIndex + 1].sendToRight(thisIndex,val);
+          }
+          when responseFromRight[thisIndex + 1](int iter, int rightVal) serial {
+            val = rightVal;
+          }
         } 
-        barrier();
-        if (thisIndex % 2 == 1 && thisIndex != numelements -1 ) {
-          myMsg* m  = workerarray[thisIndex + 1].sendSmaller(val);
-          val = m->val;
-          delete m;
+        if(thisIndex % 2 == 1) {
+          when sendToRight[thisIndex-1](int iter, int leftVal) serial {
+            if(leftVal > val) {
+              workerarray[thisIndex-1].responseFromRight(thisIndex,val);
+              val = leftVal;
+            } else {
+              workerarray[thisIndex-1].responseFromRight(thisIndex, leftVal);
+            }
+          }
         }
-        barrier();
+        serial {
+          //CkPrintf("[%d] iter: %d : First\n", thisIndex, i);
+          barrier();
+        }
+        if (thisIndex % 2 == 1 && thisIndex != numelements -1 ) {
+          serial {
+            workerarray[thisIndex + 1].sendToRight(thisIndex, val);
+          }
+          when responseFromRight[thisIndex+1](int iter, int rightVal) serial {
+            val = rightVal;
+          }
+        }
+        if (thisIndex != 0 && thisIndex % 2 == 0 ) {
+          when sendToRight[thisIndex -1 ] (int iter , int leftVal) serial {
+            if(leftVal > val) {
+              workerarray[thisIndex-1].responseFromRight(thisIndex, val);
+              val = leftVal;
+            } else {
+              workerarray[thisIndex-1].responseFromRight(thisIndex, leftVal);
+            }
+          }
+        }
+        serial {
+          //CkPrintf("[%d] iter: %d : Second\n", thisIndex, i);
+          barrier();
+        }
       }
 
-      contribute(CkCallback(CkIndex_Main::done(NULL), mainproxy)); 
-
+      serial {
+        contribute(CkCallback(CkIndex_Main::done(NULL), mainproxy)); 
       }
+
     };
     entry void dump();
     entry [reductiontarget] void barrierH();
