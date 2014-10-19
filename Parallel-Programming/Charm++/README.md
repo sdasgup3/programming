@@ -7,6 +7,7 @@ General
 5. The place where we do mainProxy.entryM(); the control does not go to the mainchare, but instead it will call in asuynchronously and go ahead, so better make sure that the following code has a cleaner exit in case you do  not want to do anything else after calling mainchare entry method.
 6. array [1D] Worker NOT chare [1D] ...
 7. Worker(CkMigrateMessage* msg) {} //In C file only
+8. In ci, Main constructor is also an entry method 
 
 SDAG
 =====
@@ -76,8 +77,35 @@ contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray));
 
 Threaded Entry Methods
 ===========================
-1. 
+1. This is a way to have thread sync. Note that The place where the chares elements are going after the reduction is their own respective thisIndex.barrierH(), where they have they owned CthThread t to awaken. After calling contribute the threads suspend them self till all the thread call contribute when the reduction happen and barrierH is called and all are awakened.
+```C++
+class Worker: public CBase_Worker  {
 
+  public:
+   
+    CthThread t;
+   
+    void barrier() {
+      contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray));
+      t = CthSelf();
+      CthSuspend();
+    } 
+
+    void barrierH() {
+      CthAwaken(t);
+    } 
+```
+2. Sync methods should always   return message
+3. If respond is a sync method, then the following recurcive calls will serialize them as the second sync call cannot proceed before the first returns. 
+```C++
+    myMsg* n1 = w1.respond(n-1);
+    myMsg* n2 = w1.respond(n-2);
+```  
+4. Any method that calls a sync method must be able to suspend : threaded method of a chare C Can suspend, without blocking the processor, Other chares can then be executed, Even other methods of chare C can be executed
+5. You can suspend a thread and “awaken” it
+    * CthThread CthSelf(): Returns the ID of the (calling) thread 
+    * CthSuspend: wrap it up, and give control to the scheduler. This is what happens underneath a “blocking invocation” of a sync method
+    * CthAwaken(threadID):Put this thread in the list of ready threads (and other method invocations). Scheduler will run it when it comes to the head of the queue
 
 To Dos
 ========
@@ -88,6 +116,10 @@ Now t0 will suspend till it is awakened by the return of the sync method.
 c1.SM will be in the scheduler queue?? 
 While t0 is suspended can a different entry method get scheduled??
 If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
+
+
+
+
 
 1.  Charm++ basics: entry methods etc.Principle of Persistence
 2. Chare Arrays
