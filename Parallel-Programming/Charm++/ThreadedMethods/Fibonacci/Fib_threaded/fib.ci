@@ -1,0 +1,29 @@
+mainmodule fib {
+  readonly CProxy_Main mainProxy;
+  message myMsg;
+
+  mainchare Main {
+    entry Main(CkArgMsg *);
+    entry void result(int );
+      
+  };
+
+
+  chare Worker {
+    entry Worker();
+    entry [sync] myMsg* respond (int);
+
+    entry [threaded] void run (int n) {
+          serial {
+            CProxy_Worker w1 = CProxy_Worker::ckNew();
+            CProxy_Worker w2 = CProxy_Worker::ckNew();
+            myMsg* n1 = w1.respond(n-1);
+            myMsg* n2 = w1.respond(n-2);
+            mainProxy.result(n1->val + n2->val);
+            delete n1;
+            delete n2;
+          }
+    };
+
+  };
+};
