@@ -1,0 +1,17 @@
+mainmodule fib {
+  readonly CProxy_Main mainProxy;
+  message myMsg;
+
+  mainchare Main {
+    entry Main(CkArgMsg *);
+    entry [threaded] void run (int n );
+      
+  };
+
+
+  chare Worker {
+    entry Worker(int, CkFuture);
+    entry [threaded] void run (int n, CkFuture );
+
+  };
+};
