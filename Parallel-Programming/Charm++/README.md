@@ -279,7 +279,7 @@ CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv i
 thishandle vs thisProxy
 ResumeFromSync: entry method or not
 bare threaf fib prgm: why respond is not threaded
-
+section 3D
 
 
 
@@ -292,11 +292,14 @@ bare threaf fib prgm: why respond is not threaded
 
 
 7. Quiescence detection ; [DONE]
+Paper  [DONE]
 10. Charm++ tools: LiveViz, Projections, CharmDebug, Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
 
 8. Threaded methods / Futures / Messages
-Paper
-13. Cannon's Algorithm / Parallel Prefix
+
+13. Cannon's Algorithm / Parallel Prefix /LJ
+Grain Size and LB vid
+meetings
 
 14. ENtry method tags
 Message
