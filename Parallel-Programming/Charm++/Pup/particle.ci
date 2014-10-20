@@ -1,0 +1,36 @@
+mainmodule ParticleExercise {
+
+  include "Particle.h";
+
+  readonly CProxy_Main mainProxy;
+  readonly CProxy_Cell cellProxy;
+  readonly int particlesPerCell;
+  readonly int cellDimension;
+
+  mainchare Main {
+    entry Main(CkArgMsg* m);
+    entry [reductiontarget] void done();
+  };
+
+  array [1D] Cell {
+    entry Cell(void);
+    entry void send(int ,std::vector<Particle> );
+    entry void run() {
+      if(thisIndex %2 == 0) {
+        serial  {
+         cellProxy[thisIndex + 1].send(thisIndex, particles); 
+        }
+      } else {
+        when send[thisIndex -1](int n, std::vector<Particle> p) {
+          serial {
+            std::vector<Particle>::iterator it = p.begin();
+            CkPrintf("R[%d] %f %f %d\n", thisIndex, (*it).x, (*it).y,(*it).size );
+            for(int i = 0 ; i< (*it).size; i++) {
+              CkPrintf("%d ",(*it).arr[i]);
+            }
+          }
+        }
+      }
+    };
+  };
+};
