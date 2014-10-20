@@ -1,0 +1,12 @@
+#!/bin/sh
+#PBS -q cse
+#PBS -l nodes=2:ppn=12
+#PBS -N numt
+#PBS -j oe
+#PBS -l walltime=00:05:00
+
+cd /home/sdasgup3/CS598LVK/sdasgup3/mp1/unify_load_on_each_chare/
+~/gennodelist.sh > nodelist
+
+echo "Program Starting"
+/home/sdasgup3/CS598LVK/sdasgup3/mp1/unify_load_on_each_chare/charmrun ++mpiexec ++nodelist nodelist ./unifyChareLoad +p24 1024 5000 30000 
