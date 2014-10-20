@@ -1,0 +1,17 @@
+mainmodule fib {
+  readonly CProxy_Main mainProxy;
+
+  mainchare Main {
+    entry Main(CkArgMsg *);
+    entry void result(int );
+      
+  };
+
+
+  chare Worker {
+    entry Worker(int a,  CProxy_Worker b);
+    entry [threaded] void respond (int);
+    entry [threaded] void run (int n);
+
+  };
+};
