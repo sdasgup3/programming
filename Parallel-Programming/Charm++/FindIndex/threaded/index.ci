@@ -1,0 +1,31 @@
+mainmodule index {
+  readonly CProxy_Main mainProxy;
+  readonly CProxy_B BProxy;
+  readonly CProxy_A AProxy;
+  message myMsg;
+
+
+
+  mainchare Main {
+
+    entry Main(CkArgMsg* msg);
+    entry [reductiontarget] void done();
+
+  };
+
+  array [1D] B {
+
+    entry B(); 
+    entry [sync] myMsg* G(int); 
+
+  };
+
+  array [1D] A {
+
+    entry A();
+    entry [threaded] void F() ;
+
+  };
+
+
+};

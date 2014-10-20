@@ -1,0 +1,51 @@
+mainmodule index {
+  readonly CProxy_Main mainProxy;
+  readonly CProxy_B BProxy;
+  readonly CProxy_A AProxy;
+  message myMsg;
+
+
+
+  mainchare Main {
+
+    entry Main(CkArgMsg* msg);
+    entry [reductiontarget] void done();
+
+  };
+
+  array [1D] B {
+
+    entry B(); 
+    entry void  G(int, int, int); 
+
+  };
+
+  array [1D] A {
+
+    entry A();
+    entry void H(int ,int);
+
+    entry  void F() {
+      for(i = 0 ; i < PER_A_ELEMS; i ++) {
+        serial {
+          BProxy[Q[i]/PER_B_ELEMS].G(Q[i], thisIndex, i);
+        }
+      }
+      for(i = 0 ; i < PER_A_ELEMS; i ++) {
+        when H[i](int index, int val) serial {
+          T[i] = val;
+        }
+      }
+      serial {
+        CkPrintf("T[%d] Contents\n", thisIndex);
+        for(int i = 0 ; i < PER_A_ELEMS; i ++ ) {
+          CkPrintf("%d ", T[i]);
+        }
+        CkPrintf("\n");
+      }
+    };
+
+  };
+
+
+};
