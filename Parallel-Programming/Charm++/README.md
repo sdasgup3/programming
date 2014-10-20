@@ -85,11 +85,23 @@ Reduction
 //In .ci
 entry void done(CkReductionMsg* );
 //In C
-contribute(CkCallback(CkIndex_Main::done(NULL), mainproxy)); //OR
+contribute(CkCallback(CkIndex_Main::done(NULL), mainproxy));
+            OR
 //In .ci
 entry [reductiontarget] void barrierH();
 //In C
-contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray));
+contribute (CkCallback(CkReductionTarget(Worker,  barrierH), workerarray)); 
+            OR
+//In .ci
+entry void resumeIter();
+//In .C            
+CkCallback cb(CkIndex_Main::resumeIter(), mainProxy);
+contribute(0, NULL, CkReduction::sum_int, cb);
+            OR
+//In .ci            
+entry void doStep() 
+//In C            
+contribute(0, 0, CkReduction::concat, CkCallback(CkIndex_Stencil::doStep(), thisProxy));
 ```
 Quiescence Detection
 ==========================
@@ -134,7 +146,7 @@ class Worker: public CBase_Worker  {
       CthAwaken(t);
     } 
 ```
-2. Sync methods should always   return message
+2. Sync methods should always   **return message**
 3. If respond is a sync method, then the following recurcive calls will serialize them as the second sync call cannot proceed before the first returns. 
     ```C++
     myMsg* n1 = w1.respond(n-1);
@@ -148,7 +160,12 @@ class Worker: public CBase_Worker  {
 6. Threads are still a cooperative rather than pre-emptive multi-threading, and it is still true that only a single method is actually running at a time on a give chare; but it is now possible for multiple method invocations to be “active” with suspended threads.
 7. Threaded methods are used in (relatively rare) situations when the blocking wait happens deep from nested function calls, since structured dagger notation requires such waiting to be lifted to the top level of the control flow. 
 8. Structured dagger based methods have a slightly smaller overhead than threaded methods, don’t need allocation of a separate stack, and are typically perceived as clearer to understand by Charm++ programmers.
-
+9. Futures need to be created from a threaded entry method.
+10. Syntax
+```C++
+myMsg* m = (myMsg*)CkWaitFuture(f); // conversion from void*
+```
+ 
 Messages
 ==========
 1. Messages passed to Charm belong to Charm – Deleted or reused by Charm after sending
@@ -211,6 +228,43 @@ Group and NodeGroup
 4. When an entry method is invoked on a particular branch of a nodegroup, it may be executed by any PE in that logical node. Thus two invocations of a single entry method on a particular branch of a NodeGroup may be executed concurrently by two different PEs in the logical node.
 5. If a method M of a nodegroup NG is marked exclusive, it means that while an instance of M is being executed by a PE within a logical node, no other PE within that logical node will execute any other exclusive methods. However, PEs in the logical node may still execute non-exclusive entry method invocations.
 6. 
+
+Migration
+===========
+```C++
+    void pup(PUP::er &p){
+      p|x;
+      p|y;
+      p|size;
+      int isNull = (!arr);
+      p|isNull;
+      if(p.isUnpacking()) {
+        if(isNull) {
+          arr = NULL;
+        } else {
+          arr = new int[size]; // NOT int arr ... 
+        }
+      }
+      p(arr, size); //Must be outside packing or unpacking
+    }
+    
+    void pup(PUP::er &p) {
+        CBase MyChare::pup(p);
+        p | heapArraySize;
+        if (p.isUnpacking()) {
+            heapArray = new float[heapArraySize];
+        }
+        p(heapArray, heapArraySize);
+        bool isNull = !pointer;
+        p | isNull;
+        if (!isNull) {
+            if (p.isUnpacking()) {
+                pointer = new   MyClass();
+            }
+            p | *pointer;
+        }
+```
+
 To Dos
 ========
 1. Quicense detection
@@ -223,6 +277,8 @@ If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets 
 ++ppn what is that
 CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv in non smp)
 thishandle vs thisProxy
+ResumeFromSync: entry method or not
+bare threaf fib prgm: why respond is not threaded
 
 
 
@@ -232,15 +288,19 @@ thishandle vs thisProxy
 2. Chare Arrays
 3. SDAG
 5. Grain Size
-6. Collective Communication: Reduction, reduction managers, callback, broadcast
 
 
-7. Quiescence detection ; 
+
+7. Quiescence detection ; [DONE]
 10. Charm++ tools: LiveViz, Projections, CharmDebug, Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
-8. Threaded methods / Futures / Messages
-13. Cannon's Algorithm / Parallel Prefix
-14. ENtry method tags
 
+8. Threaded methods / Futures / Messages
+Paper
+13. Cannon's Algorithm / Parallel Prefix
+
+14. ENtry method tags
+Message
+6. Collective Communication: Reduction, reduction managers, callback, broadcast
 11. Array Sections / Multicast
 12. SMP Mode/CkLoop  
 9. Groups / Node groups
