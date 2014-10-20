@@ -1,4 +1,4 @@
-CHARMC=/home/acun2/charm/net-linux-x86_64/bin/charmc $(OPTS)
+CHARMC=~/charm/net-linux-x86_64/bin/charmc $(OPTS)
 TESTOPTS = ++local
 
 OBJS = particle.o
@@ -12,8 +12,7 @@ K = 16
 all: particle
 
 particle: $(OBJS)
-#$(CHARMC) -tracemode projections -O3 -language charm++ -o particle $(OBJS)
-	$(CHARMC)  -O3 -language charm++ -o particle $(OBJS)
+	$(CHARMC) -tracemode projections  -O3 -language charm++ -o particle $(OBJS)
 
 particle.decl.h: particle.ci
 	$(CHARMC)  particle.ci

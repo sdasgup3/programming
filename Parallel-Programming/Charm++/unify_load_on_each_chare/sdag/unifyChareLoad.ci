@@ -1,0 +1,59 @@
+mainmodule unifyChareLoad {
+  readonly  CProxy_Main mainProxy;
+  readonly  CProxy_ChareElem chareArray;
+  readonly  int chare_array_size;
+  readonly  int min;
+  readonly  int max;
+
+  mainchare Main {
+    entry Main(CkArgMsg*);
+    entry [reductiontarget] void collectAverage(int );
+    entry [reductiontarget] void collectInitChecksum(int );
+    entry [reductiontarget] void done(int);
+    entry [reductiontarget]void Qdetect2();
+  };
+  
+  array [1D] ChareElem { 
+    entry ChareElem();
+    entry void send(int stage, int val) ;
+    entry void step( ) {
+
+      for(dist = 1 ; dist < chare_array_size; dist = dist << 1) {
+        serial {
+          if((thisIndex + dist) < chare_array_size) {
+            thisProxy[thisIndex + dist].send(dist, parPrefix);
+          }
+        }
+        if(thisIndex >= dist) {
+          when send[dist](int stage, int val) serial {
+            parPrefix += val;
+          }
+        }
+      }
+
+      serial {
+        exclusiveParPrefix = parPrefix - num_elems;
+        CkPrintf("Before Balance: Chare [%d]: %d values,  ParPrefix: %d Exclusive ParPrefix: %d) \n", thisIndex, num_elems, parPrefix, exclusiveParPrefix);
+        
+        local_checksum = 0;
+        for(int i = 0 ;   i< num_elems ; i ++) {
+          #ifdef DEBUG
+          CkPrintf("%d ", elems[i]);
+          #endif
+          local_checksum ^= elems[i]; 
+        }
+        #ifdef DEBUG
+        CkPrintf("\n");
+        #endif
+        CkCallback cb_1(CkReductionTarget(Main, collectInitChecksum), mainProxy);
+        contribute(sizeof(int), &local_checksum, CkReduction::bitvec_xor , cb_1);
+
+        CkCallback cb_2(CkReductionTarget(Main, collectAverage), mainProxy);
+        contribute(sizeof(int), &num_elems, CkReduction::sum_int, cb_2);
+      }
+    };
+      
+    entry void unifyLoad(double);
+    entry void recvPacket(int start_index, int end_index, int collectValueToSameDest[end_index - start_index + 1], double avg);
+  };
+};
