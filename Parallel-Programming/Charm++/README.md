@@ -124,6 +124,28 @@ entry void doStep()
 //In C            
 contribute(0, 0, CkReduction::concat, CkCallback(CkIndex_Stencil::doStep(), thisProxy));
 ```
+5. Custom Reduction
+ ```C++
+ //C or .ci
+ CkCallback cb = CkCallback(Ck_Index_Main::Result(NULL), mainProxy);
+ contribute(3*sizeof(int), arr, customRType, cb);
+ //In .ci
+ initproc void reister(void);
+ //In C, global space
+ void register(void) {
+  customType = CkReduction::addReducer(F);
+ }
+ CkReductionMsg* F(int n, CkReductionMsg** msg) {
+  int reduced[3];
+  for(int i =0; i< n; i++) {
+   CkAssert(sizeof(msg[i]) == 3 * sizeof(int));
+   ... = (int *)msg[i]->getData(); // returns an arr of three ints
+  
+  }
+  return CkReductionMsg::buildNew(3*sizeof(int), reduced);
+ }
+ ```
+ 
 Quiescence Detection
 ==========================
 ```C++
