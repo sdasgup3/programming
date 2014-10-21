@@ -302,6 +302,17 @@ Load Balance
 
 * After all the migratable objects are tentatively assigned, the algorithm uses a refinement procedure to reduce the remaining load imbalance. During this step, all the overloaded processors (whose computed load exceeds the average by a certain amount) are arranged in a heap, as are all the under-loaded processors. The algorithm repeatedly picks a migratable object from the highest loaded processor, and assigns it to a suitable under-loaded processor.
 
+Good To know
+==================
+1. Since objects are scheduled based on availability of messages, no single object can hold the pro-
+cessor while it waits for some remote data. Instead, objects that have asynchronous method invo-
+cations (messages) waiting for them in the scheduler’s queue are allowed to execute. This leads to
+a natural overlap of communication and computation, without extra work from the programmer.
+E.g., a chare may send a message to a remote chare, and wait for another message from it before
+continuing. The ensuing communication time, which would otherwise be an idle period, is nat-
+urally and automatically filled in (i.e., overlapped) by the scheduler with useful computaion, i.e.,
+processing of another message from the scheduler’s queue for another chare.
+
 
 To Dos
 ========
