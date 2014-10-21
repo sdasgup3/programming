@@ -237,6 +237,14 @@ Tags
 1. nokeep: User code should not free messages; 
     * Common usage: avoiding a copy for each chare on a PE during a broadcast
     * Also note: you cannot modify contents of nokeep messages
+2. reductiontarget: Target of reductions, despite not taking CkReductionMsg as an argument. 
+3. local: 
+    * These entry methods are equivalent to normal function calls.
+    * The entry method is always executed immediately. This feature is available only for Group objects and Chare Array objects. The user has to guarantee that the recipient chare element reside on the same PE. Otherwise, the application will abort on a failure. If the local entry method uses parameter marshalling, instead of marshalling input parameters into a message, it will pass them direcly to the callee. This implies that the callee can modify the caller data if method parameters are passed by pointer or reference. Furthermore, input parameters do not require to be PUPable. Considering that these entry methods always execute immediately, they are allowed to have a non-void return value. Nevertheless, the return type of the method must be a
+pointer. 
+4. inline: entry methods will be immediately invoked if the message recipient happens to be on the same PE. These entry methods need to be re-entrant as they could be called multiple times recursively. If the recipient resides on a non-local PE, a regular message is sent, and inline has no effect.
+5. exclusive: entry methods should only exist on NodeGroup objects. One such entry method will not execute while some other exclusive entry methods belonging to the same NodeGroup object are executing on the same node. In other words, if one exclusive method of a NodeGroup object is executing on node N, and another one is scheduled to run on the same node, the second exclusive method will wait to execute until the first one finishes.
+
 
 
 Group and NodeGroup
@@ -246,6 +254,8 @@ Group and NodeGroup
 
 ```C++
     GroupType *g=groupProxy.ckLocalBranch();
+    //Or
+    groupProkxy[CkMyPe()].F();
 ```
 3. If the mainchare wants to broadcast an entry method on a chare array and after they finishes they must all return back to a specific fun F.
 
@@ -352,9 +362,6 @@ E.g., a chare may send a message to a remote chare, and wait for another message
 continuing. The ensuing communication time, which would otherwise be an idle period, is naturally and automatically filled in (i.e., overlapped) by the scheduler with useful computaion, i.e., processing of another message from the scheduler’s queue for another chare.
 
 
-ENtry method tags
 Message
-Collective Communication: Reduction, reduction managers, callback, broadcast
 Array Sections / Multicast
 SMP Mode/CkLoop  
-Groups / Node groups
