@@ -289,31 +289,37 @@ Migration
 Load Balance
 ============
 1. In **centralized approaches**, the entire machine’s load and communication structure are accumulated to a single point, typically processor 0, followed by a decision making process to determine the new distribution of Charm++ objects. Centralized load balancing requires synchronization which may incur an overhead and delay. However, due to the fact that the decision process has a high degree of the knowledge about the entire platform, it tends to be more
-* Object load data are sent to processor 0
-* Integrate to a complete object graph
-* Migration decision is broadcasted from processor 0
-* Global barrier
-2. In distributed approaches, load data is only exchanged among neighboring processors. There is no global synchronization. However, they will not, in general, provide an immediate restoration for load balance - the process is iterated until the load balance can be achieved.
-* Load balancing among neighboring processors
-* Build partial object graph
-* Migration decision is sent to its neighbors
-* No global barrier
+ * Object load data are sent to processor 0
+ * Integrate to a complete object graph
+ * Migration decision is broadcasted from processor 0
+ * Global barrier
+ 
+2. In **distributed approaches**, load data is only exchanged among neighboring processors. There is no global synchronization. However, they will not, in general, provide an immediate restoration for load balance - the process is iterated until the load balance can be achieved.
+ * Load balancing among neighboring processors
+ * Build partial object graph
+ * Migration decision is sent to its neighbors
+ * No global barrier
 
+3. Limitations of centralized strategies:
+ * Centralized load balancing strategies dont scale on extremely large machines
+ * Central node: memory/communication bottleneck
+ * Decision-making algorithms tend to be very slow
+
+4. Limitations of distributed strategies:
+ * Difficult to achieve well-informed load balancing decisions
 
 3. In greaady the quality of LB is better than Refne but the desition making time time is more
-
 4. Greedy 
-* Sort objects by decreasing load; Maintain maxheap of processirs (by assigned load)
-* It is worth noting that a simple greedy strategy is adequate for a problem if balancing computation were the sole criterion. **In a standard greedy strategy, all the migratable objects are sorted in order of decreasing load. The processors are organied in a heap (i.e. a prioritized queue), so that the least loaded processor is at the top of the heap. Then, in each pass, the heaviest unassigned migratable object is assigned to the least loaded processor and the heap is reordered to account for the affected processor's load.** However, such a greedy strategy totally ignores communication costs.  In general, since more than one patch resides on each processor, message-combining and multicast mechanisms can further reduce the number of messages per patch if locality is considered. Since the communication costs (including not just the cost of sending and receiving messages, but also the cost of managing various data structures related to proxies) constitute a significant fraction of the overall execution time in each timestep, it is essential that the load balancing algorithm also considers these costs.
-* Disadvantage: We can ass8ign a lot of tiny objects to a single processor and if the objects are not commuticating between them (which might be the case as we are not taking commn into acount), then the communication load on the processir will increase. To combat that we may use GreedyComm, once we assign a object to a processor, together with the load of the object we also add the communication cost of the object to the assigned proc.
-
-*When communication cost is significant: Still use greedy strategy, but:
-** At each assignment step, choose between assigning O to least loaded processor and the processor that already has objects that communicate most with O.
-** Based on the degree of difference in the two metrics
-** Two-stage assignments:
+* Sort objects by decreasing load; Maintain Minheap of processirs (by assigned load)
+* It is worth noting that a simple greedy strategy is adequate for a problem if balancing computation were the sole   criterion. **In a standard greedy strategy, all the migratable objects are sorted in order of decreasing load. The   processors are organied in a heap (i.e. a prioritized queue), so that the least loaded processor is at the top of   the heap. Then, in each pass, the heaviest unassigned migratable object is assigned to the least loaded processor   and the heap is reordered to account for the affected processor's load.** However, such a greedy strategy totally   ignores communication costs.  In general, since more than one patch resides on each processor, message-combining    and multicast mechanisms can further reduce the number of messages per patch if locality is considered. Since the   communication costs (including not just the cost of sending and receiving messages, but also the cost of managing   various data structures related to proxies) constitute a significant fraction of the overall execution time in      each timestep, it is essential that the load balancing algorithm also considers these costs.
+* Disadvantage: We can ass8ign a lot of tiny objects to a single processor and if the objects are not commuticating   between them (which might be the case as we are not taking commn into acount), then the communication load on the   processir will increase. To combat that we may use GreedyComm, once we assign a object to a processor, together  
+  with the load of the object we also add the communication cost of the object to the assigned proc.
+* When communication cost is significant: Still use greedy strategy, but:
+  ** At each assignment step, choose between assigning O to least loaded processor and the processor that already has objects that communicate most with O.
+  ** Based on the degree of difference in the two metrics
+  ** Two-stage assignments:
         *** In early stages, consider communication costs as long as the processors are in the same (broad) load class,
         ***In later stages, decide based on load
-
 * After all the migratable objects are tentatively assigned, the algorithm uses a refinement procedure to reduce the remaining load imbalance. During this step, all the overloaded processors (whose computed load exceeds the average by a certain amount) are arranged in a heap, as are all the under-loaded processors. The algorithm repeatedly picks a migratable object from the highest loaded processor, and assigns it to a suitable under-loaded processor.
 
 Good To know
