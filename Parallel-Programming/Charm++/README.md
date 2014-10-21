@@ -1,3 +1,10 @@
+Grain Size
+==========
+* Tiny grain size over head on scheduling
+* Chunkier grain size not enough parallelism
+* tiny objects --> very good load balancing, but the load balancing strategy will take more time.
+* Over decomposition gives benefit of better cache utilization: analogy of tiling
+ 
 General
 ========
 1. readonly  CProxy_Master name; // This name should not be mainchare
@@ -28,10 +35,11 @@ General
 
 SDAG
 =====
-1.  structure dagger entry method in ci file should end with semicolon
-2.  handy to use wrap (x) ((x + n) %n) 
-3.  for reduction with logical_and use int as the contributing elements
-4.  Dont forget to the following
+* Why SDAG Imp :If there are dependencies between these entry methods within a single chare, they are specified implicitly in the code. Moreover, since Charm ++ does not guarantee any order on the delivery of messages, these dependencies must be specified at the target of the invocations. These dependencies are usually enforced through variables that track the state of the target chare, causing messages to be buffered until they are ready to be processed by it. 
+* structure dagger entry method in ci file should end with semicolon
+* handy to use wrap (x) ((x + n) %n) 
+* for reduction with logical_and use int as the contributing elements
+* Dont forget to the following
     ``` C++
     class Worker: public CBase_Worker {
       Worker_SDAG_CODE
@@ -47,7 +55,20 @@ SDAG
         }
     }
     ```
-    
+* 
+```C++ 
+when method1(paramenters) serial {
+}
+when method2(paramenters) serial { 
+//The parameters of method1 will not be available to method2; Memory usage lower
+}
+//SO better do
+when method2(p1), method (p2) serial {
+
+}
+
+```  
+
 Reduction
 =========
 1. After the data is reduced, it is passed to you via a callback object. The message passed to the callback is of type CkReductionMsg . Unlike typed reductions, here we discuss callbacks that take CkReductionMsg* argument. The important members of CkReductionMsg are getSize() , which returns the number of bytes of reduction data; and getData() , which returns a ``void *'' to the actual reduced data. You may pass the client callback as an additional parameter to contribute .
@@ -103,6 +124,28 @@ entry void doStep()
 //In C            
 contribute(0, 0, CkReduction::concat, CkCallback(CkIndex_Stencil::doStep(), thisProxy));
 ```
+5. Custom Reduction
+ ```C++
+ //C or .ci
+ CkCallback cb = CkCallback(Ck_Index_Main::Result(NULL), mainProxy);
+ contribute(3*sizeof(int), arr, customRType, cb);
+ //In .ci
+ initproc void reister(void);
+ //In C, global space
+ void register(void) {
+  customType = CkReduction::addReducer(F);
+ }
+ CkReductionMsg* F(int n, CkReductionMsg** msg) {
+  int reduced[3];
+  for(int i =0; i< n; i++) {
+   CkAssert(sizeof(msg[i]) == 3 * sizeof(int));
+   ... = (int *)msg[i]->getData(); // returns an arr of three ints
+  
+  }
+  return CkReductionMsg::buildNew(3*sizeof(int), reduced);
+ }
+ ```
+ 
 Quiescence Detection
 ==========================
 ```C++
@@ -263,44 +306,55 @@ Migration
             }
             p | *pointer;
         }
+
 ```
+Load Balance
+============
+1. In **centralized approaches**, the entire machine’s load and communication structure are accumulated to a single point, typically processor 0, followed by a decision making process to determine the new distribution of Charm++ objects. Centralized load balancing requires synchronization which may incur an overhead and delay. However, due to the fact that the decision process has a high degree of the knowledge about the entire platform, it tends to be more
+ * Object load data are sent to processor 0
+ * Integrate to a complete object graph
+ * Migration decision is broadcasted from processor 0
+ * Global barrier
+ 
+2. In **distributed approaches**, load data is only exchanged among neighboring processors. There is no global synchronization. However, they will not, in general, provide an immediate restoration for load balance - the process is iterated until the load balance can be achieved.
+ * Load balancing among neighboring processors
+ * Build partial object graph
+ * Migration decision is sent to its neighbors
+ * No global barrier
+ * Adv: Number of processors is large and/or load variation is rapid
 
-To Dos
-========
-1. Quicense detection
-2. Let e be an threaded entry method and we call e on an array of size 2 chares c0 and c1 and lets suppose there are scedules on the same core. Let the scheduler picks c0.e() and runs it. There will be  a thread t0 corresponding to the that entry method e. Now suppose that thread t0 call a sync method SM on c1. 
-Is C1.SM a lead to a normal process or it will also generate a thread to run on the core?? 
-Now t0 will suspend till it is awakened by the return of the sync method. 
-c1.SM will be in the scheduler queue?? 
-While t0 is suspended can a different entry method get scheduled??
-If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
-++ppn what is that
-CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv in non smp)
-thishandle vs thisProxy
-ResumeFromSync: entry method or not
-bare threaf fib prgm: why respond is not threaded
+3. Limitations of centralized strategies:
+ * Centralized load balancing strategies dont scale on extremely large machines
+ * Central node: memory/communication bottleneck
+ * Decision-making algorithms tend to be very slow
+
+4. Limitations of distributed strategies:
+ * Difficult to achieve well-informed load balancing decisions
+
+3. In greaady the quality of LB is better than Refne but the desition making time time is more
+4. Greedy 
+* Sort objects by decreasing load; Maintain Minheap of processirs (by assigned load)
+* It is worth noting that a simple greedy strategy is adequate for a problem if balancing computation were the sole   criterion. **In a standard greedy strategy, all the migratable objects are sorted in order of decreasing load. The   processors are organied in a heap (i.e. a prioritized queue), so that the least loaded processor is at the top of   the heap. Then, in each pass, the heaviest unassigned migratable object is assigned to the least loaded processor   and the heap is reordered to account for the affected processor's load.** However, such a greedy strategy totally   ignores communication costs.  In general, since more than one patch resides on each processor, message-combining    and multicast mechanisms can further reduce the number of messages per patch if locality is considered. Since the   communication costs (including not just the cost of sending and receiving messages, but also the cost of managing   various data structures related to proxies) constitute a significant fraction of the overall execution time in      each timestep, it is essential that the load balancing algorithm also considers these costs.
+* Disadvantage: We can ass8ign a lot of tiny objects to a single processor and if the objects are not commuticating   between them (which might be the case as we are not taking commn into acount), then the communication load on the   processir will increase. To combat that we may use GreedyComm, once we assign a object to a processor, together  
+  with the load of the object we also add the communication cost of the object to the assigned proc.
+* When communication cost is significant: Still use greedy strategy, but:
+  ** At each assignment step, choose between assigning O to least loaded processor and the processor that already has objects that communicate most with O.
+  ** Based on the degree of difference in the two metrics
+  ** Two-stage assignments:
+        *** In early stages, consider communication costs as long as the processors are in the same (broad) load class,
+        ***In later stages, decide based on load
+* After all the migratable objects are tentatively assigned, the algorithm uses a refinement procedure to reduce the remaining load imbalance. During this step, all the overloaded processors (whose computed load exceeds the average by a certain amount) are arranged in a heap, as are all the under-loaded processors. The algorithm repeatedly picks a migratable object from the highest loaded processor, and assigns it to a suitable under-loaded processor.
+
+Good To know
+==================
+1. Since objects are scheduled based on availability of messages, no single object can hold the processor while it waits for some remote data. Instead, objects that have asynchronous method invocations (messages) waiting for them in the scheduler’s queue are allowed to execute. This leads to a natural overlap of communication and computation, without extra work from the programmer.
+E.g., a chare may send a message to a remote chare, and wait for another message from it before
+continuing. The ensuing communication time, which would otherwise be an idle period, is naturally and automatically filled in (i.e., overlapped) by the scheduler with useful computaion, i.e., processing of another message from the scheduler’s queue for another chare.
 
 
-
-
-
-1. Charm++ basics: entry methods etc.Principle of Persistence
-2. Chare Arrays
-3. SDAG
-5. Grain Size
-
-
-
-7. Quiescence detection ; [DONE]
-10. Charm++ tools: LiveViz, Projections, CharmDebug, Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
-
-8. Threaded methods / Futures / Messages
-Paper
-13. Cannon's Algorithm / Parallel Prefix
-
-14. ENtry method tags
+ENtry method tags
 Message
-6. Collective Communication: Reduction, reduction managers, callback, broadcast
-11. Array Sections / Multicast
-12. SMP Mode/CkLoop  
-9. Groups / Node groups
+Collective Communication: Reduction, reduction managers, callback, broadcast
+Array Sections / Multicast
+SMP Mode/CkLoop  
+Groups / Node groups
