@@ -284,9 +284,8 @@ Migration
             }
             p | *pointer;
         }
-```
-```
 
+```
 Load Balance
 ============
 1. In **centralized approaches**, the entire machine’s load and communication structure are accumulated to a single point, typically processor 0, followed by a decision making process to determine the new distribution of Charm++ objects. Centralized load balancing requires synchronization which may incur an overhead and delay. However, due to the fact that the decision process has a high degree of the knowledge about the entire platform, it tends to be more
