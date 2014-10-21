@@ -1,10 +1,9 @@
-Grain Size
-==========
-1. Tiny grain size ohead head of scheduling
-2. Chunkier grain size not enogh parallelism
-3. tinu objects --> very good load balancing, but the load balancing strategy will take more time.
-4. Overdecomposition gives benefit of better chache utilization: analogy of tiling
-5. 
+### Grain Size
+* Tiny grain size over head on scheduling
+* Chunkier grain size not enough parallelism
+* tiny objects --> very good load balancing, but the load balancing strategy will take more time.
+* Over decomposition gives benefit of better cache utilization: analogy of tiling
+ 
 General
 ========
 1. readonly  CProxy_Master name; // This name should not be mainchare
@@ -35,10 +34,11 @@ General
 
 SDAG
 =====
-1.  structure dagger entry method in ci file should end with semicolon
-2.  handy to use wrap (x) ((x + n) %n) 
-3.  for reduction with logical_and use int as the contributing elements
-4.  Dont forget to the following
+* Why SDAG Imp :If there are dependencies between these entry methods within a single chare, they are specified implicitly in the code. Moreover, since Charm ++ does not guarantee any order on the delivery of messages, these dependencies must be specified at the target of the invocations. These dependencies are usually enforced through variables that track the state of the target chare, causing messages to be buffered until they are ready to be processed by it. 
+* structure dagger entry method in ci file should end with semicolon
+* handy to use wrap (x) ((x + n) %n) 
+* for reduction with logical_and use int as the contributing elements
+* Dont forget to the following
     ``` C++
     class Worker: public CBase_Worker {
       Worker_SDAG_CODE
@@ -54,7 +54,20 @@ SDAG
         }
     }
     ```
-    
+* 
+```C++ 
+when method1(paramenters) serial {
+}
+when method2(paramenters) serial { 
+//The parameters of method1 will not be available to method2; Memory usage lower
+}
+//SO better do
+when method2(p1), method (p2) serial {
+
+}
+
+```  
+
 Reduction
 =========
 1. After the data is reduced, it is passed to you via a callback object. The message passed to the callback is of type CkReductionMsg . Unlike typed reductions, here we discuss callbacks that take CkReductionMsg* argument. The important members of CkReductionMsg are getSize() , which returns the number of bytes of reduction data; and getData() , which returns a ``void *'' to the actual reduced data. You may pass the client callback as an additional parameter to contribute .
@@ -304,31 +317,11 @@ Load Balance
 
 Good To know
 ==================
-1. Since objects are scheduled based on availability of messages, no single object can hold the pro-
-cessor while it waits for some remote data. Instead, objects that have asynchronous method invo-
-cations (messages) waiting for them in the scheduler’s queue are allowed to execute. This leads to
-a natural overlap of communication and computation, without extra work from the programmer.
+1. Since objects are scheduled based on availability of messages, no single object can hold the processor while it waits for some remote data. Instead, objects that have asynchronous method invocations (messages) waiting for them in the scheduler’s queue are allowed to execute. This leads to a natural overlap of communication and computation, without extra work from the programmer.
 E.g., a chare may send a message to a remote chare, and wait for another message from it before
-continuing. The ensuing communication time, which would otherwise be an idle period, is nat-
-urally and automatically filled in (i.e., overlapped) by the scheduler with useful computaion, i.e.,
-processing of another message from the scheduler’s queue for another chare.
+continuing. The ensuing communication time, which would otherwise be an idle period, is naturally and automatically filled in (i.e., overlapped) by the scheduler with useful computaion, i.e., processing of another message from the scheduler’s queue for another chare.
 
 
-To Dos
-========
-1. Quicense detection
-2. Let e be an threaded entry method and we call e on an array of size 2 chares c0 and c1 and lets suppose there are scedules on the same core. Let the scheduler picks c0.e() and runs it. There will be  a thread t0 corresponding to the that entry method e. Now suppose that thread t0 call a sync method SM on c1. 
-Is C1.SM a lead to a normal process or it will also generate a thread to run on the core?? 
-Now t0 will suspend till it is awakened by the return of the sync method. 
-c1.SM will be in the scheduler queue?? 
-While t0 is suspended can a different entry method get scheduled??
-If Yes, let c1.e gets scheduled and got suspended somehow...... then c1.SM gets shceduled...
-++ppn what is that
-CkLoop_Exit need to be called only on non_smp mode Also ckLoop_init(par to giv in non smp)
-thishandle vs thisProxy
-ResumeFromSync: entry method or not
-bare threaf fib prgm: why respond is not threaded
-section 3D
 
 
 
