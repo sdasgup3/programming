@@ -88,6 +88,10 @@ Reduction
 ```  
 2. If no member passes a callback to contribute , the reduction will use the default callback. Programmers can set the default callback for an array or group using the **ckSetReductionClient(CkCallback*)** proxy call on **processor zero**, or by passing the callback to CkArrayOptions::setReductionClient() before creating the array. Again, a CkReductionMsg message will be passed to this callback, *which must delete the message when done*.
 ```C++
+    //In ci
+    entry void done();
+    entry vod Resulr(CkReductionMsg*)
+    //In C
     CkCallback *cb = new CkCallback(CkIndex_Main::Result(NULL),  mainProxy); //Or
     CkCallback *cb = new CkCallback(CkReductionTarget(Main,done), thisProxy);// If Typed reduction
     cellProxy.ckSetReductionClient(cb);
