@@ -234,10 +234,11 @@ Messages
 4. When a message is sent, i.e. passed to an asynchronous entry method invocation, the programmer relinquishes control of it; the space allocated for the message is freed by the runtime system.
 5. Once a parameter-marshalled entry method finishes, the runtime system discards the memory buffer underlying the marshalled parameters. Therefore, in order to access received parameters in a different entry method invocation, they must be saved via copying. In contrast, the runtime system does not discard the memory buffer passed into an entry method that is invoked with a message. It is up to the programmer to manage the memory associated with the input message at the receiving end. This fact can be used to improve performance in parallel programs.
 6. It is worth noting that one of the common sources of overheads in programs (especially, fine-grained computations) is the overhead of memeory allocation. This overhead is reduced here because we reuse the message.
-7. Two scenarios whree message is better
+7. 3 scenarios whree message is better
  * Recall that marshalled parameters are available to your code only in the scope of the entry method in which they are received. Therefore, if a chare needs to access marshalled parameters after the entry method has finished, they must be copied into heap-allocatedbuffers. This often happens in programs in which a chare receiving data may not be ready to process the data immediately upon receipt. In this case, data received via a message can be saved for later use by simply recording the pointer to the input message received by theentry method. This is often more efficient than copying received marshalled parameters ontothe heap, especially if the entry method receives arrays and large, composite data structures.Of course, you must remember to delete received messages yourself:
  * You should also use a message instead of marshalled parameters if your entry method exhibits the following pattern: it receives data of a certain size, possibly altering it in the body of the entry method, and sends it to another chare, such that the size of sent data is the same as that of the received data. In such a case, the
 contents of an incoming message could be altered, and the message reused in the invocation of an entry method on some other chare.
+  * Can be custom packed
 
 Tags
 ====
