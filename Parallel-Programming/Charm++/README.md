@@ -1,4 +1,5 @@
-### Grain Size
+Grain Size
+==========
 * Tiny grain size over head on scheduling
 * Chunkier grain size not enough parallelism
 * tiny objects --> very good load balancing, but the load balancing strategy will take more time.
@@ -284,10 +285,11 @@ Migration
             p | *pointer;
         }
 ```
+```
 
 Load Balance
 ============
-1. In ** centralized approaches**, the entire machine’s load and communication structure are accumulated to a single point, typically processor 0, followed by a decision making process to determine the new distribution of Charm++ objects. Centralized load balancing requires synchronization which may incur an overhead and delay. However, due to the fact that the decision process has a high degree of the knowledge about the entire platform, it tends to be more
+1. In **centralized approaches**, the entire machine’s load and communication structure are accumulated to a single point, typically processor 0, followed by a decision making process to determine the new distribution of Charm++ objects. Centralized load balancing requires synchronization which may incur an overhead and delay. However, due to the fact that the decision process has a high degree of the knowledge about the entire platform, it tends to be more
 * Object load data are sent to processor 0
 * Integrate to a complete object graph
 * Migration decision is broadcasted from processor 0
