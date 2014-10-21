@@ -100,9 +100,11 @@ Reduction
 ```C++
     //In .ci
     entry [reductiontarget] void done(CkReductionMsg*);
+    entry vod Result(CkReductionMsg*)
     //In .C
-    CkCallback cb(CkReductionTarget(mainChareClassName, entryMethod), mainProxy);   
+    CkCallback cb(CkReductionTarget(mainChareClassName, done), mainProxy);  
     contribute(cb); // or
+    CkCallback cb(CkIndex::Result(NULL), mainProxy);
     contribute(sizeof(int),&myInt,CkReduction::sum_int, cb)
 ```
 4. Sync reductions:
