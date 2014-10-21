@@ -299,6 +299,7 @@ Load Balance
  * Build partial object graph
  * Migration decision is sent to its neighbors
  * No global barrier
+ * Adv: Number of processors is large and/or load variation is rapid
 
 3. Limitations of centralized strategies:
  * Centralized load balancing strategies dont scale on extremely large machines
@@ -329,30 +330,9 @@ E.g., a chare may send a message to a remote chare, and wait for another message
 continuing. The ensuing communication time, which would otherwise be an idle period, is naturally and automatically filled in (i.e., overlapped) by the scheduler with useful computaion, i.e., processing of another message from the scheduler’s queue for another chare.
 
 
-
-
-
-
-1. Charm++ basics: entry methods etc.Principle of Persistence
-2. Chare Arrays
-3. SDAG
-5. Grain Size
-
-
-
-7. Quiescence detection ; [DONE]
-Paper  [DONE]
-10. Charm++ tools: LiveViz, Projections, CharmDebug, Load balancing / LB Strategies (Greedy, refine, etc..) / PUP / Object Migration
-
-8. Threaded methods / Futures / Messages
-
-13. Cannon's Algorithm / Parallel Prefix /LJ
-Grain Size and LB vid
-meetings
-
-14. ENtry method tags
+ENtry method tags
 Message
-6. Collective Communication: Reduction, reduction managers, callback, broadcast
-11. Array Sections / Multicast
-12. SMP Mode/CkLoop  
-9. Groups / Node groups
+Collective Communication: Reduction, reduction managers, callback, broadcast
+Array Sections / Multicast
+SMP Mode/CkLoop  
+Groups / Node groups
