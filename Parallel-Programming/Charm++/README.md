@@ -88,6 +88,10 @@ Reduction
 ```  
 2. If no member passes a callback to contribute , the reduction will use the default callback. Programmers can set the default callback for an array or group using the **ckSetReductionClient(CkCallback*)** proxy call on **processor zero**, or by passing the callback to CkArrayOptions::setReductionClient() before creating the array. Again, a CkReductionMsg message will be passed to this callback, *which must delete the message when done*.
 ```C++
+    //In ci
+    entry void done();
+    entry vod Resulr(CkReductionMsg*)
+    //In C
     CkCallback *cb = new CkCallback(CkIndex_Main::Result(NULL),  mainProxy); //Or
     CkCallback *cb = new CkCallback(CkReductionTarget(Main,done), thisProxy);// If Typed reduction
     cellProxy.ckSetReductionClient(cb);
@@ -96,9 +100,11 @@ Reduction
 ```C++
     //In .ci
     entry [reductiontarget] void done(CkReductionMsg*);
+    entry vod Result(CkReductionMsg*)
     //In .C
-    CkCallback cb(CkReductionTarget(mainChareClassName, entryMethod), mainProxy);   
+    CkCallback cb(CkReductionTarget(mainChareClassName, done), mainProxy);  
     contribute(cb); // or
+    CkCallback cb(CkIndex::Result(NULL), mainProxy);
     contribute(sizeof(int),&myInt,CkReduction::sum_int, cb)
 ```
 4. Sync reductions:
@@ -231,12 +237,28 @@ Messages
     chare.entry_name(arg1, arg2, **opts1**);
     chare.entry_name(arg1, arg2, **opts2**);  
 ```
+4. When a message is sent, i.e. passed to an asynchronous entry method invocation, the programmer relinquishes control of it; the space allocated for the message is freed by the runtime system.
+5. Once a parameter-marshalled entry method finishes, the runtime system discards the memory buffer underlying the marshalled parameters. Therefore, in order to access received parameters in a different entry method invocation, they must be saved via copying. In contrast, the runtime system does not discard the memory buffer passed into an entry method that is invoked with a message. It is up to the programmer to manage the memory associated with the input message at the receiving end. This fact can be used to improve performance in parallel programs.
+6. It is worth noting that one of the common sources of overheads in programs (especially, fine-grained computations) is the overhead of memeory allocation. This overhead is reduced here because we reuse the message.
+7. 3 scenarios whree message is better
+ * Recall that marshalled parameters are available to your code only in the scope of the entry method in which they are received. Therefore, if a chare needs to access marshalled parameters after the entry method has finished, they must be copied into heap-allocatedbuffers. This often happens in programs in which a chare receiving data may not be ready to process the data immediately upon receipt. In this case, data received via a message can be saved for later use by simply recording the pointer to the input message received by theentry method. This is often more efficient than copying received marshalled parameters ontothe heap, especially if the entry method receives arrays and large, composite data structures.Of course, you must remember to delete received messages yourself:
+ * You should also use a message instead of marshalled parameters if your entry method exhibits the following pattern: it receives data of a certain size, possibly altering it in the body of the entry method, and sends it to another chare, such that the size of sent data is the same as that of the received data. In such a case, the
+contents of an incoming message could be altered, and the message reused in the invocation of an entry method on some other chare.
+  * Can be custom packed
 
 Tags
 ====
 1. nokeep: User code should not free messages; 
     * Common usage: avoiding a copy for each chare on a PE during a broadcast
     * Also note: you cannot modify contents of nokeep messages
+2. reductiontarget: Target of reductions, despite not taking CkReductionMsg as an argument. 
+3. local: 
+    * These entry methods are equivalent to normal function calls.
+    * The entry method is always executed immediately. This feature is available only for Group objects and Chare Array objects. The user has to guarantee that the recipient chare element reside on the same PE. Otherwise, the application will abort on a failure. If the local entry method uses parameter marshalling, instead of marshalling input parameters into a message, it will pass them direcly to the callee. This implies that the callee can modify the caller data if method parameters are passed by pointer or reference. Furthermore, input parameters do not require to be PUPable. Considering that these entry methods always execute immediately, they are allowed to have a non-void return value. Nevertheless, the return type of the method must be a
+pointer. 
+4. inline: entry methods will be immediately invoked if the message recipient happens to be on the same PE. These entry methods need to be re-entrant as they could be called multiple times recursively. If the recipient resides on a non-local PE, a regular message is sent, and inline has no effect.
+5. exclusive: entry methods should only exist on NodeGroup objects. One such entry method will not execute while some other exclusive entry methods belonging to the same NodeGroup object are executing on the same node. In other words, if one exclusive method of a NodeGroup object is executing on node N, and another one is scheduled to run on the same node, the second exclusive method will wait to execute until the first one finishes.
+
 
 
 Group and NodeGroup
@@ -246,6 +268,8 @@ Group and NodeGroup
 
 ```C++
     GroupType *g=groupProxy.ckLocalBranch();
+    //Or
+    groupProkxy[CkMyPe()].F();
 ```
 3. If the mainchare wants to broadcast an entry method on a chare array and after they finishes they must all return back to a specific fun F.
 
@@ -352,9 +376,5 @@ E.g., a chare may send a message to a remote chare, and wait for another message
 continuing. The ensuing communication time, which would otherwise be an idle period, is naturally and automatically filled in (i.e., overlapped) by the scheduler with useful computaion, i.e., processing of another message from the scheduler’s queue for another chare.
 
 
-ENtry method tags
-Message
-Collective Communication: Reduction, reduction managers, callback, broadcast
 Array Sections / Multicast
 SMP Mode/CkLoop  
-Groups / Node groups
