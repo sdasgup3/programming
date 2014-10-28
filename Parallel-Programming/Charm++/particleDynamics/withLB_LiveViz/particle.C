@@ -6,7 +6,7 @@
 #include "ParticleExercise.decl.h"
 #include <algorithm>
 
-#define ITERATION (100)
+#define ITERATION (10000)
 #define GRID_MAX (100)
 #define GRID_MIN (0)
 #define wrap_chare(a)  (((a)+cellDimension)%cellDimension)
@@ -162,9 +162,12 @@ class Cell: public CBase_Cell {
     void color_pixel(unsigned char*buf,int width, int height, int xpos,int ypos,
                              unsigned char R,unsigned char G,unsigned char B) {
       if(xpos>=0 && xpos<width && ypos>=0 && ypos<height) {
-        buf[3*(ypos*width+xpos)+0] = R; 
-        buf[3*(ypos*width+xpos)+1] = G; 
-        buf[3*(ypos*width+xpos)+2] = B; 
+        if(R)
+          buf[3*(ypos*width+xpos)+0] = R; 
+        if(G)
+          buf[3*(ypos*width+xpos)+1] = G; 
+        if(B)
+          buf[3*(ypos*width+xpos)+2] = B; 
       }
     }
 
@@ -179,6 +182,9 @@ class Cell: public CBase_Cell {
       double bound = ((double)GRID_MAX)/cellDimension ;
 
       unsigned char *intensity= new unsigned char[3*w*h];
+      for(int i = 0 ; i < 3*w*h ; i ++) {
+        intensity[i] = 0;
+      }
 
       for (int i=0; i < particles.size(); i++ ) {
         int xpos = (int)(((particles[i].x - xMin)/bound)*w);

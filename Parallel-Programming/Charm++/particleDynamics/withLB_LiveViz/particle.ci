@@ -28,22 +28,6 @@ mainmodule ParticleExercise {
 
     // Main computation
     entry void run() {
-        serial "stats" {
-          int R = 0, G  = 0, B  = 0;
-          for(int i = 0 ; i < particles.size(); i++) {
-            if(particles[i].R == 255) { 
-              R++;
-            } else  if(particles[i].G == 255) {
-              G++;
-            } else if(particles[i].B == 255) { 
-              B++;
-            } else {
-              CkAbort("Color !!\n");
-            }
-          }
-          //CkPrintf("[%d %d: x(%f %f) y(%f %f)]: R: %d G: %d B: %d, Total %d\n", thisIndex.x, thisIndex.y, xMin, xMax, yMin, yMax,R, G, B, R+G+B);
-
-        }
         for(iteration=0; iteration<ITERATION; iteration++){
           serial "Send Particles" {
             //TODO: Call updateParticles
@@ -71,17 +55,8 @@ mainmodule ParticleExercise {
           }
           
           //TODO: Add contribute calls for reductions of max and avg calculation
-          if(0 == iteration%10) {
-            serial "Sending Result" {
-              int size =  particles.size();
-              int reduction_array[3];
-              reduction_array[0]  = iteration;
-              reduction_array[1]  = size;
-              reduction_array[2]  = size;
-              
-              CkCallback cb(CkIndex_Main::Result(NULL), mainProxy);
-              contribute(3*sizeof(int), reduction_array, maxAndAvgType,cb);
-        
+          if(0 == iteration%20) {
+            serial "Ready to Migrate" {
 	      AtSync();			
             } when ResumeFromSync(){} 
           }
