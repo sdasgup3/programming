@@ -6,7 +6,7 @@
 #include "ParticleExercise.decl.h"
 #include <algorithm>
 
-#define ITERATION (10000)
+#define ITERATION (100)
 #define GRID_MAX (100)
 #define GRID_MIN (0)
 #define wrap_chare(a)  (((a)+cellDimension)%cellDimension)
@@ -182,6 +182,7 @@ class Cell: public CBase_Cell {
       double bound = ((double)GRID_MAX)/cellDimension ;
 
       unsigned char *intensity= new unsigned char[3*w*h];
+      CkPrintf("requestNextFrame\n");
       for(int i = 0 ; i < 3*w*h ; i ++) {
         intensity[i] = 0;
       }
