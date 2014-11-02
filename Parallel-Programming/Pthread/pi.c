@@ -34,7 +34,6 @@ void main ( int argc , char*  argv [ ] )
 
 printf ("%d\n", threads);
 
-//exit(0);
 	threadHandles = (pthread_t *) malloc ( threads * sizeof( pthread_t  ) ) ;
 
         int numtrials=1000000;
