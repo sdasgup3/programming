@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
       b[i][j] = i + j;
     }
 
-  if (matrixSize < 10) {  // print matrices if relatively small
+  if (matrixSize < 10) {  
     printMatrix(a);
     printMatrix(b);
   }
