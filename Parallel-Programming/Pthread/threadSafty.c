@@ -40,7 +40,6 @@ void main ( int argc , char*  argv [ ] )
 
 
   for ( t = 0 ; t< threads; t ++ ) {
-    printf ( "Spawning %ld\n", t ) ;
     struct arg_struct *args = (struct arg_struct *) malloc (sizeof(struct arg_struct ));
     args->arg = 10;
     args->id = t;
