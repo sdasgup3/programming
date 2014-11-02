@@ -46,7 +46,6 @@ void main ( int argc , char*  argv [ ] )
     pthread_create(&threadHandles [ t ] , NULL ,Hello , (void *)(args));
   }
 
-  printf ( "Hello from the main thread\n" ) ;
 
   for ( t= 0 ; t < threads; t ++)   pthread_join ( threadHandles [ t ] , NULL ) ;
 
