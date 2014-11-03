@@ -1,5 +1,6 @@
 Parallel-Programming
-  MPI
-  OpenMP 
-  PThread
-  Charm++
+=====================
+*  MPI
+*  OpenMP 
+*  PThread
+*  Charm++
