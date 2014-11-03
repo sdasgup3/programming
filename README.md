@@ -1,10 +1,6 @@
 Programming
 ===========
+Imperetive,  OOP, Parallel programming
 
-Parallel-Programming
-  MPI
-  OpenMP 
-  PThread
-  Charm++
   
 
