@@ -69,13 +69,11 @@ llvmpa-src
 svn up -r 13477
 
 cd llvmpa.obj
-source ~/Scripting/setup-llvmpa
-module load gcc
-../llvmpa-src/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-3.4/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-3.4/llvm-build --disable-optimized --enable-assertions
+source ~/SymbolicAnalysis/Scripts/setup.llvmpa
+#../llvmpa-src/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-3.4/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-3.4/llvm-build --disable-optimized --enable-assertions
 Release build
 ===============
 ../llvmpa/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-llvmpa/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-llvmpa/llvm-build --with-gcc-toolchain=/software/gcc-4.8.2 --with-extra-options=-std=c++11 --with-extra-ld-options="-Wl,-rpath,/software/gcc-4.8.2/lib64" --enable-optimized --enable-assertions
-
 make
 
 *******************************************************
