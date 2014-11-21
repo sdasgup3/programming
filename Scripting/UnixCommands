@@ -1,6 +1,7 @@
 ls -al commands.txt | cut -d '/' -f 2
 sort -t <delim> -k <field>
 du -sh .
+svn stat | grep "^[?]" | tr -s ' ' | cut -d ' ' -f 2 | xargs rm -rf
 
 ~/.inputrc
 =========
