@@ -1,0 +1,192 @@
+\documentclass[10pt,oneside]{report}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{comment}
+\hypersetup{
+	colorlinks=true,
+	citecolor=blue,%
+    filecolor=blue,%
+    linkcolor=blue,%
+    urlcolor=blue
+}
+
+
+\newcommand{\cmnt}[1]{}
+
+\begin{document}
+
+\chapter{JIT}
+
+\begin{itemize}
+\item
+Also the vm instructions are portable
+\item
+Compiler does not have many information like ...
+A JIT compiler runs after the program has started and compiles the code
+(usually bytecode or some kind of VM instructions) on the fly (or just-in-time,
+    as it's called) into a form that's usually faster, typically the host CPU's
+native instruction set. A JIT has access to dynamic runtime information whereas
+a standard compiler doesn't and can make better optimizations like inlining
+functions that are used frequently.
+
+\item In a stack based machine, opeartions are done by pshing operands onto the stack and then performing the opeartions 
+on the opearnds on the top of the stack. Stack based architecture got revived with the intro of
+JVM whih is a software interpretter for java bytecodes (an intermedate lang prducrd by java compiler)
+An interpretter provides software compatibility across multiple 
+platforms. TO overcome the high perf pnalty of interpretation JIT compilers are creted.
+
+\item for dynamically typed language interpretation is important and to overcome 
+the limitations of interpretation.
+
+\item (HOW)In practice, methods are not compiled the first time they are called. For
+each method, the JVM maintains a call count, which is incremented every time
+the method is called. The JVM interprets a method until its call count exceeds
+a JIT compilation threshold. Therefore, often-used methods are compiled soon
+after the JVM has started, and less-used methods are compiled much later, or
+not at all. The JIT compilation threshold helps the JVM start quickly and still
+have improved performance. The threshold has been carefully selected to obtain
+an optimal balance between startup times and long term performance.
+
+After a method is compiled, its call count is reset to zero and subsequent
+calls to the method continue to increment its count. When the call count of a
+method reaches a JIT recompilation threshold, the JIT compiler compiles it a
+second time, applying a larger selection of optimizations than on the previous
+compilation. This process is repeated until the maximum optimization level is
+reached. The busiest methods of a Java program are always optimized most
+aggressively, maximizing the performance benefits of using the JIT compiler.
+The JIT compiler can also measure operational data at run time, and use that
+data to improve the quality of further recompilations
+
+This is in contrast to a traditional compiler that compiles all the code to machine language before the program is first run.
+\end{itemize}
+
+\chapter{SLIDE 1}
+Dynamic languages like javascripts are popular: expressie, accessible to non
+experts and make deployment easy as dstributing a source file.  BUT more
+difficult to compile than statically typed languages. Even static type
+inferencing is too expensive to help for highly interactive environment
+
+
+\begin{itemize}
+\item Compilers for statically typed languages rely on type information to generate
+efficient machine code. In a dynamically typed programming language such as
+JavaScript, the types of expressions may vary at runtime. This means that the
+compiler can no longer easily transform operations into machine instructions
+that operate on one specific type. Without exact type information, the compiler
+must emit slower generalized machine code that can deal with all potential type
+combinations. 
+While compile-time static type inference might be able to
+gather type information to generate optimized machine code, 
+
+\end{itemize}
+
+\section{static vs dynamic type}
+
+\begin{itemize}
+\item
+In a \textbf{statically typed language}, every variable name is bound 
+to a type (at compile time, by means of a data declaration)
+(The binding to an object is optional — if a name is not bound to an object, the name is said to be null.)
+
+Once a variable name has been bound to a type (that is, declared) it can be
+bound (at run time) (via an assignment statement) only to objects of that type; it cannot
+ever be bound to an object of a different type. An attempt to bind the name to
+an object of the wrong type will raise a type exception. Also
+a type specified what operation that u are permitted to do on that varible
+
+In a \textbf{dynamically typed language}, every variable name  are bound to objects at execution time by
+  means of assignment statements, and it is possible to bind a name to objects
+  of different types during the execution of the program.
+
+  Python is a dynamically-typed language. 
+  Java is a statically-typed language.
+
+\item
+In a weakly typed language, variables can be implicitly coerced to unrelated
+types (like ints and strings), whereas in a strongly typed language they cannot, and an explicit
+conversion is required. 
+
+(Note that I said unrelated types. Most languages will
+    allow implicit coercions between related types — for example, the addition
+    of an integer and a float. By unrelated types I mean things like numbers
+    and strings.)
+
+In a typical weakly typed language, the number 9 and the
+string “9” are interchangeable, and the following sequence of statements is
+legal.
+
+a  = 9
+b = "9"
+c = concatenate(a, b)  // produces "99"
+d = add(a, b)          // produces 18
+In a strongly typed language, on the other hand, the last two statements would
+raise type exceptions. To avoid these exceptions, some kind of explicit type
+conversion wt
+  \end{itemize}  
+
+\chapter{Evaluation}
+
+\section{Results}
+    \item TraceMonkey is the fastest on 9 out of 26. 
+    because some of them are short programs with integer operations, so TM covers the entire prgm with 1-2 traces with integer type.
+    All other programs in this set is run almost entirely as native code.
+    \item 
+    These estimates also indicate that our startup performance could
+be substantially better if we improved the speed of trace recording
+and compilation. The estimated 200x slowdown for recording and
+compilation is very rough, and may be influenced by startup factors
+in the interpreter (e.g., caches that have not warmed up yet during
+recording). One observation supporting this conjecture is that in
+the tracer, interpreted bytecodes take about 180 cycles to run. Still,
+recording and compilation are clearly both expensive, and a better
+implementation, possibly including redesign of the LIR abstract
+syntax or encoding, would improve startup performance.
+  \end{itemize}
+
+
+
+
+\chapter{References}
+
+\section{Trace optimization for dynamic languages}
+To our knowledge, Rigo’s Psyco (16) is the only published
+type-specializing trace compiler for a dynamic language (Python).
+Psyco does not attempt to identify hot loops or inline function calls.
+Instead, Psyco transforms loops to mutual recursion before running
+and traces all operations.
+
+
+
+
+trace recording and patching for non loop and nested loop case
+
+
+
+\end{document}
+
+/cmnt{
+Just-in-time compilers are often quite similar in structure to their
+static counterparts. While they may be employing techniques
+specifically to reduce compilation time 
+(for example, using linear-
+scan register allocation instead of a graph-coloring algorithm), 
+they
+typically start off by constructing a control-flow graph (CFG) for
+the code to be compiled, then perform a series of optimization steps
+based on this graph, and as a final step traverse the CFG and emit
+native code. 
+In addition to a simple CFG, more ambitious opti-
+mizing compilers often use an intermediate representation based
+on Static Single Assignment (SSA). 
+
+They explore a different approach to building com-
+pilers in which no CFG is ever constructed. Instead, our compiler
+records and generates code from dynamically recorded code traces.
+Each code trace represents a loop in the program and may poten-
+tially span several basic blocks across several methods.
+
+Definition of trace:
+}

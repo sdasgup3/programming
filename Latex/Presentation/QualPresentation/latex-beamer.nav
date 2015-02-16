@@ -1,0 +1,184 @@
+\beamer@endinputifotherversion {3.24pt}
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\sectionentry {1}{Introduction}{2}{Introduction}{0}}
+\headcommand {\beamer@sectionpages {1}{1}}
+\headcommand {\beamer@subsectionpages {1}{1}}
+\headcommand {\slideentry {1}{0}{2}{2/2}{}{0}}
+\headcommand {\beamer@framepages {2}{2}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{Motivation}}\headcommand {\beamer@subsectionpages {2}{2}}
+\headcommand {\slideentry {1}{1}{1}{3/5}{Motivation}{0}}
+\headcommand {\beamer@framepages {3}{5}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{6}{TraceMonkey: Proposed Compilation strategy}}\headcommand {\beamer@subsectionpages {3}{5}}
+\headcommand {\slideentry {1}{2}{1}{6/7}{TraceMonkey: Proposed Compilation strategy}{0}}
+\headcommand {\beamer@framepages {6}{7}}
+\headcommand {\beamer@subsectionentry {0}{1}{3}{8}{Trace}}\headcommand {\beamer@subsectionpages {6}{7}}
+\headcommand {\slideentry {1}{3}{1}{8/10}{Trace}{0}}
+\headcommand {\beamer@framepages {8}{10}}
+\headcommand {\sectionentry {2}{Example Tracing Run}{11}{Example Tracing Run}{0}}
+\headcommand {\beamer@sectionpages {2}{10}}
+\headcommand {\beamer@subsectionpages {8}{10}}
+\headcommand {\slideentry {2}{0}{2}{11/11}{}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\slideentry {2}{0}{3}{12/12}{}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\slideentry {2}{0}{4}{13/13}{}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\slideentry {2}{0}{5}{14/14}{}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\slideentry {2}{0}{6}{15/15}{}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\slideentry {2}{0}{7}{16/16}{}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {2}{0}{8}{17/17}{}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\slideentry {2}{0}{9}{18/18}{}{0}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\slideentry {2}{0}{10}{19/19}{}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\slideentry {2}{0}{11}{20/20}{}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\slideentry {2}{0}{12}{21/21}{}{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\slideentry {2}{0}{13}{22/22}{}{0}}
+\headcommand {\beamer@framepages {22}{22}}
+\headcommand {\slideentry {2}{0}{14}{23/23}{}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\sectionentry {3}{Trace Tree Formation}{24}{Trace Tree Formation}{0}}
+\headcommand {\beamer@sectionpages {11}{23}}
+\headcommand {\beamer@subsectionpages {11}{23}}
+\headcommand {\slideentry {3}{0}{15}{24/24}{}{0}}
+\headcommand {\beamer@framepages {24}{24}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{25}{Type Stable Trace}}\headcommand {\beamer@subsectionpages {24}{24}}
+\headcommand {\slideentry {3}{1}{1}{25/25}{Type Stable Trace}{0}}
+\headcommand {\beamer@framepages {25}{25}}
+\headcommand {\slideentry {3}{1}{2}{26/26}{Type Stable Trace}{0}}
+\headcommand {\beamer@framepages {26}{26}}
+\headcommand {\slideentry {3}{1}{3}{27/27}{Type Stable Trace}{0}}
+\headcommand {\beamer@framepages {27}{27}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{28}{Trace Tree Extension}}\headcommand {\beamer@subsectionpages {25}{27}}
+\headcommand {\slideentry {3}{2}{1}{28/28}{Trace Tree Extension}{0}}
+\headcommand {\beamer@framepages {28}{28}}
+\headcommand {\beamer@subsectionentry {0}{3}{3}{29}{Type Unstable Trace Handling}}\headcommand {\beamer@subsectionpages {28}{28}}
+\headcommand {\slideentry {3}{3}{1}{29/29}{Type Unstable Trace Handling}{0}}
+\headcommand {\beamer@framepages {29}{29}}
+\headcommand {\slideentry {3}{3}{2}{30/30}{Type Unstable Trace Handling}{0}}
+\headcommand {\beamer@framepages {30}{30}}
+\headcommand {\slideentry {3}{3}{3}{31/31}{Type Unstable Trace Handling}{0}}
+\headcommand {\beamer@framepages {31}{31}}
+\headcommand {\slideentry {3}{3}{4}{32/32}{Type Unstable Trace Handling}{0}}
+\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\beamer@subsectionentry {0}{3}{4}{33}{Blacklisting}}\headcommand {\beamer@subsectionpages {29}{32}}
+\headcommand {\slideentry {3}{4}{1}{33/34}{Blacklisting}{0}}
+\headcommand {\beamer@framepages {33}{34}}
+\headcommand {\sectionentry {4}{Nested Trace Tree Formation}{35}{Nested Trace Tree Formation}{0}}
+\headcommand {\beamer@sectionpages {24}{34}}
+\headcommand {\beamer@subsectionpages {33}{34}}
+\headcommand {\slideentry {4}{0}{2}{35/35}{}{0}}
+\headcommand {\beamer@framepages {35}{35}}
+\headcommand {\slideentry {4}{0}{3}{36/36}{}{0}}
+\headcommand {\beamer@framepages {36}{36}}
+\headcommand {\slideentry {4}{0}{4}{37/37}{}{0}}
+\headcommand {\beamer@framepages {37}{37}}
+\headcommand {\slideentry {4}{0}{5}{38/38}{}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\slideentry {4}{0}{6}{39/39}{}{0}}
+\headcommand {\beamer@framepages {39}{39}}
+\headcommand {\slideentry {4}{0}{7}{40/40}{}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{41}{Continue tracing for outer loop}}\headcommand {\beamer@subsectionpages {35}{40}}
+\headcommand {\slideentry {4}{1}{1}{41/41}{Continue tracing for outer loop}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\slideentry {4}{1}{2}{42/42}{Continue tracing for outer loop}{0}}
+\headcommand {\beamer@framepages {42}{42}}
+\headcommand {\slideentry {4}{1}{3}{43/43}{Continue tracing for outer loop}{0}}
+\headcommand {\beamer@framepages {43}{43}}
+\headcommand {\slideentry {4}{1}{4}{44/44}{Continue tracing for outer loop}{0}}
+\headcommand {\beamer@framepages {44}{44}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{45}{Separate traces}}\headcommand {\beamer@subsectionpages {41}{44}}
+\headcommand {\slideentry {4}{2}{1}{45/45}{Separate traces}{0}}
+\headcommand {\beamer@framepages {45}{45}}
+\headcommand {\slideentry {4}{2}{2}{46/46}{Separate traces}{0}}
+\headcommand {\beamer@framepages {46}{46}}
+\headcommand {\slideentry {4}{2}{3}{47/47}{Separate traces}{0}}
+\headcommand {\beamer@framepages {47}{47}}
+\headcommand {\slideentry {4}{2}{4}{48/48}{Separate traces}{0}}
+\headcommand {\beamer@framepages {48}{48}}
+\headcommand {\slideentry {4}{2}{5}{49/49}{Separate traces}{0}}
+\headcommand {\beamer@framepages {49}{49}}
+\headcommand {\slideentry {4}{2}{6}{50/50}{Separate traces}{0}}
+\headcommand {\beamer@framepages {50}{50}}
+\headcommand {\slideentry {4}{2}{7}{51/51}{Separate traces}{0}}
+\headcommand {\beamer@framepages {51}{51}}
+\headcommand {\beamer@subsectionentry {0}{4}{3}{52}{Modified Blacklisting with Nesting}}\headcommand {\beamer@subsectionpages {45}{51}}
+\headcommand {\slideentry {4}{3}{1}{52/53}{Modified Blacklisting with Nesting}{0}}
+\headcommand {\beamer@framepages {52}{53}}
+\headcommand {\sectionentry {5}{Trace Tree Recording \& Optimization}{54}{Trace Tree Recording \& Optimization}{0}}
+\headcommand {\beamer@sectionpages {35}{53}}
+\headcommand {\beamer@subsectionpages {52}{53}}
+\headcommand {\slideentry {5}{0}{2}{54/54}{}{0}}
+\headcommand {\beamer@framepages {54}{54}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{55}{Recording}}\headcommand {\beamer@subsectionpages {54}{54}}
+\headcommand {\slideentry {5}{1}{1}{55/60}{Recording}{0}}
+\headcommand {\beamer@framepages {55}{60}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{61}{Trace Tree Optimization}}\headcommand {\beamer@subsectionpages {55}{60}}
+\headcommand {\slideentry {5}{2}{1}{61/65}{Trace Tree Optimization}{0}}
+\headcommand {\beamer@framepages {61}{65}}
+\headcommand {\beamer@subsectionentry {0}{5}{3}{66}{Forward Optimizations}}\headcommand {\beamer@subsectionpages {61}{65}}
+\headcommand {\slideentry {5}{3}{1}{66/69}{Forward Optimizations}{0}}
+\headcommand {\beamer@framepages {66}{69}}
+\headcommand {\beamer@subsectionentry {0}{5}{4}{70}{Backward optimizations}}\headcommand {\beamer@subsectionpages {66}{69}}
+\headcommand {\slideentry {5}{4}{1}{70/74}{Backward optimizations}{0}}
+\headcommand {\beamer@framepages {70}{74}}
+\headcommand {\sectionentry {6}{Trace stitching}{75}{Trace stitching}{0}}
+\headcommand {\beamer@sectionpages {54}{74}}
+\headcommand {\beamer@subsectionpages {70}{74}}
+\headcommand {\slideentry {6}{0}{2}{75/75}{}{0}}
+\headcommand {\beamer@framepages {75}{75}}
+\headcommand {\beamer@subsectionentry {0}{6}{1}{76}{Trace stitching}}\headcommand {\beamer@subsectionpages {75}{75}}
+\headcommand {\slideentry {6}{1}{1}{76/76}{Trace stitching}{0}}
+\headcommand {\beamer@framepages {76}{76}}
+\headcommand {\sectionentry {7}{Evaluation}{77}{Evaluation}{0}}
+\headcommand {\beamer@sectionpages {75}{76}}
+\headcommand {\beamer@subsectionpages {76}{76}}
+\headcommand {\slideentry {7}{0}{2}{77/77}{}{0}}
+\headcommand {\beamer@framepages {77}{77}}
+\headcommand {\beamer@subsectionentry {0}{7}{1}{78}{Setup}}\headcommand {\beamer@subsectionpages {77}{77}}
+\headcommand {\slideentry {7}{1}{1}{78/78}{Setup}{0}}
+\headcommand {\beamer@framepages {78}{78}}
+\headcommand {\beamer@subsectionentry {0}{7}{2}{79}{Results}}\headcommand {\beamer@subsectionpages {78}{78}}
+\headcommand {\slideentry {7}{2}{1}{79/79}{Results}{0}}
+\headcommand {\beamer@framepages {79}{79}}
+\headcommand {\beamer@subsectionentry {0}{7}{3}{80}{Results Continued}}\headcommand {\beamer@subsectionpages {79}{79}}
+\headcommand {\slideentry {7}{3}{1}{80/80}{Results Continued}{0}}
+\headcommand {\beamer@framepages {80}{80}}
+\headcommand {\beamer@subsectionentry {0}{7}{4}{81}{My Critique}}\headcommand {\beamer@subsectionpages {80}{80}}
+\headcommand {\slideentry {7}{4}{1}{81/81}{My Critique}{0}}
+\headcommand {\beamer@framepages {81}{81}}
+\headcommand {\sectionentry {8}{Questions?}{82}{Questions?}{0}}
+\headcommand {\beamer@sectionpages {77}{81}}
+\headcommand {\beamer@subsectionpages {81}{81}}
+\headcommand {\slideentry {8}{0}{2}{82/82}{}{0}}
+\headcommand {\beamer@framepages {82}{82}}
+\headcommand {\beamer@subsectionentry {0}{8}{1}{83}{Questions?}}\headcommand {\beamer@subsectionpages {82}{82}}
+\headcommand {\slideentry {8}{1}{1}{83/83}{Questions?}{0}}
+\headcommand {\beamer@framepages {83}{83}}
+\headcommand {\sectionentry {9}{Backup Slides?}{84}{Backup Slides?}{0}}
+\headcommand {\beamer@sectionpages {82}{83}}
+\headcommand {\beamer@subsectionpages {83}{83}}
+\headcommand {\slideentry {9}{0}{2}{84/84}{}{0}}
+\headcommand {\beamer@framepages {84}{84}}
+\headcommand {\beamer@subsectionentry {0}{9}{1}{85}{Correctness}}\headcommand {\beamer@subsectionpages {84}{84}}
+\headcommand {\slideentry {9}{1}{1}{85/85}{Correctness}{0}}
+\headcommand {\beamer@framepages {85}{85}}
+\headcommand {\beamer@subsectionentry {0}{9}{2}{86}{Implementation}}\headcommand {\beamer@subsectionpages {85}{85}}
+\headcommand {\slideentry {9}{2}{1}{86/86}{Implementation}{0}}
+\headcommand {\beamer@framepages {86}{86}}
+\headcommand {\beamer@subsectionentry {0}{9}{3}{87}{Calling compiled trace}}\headcommand {\beamer@subsectionpages {86}{86}}
+\headcommand {\slideentry {9}{3}{1}{87/87}{Calling compiled trace}{0}}
+\headcommand {\beamer@framepages {87}{87}}
+\headcommand {\beamer@partpages {1}{87}}
+\headcommand {\beamer@subsectionpages {87}{87}}
+\headcommand {\beamer@sectionpages {84}{87}}
+\headcommand {\beamer@documentpages {87}}
+\headcommand {\def \inserttotalframenumber {64}}
