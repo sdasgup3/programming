@@ -39,7 +39,7 @@
       %\insertauthor[width={3cm},center,respectlinebreaks]
 }
 
-\setbeamercovered{transparent}
+\setbeamercovered{transparent=50}
 
 \lstset{classoffset=0,
   morekeywords={},keywordstyle=\color{black},
@@ -65,8 +65,17 @@
   \tableofcontents[currentsection]
     \end{frame}
 }
+\frame
+{
+  \center{
+  \textbf{Name: Sandeep Dasgupta} \\
+  \textbf{Advisor: Dr. Vikram Adve} \\
 
-\section{Introduction}
+  Primary: Compilers  \\
+  Secondary: Parallel Programming, Architecture\\
+  }
+}
+
 \subsection{Motivation}
 \frame
 {
@@ -472,6 +481,16 @@ Note: Current Implepentation extends only if
   \begin{figure}[h]
   \centering
   \scalebox{0.45}{
+    \includegraphics{Figs/3.3.1.eps}
+  }
+  \end{figure}
+}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{figure}[h]
+  \centering
+  \scalebox{0.45}{
     \includegraphics{Figs/3.4.eps}
   }
   \end{figure}
@@ -582,16 +601,6 @@ Note: Current Implepentation extends only if
     \end{itemize}  
   \end{itemize}    
 }
-\section{Trace stitching}
-\subsection{Trace stitching}
-\frame
-{
-  \frametitle{\subsecname}
-  \begin{itemize}
-    \item when a trace calls a branch trace, trace stitching can be applied
-    \item identical type maps yield identical activation records
-  \end{itemize}
-}
 
 \section{Evaluation}
 \subsection{Setup}
@@ -600,17 +609,11 @@ Note: Current Implepentation extends only if
   \frametitle{\subsecname}
   \begin{itemize}
     \item SunSpider Benchmark suite is used
-    \item SunSpider test driver starts a JS interpreter, load and run each program
     \begin{itemize}
-      \item one time to warm up
-      \item 10 times, which are measured – the average time is taken
-      \item runs on 4 interpreter
-      \begin{itemize}
         \item SpiderMonkey: JS interpreter. \textbf{Baseline for comparision}
         \item TraceMonkey: The proposed compilation strategy
         \item SquirrelFish Extreme (SFX): Call threaded JS interpreter
         \item V8: Method compiling JS VM
-      \end{itemize}
     \end{itemize}
   \end{itemize}
 }
@@ -620,17 +623,11 @@ Note: Current Implepentation extends only if
   \frametitle{\subsecname}
   \begin{itemize}
     \item Speed up spreads between 0.9 and 25. 
-    \item Performance breakup on Sunspider benchmark
-    \begin{itemize}  
-      \item 9 / 26 : TraceMonkey is the fastest
-      \item 5 / 26 : The current implementation does not trace recursion.
-      \item 5 / 26 : nested loop with small bodies. May be more time in calling nested trace.
-      \item 2 / 26 : Does not trace eval and some other C implememnted functions.
-      \item 2 / 26 : Trace well, but long compilation.
-      \item 1 / 26 : Does not trace through regular expresion replace operations.
-      \item 1 / 26 : run time dominated by string processing buitlins.
-      \item 1 / 26 : dominated by regular expression matching (implemented in all 3 VM as special regular expression compiler) 
-    \end{itemize}  
+    \item Speed depends on
+    \begin{itemize}
+      \item Fraction of bytecode executed as native trace. Not enough!!
+      \item Compilation time
+    \end{itemize}
   \end{itemize}
 }
 
@@ -643,9 +640,8 @@ Note: Current Implepentation extends only if
       \cmt{
     \item Native trace takes 9 cycles/ byte code as compared to the interpreter ( 35 cycle/ bytecode) 
       }
-    \item Other interpreter have an overall performance speedup of 3.0
+    \item Other VMs have an overall performance speedup of 3.0
     \item TraceMonkey recording \& compilation 200 times slower than interpreter speed.
-    \item the performance has catched up after 270 iterations of a trace.
   \end{itemize}
 }
 \subsection{My Critique}
@@ -653,8 +649,9 @@ Note: Current Implepentation extends only if
 {
   \frametitle{\subsecname}
   \begin{itemize}
+  \cmt{
     \item Web as Desktop
-      \cmt{In short, plenty. JavaScript has become a predominant technology amongst today's web developers, and Mozilla—along with pretty much every web browser maker out there—aims to make it just as fast as code that runs on your desktop. The closer everyone gets to that kind of speed, the closer the idea of the Web as Desktop gets to reality. This is handily demonstrated in a video demonstration of online photo editing over at Mozilla's site. With just-in-time compiling, actions the user takes on a web program move along as if being adjusted in a desktop app, as opposed to having to basically re-load an entire JavaScript app and figure out what state it's in.}
+      In short, plenty. JavaScript has become a predominant technology amongst today's web developers, and Mozilla—along with pretty much every web browser maker out there—aims to make it just as fast as code that runs on your desktop. The closer everyone gets to that kind of speed, the closer the idea of the Web as Desktop gets to reality. This is handily demonstrated in a video demonstration of online photo editing over at Mozilla's site. With just-in-time compiling, actions the user takes on a web program move along as if being adjusted in a desktop app, as opposed to having to basically re-load an entire JavaScript app and figure out what state it's in.}
     \item Incremental recompilation.
   \end{itemize}
 }
@@ -699,8 +696,6 @@ Note: Current Implepentation extends only if
     \item traces are compiled so that they can be called as functions using standard native calling conventions.
   \end{itemize}  
 }
-
-
 \end{document}
 
 \cmt{
@@ -724,4 +719,14 @@ Note: Current Implepentation extends only if
     \item When all registers are in use, the least-often-used register currently in use is spilled. Motivation ??
   \end{itemize}  
 }
+    \begin{itemize}  
+      \item 9 / 26 : TraceMonkey is the fastest
+      \item 5 / 26 : The current implementation does not trace recursion.
+      \item 5 / 26 : nested loop with small bodies. May be more time in calling nested trace.
+      \item 2 / 26 : Does not trace eval and some other C implememnted functions.
+      \item 2 / 26 : Trace well, but long compilation.
+      \item 1 / 26 : Does not trace through regular expresion replace operations.
+      \item 1 / 26 : run time dominated by string processing buitlins.
+      \item 1 / 26 : dominated by regular expression matching (implemented in all 3 VM as special regular expression compiler) 
+    \end{itemize}  
 }
