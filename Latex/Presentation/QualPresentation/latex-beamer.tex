@@ -49,7 +49,7 @@
   \usetheme{CambridgeUS}
   \usecolortheme{dolphin}
 
-  \title{Trace Based Just-In-Time Type Specialization for Dynamic Languages ( PLDI 2009 )}
+  \title{Trace Based Just-In-Time Type Specialization for Dynamic Languages}
   \author{{\textbf{Gal, Eich, Shaver, Anderson, Mandelin, Kaplan, Hoare, Zbarsky, Orendorff, Ruderman, Smith, Reitmaier, Haghighat, Bebenita, Chang, Franz}} }
   \begin{document}
 
@@ -82,10 +82,10 @@
   \frametitle{\subsecname}
   \begin{itemize}
   \item Generate efficient machine code for dynamic type languages like Javascript. \\
-  \uncover<1>{ \item Challenges} 
+  \item Challenges
     \begin{itemize}
-      \uncover<2>{ \item Types decided at runtime}
-      \uncover<3>{ \item Even type inferencing does not help much}
+      \item Types decided at runtime
+      \item Even type inferencing does not help much
     \end{itemize}
   \end{itemize}
 }
@@ -105,8 +105,6 @@ marshaling format. This incurs a large runtime overhead on the
 generated code, greatly increases the complexity of the compiler,
 and makes effective implementation of important optimizations
 like register allocation and loop invariant code motion much harder
-
-      \uncover<3>{ \item Bytecode interpreter becomes slow}
 }
 
 \subsection{TraceMonkey: Proposed Compilation strategy}
@@ -114,16 +112,10 @@ like register allocation and loop invariant code motion much harder
 {
   \frametitle{\subsecname}
   \begin{itemize}
-    \uncover<1>{ \item Is implemented for Javascript Interpreter SpiderMonkey}
-    \uncover<2>{ \item Dynamic compilation on loop level granularity, not method based. Why?? }
+    \item Is implemented for Javascript Interpreter SpiderMonkey
+    \item Dynamic compilation on loop level granularity, not method based. Why??
   \end{itemize}
 }
-    \cmt{
-    \begin{itemize}
-      \item Identify frequently executed loops ``hot loops'' on the fly.
-      \item Generate type specialized machine code for each path through the loop.
-    \end{itemize}
-    }
 \subsection{Trace}
 \frame
 {
@@ -131,14 +123,11 @@ like register allocation and loop invariant code motion much harder
   \begin{itemize}
     \item Typed loop traces
     \begin{itemize}
-      \uncover<2>{ \item Single entry, multiple exits loop paths }
-      \uncover<3>{ \item Type specialized compilation }
+      \item Single entry, multiple exits loop paths
+      \item Type specialized
     \end{itemize}
   \end{itemize}
 }
-        \cmt {What happens with type unstable loops?? Optimized code; keep entry type map}
-
-
 \section{Example Tracing Run}
 \frame
 {
@@ -343,12 +332,11 @@ Note: Current Implepentation extends only if
 {
   \frametitle{\subsecname}
   \begin{itemize}
-   \item What if a hot loop contain traces that always fail recording ? 
-   \uncover<2> { \item Solution : Blacklist with backoff on recording }
+   \item What if a hot loop contain traces whose recording always fail ? 
+   \item Solution : Blacklist with backoff on recording
    \end{itemize}
 }
 \cmt{recording overhead is huge.}
-
 \section{Nested Trace Tree Formation}
 \frame
 {
@@ -528,19 +516,7 @@ Note: Current Implepentation extends only if
 
   What if during execution of outer loop, the inner trace got a side exit !!
 }
-\subsection{Modified Blacklisting with Nesting}
-\frame
-{
-  \frametitle{\subsecname}
-  \begin{itemize}
-   \item  The outer loop blacklisted very quickly.
-   \uncover<2> { \item Solution : Blacklist with an option of ``forgiving''  }
-   \end{itemize}
-}
-               \cmt{ as the inner loop not available or takes side exit
-   Solution : Increment blacklist counter on such aborts, and backoff on compiling it,  but decrement it when the inner loop
-     succesfully finishes a trace and undo the backoff.
-               }
+
 
 \section{Trace Tree Recording \& Optimization}
 \subsection{Recording}
@@ -550,12 +526,12 @@ Note: Current Implepentation extends only if
   \begin{itemize}
     \item While interpreting traces are recorded and transformed into LIR. WHY ?? 
       \begin{itemize}
-        \uncover<2> {  \item LIR traces are type specialized}
-        \uncover<3> {  \item LIR traces are representation specialized w.r.t objects}
-        \uncover<4> { \item LIR traces are representation specialized w.r.t numbers} 
-        \uncover<5> { \item LIR traces inline functions}
+        \item LIR traces are type specialized
+        \item LIR traces are representation specialized w.r.t objects
+        \item LIR traces are representation specialized w.r.t numbers
+        \item LIR traces inline functions
       \end{itemize}  
-    \uncover<6> { \item All the above LIR features need guards}
+    \item All the above LIR features need guards
   \end{itemize}  
 }
 
@@ -566,11 +542,11 @@ Note: Current Implepentation extends only if
   \begin{itemize}
     \item Optimization Goal: Make compilation fast. (Done by NanoJIT)
     \begin{itemize}
-      \uncover<2> {  \item Retrict to small set of optimization }
-      \uncover<3> {  \item Avoid any reordering optimizations } 
-      \uncover<4> {  \item leverage the fact that the LIR is in SSA form } 
+      \item Retrict to small set of optimization
+      %\uncover<3> {  \item Avoid any reordering optimizations } 
+      \item leverage the fact that the LIR is in SSA form 
     \end{itemize}
-    \uncover<5> {  \item Optimizations are performed in 2 phases: forward and backward } 
+    \item Optimizations are performed in 2 phases: forward and backward 
   \end{itemize}     
 }
 
@@ -581,9 +557,9 @@ Note: Current Implepentation extends only if
   \begin{itemize}
     \item While recording on each instruction basis.
       \begin{itemize}
-        \uncover<2> {  \item Constant subexpression elimination}
-        \uncover<3> {  \item Expression simplification and algebraic identities}
-        \uncover<4> {  \item ISA specific simplification}
+        \item Constant subexpression elimination
+        \item Expression simplification and algebraic identities
+        \item ISA specific simplification
       \end{itemize}  
   \end{itemize}  
 }
@@ -594,10 +570,10 @@ Note: Current Implepentation extends only if
   \begin{itemize}
     \item When recording is complete.
     \begin{itemize}
-      \uncover<2> {   \item dead data-stack store elimination}
-      \uncover<3> {   \item dead call-stack store elimination}
-      \uncover<4> {   \item dead code elimination}
-      \uncover<5> {   \item Register Allocation } 
+      \item dead data-stack store elimination
+      \item dead call-stack store elimination
+      \item dead code elimination
+      \item Register Allocation 
     \end{itemize}  
   \end{itemize}    
 }
@@ -609,11 +585,18 @@ Note: Current Implepentation extends only if
   \frametitle{\subsecname}
   \begin{itemize}
     \item SunSpider Benchmark suite is used
+      \cmt{which contain 26 short running programs avergae 26 ms... }
     \begin{itemize}
         \item SpiderMonkey: JS interpreter. \textbf{Baseline for comparision}
         \item TraceMonkey: The proposed compilation strategy
-        \item SquirrelFish Extreme (SFX): Call threaded JS interpreter
-        \item V8: Method compiling JS VM
+        \item SquirrelFish Extreme (SFX)
+                                          \cmt{
+        : Call threaded JS interpreter
+                                          }
+        \item V8, Javascript VM from Google
+          \cmt{
+            : Method compiling JS VM
+          }
     \end{itemize}
   \end{itemize}
 }
@@ -622,28 +605,28 @@ Note: Current Implepentation extends only if
 {
   \frametitle{\subsecname}
   \begin{itemize}
-    \item Speed up spreads between 0.9 and 25. 
-    \item Speed depends on
+    \item Speedup (TraceMonkey) spreads between 0.9 and 25. 
+    \item Performance depends on
     \begin{itemize}
-      \item Fraction of bytecode executed as native trace. Not enough!!
-      \item Compilation time
+      \item Fraction of bytecode executed as native trace
+      \item Cost of Recording, Compilation, Calling Traces
+      \cmt{good perf when where VM spends mojority of time running native code}
     \end{itemize}
+    \item Outperform boths the VMs on 9/26 benchmarks.
   \end{itemize}
+}
+\cmt{
+TRacing achieves speedup upto a amx to 25 for 2 benchmark programs. Those are short programs 
+  with lot of integer bitwise operations. So TM can cover the entire exec in 1 2 traces
+  that operate on intergers
+
+  The programs where they get lowest speedups are those which the current implementation does not trace like recusrison
+  and they do generate any natice code
+
+  type specialization to use integer arithmatic improves a lot of performance
+  performance suffers where we cannot trace and instead fall back into the I
 }
 
-\subsection{Results Continued}
-\frame
-{
-  \frametitle{\subsecname}
-  \begin{itemize}
-    \item Overall performance speedup of native trace execution  = $\frac{\text{Time per bytecode execution in Interpreter}}{\text{Time per bytecode execution in native code}  } = 3.9$
-      \cmt{
-    \item Native trace takes 9 cycles/ byte code as compared to the interpreter ( 35 cycle/ bytecode) 
-      }
-    \item Other VMs have an overall performance speedup of 3.0
-    \item TraceMonkey recording \& compilation 200 times slower than interpreter speed.
-  \end{itemize}
-}
 \subsection{My Critique}
 \frame
 {
@@ -661,7 +644,170 @@ Note: Current Implepentation extends only if
 \frame
 {}
 
-\section{Backup Slides?}
+\section{Backup Slides}
+
+\subsection{Register Allocation}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize}
+    \item Local register allocator
+    \item Any time a value needs to be stored in register, one is assigned from free registers list. 
+    \item When all registers are in use, ``oldest'' register carried value is spilled. Motivation ??
+    \cmt{
+        With that single spill, a register will be freed for a long amount of time.
+    }
+  \end{itemize}  
+  \begin{figure}[h]
+  \centering
+  \scalebox{0.45}{
+    \includegraphics{Figs/5.eps}
+  }
+  \end{figure}
+}
+
+\subsection{NanoJIT}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize}
+    \item Resposible for compiling a recorded trace into machine code.
+    \item Input: The recorded LIR SSA instructions.
+  \end{itemize}  
+}
+
+\subsection{Speedup Comparison}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{figure}[h]
+  \centering
+  \scalebox{0.45}{
+    \includegraphics{Figs/6.eps}
+  }
+  \end{figure}
+  [Figure copied from presenation paper]
+}
+\subsection{Fraction of time spend in major VM activities}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{figure}[h]
+  \centering
+  \scalebox{0.45}{
+    \includegraphics{Figs/7.eps}
+  }
+  \end{figure}
+  [Figure copied from presenation paper]
+}
+
+\subsection{Trace recording statistics for Sunspider Benchmark}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{figure}[h]
+  \centering
+  \scalebox{0.45}{
+    \includegraphics{Figs/8.eps}
+  }
+  \end{figure}
+  [Figure copied from presenation paper]
+}
+
+\subsection{Results Continued}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize}
+    \item Overall performance speedup of native trace execution  = $\frac{\text{Time per bytecode execution in Interpreter}}{\text{Time per bytecode execution in native code}  } = 3.9$
+      \cmt{
+    \item Native trace takes 9 cycles/ byte code as compared to the interpreter ( 35 cycle/ bytecode) 
+      }
+    \item Other VMs have an overall performance speedup of 3.0
+    \item TraceMonkey recording \& compilation 200 times slower than interpreter speed.
+  \end{itemize}
+}
+
+\subsection{Modes of TraceMonkey: Monitoring}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize} 
+  \item Interpreting bytecode. 
+  \item Every timeSpiderMonkey interprets a backward-jump bytecode, the monitor makes note of the number
+    of times the jump-target program-counter (PC) value has been jumped-to.
+   \item  If particular PC reaches a threshold value, the target is considered hot.
+    \item When the monitor decides a target PC is hot, it looks compiled trace for that PC. If it finds, it transitions to executing mode. Otherwise it transitions to recording mode.
+  \end{itemize}  
+}
+
+\subsection{Modes of TraceMonkey: Recording}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize} 
+  \item Interpreting bytecode but with a difference (Recording LIR) 
+  \item All transitions out of recording mode eventually involve returning to monitoring mode.  
+  \item The recordig may abort because: 
+    \begin{itemize} 
+      \item If the recorder is asked to record a bytecode that it cannot, for various low-level reasons. 
+        The monitor also keeps track of how many times it has attempted to record a trace starting at each PC value. Helps in blacking recording of a loop  if a particular PC causes too many aborted recordings.
+      \item If the recorder completes recording at a backward branch back to the initial PC value that triggered recording mode, it is said to have successfully closed the loop. A closed loop is passed through the nanojit  and thereby compiled to native machine code. 
+
+    \end{itemize}  
+  \end{itemize}  
+}
+
+\subsection{Modes of TraceMonkey: Executing}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize} 
+  \item
+    When the interpreter hits a loop back edge, it checks for a compiled trace in trace cahce with computed type map and current PC.
+  \item 
+    First the monitor allocates a native stack for the trace to use.
+ \item   
+It then imports the set of jsval values (local and global variables) from the SpiderMonkey interpreter that the trace is known to read or write during its execution. This set was determined during recording, and the imported values are stored locally within the native stack during execution.
+\item
+The monitor then calls into the native code of the trace as a normal C function.
+\item
+The native code returns a pointer to a structure called a side exit.
+\item
+The monitor inspects the side exit and, depending on the exit condition, reconstructs a certain number of interpreter frames and flushes a certain set of writes back. Frame reconstruction is necessary because a trace may inline a number of function calls, and may exit before those function calls return. Write flushing is necessary because all writes to imported values in the native stack are deferred until trace-exit, as an optimization.
+\item
+If the side exit condition indicates that the trace exited successfully -- simply running out of native code or hitting a branch condition that no native code yet exists to handle -- the monitor will inspect the hit count for the trace-exiting PC. If that PC has itself grown hot, the monitor will immediately transition to recording mode starting with the exiting PC. Otherwise it will return to monitoring mode.
+\item
+If the side exit condition indicates that the trace exited unsuccessfully -- due to encountering sufficient memory pressure to trigger a garbage collection, running out of native stack space, expiring a timer or any similar abnormal condition -- the monitor returns to monitoring mode.
+  \end{itemize}  
+}
+
+\subsection{Calling External Functions}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize}
+    \item A trace will update the interpreter state while it exits. Now if the called function
+      reenters the interpreter and try to use some interpreter data values, they will all be stale.
+  \end{itemize}
+}
+
+\subsection{Modified Blacklisting with Nesting}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{itemize}
+   \item  The outer loop blacklisted very quickly.
+   \item Solution : 
+     Increment blacklist counter on such aborts, and backoff on compiling it,  but decrement it when the inner loop succesfully finishes a trace and undo the backoff.
+   \end{itemize}
+}
+               \cmt{ as the inner loop not available or takes side exit
+   Solution : 
+     Increment blacklist counter on such aborts, and backoff on compiling it,  but decrement it when the inner loop
+     succesfully finishes a trace and undo the backoff.
+               }
+
 \subsection{Correctness}
 \frame
 {
@@ -687,15 +833,7 @@ Note: Current Implepentation extends only if
     \item is garbage collected (non-generational, stop the world, mark and sweep)
   \end{itemize}  
 }
-\subsection{Calling compiled trace}
-\frame
-{
-  \frametitle{\subsecname}
-  \begin{itemize}
-    \item traces are stored in a trace cache indexed by interpreter PC and type map.
-    \item traces are compiled so that they can be called as functions using standard native calling conventions.
-  \end{itemize}  
-}
+
 \end{document}
 
 \cmt{
@@ -712,12 +850,6 @@ Note: Current Implepentation extends only if
 \subsection{Register Allocation}
 \frame
 {
-  \frametitle{\subsecname}
-  \begin{itemize}
-    \item Local register allocator
-    \item Any time a value needs to be stored in register, one is assigned free registers list. 
-    \item When all registers are in use, the least-often-used register currently in use is spilled. Motivation ??
-  \end{itemize}  
 }
     \begin{itemize}  
       \item 9 / 26 : TraceMonkey is the fastest
