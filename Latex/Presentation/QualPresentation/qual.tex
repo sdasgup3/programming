@@ -1,27 +1,103 @@
-\documentclass[10pt,oneside]{report}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage{hyperref}
-\usepackage{multirow}
-\usepackage{caption}
-\usepackage{comment}
-\hypersetup{
-	colorlinks=true,
-	citecolor=blue,%
-    filecolor=blue,%
-    linkcolor=blue,%
-    urlcolor=blue
-}
+Compilers for statically typed languages rely on type information to generate
+efficient machine code. In a dynamically typed programming language such as
+JavaScript, the types of expressions may vary at runtime. 
+Without exact type information, the compiler
+must emit slower generalized machine code that can deal with all potential type
+combinations. 
+
+While compile-time static type inference might be able to
+gather type information to generate optimized machine code, 
+       but it is too enpensive.
+----------------------------------
+Identify frequently executed loops ``hot loops'' paths on the fly.
+which is called T.
+Once the trace is identifies they try to compile it with the specific
+type info pertaining to that T.
+In there imp they specifically deal with types trace
+type trace is a trace with type of the var annotated on the trace.
+
+In the implementation they is a type map for each trace
+which for each variable giving the required types for all the variabls used on the trace.
+x:int b:bool: the trace can be entered if the value of the variable
+x is int and ...
+
+Which is the expected types of all the variables  before entering the loop.
+
+In the subsequesnt iterations the compiled trace can be executed. The
+execution is based on the speculation that the same path will be followed
+every time or the types of the values will remain the same as we discovered
+during compiling.
+
+So to prevent that traces will be having guards which checks
+if any of the speculation has failed. If yes trcae will exit
+
+----------------------------------
+
+It records the call of the inner trace T1
 
 
-\newcommand{\cmnt}[1]{}
 
-\begin{document}
+--------------------------------
+All the traces starts at the loop header
+easy to recognize as a bc is lh if its the target of a be.
+when the lh become hot recording starts.
 
-\chapter{JIT}
+each lh is associated with a type map so there could be many
+traces for a given lh
 
-\begin{itemize}
-\item
+type stable traces: when the trace enters the lh with the same tm
+as entry tm. 
+
+in this case the end of the trace can jump directly to the lh.
+
+entry typemap: contain the type of the varibales before the loop
+is entered.
+
+Type unstable traces:
+when the trace enters the lh with diff tm than the entry tm. 
+
+when this can happen: This can happen during the first iter of the 
+loop when a var which was initially undefined is bound to some concrete type inside
+the loop. when the recording comes back to the lh there is a type mismatch
+and the recording will get  a side exit. Still this trace will be compiled 
+and every time it will get a side exit.
+
+Do we need to wait for side exit to be come hot???  yes
+
+At the same time a new trace will be recorded with the 
+new tm. 
+This is a overhead as every time we start recording and compiling and end up getting a 
+side exit to I. It would have been better to just interpret instead.
+
+So next time when we are getting such a side exit due to type mismatch
+we check the entry map of all existing trace for that loop in case they complement each other.
+
+
+if the loop is exited because of return or break. the VM will not extend (or further record).
+
+Eg. when they observe that a number type variable holds an interger value at the statrt of 
+the loop. SO the entry map will have the variable typed as integer.
+But during trace recording the variable is assined non-int values. So
+side exit.
+But also this info is recorded in an oracle that the type
+of the variable may change. Second time we come for recording
+we start with the double value. [second time because we did notstarted recording the 
+new trace with double as ype map until that side exot become hot]
+
+
+Extending:
+WHen ever there is a side exit due to diff paths are taken or paths with diff types or object rep 
+are seen, there is a side exit. The recording starts wwhen the SE become hot.
+The trace will end at the loop header of the root trace.
+
+Extend only for control flow diver or when the loop is not exited.
+For tyoeunstatble loops we re not extending but creating a diff root trace.
+
+
+
+
+
+
 Also the vm instructions are portable
 \item
 Compiler does not have many information like ...
@@ -70,16 +146,6 @@ difficult to compile than statically typed languages. Even static type
 inferencing is too expensive to help for highly interactive environment
 
 
-\begin{itemize}
-\item Compilers for statically typed languages rely on type information to generate
-efficient machine code. In a dynamically typed programming language such as
-JavaScript, the types of expressions may vary at runtime. This means that the
-compiler can no longer easily transform operations into machine instructions
-that operate on one specific type. Without exact type information, the compiler
-must emit slower generalized machine code that can deal with all potential type
-combinations. 
-While compile-time static type inference might be able to
-gather type information to generate optimized machine code, 
 
 \end{itemize}
 
@@ -87,6 +153,15 @@ gather type information to generate optimized machine code,
 
 \begin{itemize}
 \item
+
+In statically types languages, a variable is bound to a type at compile time.
+At run time the variable can bound to objects of the same type.
+
+In dynamically typed languages, the variables are notbound to a specific 
+type during compile time. At run time, the variable can bind to objects of
+diff types.
+
+
 In a \textbf{statically typed language}, every variable name is bound 
 to a type (at compile time, by means of a data declaration)
 (The binding to an object is optional — if a name is not bound to an object, the name is said to be null.)
