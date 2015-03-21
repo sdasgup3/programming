@@ -1,20 +1,40 @@
-Compilers for statically typed languages rely on type information to generate
+As we know Compilers for statically typed languages rely on type information to generate
 efficient machine code. In a dynamically typed programming language such as
 JavaScript, the types of expressions may vary at runtime. 
 Without exact type information, the compiler
 must emit slower generalized machine code that can deal with all potential type
 combinations. 
 
-While compile-time static type inference might be able to
-gather type information to generate optimized machine code, 
-       but it is too enpensive.
+type inferencing
+===================
+In theory, every
+possible combination of types for all variables involved might occur, but compilers use type
+inference to reduce the number of such type combinations quite effectively. However, there
+are always cases in which a concrete type cannot be inferred statically.
+
+In these cases, it assigns the any type, which at runtime is implemented 
+using a tagged value that can store
+any type. This incurs
+runtime since the appropriate operation has to be selected dynamically depending on the
+dynamic type of the variable at that particular point in the program execution. 
+
+from a performance perspective, numbers can be represented much more efficiently using integers
+as long as they are small enough to fit within the integer range (−2 31 to 2 31 − 1), and if they
+exceed this range, they can be converted into the less efficient double-precision format.
+
+
+
+
 ----------------------------------
 Identify frequently executed loops ``hot loops'' paths on the fly.
 which is called T.
 Once the trace is identifies they try to compile it with the specific
 type info pertaining to that T.
+A trace associtaed with a specific type information 
+is called a type trace. In there imp they have a type map
 In there imp they specifically deal with types trace
 type trace is a trace with type of the var annotated on the trace.
+Also
 
 In the implementation they is a type map for each trace
 which for each variable giving the required types for all the variabls used on the trace.
@@ -33,8 +53,32 @@ if any of the speculation has failed. If yes trcae will exit
 
 ----------------------------------
 
+diffrent phases of tracemonkey while its running
 It records the call of the inner trace T1
 
+----------------------------------------------
+Type specialization:
+A typical bc I represenst the values as tagged with types.
+To do an operation first the type info need to be consulted and
+mask out the type tag ; do the opeations and reply the tag.
+As LIR is type specialized only the operation need to be recorded.
+
+BUt the value may cahnge (rading a property from an object),
+    so side cjecks need to be done. On such a side exit on type guard,
+    one the side exit become hot a new type trace with is 
+    reccorded with the new type info.
+
+
+Repesenaton spec:
+In JS the inheritance is imple using prototye chain
+to access a property of an object the
+protperty map of the objects and that of all of its parents need to be
+searched.
+
+TM can simply monitor the result of the search process and record that in the LIR.
+Now if theshape of the object changes, apply guard for that.
+
+Numbers:
 
 
 --------------------------------
@@ -66,8 +110,6 @@ Do we need to wait for side exit to be come hot???  yes
 
 At the same time a new trace will be recorded with the 
 new tm. 
-This is a overhead as every time we start recording and compiling and end up getting a 
-side exit to I. It would have been better to just interpret instead.
 
 So next time when we are getting such a side exit due to type mismatch
 we check the entry map of all existing trace for that loop in case they complement each other.
@@ -79,11 +121,6 @@ Eg. when they observe that a number type variable holds an interger value at the
 the loop. SO the entry map will have the variable typed as integer.
 But during trace recording the variable is assined non-int values. So
 side exit.
-But also this info is recorded in an oracle that the type
-of the variable may change. Second time we come for recording
-we start with the double value. [second time because we did notstarted recording the 
-new trace with double as ype map until that side exot become hot]
-
 
 Extending:
 WHen ever there is a side exit due to diff paths are taken or paths with diff types or object rep 
@@ -94,68 +131,19 @@ Extend only for control flow diver or when the loop is not exited.
 For tyoeunstatble loops we re not extending but creating a diff root trace.
 
 
-
-
-
-
-Also the vm instructions are portable
-\item
-Compiler does not have many information like ...
-A JIT compiler runs after the program has started and compiles the code
-(usually bytecode or some kind of VM instructions) on the fly (or just-in-time,
-    as it's called) into a form that's usually faster, typically the host CPU's
-native instruction set. A JIT has access to dynamic runtime information whereas
+JIT has access to dynamic runtime information whereas
 a standard compiler doesn't and can make better optimizations like inlining
 functions that are used frequently.
 
-\item In a stack based machine, opeartions are done by pshing operands onto the stack and then performing the opeartions 
-on the opearnds on the top of the stack. Stack based architecture got revived with the intro of
-JVM whih is a software interpretter for java bytecodes (an intermedate lang prducrd by java compiler)
-An interpretter provides software compatibility across multiple 
-platforms. TO overcome the high perf pnalty of interpretation JIT compilers are creted.
-
-\item for dynamically typed language interpretation is important and to overcome 
-the limitations of interpretation.
-
-\item (HOW)In practice, methods are not compiled the first time they are called. For
-each method, the JVM maintains a call count, which is incremented every time
-the method is called. The JVM interprets a method until its call count exceeds
-a JIT compilation threshold. Therefore, often-used methods are compiled soon
-after the JVM has started, and less-used methods are compiled much later, or
-not at all. The JIT compilation threshold helps the JVM start quickly and still
-have improved performance. The threshold has been carefully selected to obtain
-an optimal balance between startup times and long term performance.
-
-After a method is compiled, its call count is reset to zero and subsequent
-calls to the method continue to increment its count. When the call count of a
-method reaches a JIT recompilation threshold, the JIT compiler compiles it a
-second time, applying a larger selection of optimizations than on the previous
-compilation. This process is repeated until the maximum optimization level is
-reached. The busiest methods of a Java program are always optimized most
-aggressively, maximizing the performance benefits of using the JIT compiler.
-The JIT compiler can also measure operational data at run time, and use that
-data to improve the quality of further recompilations
-
-This is in contrast to a traditional compiler that compiles all the code to machine language before the program is first run.
-\end{itemize}
-
-\chapter{SLIDE 1}
-Dynamic languages like javascripts are popular: expressie, accessible to non
-experts and make deployment easy as dstributing a source file.  BUT more
-difficult to compile than statically typed languages. Even static type
-inferencing is too expensive to help for highly interactive environment
-
-
-
-\end{itemize}
+TO overcome the high perf pnalty of interpretation JIT compilers are creted.
 
 \section{static vs dynamic type}
+=========================================
+In JS variables are declared by name only, and their type will be determined
+automatically once a value is assigned to them at run time . Assigning values with different
+types to a variable changes the type of the variable on the fly to match the
+new value’s type. 
 
-\begin{itemize}
-\item
-
-In statically types languages, a variable is bound to a type at compile time.
-At run time the variable can bound to objects of the same type.
 
 In dynamically typed languages, the variables are notbound to a specific 
 type during compile time. At run time, the variable can bind to objects of
@@ -200,29 +188,41 @@ d = add(a, b)          // produces 18
 In a strongly typed language, on the other hand, the last two statements would
 raise type exceptions. To avoid these exceptions, some kind of explicit type
 conversion wt
-  \end{itemize}  
+
+Fnction call inlining
+-------------------------
+Function calls
+themselves are never actually recorded. 
+
+Method Based vs trace based
+-----------------------------
+They observe which
+methods get executed frequently, and translate the method into native machine
+code once a certaint threshold has been reached. While such methods often
+contain performance-critical parts (such as loops), they often also contain
+slow paths and non-loopy code, which barely if at all contributes to the
+runtime of the method. A whole-method compiler, however, has to always analyze
+and translate the entire method, even if parts of it are not particularly
+“compilation-worthy”.
+
 
 \chapter{Evaluation}
+------------------------
+-- which contain 26 short running programs avergae 26 ms... }
+-- TRacing achieves speedup upto a amx to 25 for 2 benchmark programs. Those are short programs 
+  with lot of integer bitwise operations. So TM can cover the entire exec in 1 2 traces
+  that operate on intergers
 
-\section{Results}
-    \item TraceMonkey is the fastest on 9 out of 26. 
-    because some of them are short programs with integer operations, so TM covers the entire prgm with 1-2 traces with integer type.
-    All other programs in this set is run almost entirely as native code.
-    \item 
-    These estimates also indicate that our startup performance could
-be substantially better if we improved the speed of trace recording
-and compilation. The estimated 200x slowdown for recording and
-compilation is very rough, and may be influenced by startup factors
-in the interpreter (e.g., caches that have not warmed up yet during
-recording). One observation supporting this conjecture is that in
-the tracer, interpreted bytecodes take about 180 cycles to run. Still,
-recording and compilation are clearly both expensive, and a better
-implementation, possibly including redesign of the LIR abstract
-syntax or encoding, would improve startup performance.
-  \end{itemize}
+--  The programs where they get lowest speedups are those which the current implementation does not trace like recusrison
+  and they do generate any natice code
 
+ -- type specialization to use integer arithmatic improves a lot of performance
+  performance suffers where we cannot trace and instead fall back into the I
+}
 
-
+Tracing
+===========
+-- Long traces and excessive “outerlining” (inlining of outer loop parts) rarely pay off, mostly because the outer loop parts are less hot than the inner paths, but now they compete for the same register resources as the inner paths. 
 
 \chapter{References}
 
@@ -233,35 +233,170 @@ Psyco does not attempt to identify hot loops or inline function calls.
 Instead, Psyco transforms loops to mutual recursion before running
 and traces all operations.
 
+JIT
+======
+-- Why interpreters
+No need to compile the code
+
+Virtual machines behave in a similar fashion as real
+machines (i.e. CPUs), but are implemented in software.
+They accept as input a program composed of a sequence of
+instructions.
+
+-- VM is at a higer level than the actual machine, it simplifies 
+the compilation
+-- The compiled VM code can be distributed an run on many actual machines
+
+VM drawbacks:
+-- slower than the actual machine because of overhead of  interpreting (fetching decoding and executig the code)
+-- more number of pipeline stalls happen while
+interpreting because of the many indirect jumps in the interpreter
+In interpreting, Once a bytecode instruction is fetched, depending on
+the bytecode, control is transferred to a subroutine that further decodes the instruction
+and implements its semantics. This transfer of control is called instruction dispatch, and is
+usually implemented as a native indirect branch instruction. This indirect branch is often
+mispredicted, and is thus likely to incur a significant number of mispredicted branches,
+which in turn have a severe effect on the processor’s instruction pipeline. 
+
+Stack based VMs
+----------------
+stack-based VMs, which use a stack to store
+intermediate results, variables, etc.
 
 
+typedef enum {
+add, /* ... */
+} instruction_t;
 
-trace recording and patching for non loop and nested loop case
-
-
-
-\end{document}
-
-/cmnt{
-Just-in-time compilers are often quite similar in structure to their
-static counterparts. While they may be employing techniques
-specifically to reduce compilation time 
-(for example, using linear-
-scan register allocation instead of a graph-coloring algorithm), 
-they
-typically start off by constructing a control-flow graph (CFG) for
-the code to be compiled, then perform a series of optimization steps
-based on this graph, and as a final step traverse the CFG and emit
-native code. 
-In addition to a simple CFG, more ambitious opti-
-mizing compilers often use an intermediate representation based
-on Static Single Assignment (SSA). 
-
-They explore a different approach to building com-
-pilers in which no CFG is ever constructed. Instead, our compiler
-records and generates code from dynamically recorded code traces.
-Each code trace represents a loop in the program and may poten-
-tially span several basic blocks across several methods.
-
-Definition of trace:
+void interpret() {
+  static instruction_t program[] = { add /* ... */ };
+  instruction_t* pc = program;
+  int* sp = ...; /* stack pointer */
+  for (;;) {
+  switch (*pc++) {
+    case add:
+      sp[1] += sp[0];
+      sp++;
+      break;
+    /* ... other instructions */
+  }
+  }
 }
+
+The goal is to make the switch statement work faster.
+
+
+Threaded code
+---------------
+There are two jumps in switch : one to the swicth case and other back to the main loop.
+The second jump can be avoided by jumping directly to the code handling the 
+next instrution
+Instead of using an
+interpreter dispatch loop, code is generated that invokes each of the instruction implemen-
+tation routines in program order. 
+If we assume the straight sequence of virtual instructions
+v c , v b , v a , . . . , v b , v a implemented by the routines 
+r c , r b , r a , . . . , r b , r a respectively, a thread
+code JIT generates the sequence of native call instructions call r c , call r b , call r a , . . . ,
+call r b , call r a . Execution of the program just becomes a matter of starting execution at
+the beginning of this generated code sequence. This is faster than an interpreter because
+there is no instruction dispatch, and no instruction decoding.
+
+Inline threading
+===================
+As an optimization to call threaded code, instead of generating
+calls to implementation subroutines, the subroutines themselves are inlined into the gener-
+ated code. 
+the JIT simply substitutes a virtual instruction with the native code of the sub-
+routine that implements it. 
+
+
+
+Dead data stack elimination
+-------------------------
+The LIR encodes all the sores that the I would do to its data stack
+which can be optimized away as the stack locations are live only  on exits to the 
+I.
+Frame reconstruction is necessary because a trace may inline a number of function calls, and may exit before those function calls return. 
+
+
+JIT/Interpreter
+=======================
+An interpreter most accurately describes the execution of an action through a
+computer program. There are a few variations on the type of actions an
+interpreter actually executes: It directly executes the source code of a
+program; it translates the source code into a representation that is an
+efficient intermediate representation (may not be true always), and then executes the said code; 
+
+JIT has the capability to combine the advantages found both in interpretation
+and static (that is to say ahead of time) compilation. As an interpreter, JIT
+is able to improve performance through caching results of blocks of code that
+has been translated – compared to simply re-evaluating every line or operand in
+the code each time that it occurs (as in interpreted language). Just like
+static compiling code at the time of development, JIT is able to recompile the
+code if this is found to be the most advantageous plan of action. Also, in the
+same vein as static compilation, JIT is capable of enforcing security
+guarantees.
+
+Generally speaking, JIT provides much better performance than interpreters,
+          and, in many cases, provides much better performance than static
+          compilers. Its superiority over JIT, however, does not bar it from
+          having some major disadvantages: There is a slight delay when
+          initially executing an application (a side effect of taking time to
+              load and compile bytecode). It will eventually generate better
+          coding; however, the initial delay inherent in doing so will increase
+          with the quality of coding.
+
+
+Presentation
+===========
+2. Object type can change ?.... is t gatenteed that satrting with t1 will reach t2 ... is the type stabilization qurenteed.
+4. Know more about SFX: call threading
+5. Critique: WHat parts of this TM jit would you like to copy
+8. Why they have chosen reg alloc as a backward pass
+9. SPeed up depends on number of traces and length of a trace .... what optimizations are done ..... can all fp operations are converted to 
+integers
+11. Why the speed up 3.9 is not true for all testcases
+14. This metod works if there exist long trip count loops in the program, which is not
+usual in real web pages ... it is mostly method driven... but these will be help ful in
+online gaming or google maps which do have long loops
+
+Motiv:
+makes js faster using JIT
+maintain corrctness despite Dyn typing
+maintain responsiveness// no usr interruption
+
+what if there is a fn call within a trace: interpreter fun vs external function
+method vs trace (redundancy in switch satements)
+if u compile many side exit traces the there maybe same loop h traces
+local vs global allocator
+loop or rec
+V8 how faster or slower
+
+novel tecno use is spider mnky (why) ... used in LuaJit n pypy
+simple implementtion as cmpared to method
+
+the tracecache can only have traces with the same loop header if they are of diff types
+is SFX V8 type specialized: no
+inlining
+iron monkey
+shared mem: prog dont explicitly does the comm
+unbox to mem ..... shared memory will have prob if multiple threads try to access them
+can mpi causes datda races
+blocking deadlock
+as problem size grows wo growing P.. what stops it
+any languages where alias analysis is trivial
+
+garbage collection          
+trace merging
+inline cahcing
+==================
+JaegerMonkey JIT compiler is also known as the method JIT, because it JIT
+compiles a method at a time.
+
+Register Allocator
+===================
+Local register allocator
+Any time a value needs to be stored in register, one is assigned from free registers list. 
+When all registers are in use, ``oldest'' register carried value is spilled.
+With that single spill, a register will be freed for a long amount of time.

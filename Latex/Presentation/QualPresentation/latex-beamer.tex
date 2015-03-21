@@ -270,6 +270,17 @@ Note: Current Implementation extends only if
           \item does not leave the loop
         \end{itemize}
 }
+\subsection{Problems with extension on return}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{figure}[h]
+  \centering
+  \scalebox{0.45}{
+    \includegraphics{Figs/4.4.1.eps}
+  }
+  \end{figure}
+}
 \subsection{Type Unstable Trace Handling}
 \frame
 {
@@ -575,7 +586,29 @@ Note: Current Implementation extends only if
   \begin{figure}[h]
   \centering
   \scalebox{0.45}{
-    \includegraphics{Figs/5.eps}
+    \includegraphics{Figs/5.4.eps}
+  }
+  \end{figure}
+}
+\subsection{Register Allocation}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{figure}[h]
+  \centering
+  \scalebox{0.45}{
+    \includegraphics{Figs/5.2.eps}
+  }
+  \end{figure}
+}
+\subsection{Register Allocation}
+\frame
+{
+  \frametitle{\subsecname}
+  \begin{figure}[h]
+  \centering
+  \scalebox{0.45}{
+    \includegraphics{Figs/5.3.eps}
   }
   \end{figure}
 }
@@ -622,7 +655,8 @@ Note: Current Implementation extends only if
 {
   \frametitle{\subsecname}
   \begin{itemize}
-    \item Novel approach, but entirely loop based. 
+    \item Novel approach. 
+    \item Entirely loop based. 
     \item Sunspider is too small a benchmark to show the effectiveness.
     \cmt{
       This method will works if there exist long trip count loops in the program, which is not
