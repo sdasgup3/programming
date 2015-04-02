@@ -38,7 +38,14 @@ Build  test-suite
 ==================
 http://llvm.org/docs/TestSuiteMakefileGuide.html
 
-In llvm-src/projects/test-suite/akefile.rules
+cd llvm-src/projects
+svn co http://llvm.org/svn/llvm-project/test-suite/trunk test-suite
+../llvm-src/configure CC=/software/gcc-4.8.2/bin/gcc CXX=/software/gcc-4.8.2/bin/g++ 
+--with-gcc-toolchain=/software/gcc-4.8.2 --with-extra-ld-options=-Wl,-rpath,/software/gcc-4.8.2/lib64 
+--enable-jit --enable-targets=all --enable-optimized --enable-assertions 
+--with-llvmgccdir=/home/sdasgup3/llvm/llvm-gcc4.2-2.9-x86_64-linux/
+
+In llvm-src/projects/test-suite/Makefile.rules
 
 change 
 [
