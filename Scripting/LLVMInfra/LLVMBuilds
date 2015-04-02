@@ -73,7 +73,8 @@ or cd SingleSource;  make TEST=pre [clean] // to run SingleSource Only
 
 The result is that in llvm-build/projects/test-suite/*...*/Output/*.linked.rbc will be created which is the 
 clang compiled linked bc of the source code.
-Note that: if you put other instrcutions in  TEST.pre.Makefile then those will also be executed. For exampe if you intend to run opt pass on the linked.rbc.
+Note that: if you put other instrcutions in  TEST.pre.Makefile then those will also be executed. 
+For exampe if you intend to run opt pass on the linked.rbc.
 
 Ruunig spec2006
 ===============
