@@ -125,12 +125,12 @@
 
 \begin{body}
 	\vspace{14pt}
+		Compiler Optimizations \\
 		Static Program Analysis \& Verification \\
                 Symbolic Execution \\                
-		Compiler Optimizations \\
+		Parallel \& Power Aware Computation \\
 %		Parallel Computing \\
 %		Programming Language Design \& Implementation \\
-		Parallel \& Power Aware Computation \\
 % 		Automated software verification \& quality assurance.
 \end{body}
 
@@ -173,30 +173,15 @@
 	\vspace{14pt}
 	\textbf{Graduate Courses }{} \hfill \\
 	\begin{itemize} \itemsep -0pt
-          \item  \href{https://cs.illinois.edu/courses/profile/CS420}{CS420/CSE402/ECE492: }
-                                            Introduction to Parallel Programming for Scientists and Engineers
           \item \href{https://cs.illinois.edu/courses/profile/CS526}{CS526: }Advanced Compiler Construction
           \item \href{https://courses.engr.illinois.edu/cs533/}{CS533: }Parallel Computer Architectures
           \item \href{https://wiki.cites.illinois.edu/wiki/display/cs598lvk/Home}{CS598lvk: }Parallel Programming with Migratable Objects
+          \item  \href{https://cs.illinois.edu/courses/profile/CS420}{CS420/CSE402/ECE492: }
+                                            Introduction to Parallel Programming for Scientists and Engineers
 	\end{itemize}
  \medskip
 	\textbf{Projects}{} \hfill  \\
 	\begin{itemize} \itemsep -0pt
-          \item \textbf{Mitigating Impact of Heterogeneity Across Power-constrained Nodes on Parallel Applications through Load Balancing}     
-                                \href{https://github.com/sdasgup3/HeterogeneityAwareLoadBalancing}{[Github]} \\
-                                  \texttt{Abstract: }Different processors across the nodes
-                                  have different execution times for the same
-                                  work-loads. This performance imbalance is seen
-                                  only when the CPU power is capped to low
-                                  values. This performance imbalance causes
-                                  increased execution times of the parallel
-                                  applications. We did a detailed study and
-                                  proposed a power aware load balancer (using
-                                      Charm++ ) which minimized the performance
-                                  imbalance at the lower power caps by tackling
-                                  this heterogeneity.  
-
-
            \item \textbf{Partial Redundancy Elimination(PRE)} \href{https://github.com/sdasgup3/PartialRedundancyElimination}{[Github]} \\
                                   \texttt{Abstract: }PRE is a compiler optimization that
                                   eliminates expressions that are redundant on
@@ -218,7 +203,19 @@
                                 non-separable e.g., faint variable analysis,
                                 possible undefined variable analysis, strongly
                                 live variable analysis.	
-
+          \item \textbf{Mitigating Impact of Heterogeneity Across Power-constrained Nodes on Parallel Applications through Load Balancing}     
+                                \href{https://github.com/sdasgup3/HeterogeneityAwareLoadBalancing}{[Github]} \\
+                                  \texttt{Abstract: }Different processors across the nodes
+                                  have different execution times for the same
+                                  work-loads. This performance imbalance is seen
+                                  only when the CPU power is capped to low
+                                  values. This performance imbalance causes
+                                  increased execution times of the parallel
+                                  applications. We did a detailed study and
+                                  proposed a power aware load balancer (using
+                                      Charm++ ) which minimized the performance
+                                  imbalance at the lower power caps by tackling
+                                  this heterogeneity.  
            \item \textbf{Designing superscalar processor} \href{https://github.com/sdasgup3/Parallel-Processor-Design}{[Github]} \\
                                 \texttt{Abstract: }To design a customized processor (using
                                     parallel processing concepts) for the
