@@ -1,3 +1,4 @@
+```
 If one wants to see the LLVM code produced by clang for a C program, they can do:
 $ clang -S -emit-llvm myfile.c -o myfile.ll
 
@@ -11,3 +12,4 @@ $ llvm-dis myfile.bc -o myfile.ll
 $ llvm-as myfile.ll -o myfile.bc
 
 For more about various LLVM tools: http://llvm.org/docs/CommandGuide/index.html
+```
