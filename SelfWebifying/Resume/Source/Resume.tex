@@ -125,12 +125,13 @@
 
 \begin{body}
 	\vspace{14pt}
-		Program Analysis \& Verification \\
 		Compiler Optimizations \\
-		Parallel Computing \\
-		Programming Language Design \& Implementation \\
-		High performance computing \\
- 		Automated software verification \& quality assurance.
+		Static Program Analysis \& Verification \\
+                Symbolic Execution \\                
+		Parallel \& Power Aware Computation \\
+%		Parallel Computing \\
+%		Programming Language Design \& Implementation \\
+% 		Automated software verification \& quality assurance.
 \end{body}
 
 \smallskip
@@ -142,19 +143,19 @@
 
 \begin{body}
 	\vspace{14pt}
-	\textbf{PhD Computer Science }{} \hfill \\
-	\emph{\href{http://cs.illinois.edu/}{CS @ Illinois Urbana Champaign}}{} \\
+	\textbf{PhD Computer Science }{} \hfill \emph{August 2013 - untill now}{} \\
+	\emph{\href{http://cs.illinois.edu/}{CS @ University of Illinois Urbana Champaign}}{} \\
 	\begin{itemize} \itemsep -0pt
-		\item Currently working with \href{http://llvm.org/}{ LLVM Group} led by Prof. \href{http://llvm.cs.uiuc.edu/~vadve/Home.html}{Vikram S. Adve}
+		\item Currently working with \href{http://llvm.org/}{ LLVM Group} led by Prof. \href{http://web.engr.illinois.edu/~vadve/Home.html}{Vikram S. Adve}
 	\end{itemize}
  \medskip
-	\textbf{M.Tech Computer Science \& Engineering -- CPI 9.00/10.00}{} \hfill \emph{June 2011}{} \\
+	\textbf{M.Tech Computer Science \& Engineering -- CPI 9.00/10.00}{} \hfill \emph{August 2009 - June 2011}{} \\
 	\emph{\href{http://www.iitk.ac.in/}{Indian Institute Of Technology Kanpur}, Kanpur, India.}{} \\
 	\begin{itemize} \itemsep -0pt
 		\item Secured \textbf{rank $1$} in M. Tech 2009 Batch, IIT Kanpur.
 	\end{itemize}
   \medskip
-	\textbf{B.E. Computer Science \& Engineering -- \emph{First Class with Honours}, 85.625/100.00} \hfill \emph{June 2006} \\
+	\textbf{B.E. Computer Science \& Engineering -- \emph{First Class with Honours}, 85.625/100.00} \hfill \emph{August 2002 - June 2006} \\
 	\emph{\href{http://www.becs.ac.in/}{Bengal Engineering \& Science University, Shibpur}}, West Bengal, India.\\
 	\begin{itemize} \itemsep -0pt
 		\item Awarded \textbf{University Gold Medal} for securing 1st Rank in BE, Computer Science \& Engineering, 2002 batch.
@@ -164,6 +165,82 @@
 
 \smallskip
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Courses and Projects
+\header{Graduate Courses \& Projects}
+
+\begin{body}
+	\vspace{14pt}
+	\textbf{Graduate Courses }{} \hfill \\
+	\begin{itemize} \itemsep -0pt
+          \item \href{https://cs.illinois.edu/courses/profile/CS526}{CS526: }Advanced Compiler Construction
+          \item \href{https://courses.engr.illinois.edu/cs533/}{CS533: }Parallel Computer Architectures
+          \item \href{https://wiki.cites.illinois.edu/wiki/display/cs598lvk/Home}{CS598lvk: }Parallel Programming with Migratable Objects
+          \item  \href{https://cs.illinois.edu/courses/profile/CS420}{CS420/CSE402/ECE492: }
+                                            Introduction to Parallel Programming for Scientists and Engineers
+	\end{itemize}
+ \medskip
+	\textbf{Projects}{} \hfill  \\
+	\begin{itemize} \itemsep -0pt
+           \item \textbf{Partial Redundancy Elimination(PRE)} \href{https://github.com/sdasgup3/PartialRedundancyElimination}{[Github]} \\
+                                  \texttt{Abstract: }PRE is a compiler optimization that
+                                  eliminates expressions that are redundant on
+                                  some but not necessarily all paths through a
+                                  program. In this project, we implemented a PRE
+                                  optimization pass in LLVM and measured results
+                                  on a variety of applications. It's a powerful
+                                  technique that subsumes Common Subexpression
+                                  Elimination (CSE) and Loop Invariant Code
+                                  Motion (LICM), and hence has a potential to
+                                  greatly improve performance.  
+
+            \item \textbf{Implementing Data flow Analyzer} \\
+                                \texttt{Abstract: }To Extend the Generic Data Flow Analyzer
+                                GDFA (of gcc) to the data flow frameworks where
+                                data flow information can be represented using
+                                bit vectors but the frameworks are not bit
+                                vector frameworks because they are
+                                non-separable e.g., faint variable analysis,
+                                possible undefined variable analysis, strongly
+                                live variable analysis.	
+          \item \textbf{Mitigating Impact of Heterogeneity Across Power-constrained Nodes on Parallel Applications through Load Balancing}     
+                                \href{https://github.com/sdasgup3/HeterogeneityAwareLoadBalancing}{[Github]} \\
+                                  \texttt{Abstract: }Different processors across the nodes
+                                  have different execution times for the same
+                                  work-loads. This performance imbalance is seen
+                                  only when the CPU power is capped to low
+                                  values. This performance imbalance causes
+                                  increased execution times of the parallel
+                                  applications. We did a detailed study and
+                                  proposed a power aware load balancer (using
+                                      Charm++ ) which minimized the performance
+                                  imbalance at the lower power caps by tackling
+                                  this heterogeneity.  
+           \item \textbf{Designing superscalar processor} \href{https://github.com/sdasgup3/Parallel-Processor-Design}{[Github]} \\
+                                \texttt{Abstract: }To design a customized processor (using
+                                    parallel processing concepts) for the
+                                application of document retrieval system. We
+                                developed a superscalar processor (with  an
+                                    issue rate of 2) using verilog hdl, and an
+                                assembler for that processor using flex and
+                                bison.  
+
+           \item \textbf{Graph Coloring Using State Space Search} \href{https://github.com/sdasgup3/ParallelSudoku}{[Github]} \\          
+                                  \texttt{Abstract: }We plan to leverage the state space
+                                  search model for implementing graph coloring
+                                  in parallel in Charm++. Some of the
+                                  challenges for efficient exploration of space
+                                  by chares include intelligent pruning of the
+                                  state space, load balancing, grain-size
+                                  control and low-overhead communication
+                                  between chares. We evaluated multiple options
+                                  for each of these, and come up with design
+                                  decisions which would work for a large
+                                  category of real-life graph applications.
+	\end{itemize}
+\end{body}
+
+\smallskip
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MTech Thesis
@@ -171,7 +248,7 @@
 
 \begin{body}
 	\vspace{14pt}
-	\textbf {\href{http://www.cse.iitk.ac.in/users/karkare/MTP/2010-11/sandeep2010precise.pdf}{Precise Shape Analysis Using Field Sensitivity}} \\
+	\textbf Precise Shape Analysis Using Field Sensitivity {\href{http://www.cse.iitk.ac.in/users/karkare/MTP/2010-11/sandeep2010precise.pdf}{[Report]}} \\
 		\begin{itemize} \itemsep -0pt  
 		\item[] To disambiguate heap allocated data-structures by estimating the shape (Tree, Dag or Cyclic Graph ) of the data structure 
 			accessible from each heap directed pointer. This will help in automatic parallelization of sequential code having heap 
@@ -188,8 +265,9 @@
 \textbf{Papers in Conferences}\\
 	\vspace*{-4pt}
 	\begin{itemize} \itemsep -0pt
-		\item Sandeep Dasgupta \& Amey Karkare.\href{https://dl.dropbox.com/u/86719354/sac\_2012.pdf}{``\textbf{Precise shape analysis using field sensitivity}''}, in \emph{Proceedings of the 27th Annual ACM Symposium on Applied Computing}, SAC 2012, pages 1300-1307, New York, USA. ACM. \href{http://dx.doi.org/10.1145/2245276.2231982}{doi: 10.1145/2231936.2231982}, isbn: 978-1-4503-0857-1. \\
-		\item Barnali Basak, Sandeep Dasgupta \& Amey Karkare.\href{https://dl.dropbox.com/u/86719354/parco\_2011.pdf}{``\textbf{Heap Dependence Analysis for Sequential Programs}''}, \emph{International Conference on Parallel Computing} (ParCo 2011), Ghent, Belgium, August 30 - September 2, 2011. \\
+		\item Sandeep Dasgupta \& Amey Karkare.``\textbf{Precise shape analysis using field sensitivity}'', in \emph{Proceedings of the 27th Annual ACM Symposium on Applied Computing}, SAC 2012, pages 1300-1307, New York, USA. ACM. \href{http://dx.doi.org/10.1145/2245276.2231982}{doi: 10.1145/2231936.2231982}, isbn: 978-1-4503-0857-1. \href{https://dl.dropbox.com/u/86719354/sac\_2012.pdf}{[pdf]}\\
+
+		\item Barnali Basak, Sandeep Dasgupta \& Amey Karkare.``\textbf{Heap Dependence Analysis for Sequential Programs}'', \emph{International Conference on Parallel Computing} (ParCo 2011), Ghent, Belgium, August 30 - September 2, 2011. \href{https://dl.dropbox.com/u/86719354/parco\_2011.pdf}{[pdf]} \\
 		\begin{itemize} \itemsep -0pt
 			\item Published in: Applications, Tools and Techniques on the Road to Exascale Computing, 22 volume of Advances in 
 				Parallel Computing, chapter: Heap Dependence Analysis for Sequential Programs, pages 99--106. IOS Press, May 2012. 
@@ -200,15 +278,15 @@
 \textbf{Posters}\\
 	\vspace*{-4pt}
 	\begin{itemize} \itemsep -0pt
-		\item Poster \href{https://dl.dropbox.com/u/86719354/poster_APLAS2010.pdf}{``\textbf{Dependence Analysis for Parallelization 
-		of Sequential Programs}''} got accepted at APLAS`10 (the 8th ASIAN Symposium on Programming Languages \& Systems).
+		\item Poster ``\textbf{Dependence Analysis for Parallelization 
+		of Sequential Programs}'' got accepted at APLAS`10 (the 8th ASIAN Symposium on Programming Languages \& Systems). \href{https://dl.dropbox.com/u/86719354/poster_APLAS2010.pdf}{[pdf]}
 	\end{itemize}
 
 \textbf{Journals}\\
 	\vspace{-4pt}
 	\begin{itemize} \itemsep -0pt
-		\item  Sandeep Dasgupta, Amey Karkare \& P.\ Vinay K.\ Reddy. \href{https://dl.dropbox.com/u/86719354/publication_isse.pdf}{``\textbf{Precise shape analysis using field sensitivity}.''}, in \emph{Innovations in Systems and Software Engineering (ISSE)}, a NASA journal.
-                 doi: \href{http://www.springerlink.com/openurl.asp?genre=article&id=doi:10.1007/s11334-013-0198-7}{10.1007/s11334-013-0198-7} 
+		\item  Sandeep Dasgupta, Amey Karkare \& P.\ Vinay K.\ Reddy. ``\textbf{Precise shape analysis using field sensitivity}.'', in \emph{Innovations in Systems and Software Engineering (ISSE)}, a NASA journal.
+                 doi: \href{http://www.springerlink.com/openurl.asp?genre=article&id=doi:10.1007/s11334-013-0198-7}{10.1007/s11334-013-0198-7}. \href{https://dl.dropbox.com/u/86719354/publication_isse.pdf}{[pdf]}
 	\end{itemize}
 \end{body}
 
@@ -221,9 +299,19 @@
 	\href{http://www.intel.in/content/www/in/en/homepage.html}{\textbf{Intel Technology India Pvt. Ltd.}}, \emph{Component Design Engineer} \hfill \emph{August 2011 - June 2013}\\
 	\vspace*{-4pt}
 	\begin{itemize} \itemsep -0pt  % reduce space between items
-		\item Work on design automation problems related to formal equivalence verification (FEV) of hardware designs.
-		\item Build flows and methodologies to provide solutions to formally verify leading next generation CPU designs.
-	\end{itemize}
+                \item Worked as Design Automation Engineer for Formal Equivalence Verification of hardware designs.
+                \item Contributed to and supported Broadwell (BDX) and Skylake (SKL) FEV requirements. Played key role in FEV audit checks for BDX. 
+                \item Owner of tools and infrastructures for driving
+                FEV central runs for  BDX. Worked closely with teams of various
+                design styles in understanding the requirements for
+                customization and also provided the much needed support for
+                successfully deploying those tools.
+                \item Build flows and methodologies to provide solutions on how
+                to formally verify leading next generation CPU designs.
+                Interacted closely with global FEV teams to understand the
+                requirements and contributed to the success of various
+                sprints with timely and quality delivery on assignments.
+                \end{itemize}
 
 	\href{http://www.interrasystems.com/}{\textbf {Interra Systems India Pvt. Ltd.}}, \emph{Senior Member Of Technical Staff} \hfill \emph{August 2006 - July 2009}\\
 	\vspace*{-4pt}
@@ -242,6 +330,16 @@
 
 \begin{body}
 	\vspace{14pt}
+	\textbf{University Of Illinois Urbana Champaign},  \hfill \emph{August 2013 - December 2013}\\
+	\vspace*{-4pt}
+	\begin{itemize} \itemsep -0pt  % reduce space between items
+		\item \textbf{Teaching Assistant} for \href{http://cs.illinois.edu/courses/profile/CS427-120138}{CS 427: Software Engineering I}: A Graduate level course.
+			\begin{itemize}
+				\item Designing the questions for homework and term examinations and grading those.
+				\item Conducting discussion sessions with the students to answer questions related to lectures/homework.   
+			\end{itemize}
+	\end{itemize}
+
 	\textbf{Indian Institute of Technology, Kanpur},  \hfill \emph{August 2009 - 2011}\\
 	\vspace*{-4pt}
 	\begin{itemize} \itemsep -0pt  % reduce space between items
@@ -274,7 +372,7 @@
 		\item Awarded \textbf{Best Student Award}, sponsored by \href{http://www.tcs.com}{Tata Consultancy Services}, for outstanding performance in BE, Computer Science \& Engineering, 2002 batch. \\
 		\item \textbf{Secured Rank $1$}, in M. Tech 2009 Batch, IIT Kanpur.
 		\item \textbf{Secured All India Rank $145$} (99.64 percentile) in GATE 2009, an exam for admission in Graduate Study.
-		\item \textbf{Ranked $356^{th}$} (among 1 Lakh+ students) in WB-JEE, 2002, an exam for admission in undergraduate study.
+		\item \textbf{Ranked $356^{th}$} (among $\frac{1}{10}$ of Million+ students) in WB-JEE, 2002, an exam for admission in undergraduate study.
 		\item Awarded \textbf{Interra Humming Bird Award} in recognition of \& appreciation for providing excellent support to \href{}{Atrenta (I) Pvt. Ltd.} in the project ``IEEE compliance for Spyglass'', awarded by \href{http://www.interrasystems.com/}{Interra Systems India Pvt. Ltd.} 
 	\end{itemize} 
 \end{body}
