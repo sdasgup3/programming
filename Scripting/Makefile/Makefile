@@ -10,10 +10,11 @@ _OBJ = hellomake.o hellofunc.o
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.c $(DEPS)
+	mkdir -p obj
 	$(CC) -c $< -o $@ $(CCFLAGS)
 
 hellomake: $(OBJ)
 	$(CC) $^ $(CCFLAGS) -o $@
 	
 clean: 
-	rm -rf $(ODIR)/*.o *~ core hellomake
+	rm -rf $(ODIR)/ *~ core hellomake
