@@ -1,35 +1,12 @@
-TGT=a
-DEPS=
-
-LATEX=latex
-BIBTEX=bibtex
-
-all: $(TGT)
-pdf: $(TGT).pdf
-
-$(TGT): $(TGT).pdf
-
-$(TGT).pdf: $(TGT).ps
-	ps2pdf $(TGT).ps $(TGT).pdf
+CMD=pdflatex
 
 
-$(TGT).ps: $(TGT).dvi
-	dvips -o $(TGT).ps $(TGT)
+all: Resume.pdf Resume_Job.pdf
+Resume: Resume.pdf
+Resume_Job: Resume_Job.pdf
 
-$(TGT).dvi: $(TGT).tex $(DEPS)
-	$(LATEX) $(TGT) && $(LATEX) $(TGT)
+%.pdf: %.tex
+	$(CMD) $<
 
-.PHONY: clean clobber fresh
-clean: 
-	-$(RM) $(TGT).dvi $(TGT).aux $(TGT).log
-	-$(RM) $(TGT).toc $(TGT).idx $(TGT).bbl
-	-$(RM) $(TGT).toc $(TGT).ind $(TGT).blg 
-	-$(RM) $(TGT).ind
-	-$(RM) $(TGT).out
-	-$(RM) $(TGT).ps
-	-$(RM) missfont.log *~
-
-clobber: clean
-	-$(RM) $(TGT).ps 
-
-fresh: clobber all
+clean:
+	rm -rf *.dvi  *.log *.ps *.aux *.out
