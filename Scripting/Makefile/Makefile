@@ -13,8 +13,10 @@ $(ODIR)/%.o: %.c $(DEPS)
 	mkdir -p obj
 	$(CC) -c $< -o $@ $(CCFLAGS)
 
-hellomake: $(OBJ)
+hellomake:: $(OBJ)
 	$(CC) $^ $(CCFLAGS) -o $@
+hellomake:: $(OBJ)
+	echo "multiple targets"  
 	
 clean: 
 	rm -rf $(ODIR)/ *~ core hellomake
