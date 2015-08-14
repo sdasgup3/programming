@@ -1,5 +1,6 @@
 Multisource build process
 =========================
+```
 //generate bc
 lang -S arg.c -o Output/arg.ll -emit-llvm
 lvm-as Output/arg.ll -o Output/arg.bc
@@ -37,4 +38,4 @@ gcc Output/make_dparser.llc.s -o Output/make_dparser.llc  -lm   -m64 -fomit-fram
 
 //Run lli
 /home/sdasgup3/Documents/llvmpa/llvmpa.tests/klee-test-suite.src/RunSafely.sh -t "/home/sdasgup3/Documents/llvmpa/llvmpa.tests/klee-test-suite.obj/tools/timeit-target" 500 /dev/null Output/make_dparser.out-jit /home/sdasgup3/Documents/llvm/llvm.obj/Release+Asserts/bin/lli -info-output-file=/home/sdasgup3/Documents/llvmpa/llvmpa.tests/klee-test-suite.obj/MultiSource/Applications/d/Output/make_dparser.out-jit.info -stats -time-passes -force-interpreter=false --disable-core-files  Output/make_dparser.llvm.bc -v /home/sdasgup3/Documents/llvmpa/llvmpa.tests/klee-test-suite.src/MultiSource/Applications/d/grammar.g
-
+```
