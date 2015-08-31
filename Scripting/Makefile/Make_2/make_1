@@ -1,0 +1,4 @@
+.ONESHELL:
+test:
+	tmp="dir"
+	mkdir ./$(tmp)	    

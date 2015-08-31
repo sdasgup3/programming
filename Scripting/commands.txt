@@ -59,23 +59,6 @@ Linux Dist
 =========
 http://www.cyberciti.biz/faq/find-linux-distribution-name-version-number/
 
-Building llvmpa
-================
-/home/sdasgup3/llvm/llvm-3.4/llvm-src
-svn up -r 195104
-
-
-llvmpa-src
-svn up -r 13477
-
-cd llvmpa.obj
-source ~/SymbolicAnalysis/Scripts/setup.llvmpa
-#../llvmpa-src/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-3.4/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-3.4/llvm-build --disable-optimized --enable-assertions
-Release build
-===============
-../llvmpa/configure --with-llvmsrc=/home/sdasgup3/llvm/llvm-llvmpa/llvm-src/ --with-llvmobj=/home/sdasgup3/llvm/llvm-llvmpa/llvm-build --with-gcc-toolchain=/software/gcc-4.8.2 --with-extra-options=-std=c++11 --with-extra-ld-options="-Wl,-rpath,/software/gcc-4.8.2/lib64" --enable-optimized --enable-assertions
-make
-
 *******************************************************
 *******************************************************
 New Python
@@ -207,4 +190,8 @@ cscopes
 =======
 llvm:
 cscope lib/*/*.h lib/*/*/*.h lib/*/*/*/*.h lib/*/*.cpp lib/*/*/*.cpp lib/*/*/*/*.cpp include/llvm/*.h include/llvm/*/*.h
+
+../llvm.src/configure CC=/home/kasampa2/Documents/gcc/gcc-4.8.2.inst/bin/gcc CXX=/home/kasampa2/Documents/gcc/gcc-4.8.2.inst/bin/g++ --with-gcc-toolchain=/home/kasampa2/Documents/gcc/gcc-4.8.2.inst --with-extra-ld-options="-Wl,-rpath,/home/kasampa2/Documents/gcc/gcc-4.8.2.inst/lib64" --prefix=/home/kasampa2/Documents/llvm/llvm.inst --enable-jit --enable-targets=all --disable-optimized --enable-assertions
+
+../llvm.src/configure CC=clang CXX=clang++ --with-gcc-toolchain=/home/kasampa2/Documents/gcc/gcc-4.8.2.inst --with-extra-ld-options="-Wl,-rpath,/home/kasampa2/Documents/gcc/gcc-4.8.2.inst/lib64" --prefix=/home/kasampa2/Documents/llvm/llvm.inst --enable-jit --enable-targets=all --disable-optimized --enable-assertions
 
