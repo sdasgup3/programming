@@ -7,6 +7,7 @@
 \usepackage{hyperref}
 \usepackage{graphicx,wrapfig}
 \usepackage{wallpaper}
+\usepackage[inline]{enumitem}
 
 \newcommand{\addphoto}[2]{%
   \smash{%
@@ -93,6 +94,18 @@
 	#4\\
 }
 
+\makeatletter
+\newcommand{\inlineitem}[1][]{%
+\ifnum\enit@type=\tw@
+    {\descriptionlabel{#1}}
+  \hspace{\labelsep}
+\else
+  \ifnum\enit@type=\z@
+       \refstepcounter{\@listctr}\fi
+    \quad\@itemlabel\hspace{\labelsep}
+\fi}        
+\makeatother
+
 % END RESUME DEFINITIONS
 
 \begin{document}
@@ -126,20 +139,20 @@
 	\vspace{14pt}
 	  \textbf{Interested In}\\
 	  \begin{itemize} \itemsep -0pt
-		\item Compiler Optimizations \\
-		\item Static Program Analysis \& Verification \\
-                \item Parallelizing Compilers \\
-                \item Symbolic Execution \\                
-		\item Parallel \& Power Aware Computation \\
+		\item Compiler Optimizations   \qquad\qquad\qquad\qquad   \inlineitem Static Program Analysis \& Verification
+                \item Parallelizing Compilers  \qquad\qquad\qquad\quad\;\;\;\,   \inlineitem Symbolic Execution
+		\item Parallel \& Power Aware Computation 
 	  \end{itemize}
 
         \medskip  
-	  \textbf{Language proficiency}\\
-	  \begin{itemize} \itemsep -0pt
-		\item C, C++
-		\item Perl, Python
-		\item Pthread, OpenMP, MPI, Charm++
-	  \end{itemize}
+
+	%  \textbf{Language proficiency}\\
+	%  \begin{itemize} \itemsep -0pt
+	%	\item C, C++  \inlineitem  Perl, Python  \inlineitem Pthread, OpenMP, MPI, Charm++
+	%	%\item Perl, Python
+	%	%\item Pthread, OpenMP, MPI, Charm++
+	%  \end{itemize}
+
 %		Parallel Computing \\
 %		Programming Language Design \& Implementation \\
 % 		Automated software verification \& quality assurance.
@@ -159,8 +172,9 @@
 	\emph{\href{http://cs.illinois.edu/}{CS @ University of Illinois Urbana Champaign}}{} \\
 	\begin{itemize} \itemsep -0pt
 		\item  Working with \href{http://llvm.org/}{ LLVM Group} led by Prof. \href{http://web.engr.illinois.edu/~vadve/Home.html}{Vikram S. Adve}
-		\item  Current Research: To detect bugs in a pointer analysis i.e. if the pointer analysis claims that two pointers do not alias but in reality they are aliasing at runtime. We are using dynamic symbolic execution to determine  the actual alias information during runtime and use this information  to verify the alias analysis claims.
-	\end{itemize}
+                \item  Current Research: To detect static analysis bugs using
+                dynamic symbolic execution. Currently we are focusing on bugs in ``must alias analysis''.
+                \end{itemize}
 
 
  \medskip
@@ -268,20 +282,21 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MTech Thesis
-\header{M.Tech Thesis \hfill Joint supervision of \href{http://www.cse.iitk.ac.in/users/karkare/}{Dr. Amey karkare} \& \href{http://www.cse.iitk.ac.in/users/ska/}{Dr.  Sanjeev K Aggarwal} }
-
-\begin{body}
-	\vspace{14pt}
-	\textbf Precise Shape Analysis Using Field Sensitivity {\href{http://www.cse.iitk.ac.in/users/karkare/MTP/2010-11/sandeep2010precise.pdf}{[Report]}} \\
-		\begin{itemize} \itemsep -0pt  
-		\item[] To disambiguate heap allocated data-structures by estimating the shape (Tree, Dag or Cyclic Graph ) of the data structure 
-			accessible from each heap directed pointer. This will help in automatic parallelization of sequential code having heap 
-			intensive data structures. The work mainly focuses on devising a novel shape analysis technique. 
-		\end{itemize}
-\end{body}
-
-\smallskip
-
+%\header{M.Tech Thesis \hfill Joint supervision of \href{http://www.cse.iitk.ac.in/users/karkare/}{Dr. Amey karkare} \& \href{http://www.cse.iitk.ac.in/users/ska/}{Dr.  Sanjeev K Aggarwal} }
+%
+%\begin{body}
+%	\vspace{14pt}
+%	\textbf Precise Shape Analysis Using Field Sensitivity {\href{http://www.cse.iitk.ac.in/users/karkare/MTP/2010-11/sandeep2010precise.pdf}{[Report]}} \\
+%		\begin{itemize} \itemsep -0pt  
+%		\item[] To disambiguate heap allocated data-structures by estimating the shape (Tree, Dag or Cyclic Graph ) of the data structure 
+%			accessible from each heap directed pointer. This will help in automatic parallelization of sequential code having heap 
+%%			intensive data structures. The work mainly focuses on devising a novel shape analysis technique. 
+%		\end{itemize}
+%\end{body}
+%
+%\smallskip
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Publications
 \header{Publications}
 \begin{body}
@@ -289,14 +304,16 @@
 \textbf{Papers in Conferences}\\
 	\vspace*{-4pt}
 	\begin{itemize} \itemsep -0pt
-		\item Sandeep Dasgupta \& Amey Karkare.``\textbf{Precise shape analysis using field sensitivity}'', in \emph{Proceedings of the 27th Annual ACM Symposium on Applied Computing}, SAC 2012, pages 1300-1307, New York, USA. ACM. \href{http://dx.doi.org/10.1145/2245276.2231982}{doi: 10.1145/2231936.2231982}, isbn: 978-1-4503-0857-1. \href{https://dl.dropbox.com/u/86719354/sac\_2012.pdf}{[pdf]}\\
+		\item Sandeep Dasgupta \& Amey Karkare.``\textbf{Precise shape analysis using field sensitivity}'', in \emph{Proceedings of the 27th Annual ACM Symposium on Applied Computing}, SAC 2012, pages 1300-1307, New York, USA. ACM. \href{http://dx.doi.org/10.1145/2245276.2231982}{doi: 10.1145/2231936.2231982}. \href{https://dl.dropbox.com/u/86719354/sac\_2012.pdf}{[pdf]}\\
 
-		\item Barnali Basak, Sandeep Dasgupta \& Amey Karkare.``\textbf{Heap Dependence Analysis for Sequential Programs}'', \emph{International Conference on Parallel Computing} (ParCo 2011), Ghent, Belgium, August 30 - September 2, 2011. \href{https://dl.dropbox.com/u/86719354/parco\_2011.pdf}{[pdf]} \\
+		\item Barnali Basak, Sandeep Dasgupta \& Amey Karkare.``\textbf{Heap Dependence Analysis for Sequential Programs}'', \emph{International Conference on Parallel Computing} (ParCo 2011), Ghent, Belgium, August 30 - September 2, 2011. \href{http://dx.doi.org/10.3233/978-1-61499-041-3-99}{doi: 10.3233/978-1-61499-041-3-99}.  \href{https://dl.dropbox.com/u/86719354/parco\_2011.pdf}{[pdf]} \\
+                  \cmnt{
 		\begin{itemize} \itemsep -0pt
 			\item Published in: Applications, Tools and Techniques on the Road to Exascale Computing, 22 volume of Advances in 
 				Parallel Computing, chapter: Heap Dependence Analysis for Sequential Programs, pages 99--106. IOS Press, May 2012. 
 				doi: \href{http://dx.doi.org/10.3233/978-1-61499-041-3-99}{10.3233/978-1-61499-041-3-99}, isbn: 978-1-61499-040-6.
 		\end{itemize}
+                  }
 	\end{itemize}
 
 \textbf{Posters}\\
