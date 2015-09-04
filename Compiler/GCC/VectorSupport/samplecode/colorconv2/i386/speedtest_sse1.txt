@@ -1,0 +1,25 @@
+SSE2 not supported: skipping test
+Testing SSE1:
+[127 56 43] -> [75 109 75 164]
+(fixed point vector) mmx took 1.464834 seconds
+(fixed point scalar) yuv422rgb_scalar_fixed took 1.680437 seconds
+(floating point scalar) yuv422rgb_scalar_float took 2.386550 seconds
+(floating point vector) sse1 took 1.748353 seconds
+
+float vector time was 73.258597 percent of float scalar time
+fixed point vector was 87.169826 percent of fixed point scalar time
+
+yuyv scalar 75 109 75 164  RGBA 125 55 41 255
+yuyv_int 75 109 75 164  RGBA 125 55 41 255
+yuyv_mmx 75 109 75 164  RGBA 125 55 41 255
+yuyv_sse 75 109 75 164  RGBA 125 55 41 255
+NEON not supported: skipping test
+ALTIVEC not supported: skipping test
+Testing scalar functions:
+[127 56 43] -> [75 109 75 164]
+(floating point scalar) 75 109 75 164  RGBA 125 55 41 255
+(fixed point scalar) 75 109 75 164  RGBA 125 55 41 255
+[127 56 43] -> [75 109 75 164]
+yuyv general_int 75 109 75 164  RGBA 125 55 41 255
+[127 56 43] -> [75 109 75 164]
+yuyv general_float 75 109 75 164  RGBA 125 55 41 255

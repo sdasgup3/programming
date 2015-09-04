@@ -1,0 +1,27 @@
+Feature 'neon' IS found in /proc/cpuinfo.
+SSE2 not supported: skipping test
+SSE1 not supported: skipping test
+Testing NEON:
+[127 56 43] -> [75 109 75 164]
+(floating point vector) yuv422rgb_neon_float 1.124573 seconds
+(fixed point scalar) yuv422rgb_scalar_fixed took 0.956604 seconds
+(floating point scalar) yuv422rgb_scalar_float took 16.031342 seconds
+(fixed point vector) yuv422rgb_neon_int took 0.840577 seconds
+
+float vector time was 7.014840 percent of float scalar time
+fixed point vector was 87.870948 percent of fixed point scalar time
+
+yuyv scalar 75 109 75 164  RGBA 125 55 41 255
+yuyv_int 75 109 75 164  RGBA 125 55 41 255
+yuv422rgb_neon_float 75 109 75 164  RGBA 125 55 41 255
+yuv422rgb_neon_int 75 109 75 164  RGBA 125 55 41 255
+ALTIVEC not supported: skipping test
+Testing scalar functions:
+[127 56 43] -> [75 109 75 164]
+(floating point scalar) 75 109 75 164  RGBA 125 55 41 255
+(fixed point scalar) 75 109 75 164  RGBA 125 55 41 255
+[127 56 43] -> [75 109 75 164]
+yuyv general_int 75 109 75 164  RGBA 125 55 41 255
+[127 56 43] -> [75 109 75 164]
+Feature 'neon' IS found in /proc/cpuinfo.
+yuyv general_float 75 109 75 164  RGBA 125 55 41 255

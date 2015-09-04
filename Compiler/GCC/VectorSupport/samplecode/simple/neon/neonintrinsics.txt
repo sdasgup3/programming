@@ -1,0 +1,42 @@
+neoninstrinsics.txt
+v 0.1 4/16/11 gpk   initial version
+
+
+ Neon intrinsics follow the naming scheme [opname][flags]_[type]. A "q"
+flag means it operates on quad word (128-bit) vectors.
+
+Neon intrinsics used
+--------------------
+vaddq_f32 - add two vectors of 32-bit floating point elements
+vaddq_s16 - add two vectors of signed 16-bit integer point elements
+vbsl_u8 - bit selection from two vectors to form a thrid
+vcombine_s16  - combine two vectors of shorts into a longer vector
+vcombine_u8 - concatenate two unsigned char vectors
+vcvtq_f32_s32 - convert from a signed int to a float
+vdupq_lane_s16 - copy one element of a vector into all elements of a vector
+vdupq_n_s16 - assign a value to all elements of a vector
+vget_high_s16 - get the high half of a vector
+vget_low_s16 - get the low half of a vector
+vld1q_f32 - load data from an float array into a vector
+vld1q_s16 -  load from an 8 element array of int16_t to an int16x8_t vector
+vld1_u8 - load vector from memory
+vmlaq_n_f32 - multiply & add
+vmovl_s16 - widen elements of vector
+vmovl_u8 - widen an uint8x8_t into a uint16x8_t
+vmovq_n_f32 - copy a 32-bit float into all elements of a vector
+vmulq_f32 - multiply two floating point vectors
+vmulq_n_s16 - multiply vector by scalar
+vmulq_s16- multiply two signed 16-bit vectors
+vqmovn_s32 - convert int vector to short vector
+vqmovun_s16 - convert from short vector to unsigned char vector
+vreinterpretq_s16_u16 - reinterpret bits to add sign to unsigned 16-bit int
+vset_lane_u8 - set value of a given element of a vector
+vshrq_n_s16 - right shift each value stored in a vector
+vst1q_f32 - store a vector of floats into an array
+vst1q_s16 - store vector if signed shorts to memory
+vst1_s16 - store vector to memory
+vst1_u8 - store vector to memory
+vtbl1_u8 - form a vector from table look up of a vector
+vtbx1_u8 - form a vector from table look up of two vectors
+
+Look for others in colorconv2/neon.c

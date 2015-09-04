@@ -1,0 +1,38 @@
+Testing SSE2:
+[127 56 43] -> [75 109 75 164]
+(fixed point vector) mmx took 0.185712 seconds
+(fixed point scalar) yuv422rgb_scalar_fixed took 0.164193 seconds
+(floating point scalar) yuv422rgb_scalar_float took 0.246583 seconds
+(floating point vector) sse2 took 0.466895 seconds
+
+float vector time was 189.345987 percent of float scalar time
+fixed point vector was 113.105912 percent of fixed point scalar time
+
+yuyv scalar 75 109 75 164  RGBA 125 55 41 255
+yuyv_int 75 109 75 164  RGBA 125 55 41 255
+yuyv_mmx2 75 109 75 164  RGBA 125 55 41 255
+yuyv_sse2 75 109 75 164  RGBA 125 55 41 255
+Testing SSE1:
+[127 56 43] -> [75 109 75 164]
+(fixed point vector) mmx took 0.235750 seconds
+(fixed point scalar) yuv422rgb_scalar_fixed took 0.164288 seconds
+(floating point scalar) yuv422rgb_scalar_float took 0.246815 seconds
+(floating point vector) sse1 took 0.558205 seconds
+
+float vector time was 226.163328 percent of float scalar time
+fixed point vector was 143.498007 percent of fixed point scalar time
+
+yuyv scalar 75 109 75 164  RGBA 125 55 41 255
+yuyv_int 75 109 75 164  RGBA 125 55 41 255
+yuyv_mmx 75 109 75 164  RGBA 125 55 41 255
+yuyv_sse 75 109 75 164  RGBA 125 55 41 255
+NEON not supported: skipping test
+ALTIVEC not supported: skipping test
+Testing scalar functions:
+[127 56 43] -> [75 109 75 164]
+(floating point scalar) 75 109 75 164  RGBA 125 55 41 255
+(fixed point scalar) 75 109 75 164  RGBA 125 55 41 255
+[127 56 43] -> [75 109 75 164]
+yuyv general_int 75 109 75 164  RGBA 125 55 41 255
+[127 56 43] -> [75 109 75 164]
+yuyv general_float 75 109 75 164  RGBA 125 55 41 255

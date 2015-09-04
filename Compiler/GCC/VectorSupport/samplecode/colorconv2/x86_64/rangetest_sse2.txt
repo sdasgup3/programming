@@ -1,0 +1,7 @@
+starting range_test (this could take a while)
+comparing full range floating point images
+there were 0 mismatches of 33554432 pixels
+
+comparing full range fixed point images
+there were 0 mismatches of 33554432 pixels
+

@@ -1,0 +1,35 @@
+x86table.txt
+
+v 0.1 4/17/11 gpk
+
+X86 Intrinsics used
+-------------------
+
+
+_mm_add_pi16   - add two vectors of shorts
+_mm_add_ps     - add two vectors of floats
+_mm_andnot_ps  - bitwise and-not of two float vectors
+_mm_and_ps     - bitwise and of two float vectors
+_mm_cvtps_pi16 - convert 4-float-vector  to 4-short-vector
+_mm_cvtpu16_ps - convert 4-short-vector to 4-float-vector
+_mm_empty      - empty multimedia state
+_mm_loadh_pi   - set upper half of an __m128
+_mm_loadl_pi   - set lower half of an __m128
+_mm_load_ps    - load float vector from memory
+_mm_mullo_pi16 - multiply two vectors of shorts, store low-order bytes
+_mm_mul_ps  - return product of two floating point vectors
+_mm_or_ps -  bitwise OR of twp floating point vectors
+_mm_packs_pu16 - saturating pack of 16-bit vectors into 8-bit vector
+_mm_set1_pi16  - set all elements of vector to single given value
+_mm_set1_ps - set all elements of a floating point vector to given value
+_mm_set_pi16 - set elements of a vector to given values
+_mm_set_pi8 - set a vector of chars
+_mm_setzero_si64 - zero out an __m64
+_mm_shuffle_pi16 - rearrange elements of an __m64
+_mm_shuffle_ps  - rearrange a float vector to make another vector
+_mm_srai_pi16 - arithmetic shift right for vector of shorts
+_mm_store_ps  - store vector to memory
+_mm_unpackhi_pi8 - interleave two char vectors, extract hi half
+_mm_unpacklo_pi8 - interleave two char vectors, extract low half
+
+Look for more in colorconv2/sse*.c

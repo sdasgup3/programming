@@ -1,0 +1,5 @@
+starting small_memory_range_test (this could take a while)
+Feature 'neon' IS found in /proc/cpuinfo.
+Floating point had 0 mismatches of 536985600 pixels
+Feature 'neon' IS found in /proc/cpuinfo.
+Fixed point had 0 mismatches of 536985600 pixels

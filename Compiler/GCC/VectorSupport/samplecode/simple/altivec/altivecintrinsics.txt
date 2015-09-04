@@ -1,0 +1,39 @@
+altivecintrinsic.txt
+v 0.1 4/16/11 gpk   initial version
+
+
+Altivec Intrinsics Used
+-----------------------
+
+vec_add - add two vectors
+vec_adds - add two vectors, saturation
+vec_ctf - convert int vector into float vector
+vec_cts - convert to fixed point
+vec_ctu - convert to fixed point
+vec_ld - load a vector from memor
+vec_madd - multiply two float vectors and add to the sum a float value
+vec_mergeh - merge two vectors, extract the high half
+vec_mergel - merge two vectors, extract the low half
+vec_mladd  - multiply low and add (shorts)
+vec_pack - narrow 2 vectors and pack them into one vector
+vec_packsu - saturating pack, unsigned result
+vec_perm - build a vector with bytes from 2 sources, controlled by
+vec_sel - build a vector with selected bits from others
+vec_splat - create vector with element from another vector
+vec_splat_s16 - create signed char vector with all elements the given value
+vec_splat_s32 - create signed char vector with all elements the given value
+vec_splat_s8 - create signed char vector with all elements the given value
+vec_splat_u16 - create unsigned short vector with all elements the given value
+vec_splat_u32 - create unsigned int vector with all elements the given value
+vec_splat_u8 - create vector of unsigned chars containing the given value
+vec_sra - algebraic shift right
+vec_srl - shift right long
+vec_sr  - shift right
+vec_st - store vector to memory
+vec_sub - subtract two vectors
+vec_trunc - truncate to integer value
+vec_unpackh - extract the high end of a vector into a wider vector
+vec_unpackl - extract the low end of a vector into a wider vector
+
+
+Look for more in colorconv2/altivec.c

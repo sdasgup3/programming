@@ -1,0 +1,27 @@
+[gpk@localhost ppc64]$ ./testcolorconv 
+Feature 'altivec' IS found in /proc/cpuinfo.
+SSE2 not supported: skipping test
+SSE1 not supported: skipping test
+NEON not supported: skipping test
+Testing ALTIVEC:
+[127 56 43] -> [75 109 75 164]
+(floating point vector) yuv422rgb_avc_float 0.170387 seconds
+(fixed point scalar) yuv422rgb_int took 0.322701 seconds
+(floating point scalar) yuv422rgb_scalar took 0.781674 seconds
+(fixed point vector) yuv422rgb_avc_int took 0.126429 seconds
+
+floating vector time was 21.797705 percent of floating scalar time
+fixed point vector time was 39.178374 percent of fixed point scalar time
+
+(floating point scalar) yuyv scalar 75 109 75 164  RGBA 125 55 41 255
+(scalar fixed point) yuyv_int 75 109 75 164  RGBA 125 58 40 255
+(vector float)yuv422rgb_avc_float 75 109 75 164  RGBA 125 55 41 255
+(fixed point vector) yuv422rgb_avc_int 75 109 75 164  RGBA 125 55 41 255
+Testing scalar functions:
+[127 56 43] -> [75 109 75 164]
+(floating point scalar) 75 109 75 164  RGBA 125 55 41 255
+(fixed point scalar) 75 109 75 164  RGBA 125 58 40 255
+[127 56 43] -> [75 109 75 164]
+Feature 'altivec' IS found in /proc/cpuinfo.
+yuyv general 75 109 75 164  RGBA 125 55 41 255
+

@@ -1,0 +1,77 @@
+add statics to print in interface.c
+x fix header block, merge in rgbcalc.c
+merge testlib.c
+
+
+
+
+fix comment block calls to init_imagedata(red, green, blue,
+yuv_imagep, byte_count); rename to something else
+
+
+modify Makefiles to take rgbcalc, testrange out of processor specific args
+
+verify the feature tests in cputest.c, interface.c
+
+fix bit vector  in cputest.c
+
+shuffle bytes to fixed point functions in sse1.c, sse2.c
+
+differentiate static functions in sse1.c, sse2.c or combine them.
+
+
+
+ clean up printvecshorts
+
+resolve altivec.c altivec.c.good
+
+
+modify rgbcalc to make float/fixed selectable
+
+explain keeping int as int long as possible scalar.c
+
+catch SIGILL for the fun of it
+
+clean up the bug report code in samples
+
+-----------------------------------------------------
+fix sse1: or 255 is wrong; mismatches reported
+fix sse2, etc: no delta Y
+
+fix up sse vector times
+
+jazz up test output for arm
+
+active voice
+first person plural
+
+readme files
+check altivec opt level bug
+
+functions called
+
+code cleanup
+
+range test: float matches, fix integer
+
+
+0  1   2    3      4       5        6
+1 0.5 0.25 0.125 0.0625 0.03125  0.015625
+ 
+
+R = Y + 1.402 * Cr   
+        1.0 + 0.25     +   0.125   +   0.0625 
+R = Y + Cr +( Cr >> 2) + (Cr >> 3) + (Cr >> 5)
+
+
+G = Y - 0.344  * (Cb - 128) - 0.714 *  (Cr - 128))    
+       (0.25 0.0625 0.03125) Cb  ( 0.5 0.125 0.0625 0.03125) Cr
+
+G = Y - (Cb >> 2 + Cb >> 4 + Cb >> 5) 
+          - (Cr >> 1 + Cr >> 3 + Cr >> 4 + Cr >> 5)
+	  
+B = Y + Cb + (Cb >> 1) + (Cb >> 2) + (Cb >> 6)
+ 
+B = clip(Y + 1.772  * (Cb - 128))
+   (1.0 0.5 0.25 0.015625) Cb
+
