@@ -1,5 +1,5 @@
 function   n_bodies
-    n=5000
+    n=50000
     clear pi;
     SOLAR_MASS=4*pi*pi;
     DAYS_PER_YEAR=365.24;

@@ -3,7 +3,7 @@ function   n_bodies
     clear pi;
     SOLAR_MASS=4*pi*pi;
     DAYS_PER_YEAR=365.24;
-
+a
 
 
     solar_bodies(1).x    = [ 0., 0., 0.];
