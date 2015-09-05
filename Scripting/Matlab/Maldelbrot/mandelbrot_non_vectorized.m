@@ -5,7 +5,7 @@ function  mandelbrot_non_vectorized
     global inverse_h;
     global bitmap;
     
-    N = 16
+    N = 160;
     bytes_per_row = bitshift(N + 7, -3);
 
     inverse_w = 2.0 / bitshift(bytes_per_row, 3);
@@ -28,9 +28,12 @@ function  mandelbrot_non_vectorized
     for ii = 1:1:N
         calc_row(ii - 1);
     end
-    bitmap
-   % printf("P4\n%d %d\n", N, N);
-   % fwrite(bitmap, bytes_per_row, N, stdout);
+    %bitmap
+   
+    fid = fopen('image.pbm','w');
+    fprintf(fid, 'P4\n%d %d\n', N, N);
+    fwrite(fid, bitmap, 'uint8');
+    fclose(fid);
 end
 
 function calc_row(y)
@@ -72,8 +75,9 @@ function calc_row(y)
 
         
         two_pixels = bitshift(two_pixels, 6);
-        bitmap(row_bitmap + bitshift(x, -3)) = bitmap(row_bitmap + bitshift(x, -3)) ...
-            | bitshift(two_pixels, -(x & 7) );
+        posn = row_bitmap + bitshift(x, -3);
+        value = uint8 ( bitshift(two_pixels, -bitand(x, 7)));
+        bitmap(posn) = bitor ( bitmap(posn), value); 
     end
 end
 
