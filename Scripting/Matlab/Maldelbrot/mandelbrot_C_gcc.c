@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define DEBUG 0
+
 
 typedef double v2df __attribute__ ((vector_size(16))); /* vector of two doubles */
 typedef int v4si __attribute__ ((vector_size(16))); /* vector of four ints */
@@ -74,9 +76,8 @@ static void calc_row(int y) {
              * and all bits will be set to 0 otherwise. Two elements
              * are calculated in parallel here.
              */
-            //printv2df(Trv + Tiv);
             is_still_bounded = __builtin_ia32_cmplepd(Trv + Tiv, four);
-            printv2df(is_still_bounded);
+            //printv2df(is_still_bounded);
 
             /*
              * Move the sign-bit of the low element to bit 0, move the
@@ -85,7 +86,6 @@ static void calc_row(int y) {
              * bounded.
              */
             two_pixels = __builtin_ia32_movmskpd(is_still_bounded);
-            printf("%d\n=========\n", two_pixels);
         } while (--i > 0 && two_pixels);
 
         /*
@@ -120,27 +120,36 @@ int main (int argc, char **argv)
     if (posix_memalign((void**)&Crvs, sizeof(v2df), sizeof(v2df) * N / 2))
         return EXIT_FAILURE;
 
-#pragma omp parallel for
+    #pragma omp parallel for
     for (i = 0; i < N; i+=2) {
         v2df Crv = { (i+1.0)*inverse_w-1.5, (i)*inverse_w-1.5 };
         Crvs[i >> 1] = Crv;
     }
 
-    //for (i = 0; i < N/2; i+=1) {
-    //    printv2df(Crvs[i]);
-    //}
-
-    bitmap = calloc(bytes_per_row, N);
+#if DEBUG 
     for (i = 0; i < N/2; i+=1) {
         printv2df(Crvs[i]);
     }
+#endif
+
+
+    bitmap = calloc(bytes_per_row, N);
 
     if (bitmap == NULL)
         return EXIT_FAILURE;
 
-#pragma omp parallel for schedule(static,1)
+    #pragma omp parallel for schedule(static,1)
     for (i = 0; i < N; i++)
         calc_row(i);
+
+#if 0 
+    for(int i = 0; i < bytes_per_row*N; i++) {
+      uint8_t* next = bitmap + i;
+      printf("%d ", *next);
+    }
+    printf("\n ");
+#endif
+
 
     printf("P4\n%d %d\n", N, N);
     fwrite(bitmap, bytes_per_row, N, stdout);
