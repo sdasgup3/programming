@@ -1,0 +1,21 @@
+profile viewer 
+mandelbrot_non_vectorized
+profsave
+get(0,'Diary')
+
+ans =
+
+on
+
+ls
+a.out  a.pbm  diary  image.pbm	log  mandelbrot_C_gcc.c  mandelbrot_non_vectorized.m  profile_results  x  x.c  y
+
+diary off
+get(0,'Diary')
+
+ans =
+
+on
+
+repmat(struct('v2df',[double(0),double(0)]), 16, 1);
+diary off
