@@ -5,7 +5,7 @@ function  mandelbrot_non_vectorized
     global inverse_h;
     global bitmap;
     
-    N = 1600
+    N = 16000
     bytes_per_row = bitshift(N + 7, -3);
 
     inverse_w = 2.0 / bitshift(bytes_per_row, 3);

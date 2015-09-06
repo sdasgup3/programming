@@ -1,12 +1,14 @@
-function  mandelbrot_non_vectorized
+function  mandelbrot_parfor
+    clear;
     N = 1600
+    
     bytes_per_row = bitshift(N + 7, -3);
 
     inverse_w = 2.0 / bitshift(bytes_per_row, 3);
     inverse_h = 2.0 / N;
 
     Crvs = repmat(struct('v2df',[double(0),double(0)]), N/2, 1);
-    bitmap = repmat(struct('v2i',[uint8(0),uint8(0)]), N, 1);
+    bitmap = repmat(struct('v2i',zeros(bytes_per_row, 1)), N, 1);
 
     parfor ii = 1:1:N/2 
         Crv = [ ((2*ii-2) + 1.0)*inverse_w - 1.5, (2*ii-2)*inverse_w - 1.5 ];
@@ -26,7 +28,7 @@ function  mandelbrot_non_vectorized
     fclose(fid);
 end
 
-function bitmapslice = calc_row(y,N, bytes_per_row, Crvs, inverse_h)diary off
+function bitmapslice = calc_row(y,N, bytes_per_row, Crvs, inverse_h)
     zero = [ 0.0, 0.0 ];
     four = [ 4.0, 4.0 ];
     bitmapslice = zeros(bytes_per_row, 1);
@@ -45,7 +47,7 @@ function bitmapslice = calc_row(y,N, bytes_per_row, Crvs, inverse_h)diary off
         ii = 50;
         two_pixels = 1;
 
-        while ii > 0  && two_pixels  %for loop 
+        while ii > 0  %&& two_pixels  %for loop 
             Ziv = (Zrv .* Ziv) + (Zrv .* Ziv) + Civ;
             Zrv = Trv - Tiv + Crv;
             Trv = Zrv .* Zrv;
