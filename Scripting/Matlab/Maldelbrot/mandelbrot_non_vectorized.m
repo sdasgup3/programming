@@ -1,11 +1,12 @@
 function  mandelbrot_non_vectorized
+    clear;
     global N ;
     global bytes_per_row;
     global Crvs;
     global inverse_h;
     global bitmap;
     
-    N = 16000
+    N = 16
     bytes_per_row = bitshift(N + 7, -3);
 
     inverse_w = 2.0 / bitshift(bytes_per_row, 3);
