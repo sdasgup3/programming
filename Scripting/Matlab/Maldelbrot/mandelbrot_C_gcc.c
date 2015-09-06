@@ -44,7 +44,7 @@ void printv2df(v2df v) {
   f2vec vec;
   vec.v = v;
 
-  printf("%f %f\n", vec.f[1], vec.f[0]);
+  printf("%f %f\n", vec.f[0], vec.f[1]);
 
 }
 
@@ -77,7 +77,9 @@ static void calc_row(int y) {
              * are calculated in parallel here.
              */
             is_still_bounded = __builtin_ia32_cmplepd(Trv + Tiv, four);
-            //printv2df(is_still_bounded);
+#if DEBUG 
+            printv2df(is_still_bounded);
+#endif
 
             /*
              * Move the sign-bit of the low element to bit 0, move the
@@ -86,6 +88,9 @@ static void calc_row(int y) {
              * bounded.
              */
             two_pixels = __builtin_ia32_movmskpd(is_still_bounded);
+#if DEBUG 
+            printf("%d\n\n",two_pixels);
+#endif
         } while (--i > 0 && two_pixels);
 
         /*
@@ -120,7 +125,7 @@ int main (int argc, char **argv)
     if (posix_memalign((void**)&Crvs, sizeof(v2df), sizeof(v2df) * N / 2))
         return EXIT_FAILURE;
 
-    #pragma omp parallel for
+    //#pragma omp parallel for
     for (i = 0; i < N; i+=2) {
         v2df Crv = { (i+1.0)*inverse_w-1.5, (i)*inverse_w-1.5 };
         Crvs[i >> 1] = Crv;
@@ -138,16 +143,16 @@ int main (int argc, char **argv)
     if (bitmap == NULL)
         return EXIT_FAILURE;
 
-    #pragma omp parallel for schedule(static,1)
+   // #pragma omp parallel for schedule(static,1)
     for (i = 0; i < N; i++)
         calc_row(i);
 
-#if 0 
+#if DEBUG 
     for(int i = 0; i < bytes_per_row*N; i++) {
       uint8_t* next = bitmap + i;
-      printf("%d ", *next);
+      fprintf(stderr, "%d ", *next);
     }
-    printf("\n ");
+    fprintf(stderr, "\n ");
 #endif
 
 
