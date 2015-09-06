@@ -1,6 +1,6 @@
 function  mandelbrot_parfor
     clear;
-    N = 1600
+    N = 16000
     
     bytes_per_row = bitshift(N + 7, -3);
 
@@ -47,7 +47,14 @@ function bitmapslice = calc_row(y,N, bytes_per_row, Crvs, inverse_h)
         ii = 50;
         two_pixels = 1;
 
-        while ii > 0  %&& two_pixels  %for loop 
+        %Here the check for two_pixels can be safely removed because
+        %once two_pixels got a value 0, it will remain 0 for the rest of
+        %the iteration of ii.
+        %Removing two_pixels has the benefit that we can now 
+        %vectorize the loop, but the drawback is we cannot make
+        %an early termination of the loop.
+        
+        while ii > 0  %&& two_pixels  
             Ziv = (Zrv .* Ziv) + (Zrv .* Ziv) + Civ;
             Zrv = Trv - Tiv + Crv;
             Trv = Zrv .* Zrv;
