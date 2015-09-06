@@ -5,7 +5,7 @@ function  mandelbrot_non_vectorized
     global inverse_h;
     global bitmap;
     
-    N = 160;
+    N = 1600;
     bytes_per_row = bitshift(N + 7, -3);
 
     inverse_w = 2.0 / bitshift(bytes_per_row, 3);
@@ -14,9 +14,9 @@ function  mandelbrot_non_vectorized
 
     Crvs = repmat(struct('v2df',[double(0),double(0)]), N/2, 1);
 
-    for ii = 2:2:N 
-        Crv = [ ((ii-2)+1.0)*inverse_w - 1.5, (ii-2)*inverse_w - 1.5 ];
-        Crvs(bitshift(ii,-1)).v2df = Crv;
+    for ii = 1:1:N/2 
+        Crv = [ ((2*ii-2) + 1.0)*inverse_w - 1.5, (2*ii-2)*inverse_w - 1.5 ];
+        Crvs(ii).v2df = Crv;
     end
 
     %for ii = 1:1:N/2 
