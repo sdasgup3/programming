@@ -19,3 +19,5105 @@ on
 
 repmat(struct('v2df',[double(0),double(0)]), 16, 1);
 diary off
+tic, mandelbrot_non_vectorized; toc
+Elapsed time is 77.380798 seconds.
+diary off
+mandelbrot_non_vectorized
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_non_vectorized>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m', 70)" style="font-weight:bold">mandelbrot_non_vectorized>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',70,0)">line 70</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_non_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m', 29)" style="font-weight:bold">mandelbrot_non_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',29,0)">line 29</a>)
+        calc_row(ii - 1);
+} 
+profile viewer
+mandelbrot_non_vectorized
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_non_vectorized>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m', 67)" style="font-weight:bold">mandelbrot_non_vectorized>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',67,0)">line 67</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_non_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m', 29)" style="font-weight:bold">mandelbrot_non_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',29,0)">line 29</a>)
+        calc_row(ii - 1);
+} 
+tic, mandelbrot_non_vectorized; toc
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',19,9)">File: mandelbrot_non_vectorized.m Line: 19 Column: 9
+</a>The variable Crvs in a parfor cannot be classified.
+See <a href="matlab: helpview([docroot '/distcomp/distcomp_ug.map'],'MIR_ERROR_PARFOR_BAD_TEMPORARY_VARIABLE')">Parallel for Loops in MATLAB, "Overview"</a>.
+} 
+helpview([docroot '/distcomp/distcomp_ug.map'],'MIR_ERROR_PARFOR_BAD_TEMPORARY_VARIABLE')
+tic, mandelbrot_non_vectorized; toc
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',20,9)">File: mandelbrot_non_vectorized.m Line: 20 Column: 9
+</a>The variable Crvs in a parfor cannot be classified.
+See <a href="matlab: helpview([docroot '/distcomp/distcomp_ug.map'],'MIR_ERROR_PARFOR_BAD_TEMPORARY_VARIABLE')">Parallel for Loops in MATLAB, "Overview"</a>.
+} 
+tic, mandelbrot_non_vectorized; toc
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parfor_range_check', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parfor_range_check.m', 28)" style="font-weight:bold">parfor_range_check</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parfor_range_check.m',28,0)">line 28</a>)
+The range of a parfor statement must be increasing consecutive integers.  See <a href="matlab: helpview([docroot '/toolbox/distcomp/distcomp_ug.map'],'ERR_PARFOR_RANGE')">Parallel Computing
+Toolbox, "parfor"</a>.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_non_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m', 17)" style="font-weight:bold">mandelbrot_non_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',17,0)">line 17</a>)
+    parfor ii = 2:2:N
+} 
+tic, mandelbrot_non_vectorized; toc
+Starting parallel pool (parpool) using the 'local' profile ... connected to 8 workers.
+Elapsed time is 39.412370 seconds.
+IdleTimeout has been reached.
+Parallel pool using the 'local' profile is shutting down.
+tic, mandelbrot_non_vectorized; toc
+Elapsed time is 0.814479 seconds.
+tic, mandelbrot_non_vectorized; toc
+Elapsed time is 0.817787 seconds.
+tic, mandelbrot_non_vectorized; toc
+Elapsed time is 0.812150 seconds.
+tic, mandelbrot_non_vectorized; toc
+Elapsed time is 0.859448 seconds.
+tic, mandelbrot_non_vectorized; toc
+Elapsed time is 0.786282 seconds.
+tic, mandelbrot_non_vectorized; toc
+Elapsed time is 74.914926 seconds.
+tic, mandelbrot_vectorized; toc
+Starting parallel pool (parpool) using the 'local' profile ... connected to 8 workers.
+Elapsed time is 22.662250 seconds.
+tic, mandelbrot_vectorized; toc
+Elapsed time is 75.851415 seconds.
+tic, mandelbrot_vectorized; toc
+<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',26,1)">26  </a>    bitmap = zeros(bytes_per_row, N);
+if system_dependent('IsDebugMode')==1, dbcont; end
+Elapsed time is 18.380161 seconds.
+tic, mandelbrot_vectorized; toc
+<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',26,1)">26  </a>    bitmap = zeros(bytes_per_row, N);
+if system_dependent('IsDebugMode')==1, dbcont; end
+Elapsed time is 103.128234 seconds.
+tic, mandelbrot_vectorized; toc
+Elapsed time is 0.544238 seconds.
+tic, mandelbrot_vectorized; toc
+Elapsed time is 0.639202 seconds.
+tic, mandelbrot_vectorized; toc
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+Elapsed time is 0.171314 seconds.
+tic, mandelbrot_vectorized; toc
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parfor_sliced_fcnhdl_check', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parfor_sliced_fcnhdl_check.m', 9)" style="font-weight:bold">parfor_sliced_fcnhdl_check</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parfor_sliced_fcnhdl_check.m',9,0)">line 9</a>)
+The sliced variable handleFunc must not refer to a function handle.  To invoke the function handle in the
+parfor loop, use "feval(handleFunc, args)".  See <a href="matlab: helpview([docroot '/toolbox/distcomp/distcomp_ug.map'],'ERR_PARFOR_FCNHDL_CHECK')">Parallel Computing Toolbox, "parfor"</a>
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 29)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',29,0)">line 29</a>)
+    parfor ii = 0:1:N-1
+} 
+helpview([docroot '/toolbox/distcomp/distcomp_ug.map'],'ERR_PARFOR_FCNHDL_CHECK')
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('helpview', '/home/sdasgup3/Install/Matlab/toolbox/matlab/helptools/helpview.m', 199)" style="font-weight:bold">helpview</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/helptools/helpview.m',199,0)">line 199</a>)
+Specified topic id (ERR_PARFOR_FCNHDL_CHECK) does not exist in map file
+/home/sdasgup3/Install/Matlab/help/toolbox/distcomp/distcomp_ug.map.
+} 
+tic, mandelbrot_vectorized; toc
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+Elapsed time is 0.126395 seconds.
+tic, mandelbrot_vectorized; toc
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+
+N =
+
+    16
+
+Elapsed time is 0.119251 seconds.
+tic, mandelbrot_vectorized; toc
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+
+N =
+
+    16
+
+
+bytes_per_row =
+
+     2
+
+Elapsed time is 0.500227 seconds.
+tic, mandelbrot_vectorized; toc
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+N =
+
+     []
+
+
+bytes_per_row =
+
+     []
+
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+Elapsed time is 0.348333 seconds.
+tic, mandelbrot_vectorized; toc
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+N =
+
+     []
+
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+Elapsed time is 0.530889 seconds.
+tic, mandelbrot_vectorized; toc
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 43)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 44)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 45)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+Warning: The value of local variables may have been changed to match the globals.  Future versions of MATLAB will require that you declare a variable to be global before you use that variable.
+[> In mandelbrot_vectorized>calc_row (line 46)
+  In mandelbrot_vectorized>makeF%2/F% (line 30)
+  In parallel_function>make_general_channel/channel_general (line 929)
+  In remoteParallelFunction (line 38)] 
+
+N =
+
+     []
+
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+Elapsed time is 0.294963 seconds.
+tic, mandelbrot_vectorized; toc
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 77)" style="font-weight:bold">mandelbrot_vectorized>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',77,0)">line 77</a>)
+Attempted to access bitmap(7); index out of bounds because numel(bitmap)=0.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 27)" style="font-weight:bold">mandelbrot_vectorized>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',27,0)">line 27</a>)
+        feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 26)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',26,0)">line 26</a>)
+    parfor ii = 0:1:N-1
+} 
+tic, mandelbrot_vectorized; toc
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+N =
+
+    16
+
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+Elapsed time is 0.537382 seconds.
+tic, mandelbrot_vectorized; toc
+
+N =
+
+    16
+
+
+ans =
+
+   255
+
+
+N =
+
+    16
+
+
+ans =
+
+   254
+
+
+N =
+
+    16
+
+
+ans =
+
+   255
+
+
+N =
+
+    16
+
+
+ans =
+
+    16
+
+
+N =
+
+    16
+
+
+ans =
+
+     8
+
+
+N =
+
+    16
+
+
+ans =
+
+   124
+
+
+N =
+
+    16
+
+
+ans =
+
+    16
+
+
+N =
+
+    16
+
+
+ans =
+
+   254
+
+
+N =
+
+    16
+
+
+ans =
+
+   254
+
+
+N =
+
+    16
+
+
+ans =
+
+   254
+
+
+N =
+
+    16
+
+
+ans =
+
+   254
+
+
+N =
+
+    16
+
+
+ans =
+
+   254
+
+
+N =
+
+    16
+
+
+ans =
+
+   254
+
+
+N =
+
+    16
+
+
+ans =
+
+   124
+
+
+N =
+
+    16
+
+
+ans =
+
+    16
+
+
+N =
+
+    16
+
+
+ans =
+
+    16
+
+Elapsed time is 0.205763 seconds.
+bitmap = zeros(2, 16);
+bitmap = zeros(2, 16)
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+bbitmap(1:2) = [3,4]
+
+bbitmap =
+
+     3     4
+
+bitmap(1:2) = [3,4]
+
+bitmap =
+
+     3     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     4     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+bitmapslice = zeros(2, 1);
+bitmapslice = zeros(2, 1)
+
+bitmapslice =
+
+     0
+     0
+
+bitmapslice(1)=20
+
+bitmapslice =
+
+    20
+     0
+
+bitmapslice(1)=30
+
+bitmapslice =
+
+    30
+     0
+
+bitmapslice(2)=20
+
+bitmapslice =
+
+    30
+    20
+
+bitmap(3:4) = bitmapslice
+
+bitmap =
+
+     3    30     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     4    20     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+tic, mandelbrot_vectorized; toc
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',22,15)">File: mandelbrot_vectorized.m Line: 22 Column: 15
+</a>Unbalanced or unexpected parenthesis or bracket.
+} 
+tic, mandelbrot_vectorized; toc
+Elapsed time is 0.472651 seconds.
+tic, mandelbrot_vectorized; toc
+Elapsed time is 0.141618 seconds.
+tic, mandelbrot_vectorized; toc
+
+bitmap =
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+Elapsed time is 0.124298 seconds.
+tic, mandelbrot_vectorized; toc
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',22,15)">File: mandelbrot_vectorized.m Line: 22 Column: 15
+</a>Unbalanced or unexpected parenthesis or bracket.
+} 
+tic, mandelbrot_vectorized; toc
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',22,9)">File: mandelbrot_vectorized.m Line: 22 Column: 9
+</a>The variable bitmap in a parfor cannot be classified.
+See <a href="matlab: helpview([docroot '/distcomp/distcomp_ug.map'],'MIR_ERROR_PARFOR_BAD_TEMPORARY_VARIABLE')">Parallel for Loops in MATLAB, "Overview"</a>.
+} 
+clear bitmap
+bitmap(1) = [1 2]
+{In an assignment  A(I) = B, the number of elements in B and I must be the same.
+} 
+bitmap(1) = {1 2}
+{The following error occurred converting from cell to double:
+Error using double
+Conversion to double from cell is not possible.
+} 
+bitmap(1).v2df = {1 2}
+
+bitmap = 
+
+    v2df: {[1]  [2]}
+
+bitmap(1).v2df = [1 2]
+
+bitmap = 
+
+    v2df: [1 2]
+
+bitmap(2).v2df = [3 4]
+
+bitmap = 
+
+1x2 <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> array with fields:
+
+    v2df
+
+tic, mandelbrot_vectorized; toc
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',22,9)">File: mandelbrot_vectorized.m Line: 22 Column: 9
+</a>The variable bitmap in a parfor cannot be classified.
+See <a href="matlab: helpview([docroot '/distcomp/distcomp_ug.map'],'MIR_ERROR_PARFOR_BAD_TEMPORARY_VARIABLE')">Parallel for Loops in MATLAB, "Overview"</a>.
+} 
+tic, mandelbrot_vectorized; toc
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 22)" style="font-weight:bold">mandelbrot_vectorized>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',22,0)">line 22</a>)
+Structure assignment to non-structure object.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 19)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',19,0)">line 19</a>)
+    parfor ii = 0:1:N-1
+} 
+tic, mandelbrot_vectorized; toc
+
+bitmap = 
+
+1x16 <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> array with fields:
+
+    v2i
+
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('fwrite')" style="font-weight:bold">fwrite</a>
+Cannot write value: unsupported class struct
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 27)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',27,0)">line 27</a>)
+    fwrite(fid, bitmap, 'uint8');
+} 
+
+tic, mandelbrot_vectorized; toc
+
+bitmap = 
+
+1x16 <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> array with fields:
+
+    v2i
+
+{Undefined function or variable 'fid'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 28)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',28,0)">line 28</a>)
+    fclose(fid);
+} 
+tic, mandelbrot_vectorized; toc
+
+bitmap = 
+
+1x16 <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> array with fields:
+
+    v2i
+
+Elapsed time is 0.118900 seconds.
+tic, mandelbrot_vectorized; toc
+
+ans =
+
+     0
+     8
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+   255
+   254
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+Elapsed time is 0.490042 seconds.
+tic, mandelbrot_vectorized; toc
+[Warning: an error occurred while parsing class hdlcoderprops.CLI:
+
+] 
+[> In hdlcoderprops.HDLProps/schema (line 17)
+  In slhdlcoder.HDLCoder/schema (line 13)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('hdlcoderui.hdlcc/schema', '/home/sdasgup3/Install/Matlab/toolbox/shared/hdlshared/hdlshared_gui/@hdlcoderui/@hdlcc/schema.m', 30)" style="font-weight:bold">hdlcoderui.hdlcc/schema</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/shared/hdlshared/hdlshared_gui/@hdlcoderui/@hdlcc/schema.m',30,0)">line 30</a>)
+  In attachhdlcconfig (line 45)
+  In slCustomizer/internalCustomizationHDLCoder (line 6)
+  In slCustomizer/callAllMethods (line 41)
+  In slCustomizer/refresh (line 66)
+  In slCustomizer.staticRefresh (line 23)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sl_refresh_customizations', '/home/sdasgup3/Install/Matlab/toolbox/simulink/simulink/sl_refresh_customizations.m', 18)" style="font-weight:bold">sl_refresh_customizations</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/simulink/simulink/sl_refresh_customizations.m',18,0)">line 18</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('slcustomize', '/home/sdasgup3/Install/Matlab/toolbox/simulink/simulink/slcustomize.m', 4)" style="font-weight:bold">slcustomize</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/simulink/simulink/slcustomize.m',4,0)">line 4</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('simulinkrc', '/home/sdasgup3/Install/Matlab/toolbox/local/simulinkrc.m', 48)" style="font-weight:bold">simulinkrc</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/local/simulinkrc.m',48,0)">line 48</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('fixdt', '/home/sdasgup3/Install/Matlab/toolbox/simulink/fixedandfloat/fixdt.m', 182)" style="font-weight:bold">fixdt</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/simulink/fixedandfloat/fixdt.m',182,0)">line 182</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('uint', '/home/sdasgup3/Install/Matlab/toolbox/simulink/fixedandfloat/uint.m', 14)" style="font-weight:bold">uint</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/simulink/fixedandfloat/uint.m',14,0)">line 14</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 10)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',10,0)">line 10</a>)] 
+[Warning: No appropriate method, property, or field 'HDLSynthTool' for class 'hdlcoderprops.CLI'.] 
+[> In slCustomizer/callAllMethods (line 44)
+  In slCustomizer/refresh (line 66)
+  In slCustomizer.staticRefresh (line 23)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sl_refresh_customizations', '/home/sdasgup3/Install/Matlab/toolbox/simulink/simulink/sl_refresh_customizations.m', 18)" style="font-weight:bold">sl_refresh_customizations</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/simulink/simulink/sl_refresh_customizations.m',18,0)">line 18</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('slcustomize', '/home/sdasgup3/Install/Matlab/toolbox/simulink/simulink/slcustomize.m', 4)" style="font-weight:bold">slcustomize</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/simulink/simulink/slcustomize.m',4,0)">line 4</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('simulinkrc', '/home/sdasgup3/Install/Matlab/toolbox/local/simulinkrc.m', 48)" style="font-weight:bold">simulinkrc</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/local/simulinkrc.m',48,0)">line 48</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('fixdt', '/home/sdasgup3/Install/Matlab/toolbox/simulink/fixedandfloat/fixdt.m', 182)" style="font-weight:bold">fixdt</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/simulink/fixedandfloat/fixdt.m',182,0)">line 182</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('uint', '/home/sdasgup3/Install/Matlab/toolbox/simulink/fixedandfloat/uint.m', 14)" style="font-weight:bold">uint</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/simulink/fixedandfloat/uint.m',14,0)">line 14</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 10)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',10,0)">line 10</a>)] 
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Simulink.NumericType/horzcat')" style="font-weight:bold">Simulink.NumericType/horzcat</a>
+Cannot convert from 'uint8' to 'Simulink.NumericType'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 10)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',10,0)">line 10</a>)
+    bitmap = repmat(struct('v2i',[uint8(0),uint8(0)]), N, 1);
+} 
+'
+ '
+ |
+{Error: String is not terminated properly.
+} 
+
+
+a(1).b = [1 2]
+
+a = 
+
+1x2 <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> array with fields:
+
+    b
+
+a(2).b = [3 4]
+
+a = 
+
+1x2 <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> array with fields:
+
+    b
+
+tic, mandelbrot_vectorized; toc
+Elapsed time is 10.595830 seconds.
+tic, mandelbrot_vectorized; toc
+Elapsed time is 1002.987403 seconds.
+diary off
+tic, mandelbrot_non_vectorized; toc
+Elapsed time is 7621.068930 seconds.
+N=32
+
+N =
+
+    32
+
+diary on
+bytes_per_row = bitshift(N + 7, -3)
+
+bytes_per_row =
+
+     4
+
+four = [ 4.0, 4.0 ]
+
+four =
+
+     4     4
+
+repmat(four,8,1)
+
+ans =
+
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+
+a = repmat(four,8,1)
+
+a =
+
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+
+a(1)
+
+ans =
+
+     4
+
+a(1)=1
+
+a =
+
+     1     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+
+a(2)=2
+
+a =
+
+     1     4
+     2     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+
+a(2)(1)
+{Error: ()-indexing must appear last in an index expression.
+} 
+a=magic(3)
+
+a =
+
+     8     1     6
+     3     5     7
+     4     9     2
+
+a(1)(2)
+{Error: ()-indexing must appear last in an index expression.
+} 
+a(1,2)
+
+ans =
+
+     1
+
+a = repmat(four,8,1)
+
+a =
+
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+
+a(1,2)
+
+ans =
+
+     4
+
+a(1,2)=10
+
+a =
+
+     4    10
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+
+a=magic(3)
+
+a =
+
+     8     1     6
+     3     5     7
+     4     9     2
+
+a([1:2])
+
+ans =
+
+     8     3
+
+a([1 4 7])
+
+ans =
+
+     8     1     6
+
+a([1 4 7]) = [1 2 3]
+
+a =
+
+     1     2     3
+     3     5     7
+     4     9     2
+
+a = repmat(four,8,1)
+
+a =
+
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+     4     4
+
+a = repmat(four,4,1)
+
+a =
+
+     4     4
+     4     4
+     4     4
+     4     4
+
+get(0,'Diary')
+
+ans =
+
+on
+
+b = repmat([3 3],4,1)
+
+b =
+
+     3     3
+     3     3
+     3     3
+     3     3
+
+a<b
+
+ans =
+
+     0     0
+     0     0
+     0     0
+     0     0
+
+b(:,2)*2
+
+ans =
+
+     6
+     6
+     6
+     6
+
+b(:,2)
+
+ans =
+
+     3
+     3
+     3
+     3
+
+b
+
+b =
+
+     3     3
+     3     3
+     3     3
+     3     3
+
+b*2
+
+ans =
+
+     6     6
+     6     6
+     6     6
+     6     6
+
+b
+
+b =
+
+     3     3
+     3     3
+     3     3
+     3     3
+
+b(:,2)
+
+ans =
+
+     3
+     3
+     3
+     3
+
+b(:,2)*2
+
+ans =
+
+     6
+     6
+     6
+     6
+
+b(:,2) = b(:,2)*2
+
+b =
+
+     3     6
+     3     6
+     3     6
+     3     6
+
+b
+
+b =
+
+     3     6
+     3     6
+     3     6
+     3     6
+
+is_still_bounded = [5 3] < [4 4]
+
+is_still_bounded =
+
+     0     1
+
+is_still_bounded(2)
+
+ans =
+
+     1
+
+mandelbrot_non_vectorized
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_non_vectorized>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m', 66)" style="font-weight:bold">mandelbrot_non_vectorized>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',66,0)">line 66</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_non_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m', 29)" style="font-weight:bold">mandelbrot_non_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',29,0)">line 29</a>)
+        calc_row(ii - 1);
+} 
+mandelbrot_non_vectorized
+mandelbrot_non_vectorized
+mandelbrot_non_vectorized
+mandelbrot_non_vectorized
+
+bitmap =
+
+  Columns 1 through 15
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     8     0
+     0     0     0     0     0     0     0     0     0     2    11    11    11   143    63
+     0     0     0     0     0     0     0     0     0     0    64   208    64    64   244
+    64     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 16 through 30
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0    32     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0    16   194    50
+     3     3     2     6     3    11     2    11     2     3     2     0    96    77   255
+   255   255   255   255   255   255   255   255   255   255   255   255    63   255   255
+   244   255   253   252   253   252   255   253   252   244   244   244   208   255   255
+     0     0     0     0     0     0     0     0     0     0     0     4   128   137   220
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0   144
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 31 through 45
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0    33     5
+     5    13    11    11    31    15    47    15     3     2     7    27   191    47   191
+    16    18   226   210   251   255   223   255   255   255   255   255   255   255   255
+   191   191   175   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   240   244   240   215   245   253   255   255   255   255   255   255   255   255   255
+     0     8     0     5    11   111   207   111   255   255   255   255   253   255   255
+     8     0     0     0   176   240   192   208   208   208   192    80     0    64   128
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 46 through 60
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0   128     0    12    13
+     0     0     0     0     0     0     0     0     0     0     0     0    16     2    38
+     0     0     0     0     0     0     0     0     0     0     0   128   192   192   195
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     2     0     0     0     0     3     1     0
+    63    15    15    10    11    15    95   255   191    63   191   191   255   255   255
+   191   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   224   192   240   208   208   240   251   255   255   255   255   252   253   252   253
+     0     0     0     0     0     0     0    64   240    64    64     0     0     0     0
+
+  Columns 61 through 75
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     3     3     2     2    11     3    15    11
+    47    47    63    15    15   175    63   191   255   255   255   255   255   255   255
+    47   191   255   255   255   255   255   255   255   255   255   255   255   255   255
+   247   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+    32    32   240   240   252   253   253   255   255   255   255   255   255   255   255
+     3     3     2    11     2    11    75    75    75   203   219   219   219   251   251
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   253   253   255   255   255   253   253   252   253   255   252   244   254   244   244
+     0     0    64   208     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 76 through 90
+
+     0     0     0     0     0   255     0     0     0     0     0     0     0     0     0
+     6    15    47    47   191   255   191    47    47    15     6     0     0     0     0
+    15   219   255   255   255   255   255   255   255   219    15    11    15     3    11
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   251   251   219   219
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   244   255   255   255   255   255   255   255   255   255
+   240   240   208    64     0     0     0    64   208   240   240   244   244   254   244
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 91 through 105
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     2     2     3     3     0     0     0     0     0     0     0     0     0     0     0
+   255   255   255   191    63   175    15    15    63    47    47    13    12     0   128
+   255   255   255   255   255   255   255   255   255   191    47    38     2    16     0
+   255   255   255   255   255   255   255   255   255   255   247   195   192   192   128
+   255   255   255   255   253   253   252   240   240    32    32     0     0     0     0
+   219   203    75    75    75    11     2    11     2     3     3     0     1     3     0
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   191
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   252   255   253   252   253   253   255   255   255   253   253   253   252   253   252
+     0     0     0     0     0     0     0   208    64     0     0     0     0     0     0
+
+  Columns 106 through 120
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     2     0     0     0     0     0     0     0     0     0     0     0
+   191    63   191   255    95    15    11    10    15    15    63     5    33     0     0
+   255   255   255   255   255   255   255   255   255   255   191   191    47   191    27
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   253   255
+   255   255   255   255   251   240   208   208   240   192   224   128    64     0    80
+    64    64   240    64     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 121 through 135
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     7     2     3    15    47    15    31    11    11    13     5     0    32     0     0
+   255   255   255   255   223   255   251   210   226    18    16     0     0     0     0
+   255   255   255   255   255   255   255   255   175   191   191    50   194    16     0
+   255   255   255   255   255   255   255   255   255   255   255   255    77    96     0
+   255   255   255   255   255   255   255   255   255   255   255   255   255    63   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   208   244
+   255   255   255   255   255   255   255   255   255   255   255   220   137   128     4
+   255   255   255   255   255   253   245   215   240   244   240   144     0     0     0
+   255   255   255   111   207   111    11     5     0     8     0     0     0     0     0
+   192   208   208   208   192   240   176     0     0     0     8     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 136 through 150
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     2     3     2    11     2    11     3     6     2     3     3     0     8     0     0
+   255   255   255   255   255   255   255   255   255   255   255    63   143    11    11
+   244   244   252   253   255   252   253   252   253   255   244   244    64    64   208
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 151 through 160
+
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+    11     2     0     0     0     0     0     0     0     0
+    64     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0
+
+mandelbrot_non_vectorized
+
+bitmap =
+
+  Columns 1 through 15
+
+     0     0     0     0     0     2    38    46   255    46    38     2     0     0     0
+     4    32    32   188   253   253   255   253   253   253   255   253   253   188    32
+
+  Column 16
+
+     0
+    32
+
+mandelbrot_non_vectorized
+
+bitmap =
+
+  Columns 1 through 15
+
+     0     0     0     0     0     2    38    46   255    46    38     2     0     0     0
+     4    32    32   188   253   253   255   253   253   253   255   253   253   188    32
+
+  Column 16
+
+     0
+    32
+
+mandelbrot_non_vectorized
+
+bitmap =
+
+  Columns 1 through 15
+
+     0     0     0     0     0     1    25    29   255    29    25     1     0     0     0
+     8    16    16   124   254   254   255   254   254   254   255   254   254   124    16
+
+  Column 16
+
+     0
+    16
+
+is_still_bounded = [5 3] < [4 4]
+
+is_still_bounded =
+
+     0     1
+
+two_pixels = 2*is_still_bounded(:,2) + is_still_bounded(:,1)
+
+two_pixels =
+
+     2
+
+a=rand(2)
+
+a =
+
+    0.9575    0.1576
+    0.9649    0.9706
+
+b=rand(2)
+
+b =
+
+    0.9572    0.8003
+    0.4854    0.1419
+
+is_still_bounded = a < b
+
+is_still_bounded =
+
+     0     1
+     0     0
+
+two_pixels = 2*is_still_bounded(:,2) + is_still_bounded(:,1)
+
+two_pixels =
+
+     2
+     0
+
+bitshift(two_pixels, -3)
+
+ans =
+
+     0
+     0
+
+bitshift(two_pixels, 6)
+
+ans =
+
+   128
+     0
+
+uint8 ( bitshift(two_pixels, -bitand(x, 7)))
+{Undefined function or variable 'x'.
+} 
+uint8 ( bitshift(two_pixels, -bitand(1, 7)))
+
+ans =
+
+    1
+    0
+
+uint8 ( bitshift(two_pixels, -bitand(0, 7)))
+
+ans =
+
+    2
+    0
+
+a = uint8 ( bitshift(two_pixels, -bitand(0, 7)))
+
+a =
+
+    2
+    0
+
+b = 0;
+b = b + a
+
+b =
+
+    2
+    0
+
+b = 1
+
+b =
+
+     1
+
+b = b + a
+
+b =
+
+    3
+    1
+
+mandelbrot_vectorized
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',29,69)">File: mandelbrot_vectorized.m Line: 29 Column: 69
+</a>Unexpected MATLAB expression.
+} 
+mandelbrot_vectorized
+Starting parallel pool (parpool) using the 'local' profile ... connected to 8 workers.
+Operation terminated by user during mandelbrot_vectorized>calc_row (line 60)
+
+
+In mandelbrot_vectorized>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_vectorized>calc_row (line 67)
+
+
+In mandelbrot_vectorized>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_vectorized>calc_row (line 60)
+
+
+In mandelbrot_vectorized>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_vectorized>calc_row (line 48)
+
+
+In mandelbrot_vectorized>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_vectorized>calc_row (line 67)
+
+
+In mandelbrot_vectorized>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_vectorized>calc_row (line 60)
+
+
+In mandelbrot_vectorized>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_vectorized>calc_row (line 45)
+
+
+In mandelbrot_vectorized>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_vectorized>calc_row (line 67)
+
+
+In mandelbrot_vectorized>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('distcomp.remoteparfor/getCompleteIntervals', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/distcomp/+distcomp/remoteparfor.m', 127)" style="font-weight:bold">distcomp.remoteparfor/getCompleteIntervals</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/distcomp/+distcomp/remoteparfor.m',127,0)">line 127</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel_function>distributed_execution', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p', 793)" style="font-weight:bold">parallel_function>distributed_execution</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p',793,0)">line 793</a>)
+        [tags, out] = P.getCompleteIntervals(min(thisDispatchSize, j));
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel_function', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p', 587)" style="font-weight:bold">parallel_function</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p',587,0)">line 587</a>)
+        R = distributed_execution(...
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_vectorized', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m', 17)" style="font-weight:bold">mandelbrot_vectorized</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+mandelbrot_vectorized
+mandelbrot_vectorized
+
+ans =
+
+     0
+   128
+
+
+ans =
+
+     0
+    64
+
+
+ans =
+
+     0
+    64
+
+
+ans =
+
+     0
+   192
+
+
+ans =
+
+     0
+   192
+
+
+ans =
+
+    64
+   192
+
+
+ans =
+
+   192
+   192
+
+
+ans =
+
+   192
+   192
+
+
+ans =
+
+   192
+   192
+
+
+ans =
+
+   192
+   192
+
+
+ans =
+
+   192
+   192
+
+
+ans =
+
+    64
+   192
+
+
+ans =
+
+     0
+   192
+
+
+ans =
+
+     0
+   192
+
+
+ans =
+
+     0
+    64
+
+
+ans =
+
+     0
+    64
+
+mandelbrot_vectorized
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+Crv
+
+Crv =
+
+   -1.3750   -1.5000
+   -1.1250   -1.2500
+   -0.8750   -1.0000
+   -0.6250   -0.7500
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+-1.3750*-1.3750
+
+ans =
+
+    1.8906
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+mandelbrot_non_vectorized
+<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',77,1)">77  </a>        two_pixels = bitshift(two_pixels, 6);
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+x=2
+
+x =
+
+     2
+
+X=[x:2:x+8]
+
+X =
+
+     2     4     6     8    10
+
+X=[x:2:x+8-2]
+
+X =
+
+     2     4     6     8
+
+bitand(X, 7)
+
+ans =
+
+     2     4     6     0
+
+two_pixels = [2:0]
+
+two_pixels =
+
+   Empty matrix: 1-by-0
+
+two_pixels = [2;0]
+
+two_pixels =
+
+     2
+     0
+
+bitshift(two_pixels, -bitand(x, 7))
+
+ans =
+
+     0
+     0
+
+two_pixels = [2;0;3;4]
+
+two_pixels =
+
+     2
+     0
+     3
+     4
+
+two_pixels + X
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('plus')" style="font-weight:bold"> + </a>
+Matrix dimensions must agree.
+} 
+two_pixels 
+
+two_pixels =
+
+     2
+     0
+     3
+     4
+
+X
+
+X =
+
+     2     4     6     8
+
+ bitshift(two_pixels, -bitand(x, 7))
+
+ans =
+
+     0
+     0
+     0
+     1
+
+bitand(x, 7)
+
+ans =
+
+     2
+
+bitand(X, 7)
+
+ans =
+
+     2     4     6     0
+
+bitshift(two_pixels, -bitand(X, 7))
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitshift')" style="font-weight:bold">bitshift</a>
+Inputs must have same size.
+} 
+mandelbrot_vectorized
+
+ans =
+
+     0
+     8
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+   255
+   254
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+mandelbrot_vectorized
+
+ans =
+
+     0
+     8
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+   255
+   254
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+mandelbrot_vectorized
+
+ans =
+
+     0
+     8
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+   255
+   254
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+mandelbrot_vectorized
+
+ans =
+
+     0
+     8
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+   255
+   254
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',27,1)">27  </a>    fclose(fid);
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_vectorized
+
+ans =
+
+     0
+     8
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+   255
+   254
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',27,1)">27  </a>    fclose(fid);
+if system_dependent('IsDebugMode')==1, dbquit; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_vectorized
+<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_vectorized.m',27,1)">27  </a>    fclose(fid);
+if system_dependent('IsDebugMode')==1, dbcont; end
+mandelbrot_vectorized
+mandelbrot_vectorized
+mandelbrot_vectorized
+diary off
+mandelbrot_vectorized
+
+N =
+
+   160
+
+tic, mandelbrot_vectorized; toc
+
+N =
+
+   160
+
+Elapsed time is 0.381202 seconds.
+tic, mandelbrot_non_vectorized; toc
+
+N =
+
+   160
+
+<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_non_vectorized.m',77,1)">77  </a>        two_pixels = bitshift(two_pixels, 6);
+if system_dependent('IsDebugMode')==1, dbquit; end
+tic, mandelbrot_non_vectorized; toc
+
+N =
+
+   160
+
+
+bitmap =
+
+  Columns 1 through 20
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     4     0     3     3     1     9     3
+     0     0     0     0     0     0     0     0     0     1     7     7     7    79    63   255   255   255   255   255
+     0     0     0     0     0     0     0     0     0     0   128   224   128   128   248   248   255   254   252   254
+   128     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 21 through 40
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0    16     0    10    14     7     7    47    15    31    15     3     1
+     0     0     0     0     0     0     0     0     0     0    32    33   209   225   247   255   239   255   255   255
+     0     0     0     0     0     0     0    32   193    49   127   127    95   255   255   255   255   255   255   255
+     7     1     7     1     3     1     0   144   142   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255    63   255   255   255   255   255   255   255   255   255   255   255   255
+   252   255   254   252   248   248   248   224   255   255   255   255   255   255   255   255   255   255   255   255
+     0     0     0     0     0     0     8    64    70   236   255   255   255   255   255   255   255   255   255   255
+     0     0     0     0     0     0     0     0     0    96   240   248   240   235   250   254   255   255   255   255
+     0     0     0     0     0     0     0     0     0     0     0     4     0    10     7   159   207   159   255   255
+     0     0     0     0     0     0     0     0     0     0     4     0     0     0   112   240   192   224   224   224
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 41 through 60
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0    64     0    12    14
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0    32     1    25
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0    64   192   192   195
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     1     0     0     0     0     3     2     0
+     0     0     0    18    10    63    15    15     5     7    15   175   255   127    63   127   127   255   255   255
+    11    39   127    31   127   127   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   254   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   192   160     0   128    64   208   192   240   224   224   240   247   255   255   255   255   252   254   252   254
+     0     0     0     0     0     0     0     0     0     0     0     0   128   240   128   128     0     0     0     0
+
+  Columns 61 through 80
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     9    15    31    31   127
+     0     0     0     0     0     0     0     3     3     1     1     7     3    15     7    15   231   255   255   255
+    31    31    63    15    15    95    63   127   255   255   255   255   255   255   255   255   255   255   255   255
+    31   127   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   251   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+    16    16   240   240   252   254   254   255   255   255   255   255   255   255   255   255   255   255   255   255
+     3     3     1     7     1     7   135   135   135   199   231   231   231   247   247   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   254   254   255   255   255   254   254   252   254   255   252   248   253   248   248   240   240   224   128     0
+     0     0   128   224     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 81 through 100
+
+   255     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+   255   127    31    31    15     9     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+   255   255   255   255   231    15     7    15     3     7     1     1     3     3     0     0     0     0     0     0
+   255   255   255   255   255   255   255   255   255   255   255   255   255   127    63    95    15    15    63    31
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   127
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   254   254   252   240   240    16
+   255   255   255   255   255   255   247   247   231   231   231   199   135   135   135     7     1     7     1     3
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   248   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+     0     0   128   224   240   240   248   248   253   248   252   255   254   252   254   254   255   255   255   254
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0   224   128     0
+
+  Columns 101 through 120
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+    31    14    12     0    64     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+    31    25     1    32     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+   251   195   192   192    64     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+    16     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     3     0     2     3     0     0     0     0     1     0     0     0     0     0     0     0     0     0     0     0
+   255   255   255   255   127   127    63   127   255   175    15     7     5    15    15    63    10    18     0     0
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   127   127    31   127    39
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   255   254   255
+   254   254   252   254   252   255   255   255   255   247   240   224   224   240   192   208    64   128     0   160
+     0     0     0     0     0   128   128   240   128     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 121 through 140
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+    11     1     3    15    31    15    47     7     7    14    10     0    16     0     0     0     0     0     0     0
+   255   255   255   255   239   255   247   225   209    33    32     0     0     0     0     0     0     0     0     0
+   255   255   255   255   255   255   255   255    95   127   127    49   193    32     0     0     0     0     0     0
+   255   255   255   255   255   255   255   255   255   255   255   255   142   144     0     1     3     1     7     1
+   255   255   255   255   255   255   255   255   255   255   255   255   255    63   255   255   255   255   255   255
+   255   255   255   255   255   255   255   255   255   255   255   255   255   224   248   248   248   252   254   255
+   255   255   255   255   255   255   255   255   255   255   255   236    70    64     8     0     0     0     0     0
+   255   255   255   255   255   254   250   235   240   248   240    96     0     0     0     0     0     0     0     0
+   255   255   255   159   207   159     7    10     0     4     0     0     0     0     0     0     0     0     0     0
+   192   224   224   224   192   240   112     0     0     0     4     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+  Columns 141 through 160
+
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     7     3     9     1     3     3     0     4     0     0     0     0     0     0     0     0     0     0     0     0
+   255   255   255   255   255   255    63    79     7     7     7     1     0     0     0     0     0     0     0     0
+   252   254   252   254   255   248   248   128   128   224   128     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+Elapsed time is 0.822005 seconds.
+clc
+tic, mandelbrot_non_vectorized; toc
+
+N =
+
+   160
+
+Elapsed time is 0.907500 seconds.
+tic, mandelbrot_vectorized; toc
+
+N =
+
+   160
+
+Elapsed time is 0.787060 seconds.
+tic, mandelbrot_vectorized; toc
+
+N =
+
+        1600
+
+Elapsed time is 17.934425 seconds.
+tic, mandelbrot_non_vectorized; toc
+
+N =
+
+        1600
+
+Elapsed time is 77.192158 seconds.
+mandelbrot_parfor
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_parfor.m',29,69)">File: mandelbrot_parfor.m Line: 29 Column: 69
+</a>Unexpected MATLAB expression.
+} 
+mandelbrot_parfor
+
+N =
+
+        1600
+
+tic, mandelbrot_parfor; toc
+
+N =
+
+        1600
+
+Elapsed time is 10.328385 seconds.
+tic, mandelbrot_par_n_vector; toc
+
+N =
+
+        1600
+
+Elapsed time is 18.664896 seconds.
+mandelbrot_par_n_vector
+
+N =
+
+        1600
+
+tic, mandelbrot_parfor; toc
+
+N =
+
+       16000
+
+Operation terminated by user during mandelbrot_parfor>calc_row (line 48)
+
+
+In mandelbrot_parfor>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_parfor>calc_row (line 48)
+
+
+In mandelbrot_parfor>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_parfor>calc_row (line 65)
+
+
+In mandelbrot_parfor>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_parfor>calc_row (line 54)
+
+
+In mandelbrot_parfor>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_parfor>calc_row (line 54)
+
+
+In mandelbrot_parfor>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_parfor>calc_row (line 50)
+
+
+In mandelbrot_parfor>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_parfor>calc_row (line 50)
+
+
+In mandelbrot_parfor>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_parfor>calc_row (line 65)
+
+
+In mandelbrot_parfor>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('distcomp.remoteparfor/getCompleteIntervals', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/distcomp/+distcomp/remoteparfor.m', 127)" style="font-weight:bold">distcomp.remoteparfor/getCompleteIntervals</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/distcomp/+distcomp/remoteparfor.m',127,0)">line
+127</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel_function>distributed_execution', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p', 793)" style="font-weight:bold">parallel_function>distributed_execution</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p',793,0)">line 793</a>)
+        [tags, out] = P.getCompleteIntervals(min(thisDispatchSize, j));
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel_function', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p', 587)" style="font-weight:bold">parallel_function</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p',587,0)">line 587</a>)
+        R = distributed_execution(...
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_parfor', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_parfor.m', 17)" style="font-weight:bold">mandelbrot_parfor</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_parfor.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+tic, mandelbrot_parfor; toc
+
+N =
+
+        1600
+
+Elapsed time is 25.897221 seconds.
+tic, mandelbrot_par_n_vectoer; toc
+{Undefined function or variable 'mandelbrot_par_n_vectoer'.
+} 
+tic, mandelbrot_par_n_vector; toc
+
+N =
+
+       16000
+
+Operation terminated by user during mandelbrot_par_n_vector>calc_row (line 48)
+
+
+In mandelbrot_par_n_vector>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_par_n_vector>calc_row (line 53)
+
+
+In mandelbrot_par_n_vector>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_par_n_vector>calc_row (line 44)
+
+
+In mandelbrot_par_n_vector>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_par_n_vector>calc_row (line 68)
+
+
+In mandelbrot_par_n_vector>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_par_n_vector>calc_row (line 71)
+
+
+In mandelbrot_par_n_vector>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_par_n_vector>calc_row (line 45)
+
+
+In mandelbrot_par_n_vector>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_par_n_vector>calc_row (line 53)
+
+
+In mandelbrot_par_n_vector>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+Operation terminated by user during mandelbrot_par_n_vector>calc_row (line 64)
+
+
+In mandelbrot_par_n_vector>(parfor body) (line 18)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+In parallel_function>make_general_channel/channel_general (line 914)
+                    O = F(C{:});
+
+In remoteParallelFunction (line 38)
+        out = parallel.internal.pool.serialize(feval(channel, channelArgs{:}));
+
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('distcomp.remoteparfor/getCompleteIntervals', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/distcomp/+distcomp/remoteparfor.m', 127)" style="font-weight:bold">distcomp.remoteparfor/getCompleteIntervals</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/distcomp/+distcomp/remoteparfor.m',127,0)">line
+127</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel_function>distributed_execution', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p', 793)" style="font-weight:bold">parallel_function>distributed_execution</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p',793,0)">line 793</a>)
+        [tags, out] = P.getCompleteIntervals(min(thisDispatchSize, j));
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel_function', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p', 587)" style="font-weight:bold">parallel_function</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p',587,0)">line 587</a>)
+        R = distributed_execution(...
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+tic, mandelbrot_par_n_vector; toc
+
+N =
+
+        1600
+
+Elapsed time is 18.484133 seconds.
+tic, mandelbrot_parfor; toc
+
+N =
+
+        1600
+
+Elapsed time is 19.588238 seconds.
+tic, mandelbrot_parfor, toc
+
+N =
+
+        1600
+
+Elapsed time is 19.070467 seconds.
+clc
+tic, ls, toc
+a.out		   image_parfor.pbm    mandelbrot_non_vectorized.m  x.c
+a.pbm		   image.pbm	       mandelbrot_parfor.m	    y
+diary		   image_vec.pbm       mandelbrot_par_n_vector.m
+gcc_image.pbm	   log		       profile_results
+image_non_vec.pbm  mandelbrot_C_gcc.c  x
+
+Elapsed time is 0.464273 seconds.
+tic, ls, toc; tic, ls -al, toc
+a.out		   image_parfor.pbm    mandelbrot_non_vectorized.m  x.c
+a.pbm		   image.pbm	       mandelbrot_parfor.m	    y
+diary		   image_vec.pbm       mandelbrot_par_n_vector.m
+gcc_image.pbm	   log		       profile_results
+image_non_vec.pbm  mandelbrot_C_gcc.c  x
+
+Elapsed time is 0.026273 seconds.
+total 1220
+drwxrwx---. 3 sdasgup3 sdasgup3   4096 Sep  6 03:40 .
+drwxrwx---. 5 sdasgup3 sdasgup3   4096 Sep  5 17:27 ..
+-rwxrwx---. 1 sdasgup3 sdasgup3   8681 Sep  6 02:55 a.out
+-rw-rw----. 1 sdasgup3 sdasgup3    141 Sep  6 02:11 a.pbm
+-rw-rw----. 1 sdasgup3 sdasgup3  91721 Sep  6 03:27 diary
+-rw-rw----. 1 sdasgup3 sdasgup3     41 Sep  5 20:56 gcc_image.pbm
+-rw-rw----. 1 sdasgup3 sdasgup3 320013 Sep  6 03:32 image_non_vec.pbm
+-rw-rw----. 1 sdasgup3 sdasgup3 320013 Sep  6 03:48 image_parfor.pbm
+-rw-rw----. 1 sdasgup3 sdasgup3   3211 Sep  6 03:29 image.pbm
+-rw-rw----. 1 sdasgup3 sdasgup3 320013 Sep  6 03:47 image_vec.pbm
+-rw-rw----. 1 sdasgup3 sdasgup3 109859 Sep  6 02:51 log
+-rw-rw----. 1 sdasgup3 sdasgup3   3708 Sep  6 02:55 mandelbrot_C_gcc.c
+-rw-rw----. 1 sdasgup3 sdasgup3   1869 Sep  6 03:30 mandelbrot_non_vectorized.m
+-rw-rw----. 1 sdasgup3 sdasgup3   1816 Sep  6 03:49 mandelbrot_parfor.m
+-rw-rw----. 1 sdasgup3 sdasgup3   2320 Sep  6 03:49 mandelbrot_par_n_vector.m
+-rw-r-----. 1 sdasgup3 sdasgup3  12288 Sep  4 20:51 .nfs00000000015940a300000703
+drwxrwx---. 2 sdasgup3 sdasgup3    108 Sep  5 17:40 profile_results
+-rw-rw----. 1 sdasgup3 sdasgup3    632 Sep  5 17:14 x
+-rw-rw----. 1 sdasgup3 sdasgup3    250 Sep  5 15:03 x.c
+-rw-rw----. 1 sdasgup3 sdasgup3    632 Sep  5 17:14 y
+
+Elapsed time is 0.050618 seconds.
+ tic, mandelbrot_parfor, toc; tic, mandelbrot_par_n_vector, toc; tic, mandelbrot_non_vectorized, toc;
+
+N =
+
+       16000
+
+Elapsed time is 1897.938157 seconds.
+
+N =
+
+       16000
+
+Elapsed time is 1755.503623 seconds.
+
+N =
+
+       16000
+
+Elapsed time is 7591.687671 seconds.
+IdleTimeout has been reached.
+Parallel pool using the 'local' profile is shutting down.
+Your MATLAB session has timed out.  All license keys have been returned.
+diary off
+N=16000
+
+N =
+
+       16000
+
+bytes_per_row = bitshift(N + 7, -3)
+
+bytes_per_row =
+
+        2000
+
+N / (2*bytes_per_row)
+
+ans =
+
+     4
+
+mandelbrot_par_n_vector
+
+N =
+
+       16000
+
+Starting parallel pool (parpool) using the 'local' profile ... 
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel.internal.getJavaFutureResult', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/getJavaFutureResult.m', 15)" style="font-weight:bold">parallel.internal.getJavaFutureResult</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/getJavaFutureResult.m',15,0)">line 15</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel.internal.pool.InteractiveClient/waitForSessionCreation', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/+pool/InteractiveClient.m', 637)" style="font-weight:bold">parallel.internal.pool.InteractiveClient/waitForSessionCreation</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/+pool/InteractiveClient.m',637,0)">line 637</a>)
+                [gotSession, session] = parallel.internal.getJavaFutureResult(...
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel.internal.pool.InteractiveClient/start', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/+pool/InteractiveClient.m', 345)" style="font-weight:bold">parallel.internal.pool.InteractiveClient/start</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/+pool/InteractiveClient.m',345,0)">line 345</a>)
+                    obj.Session = obj.waitForSessionCreation(sessionFuture, connectionCounter, ...
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel.Pool>iStartClient', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/@Pool/Pool.m', 547)" style="font-weight:bold">parallel.Pool>iStartClient</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/@Pool/Pool.m',547,0)">line 547</a>)
+client.start(poolType , numWorkers, cluster, ...
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel.Pool.hBuildPool', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/@Pool/Pool.m', 439)" style="font-weight:bold">parallel.Pool.hBuildPool</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/@Pool/Pool.m',439,0)">line 439</a>)
+            iStartClient(client, 'pool', cluster, guiMode, supportRestart, argsList);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel.internal.pool.doParpool', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/+pool/doParpool.m', 15)" style="font-weight:bold">parallel.internal.pool.doParpool</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/+pool/doParpool.m',15,0)">line 15</a>)
+    pool = parallel.Pool.hBuildPool(constructorArgs{:});
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parpool', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/parpool.m', 89)" style="font-weight:bold">parpool</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/parpool.m',89,0)">line 89</a>)
+    pool = parallel.internal.pool.doParpool(varargin{:});
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/+pool/PoolArrayManager.m', 49)" style="font-weight:bold">parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/cluster/+parallel/+internal/+pool/PoolArrayManager.m',49,0)">line 49</a>)
+                        cleanPool = parpool();
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pctTryCreatePoolIfNecessary', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/pctTryCreatePoolIfNecessary.m', 23)" style="font-weight:bold">pctTryCreatePoolIfNecessary</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/pctTryCreatePoolIfNecessary.m',23,0)">line 23</a>)
+    pool = parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup();
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('distcomp.remoteparfor.tryRemoteParfor', '/home/sdasgup3/Install/Matlab/toolbox/distcomp/distcomp/+distcomp/remoteparfor.m', 27)" style="font-weight:bold">distcomp.remoteparfor.tryRemoteParfor</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/distcomp/distcomp/+distcomp/remoteparfor.m',27,0)">line 27</a>)
+            [OK, pool] = pctTryCreatePoolIfNecessary();
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('parallel_function', '/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p', 433)" style="font-weight:bold">parallel_function</a> (<a href="matlab: opentoline('/home/sdasgup3/Install/Matlab/toolbox/matlab/lang/parallel_function.p',433,0)">line 433</a>)
+    [isPoolRunning, pool] = distcomp.remoteparfor.tryRemoteParfor();
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 11)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',11,0)">line 11</a>)
+    parfor ii = 1:1:N/2
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+Starting parallel pool (parpool) using the 'local' profile ... connected to 8 workers.
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+N=32
+
+N =
+
+    32
+
+bytes_per_row = bitshift(N + 7, -3)
+
+bytes_per_row =
+
+     4
+
+N=160
+
+N =
+
+   160
+
+bytes_per_row = bitshift(N + 7, -3)
+
+bytes_per_row =
+
+    20
+
+mandelbrot_parfor
+
+N =
+
+    32
+
+mandelbrot_parfor
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+mandelbrot_parfor
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_parfor
+
+N =
+
+    32
+
+clear
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_parfor
+
+N =
+
+    32
+
+clear bitmap
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_parfor
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+bitmap
+{Undefined function or variable 'bitmap'.
+} 
+bitmap
+{Undefined function or variable 'bitmap'.
+} 
+mandelbrot_parfor
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_parfor
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_parfor
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+quit
+a  = repmat(struct('v2i',zeros(10,1), 5, 1);
+ a  = repmat(struct('v2i',zeros(10,1), 5, 1);
+                                            |
+{Error: Unbalanced or unexpected parenthesis or bracket.
+} 
+a  = repmat(struct('v2i',zeros(10,1)), 5, 1);
+a
+
+a = 
+
+5x1 <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> array with fields:
+
+    v2i
+
+mandelbrot_parfor
+
+N =
+
+    32
+
+Starting parallel pool (parpool) using the 'local' profile ... connected to 8 workers.
+mandelbrot_parfor
+
+N =
+
+   160
+
+mandelbrot_parfor
+
+N =
+
+        1600
+
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)
+matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)
+matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)
+matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+
+ans =
+
+     0
+     0
+
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',31,1)">31  </a>    zero = [ 0.0, 0.0 ];
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+{Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+        Crv([ii (ii+vec_size)]) = Crvs(bitshift(temp,-1) + 1).v2df;
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+{Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 46)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',46,0)">line 46</a>)
+        Crv([ii (ii+vec_size)]) = Crvs(bitshift(temp,-1) + 1).v2df;
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+ii+1
+
+ans =
+
+     1
+
+bitmap(ii+1).v2i
+
+ans =
+
+     0
+     0
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+Crv
+
+Crv =
+
+   -1.1250   -1.2500
+   -0.8750   -1.0000
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+Crv
+
+Crv =
+
+   -1.1250   -1.2500
+   -0.8750   -1.0000
+   -0.6250   -0.7500
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+Crv
+
+Crv =
+
+   -1.1250   -1.2500
+   -0.8750   -1.0000
+   -0.6250   -0.7500
+   -0.3750   -0.5000
+   -0.1250   -0.2500
+    0.1250         0
+    0.3750    0.2500
+         0         0
+
+X
+
+X =
+
+     2
+     4
+     6
+     8
+    10
+    12
+    14
+     0
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+
+ans =
+
+     0
+     8
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+   255
+   254
+
+
+ans =
+
+    29
+   254
+
+
+ans =
+
+    25
+   255
+
+
+ans =
+
+     1
+   254
+
+
+ans =
+
+     0
+   254
+
+
+ans =
+
+     0
+   124
+
+
+ans =
+
+     0
+    16
+
+
+ans =
+
+     0
+    16
+
+mandelbrot_par_n_vector
+
+N =
+
+    16
+
+0 8 0 16 0 16 0 124 0 254 1 254 25 255 29 254 255 254 29 254 25 255 1 254 0 254 0 124 0 16 0 16 
+ 0 8 0 16 0 16 0 124 0 254 1 254 25 255 29 254 255 254 29 254 25 255 1 254 0 254 0 124 0 16 0 16 
+   |
+{Error: Unexpected MATLAB expression.
+} 
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+   160
+
+mandelbrot_par_n_vector
+
+N =
+
+   160
+
+mandelbrot_par_n_vector
+
+N =
+
+        1600
+
+tic, mandelbrot_par_n_vector, toc; 
+
+N =
+
+        1600
+
+Elapsed time is 6.694731 seconds.
+tic, mandelbrot_parfor, toc;
+
+N =
+
+        1600
+
+Elapsed time is 19.066673 seconds.
+tic, mandelbrot_par_n_vector, toc;
+
+N =
+
+       16000
+
+Elapsed time is 594.070389 seconds.
+1897.938157/ 594
+
+ans =
+
+    3.1952
+
+wrong
+{Undefined function or variable 'wrong'.
+} 
+tic, mandelbrot_par_n_vector, toc;
+
+N =
+
+    32
+
+Elapsed time is 0.498526 seconds.
+tic, mandelbrot_par_n_vector, toc;
+
+N =
+
+       16000
+
+Elapsed time is 87.299593 seconds.
+1897.938157/87.299593
+
+ans =
+
+   21.7405
+
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+value
+
+value =
+
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+value
+
+value =
+
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    4
+    3
+    0
+    0
+    0
+    0
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+two_pixels
+
+two_pixels =
+
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+   128
+     0
+     0
+     0
+     0
+
+value
+
+value =
+
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    2
+    0
+    0
+    0
+    0
+
+X
+
+X =
+
+     0
+     2
+     4
+     6
+     8
+    10
+    12
+    14
+    16
+    18
+    20
+    22
+    24
+    26
+    28
+    30
+
+bitshift(128,-6)
+
+ans =
+
+     2
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+value
+
+value =
+
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+  192
+   48
+   12
+    3
+  192
+   32
+   12
+    0
+
+posn
+
+posn =
+
+     1
+     1
+     1
+     1
+     2
+     2
+     2
+     2
+     3
+     3
+     3
+     3
+     4
+     4
+     4
+     4
+
+a = reshape(posn, 4,4)
+
+a =
+
+     1     2     3     4
+     1     2     3     4
+     1     2     3     4
+     1     2     3     4
+
+a = reshape(posn, vector_size_for_reduction,bytes_per_row)
+{Undefined function or variable 'vector_size_for_reduction'.
+} 
+a = reshape(posn, vect_size_for_reduction,bytes_per_row)
+{Undefined function or variable 'vect_size_for_reduction'.
+} 
+a = reshape(posn, vec_size_for_reduction,bytes_per_row)
+
+a =
+
+     1     2     3     4
+     1     2     3     4
+     1     2     3     4
+     1     2     3     4
+
+a = reshape(value, vec_size_for_reduction,bytes_per_row)
+
+a =
+
+    0    0  192  192
+    0    0   48   32
+    0    0   12   12
+    0    0    3    0
+
+value
+
+value =
+
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+  192
+   48
+   12
+    3
+  192
+   32
+   12
+    0
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',76,36)">File: mandelbrot_par_n_vector.m Line: 76 Column: 36
+</a>Expression or statement is incorrect--possibly unbalanced (, {, or [.
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+value
+
+value =
+
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+  128
+    0
+    0
+    0
+
+reshaped_posn
+
+reshaped_posn =
+
+     1     2     3     4
+     1     2     3     4
+     1     2     3     4
+     1     2     3     4
+
+reshaped_value
+
+reshaped_value =
+
+    0    0    0  128
+    0    0    0    0
+    0    0    0    0
+    0    0    0    0
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitor')" style="font-weight:bold">bitor</a>
+Inputs must be signed or unsigned integers of the same class or scalar doubles.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 80)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',80,0)">line 80</a>)
+        bitmapslice(index) = bitor ( bitmapslice(index), reshaped_value(jj,:));
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitor')" style="font-weight:bold">bitor</a>
+Inputs must be signed or unsigned integers of the same class or scalar doubles.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 80)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',80,0)">line 80</a>)
+        bitmapslice(index) = bitor ( bitmapslice(index), reshaped_value(jj,:));
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+bitmapslice(index)
+
+ans =
+
+     0
+     0
+     0
+     0
+
+reshaped_value(jj,:)
+
+ans =
+
+    0    0    0  128
+
+bitor ( bitmapslice(index), reshaped_value(jj,:))
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitor')" style="font-weight:bold">bitor</a>
+Inputs must be signed or unsigned integers of the same class or scalar doubles.
+} 
+a  = [0  ;  0;    0;  128]
+
+a =
+
+     0
+     0
+     0
+   128
+
+bitor ( bitmapslice(index), a)
+
+ans =
+
+     0
+     0
+     0
+   128
+
+reshaped_value(jj,:)
+
+ans =
+
+    0    0    0  128
+
+reshaped_value(jj,:).'
+
+ans =
+
+    0
+    0
+    0
+  128
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitor')" style="font-weight:bold">bitor</a>
+Inputs must be signed or unsigned integers of the same class or scalar doubles.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 80)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',80,0)">line 80</a>)
+        bitmapslice(index) = bitor ( bitmapslice(index), reshaped_value(jj,:));
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+} 
+mandelbrot_par_n_vector
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',77,22)">File: mandelbrot_par_n_vector.m Line: 77 Column: 22
+</a>Unbalanced or unexpected parenthesis or bracket.
+} 
+mandelbrot_par_n_vector
+{Error: <a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',78,42)">File: mandelbrot_par_n_vector.m Line: 78 Column: 42
+</a>Unbalanced or unexpected parenthesis or bracket.
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitor')" style="font-weight:bold">bitor</a>
+Inputs must be signed or unsigned integers of the same class or scalar doubles.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 82)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',82,0)">line 82</a>)
+        bitmapslice(index) = bitor ( bitmapslice(index), reshaped_value(:,ii));
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+} 
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+bitmapslice(index)
+
+ans =
+
+     0
+     0
+     0
+     0
+
+reshaped_value(:,ii)
+
+ans =
+
+    0
+    0
+    0
+  128
+
+bitor ( bitmapslice(index), reshaped_value(:,ii))
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitor')" style="font-weight:bold">bitor</a>
+Inputs must be signed or unsigned integers of the same class or scalar doubles.
+} 
+q
+{Undefined function or variable 'q'.
+} 
+a
+{Undefined function or variable 'a'.
+} 
+bitmapslice(index)
+
+ans =
+
+     0
+     0
+     0
+     0
+
+reshaped_value(:,ii)
+
+ans =
+
+    0
+    0
+    0
+  128
+
+a  = [0  ;  0;    0;  128]
+
+a =
+
+     0
+     0
+     0
+   128
+
+bitor ( bitmapslice(index), a)
+
+ans =
+
+     0
+     0
+     0
+   128
+
+bitmapslice(index)
+
+ans =
+
+     0
+     0
+     0
+     0
+
+a
+
+a =
+
+     0
+     0
+     0
+   128
+
+reshaped_value(:,ii)
+
+ans =
+
+    0
+    0
+    0
+  128
+
+b = reshaped_value(:,ii)
+
+b =
+
+    0
+    0
+    0
+  128
+
+bitor ( bitmapslice(index), b)
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitor')" style="font-weight:bold">bitor</a>
+Inputs must be signed or unsigned integers of the same class or scalar doubles.
+} 
+uint8(zeros(bytes_per_row, 1));
+uint8(zeros(bytes_per_row, 1))
+
+ans =
+
+    0
+    0
+    0
+    0
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+mandelbrot_par_n_vector
+
+N =
+
+   160
+
+mandelbrot_par_n_vector
+
+N =
+
+   160
+
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>calc_row', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 82)" style="font-weight:bold">mandelbrot_par_n_vector>calc_row</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',82,0)">line 82</a>)
+Matrix dimensions must agree.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector>(parfor body)', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 18)" style="font-weight:bold">mandelbrot_par_n_vector>(parfor body)</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',18,0)">line 18</a>)
+        bitmap(ii+1).v2i  = feval(handleFunc, ii, N, bytes_per_row, Crvs, inverse_h);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mandelbrot_par_n_vector', '/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m', 17)" style="font-weight:bold">mandelbrot_par_n_vector</a> (<a href="matlab: opentoline('/home/sdasgup3/Programming/Scripting/Matlab/Maldelbrot/mandelbrot_par_n_vector.m',17,0)">line 17</a>)
+    parfor ii = 0:1:N-1
+} 
+mandelbrot_par_n_vector
+
+N =
+
+   160
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+reshaped_value(ii,:)
+
+ans =
+
+  Columns 1 through 19
+
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0  128    0    0    0
+
+  Column 20
+
+    0
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+    32
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+reshaped_value(ii,:)
+
+ans =
+
+    0    0    0  128
+
+bitmapslice(index)
+
+ans =
+
+    0
+    0
+    0
+    0
+
+bitor ( bitmapslice(index), ...
+                               reshaped_value(ii,:)
+                                reshaped_value(ii,:)
+                                                    |
+{Error: Expression or statement is incorrect--possibly unbalanced (, {, or [.
+} 
+bitor(bitmapslice(index), reshaped_value(ii,:))
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('bitor')" style="font-weight:bold">bitor</a>
+Inputs must have the same size.
+} 
+if system_dependent('IsDebugMode')==1, dbquit; end
+mandelbrot_par_n_vector
+
+N =
+
+        1600
+
+mandelbrot_par_n_vector
+
+N =
+
+       16000
+
+tic, mandelbrot_par_n_vector, toc;
+
+N =
+
+       16000
+
+Elapsed time is 85.082743 seconds.
+diary off
