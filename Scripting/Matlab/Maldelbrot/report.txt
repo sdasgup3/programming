@@ -1,0 +1,21 @@
+time ./a.out 16000 > gcc_image.pbm 
+real 15.75
+user 15.31
+sys 0.04
+
+
+
+tic, mandelbrot_par_n_vector, toc ; tic, mandelbrot_parfor, toc ;
+N =
+
+       16000
+
+Elapsed time is 84.144527 seconds.
+
+N =
+
+       16000
+
+Elapsed time is 1885.709534 seconds.
+IdleTimeout has been reached.
+Parallel pool using the 'local' profile is shutting down.
