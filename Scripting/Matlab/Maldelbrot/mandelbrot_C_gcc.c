@@ -125,7 +125,7 @@ int main (int argc, char **argv)
     if (posix_memalign((void**)&Crvs, sizeof(v2df), sizeof(v2df) * N / 2))
         return EXIT_FAILURE;
 
-    //#pragma omp parallel for
+    #pragma omp parallel for
     for (i = 0; i < N; i+=2) {
         v2df Crv = { (i+1.0)*inverse_w-1.5, (i)*inverse_w-1.5 };
         Crvs[i >> 1] = Crv;
@@ -143,7 +143,7 @@ int main (int argc, char **argv)
     if (bitmap == NULL)
         return EXIT_FAILURE;
 
-   // #pragma omp parallel for schedule(static,1)
+    #pragma omp parallel for schedule(static,1)
     for (i = 0; i < N; i++)
         calc_row(i);
 
