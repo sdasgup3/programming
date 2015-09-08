@@ -1,6 +1,5 @@
-function  mandelbrot_parfor
-    clear;
-    N = 16000
+function  mandelbrot_parfor(N)
+    N 
     
     bytes_per_row = bitshift(N + 7, -3);
 

@@ -1,5 +1,6 @@
-function  mandelbrot_par_n_vector
-    N = 16000
+function  mandelbrot_par_n_vector(N)
+    N 
+    
     bytes_per_row = bitshift(N + 7, -3);
 
     inverse_w = 2.0 / bitshift(bytes_per_row, 3);

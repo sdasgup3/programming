@@ -1,12 +1,11 @@
-function  mandelbrot_non_vectorized
-    clear;
-    global N ;
+function  mandelbrot_non_vectorized(N)
+     
     global bytes_per_row;
     global Crvs;
     global inverse_h;
     global bitmap;
     
-    N = 16
+    N
     bytes_per_row = bitshift(N + 7, -3);
 
     inverse_w = 2.0 / bitshift(bytes_per_row, 3);
@@ -27,7 +26,7 @@ function  mandelbrot_non_vectorized
     bitmap = zeros(bytes_per_row, N);
    
     for ii = 1:1:N
-        calc_row(ii - 1);
+        calc_row(ii - 1, N);
     end
     %bitmap
    
@@ -37,8 +36,7 @@ function  mandelbrot_non_vectorized
     fclose(fid);
 end
 
-function calc_row(y)
-    global N;
+function calc_row(y, N)
     global bytes_per_row;
     global Crvs;
     global inverse_h;
