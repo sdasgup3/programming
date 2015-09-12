@@ -94,6 +94,9 @@ And I added an alias into my .basrc file to use my new python by typing only
 
 alias python='~/bin/python'
 
+tar
+===
+tar xvfJ filename.tar.xz
 
 ***********************************************************************
                                 OLD POST
