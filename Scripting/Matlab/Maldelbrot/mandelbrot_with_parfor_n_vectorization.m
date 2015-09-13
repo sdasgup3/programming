@@ -1,4 +1,4 @@
-function  mandelbrot_par_n_vector(N)
+function  mandelbrot_with_parfor_n_vectorization(N)
     N 
     
     bytes_per_row = bitshift(N + 7, -3);
