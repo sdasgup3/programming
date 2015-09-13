@@ -53,16 +53,16 @@ Approximations for the Feedback Vertex Set Problem}
 \begin{tabular}[c]{@{}c@{}}Input\\ N\end{tabular} & \begin{tabular}[c]{@{}c@{}}C version\\ T1\\ (secs)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Matlab non-vec\\ T2\\ (secs)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Matlab vec\\ T3\\ (secs)\end{tabular} & \begin{tabular}[c]{@{}c@{}}C \\ vs \\ Matlab non-vec\\ T2/T1\end{tabular} & \begin{tabular}[c]{@{}c@{}}C \\ vs \\ Matlab vec\\ T3/T1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Matlab non-vec\\ vs \\ Matlab vec\\ T2/T3\end{tabular} \\ \hline
 1000            & 0.06            & 31.09                    & 0.66               & 518.16                 & 11.00                        & 47.12                                                                     \\ \hline
 4000            & 0.92           & 486.49                    & 5.84               & 528.79                & 6.35                          & 83.30                                                                     \\ \hline
-16000           & 14.60          & 7757.97                  & 82.61              & 531.37                   & 5.66                     & 93.91                                                                     \\ \hline
+\textbf{16000}           & \textbf{14.60}          & \textbf{7757.97}                  & \textbf{82.61}              & \textbf{531.37}    & \textbf{5.66}                     & \textbf{93.91}       \\ \hline
 \end{tabular}
 \end{table}
 
  \begin{description}
     \item[Conclusion] \hfill 
       \begin{itemize}
-        \item C Verison is faster that both the Matlab versions.  
+        \item C Verison is faster than both the Matlab versions.  
         \item The parallelized and vectorized Matlab version ``Matlab vec'' is way faster than the non-vectorized Matlab version with speedup $\sim$ 93 for N=16000.
-        \item Even if the SSE instructions are removed from C version, then the C version timing are slightly increased, but they are still better than both the Matlab versions.  
+        \item Even if the SSE instructions are removed from C version, the C version timing got slightly increased, but they are still better than both the Matlab versions.  
       \end{itemize}
   \end{description}
 
