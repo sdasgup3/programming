@@ -1,0 +1,71 @@
+\documentclass[10pt,twoside]{article}
+\usepackage{url}
+\usepackage{hyperref}
+
+
+\newcommand{\doctitle}{%
+Approximations for the Feedback Vertex Set Problem}
+
+\pagestyle{myheadings}
+\markboth{\hfill\doctitle}{\doctitle\hfill}
+
+\bibliographystyle{siam}
+
+\addtolength{\textwidth}{1.00in}
+\addtolength{\textheight}{1.00in}
+\addtolength{\evensidemargin}{-1.00in}
+\addtolength{\oddsidemargin}{-0.00in}
+\addtolength{\topmargin}{-.50in}
+
+\hyphenation{in-de-pen-dent}
+
+%\title{\textbf{\doctitle}\\
+\title{\textbf{ 598 DHP: MP1 Report}}
+
+\author{Sandeep Dasgupta\thanks{Electronic address: \texttt{sdasgup3@illinois.edu}}} 
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\maketitle
+
+  Implemented the following versions of the Mandelbrot's C 
+  \href{http://benchmarksgame.alioth.debian.org/u32/program.php?test=mandelbrot&lang=gcc}{code}.
+  
+  \begin{description}
+    \item[C Version] \hfill \\
+        C version  WITHOUT any parallelization, but it uses SSE2 instructions. \\
+        File: mandelbrot\_C\_gcc.c
+    \item[Matlab non-vec] \hfill \\
+        Matlab version  WITHOUT any parallelization and vectorization.        \\
+        File: mandelbrot\_non\_vectorized.m
+    \item[Matlab vec] \hfill \\
+        Matlab version  WITH  parallelization and vectorization. \\
+        File: mandelbrot\_with\_parfor\_n\_vectorization.m
+  \end{description}
+    \begin{table}[h]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\begin{tabular}[c]{@{}c@{}}Input\\ N\end{tabular} & \begin{tabular}[c]{@{}c@{}}C version\\ T1\\ (secs)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Matlab non-vec\\ T2\\ (secs)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Matlab vec\\ T3\\ (secs)\end{tabular} & \begin{tabular}[c]{@{}c@{}}C \\ vs \\ Matlab non-vec\\ T2/T1\end{tabular} & \begin{tabular}[c]{@{}c@{}}C \\ vs \\ Matlab vec\\ T3/T1\end{tabular} & \begin{tabular}[c]{@{}c@{}}Matlab non-vec\\ vs \\ Matlab vec\\ T2/T3\end{tabular} \\ \hline
+1000            & 0.06            & 31.09                    & 0.66               & 518.16                 & 11.00                        & 47.12                                                                     \\ \hline
+4000            & 0.92           & 486.49                    & 5.84               & 528.79                & 6.35                          & 83.30                                                                     \\ \hline
+16000           & 14.60          & 7757.97                  & 82.61              & 531.37                   & 5.66                     & 93.91                                                                     \\ \hline
+\end{tabular}
+\end{table}
+
+ \begin{description}
+    \item[Conclusion] \hfill 
+      \begin{itemize}
+        \item C Verison is faster that both the Matlab versions.  
+        \item The parallelized and vectorized Matlab version ``Matlab vec'' is way faster than the non-vectorized Matlab version with speedup $\sim$ 93 for N=16000.
+        \item Even if the SSE instructions are removed from C version, then also the C version timing are slightly increased, but they are still better than both the Matlab versions.  
+      \end{itemize}
+  \end{description}
+
+
+
+\end{document}
