@@ -6,17 +6,24 @@ if [ -f /etc/bashrc ]; then
 fi
 
 module load gcc/4.8.2
-module load python/2.7.3-x86_64
+#For meld to work
+#module load python/2.7.3-x86_64
+module load matlab/R2015a
 
 export SVN_EDITOR=vim
 export LIBFFI_HOME=/home/sdasgup3/Documents/libffi.inst
 export LLVM_HOME=$HOME/Documents/llvm/llvm.inst
 export LLVM_2_9_HOME=$HOME/llvm/llvm-2.9/
 export ZESTI_HOME=$HOME/Documents/klee-zesti/zesti.obj/Release+Asserts/bin/
-export KLEE_HOME=$HOME/Work/klee.3.4/Release+Asserts/bin/
+export KLEE_HOME=$HOME/Work/klee.3.4/Release+Asserts/
+export FLEX_HOME=$HOME/Install/flex.install
+export BISON_HOME=$HOME/Install/bison.install
+#export M4_HOME=$HOME/Install/m4.install
+export M4_HOME=
+export GRAPHAL_HOME=$HOME/Install/graphal-1.0.0/build/ 
 
-export PATH=$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME:$PATH
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LIBFFI_HOME/lib64
+export PATH=$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LIBFFI_HOME/lib64:$GRAPHAL_HOME/libgraphal/
 
 if [ -f ~/.aliases ]; then
   . ~/.aliases
