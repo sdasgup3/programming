@@ -52,6 +52,11 @@ klee --optimize --libc=uclibc --posix-runtime ./echo.bc --sym-arg 3
 klee-stats klee-last
 
 klee --only-output-states-covering-new --optimize --libc=uclibc --posix-runtime ./echo.bc --sym-args 0 2 4
+klee --only-output-states-covering-new --optimize --libc=uclibc --posix-runtime ./echo.bc --sym-args 0 2 4
+
+klee --zest --use-symbex=2 --symbex-for=10 --search=zest --libc=uclibc --allow-external-sym-calls  --zest-search-heuristic=br  --zest-discard-far-states=false --use-query-log=all:pc  --use-query-log=solver:pc --check-div-zero=false
+
+
 
 env -i /bin/bash -c '(source testing-env.sh; env >test.env)'
 
