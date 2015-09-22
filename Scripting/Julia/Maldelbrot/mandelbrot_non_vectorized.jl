@@ -42,7 +42,8 @@ end
 
 
 #function  mandelbrot_non_vectorized(N)
-N=320;
+tic();
+N=1600;
     println ("N = " , N);
     bytes_per_row = (N + 7) >>  3;
 
@@ -72,4 +73,5 @@ N=320;
     write(fid, bitmap);
     close(fid);
 #end
+    toc();
 
