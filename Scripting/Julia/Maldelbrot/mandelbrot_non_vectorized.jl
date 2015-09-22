@@ -43,7 +43,7 @@ end
 
 #function  mandelbrot_non_vectorized(N)
 tic();
-N=1600;
+N=16000;
     println ("N = " , N);
     bytes_per_row = (N + 7) >>  3;
 
