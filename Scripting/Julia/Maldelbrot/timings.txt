@@ -1,0 +1,8 @@
+non vectorized
+elapsed time: 35277.980290208 seconds
+
+After type specialization and removing allocation of zero and four
+julia> @time mandelbrot_non_vectorized(16000)
+	N = 16000
+	elapsed time: 2130.623049086 seconds (889891009552 bytes allocated, 39.29% gc time)
+
