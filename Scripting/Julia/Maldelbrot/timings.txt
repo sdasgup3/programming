@@ -15,3 +15,12 @@ julia> tic(); mandelbrot_non_vectorized(16000);toc();
 N = 16000
 elapsed time: 1553.083680688 seconds
 
+julia> @time mandelbrot_vectorization(16000)
+	N = 16000
+	459.065959 seconds (1.36 G allocations: 1.002 TB, 8.66% gc time)
+
+julia> tic(); mandelbrot_vectorization(16000); toc()
+N = 16000
+elapsed time: 455.658356586 seconds
+455.658356586
+
