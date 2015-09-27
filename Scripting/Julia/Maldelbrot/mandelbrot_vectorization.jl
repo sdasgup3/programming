@@ -1,71 +1,91 @@
 function calc_row(y::Int64, N::Int64, bytes_per_row::Int64, 
 		Crv::Array{Float64,2}, inverse_h::Float64, bitmap,
-		zero::Array{Float64,2}, vec_four::Array{Float64,2},
-		vec_size::Int64, vec_size_for_reduction::Int64,X)
+		vec_four::Array{Float64,2},
+		vec_size::Int64, vec_size_for_reduction::Int64,X,
+			Civ, Zrv, Ziv, Trv, Tiv, Tmp, Tmp2, Tmp_3, is_still_bounded, two_pixels,
+			posn, value);
    
-    Civ_init::Array{Float64,2} = [ y*inverse_h-1.0 y*inverse_h-1.0 ];
+    Civ_init = y*inverse_h-1.0;
     row_bitmap = Int64((bytes_per_row * y)  + 1);
     
-    
-        
-    Civ::Array{Float64,2} = repmat(Civ_init, vec_size,1);
-    Zrv::Array{Float64,2} = repmat(zero, vec_size,1);
-    Ziv::Array{Float64,2} = repmat(zero, vec_size,1);
-    Trv::Array{Float64,2} = repmat(zero, vec_size,1);
-    Tiv::Array{Float64,2} = repmat(zero, vec_size,1);
+    fill!(Civ, Civ_init);
+    fill!(Zrv, 0.0);
+    fill!(Ziv, 0.0);
+    fill!(Trv, 0.0);
+    fill!(Tiv, 0.0);
 
     for ii= 1:1:50 
-        Ziv = (Zrv .* Ziv) + (Zrv .* Ziv) + Civ;
-        Zrv = Trv - Tiv + Crv;
-        Trv = Zrv .* Zrv;
-        Tiv = Ziv .* Ziv;
-      
-        is_still_bounded = (Trv + Tiv) .<  vec_four;
+        broadcast!(*,Tmp,Zrv,Ziv );
+	broadcast!(*,Tmp,Tmp,2);
+        broadcast!(+,Ziv,Tmp,Civ );
 
-        two_pixels = 2*is_still_bounded[:,2] + is_still_bounded[:,1];
+        broadcast!(-,Tmp,Trv,Tiv );
+        broadcast!(+,Zrv,Tmp,Crv );
+
+        broadcast!(*,Trv,Zrv,Zrv );
+        broadcast!(*,Tiv,Ziv,Ziv );
+      
+        broadcast!(+,Tmp,Trv,Tiv );
+        broadcast!(<,is_still_bounded,Tmp,vec_four );
+
+	broadcast!(*,Tmp_3, is_still_bounded,[2 1]);
+	sum!(two_pixels,Tmp_3);
+
     end
+
      
-    two_pixels = (two_pixels .<<  6);
-    posn = row_bitmap + (X  .>> 3);
-    value =  (two_pixels  .>> (X & 7));
+    broadcast!(<<,two_pixels,two_pixels,6)
+
+    broadcast!(&,Tmp2, X,7)
+    broadcast!(>>,value, two_pixels,Tmp2)
 
     #Reduction of vec_size_for_reduction value for each
     #of bytes_per_row locations
     
-    reshaped_value = (reshape(value, vec_size_for_reduction, bytes_per_row)).';
-    reshaped_posn  = (reshape(posn,  vec_size_for_reduction, bytes_per_row)).';
-    
-    for ii=1:1:vec_size_for_reduction
-        index = reshaped_posn[:,ii];
-        bitmap[index] =   bitmap[index] | reshaped_value[:,ii]; 
-    end
+    for p in 1:1: bytes_per_row 
+        startI = 1 + (p-1)*vec_size_for_reduction;
+	endI = startI + vec_size_for_reduction - 1;
+	bitmap[row_bitmap + p - 1] = reduce(|, value[startI:endI]);
+     end
 end
 
-function  mandelbrot_vectorization(N::Int64)
-    println("N = " , N); 	
-    bytes_per_row::Int64 = (N + 7) >>  3;
+function  mandelbrot_vectorization2(N::Int64)
+#println("N = " , N); 	
+    bytes_per_row = Int64((N + 7) >>  3);
 
     inverse_w = 2.0 / (bytes_per_row <<  3);
     inverse_h = 2.0 / N;
 
-    zero = [ 0.0 0.0 ];
-    four = [ 4.0 4.0 ];
+    vec_size = Int64(N/2); 
+    vec_size_for_reduction = Int64(N / (2*bytes_per_row)); 
 
-    bitmap::Array{UInt8,2} = zeros(UInt8, bytes_per_row, N);
-    vec_size::Int64 = N/2; 
-    vec_size_for_reduction::Int64 = N / (2*bytes_per_row); 
-    vec_four::Array{Float64,2} = repmat(four,vec_size,1);
+    Civ = Array(Float64, vec_size,2);
+    Zrv = Array(Float64, vec_size,2);
+    Ziv = Array(Float64, vec_size,2);
+    Trv = Array(Float64, vec_size,2);
+    Tiv = Array(Float64, vec_size,2);
+    vec_four = 	Array(Float64, vec_size,2);
+    Crv = Array(Float64, vec_size,2);
+    Tmp = Array(Float64, vec_size,2);
+    Tmp2 = Array(Int64, vec_size,1);
+    Tmp_3 = Array(Int64, vec_size,2);
+    is_still_bounded = Array(Bool, vec_size,2);
+    two_pixels = Array(Int64, vec_size,1);
+    posn = Array(Int64, vec_size,1);
+    value = Array(UInt8, vec_size,1);
 
-    Crv::Array{Float64,2} = repmat([0.0 0.0], vec_size,1);
-    X::Array{Int64,1} = [Int64(i) for i in 0:2:N-2];
-
+    bitmap = zeros(UInt8, bytes_per_row, N);
+    X = [Int64(i) for i in 0:2:N-2];
+    fill!(vec_four, 4.0);
     for ii::Int64 = 1:1:N/2 
 	Crv[ii] 		= ((2*ii-2) + 1.0)*inverse_w - 1.5;
 	Crv[ii + vec_size ] 	= (2*ii-2)*inverse_w - 1.5;
     end
+
     
-    for ii::Int64 = 0:1:N-1
-        calc_row(ii, N, bytes_per_row, Crv, inverse_h, bitmap, zero, vec_four, vec_size, vec_size_for_reduction,X);
+for ii::Int64 = 0:1:N-1
+        calc_row(ii, N, bytes_per_row, Crv, inverse_h, bitmap, vec_four, vec_size, vec_size_for_reduction,X,
+			Civ, Zrv, Ziv, Trv, Tiv, Tmp, Tmp2, Tmp_3,is_still_bounded,two_pixels,posn, value );
     end
     
 #println(bitmap);

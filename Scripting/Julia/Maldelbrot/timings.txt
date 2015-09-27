@@ -24,3 +24,33 @@ N = 16000
 elapsed time: 455.658356586 seconds
 455.658356586
 
+julia> @time mandelbrot_vectorization(1600)
+	  4.742661 seconds (6.81 M allocations: 10.311 GB, 7.14% gc time)
+
+
+	 tic(); mandelbrot_vectorization(16000); toc();
+	 elapsed time: 363.996623905 seconds
+
+	 julia> tic(); mandelbrot_vectorization(16000); toc();
+	 elapsed time: 354.381754794 seconds
+
+
+	 @time mandelbrot_vectorization2(1600)
+	  2.958057 seconds (2.12 M allocations: 1.170 GB, 1.43% gc time)
+
+	@time mandelbrot_vectorization2(1600)
+	  2.930779 seconds (2.67 M allocations: 1.169 GB, 1.56% gc time)
+
+
+
+
+	julia> tic(); mandelbrot_vectorization2(16000); toc();
+	elapsed time: 267.747441014 seconds
+
+	@time mandelbrot_vectorization2(1600)
+	  3.095597 seconds (2.84 M allocations: 97.848 MB, 0.61% gc time)
+
+
+	julia> tic(); mandelbrot_vectorization2(16000); toc()
+	elapsed time: 269.770728079 seconds
+	269.770728079

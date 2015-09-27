@@ -43,7 +43,6 @@ end
 
 function  mandelbrot_non_vectorized(N::Int64)
 #N=16;
-    println("N = " , N);
     bytes_per_row::Int64 = (N + 7) >>  3;
 
     inverse_w::Float64 = 2.0 / (bytes_per_row <<  3);
@@ -69,7 +68,7 @@ function  mandelbrot_non_vectorized(N::Int64)
     for ii::Int64 = 1:1:N
         calc_row(ii - 1, N, bytes_per_row, Crvs, inverse_h, bitmap, zero, four);
     end
-#    println(bitmap);
+#println(bitmap);
 
     fid = open("image_non_vec.pbm","w");
     print(fid, "P4\n", N, " " ,N, "\n");
