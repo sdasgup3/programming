@@ -1,166 +1,86 @@
+#define LIMIT_SQUARED      4.0
+// This controls the maximum amount of iterations that are done for each pixel.
+#define MAXIMUM_ITERATIONS   50
+
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-#define DEBUG 0
+// intptr_t should be the native integer type on most sane systems.
+typedef intptr_t intnative_t;
 
+int main(int argc, char ** argv){
+   // Ensure image_Width_And_Height are multiples of 8.
+   const intnative_t image_Width_And_Height=(atoi(argv[1])+7)/8*8;
 
-typedef double v2df __attribute__ ((vector_size(16))); /* vector of two doubles */
-typedef int v4si __attribute__ ((vector_size(16))); /* vector of four ints */
+   // The image will be black and white with one bit for each pixel. Bits with
+   // a value of zero are white pixels which are the ones that "escape" from
+   // the Mandelbrot set. We'll be working on one line at a time and each line
+   // will be made up of pixel groups that are eight pixels in size so each
+   // pixel group will be one byte. This allows for some more optimizations to
+   // be done.
+   //fprintf(stderr,"%d\n", image_Width_And_Height* image_Width_And_Height/8);
+   uint8_t * const pixels=malloc(image_Width_And_Height* image_Width_And_Height/8);
 
+   // Precompute the initial real and imaginary values for each x and y
+   // coordinate in the image.
+   double initial_r[image_Width_And_Height], initial_i[image_Width_And_Height];
+   #pragma omp parallel for
+   for(intnative_t xy=0; xy<image_Width_And_Height; xy++){
+      initial_r[xy]=2.0/image_Width_And_Height*xy - 1.5;
+      initial_i[xy]=2.0/image_Width_And_Height*xy - 1.0;
+   }
+   for(intnative_t xy=0; xy<image_Width_And_Height; xy++){
+      printf("%f %f\n", initial_r[xy], initial_i[xy]);
+   }
 
-const v2df zero = { 0.0, 0.0 };
-const v2df four = { 4.0, 4.0 };
+   #pragma omp parallel for schedule(guided)
+   for(intnative_t y=0; y<image_Width_And_Height; y++){
+      const double prefetched_Initial_i=initial_i[y];
+      for(intnative_t x_Major=0; x_Major<image_Width_And_Height; x_Major+=8){
 
-/*
- * Constant throughout the program, value depends on N
- */
-int bytes_per_row;
-double inverse_w;
-double inverse_h;
+         // pixel_Group_r and pixel_Group_i will store real and imaginary
+         // values for each pixel in the current pixel group as we perform
+         // iterations. Set their initial values here.
+         double pixel_Group_r[8], pixel_Group_i[8];
+         for(intnative_t x_Minor=0; x_Minor<8; x_Minor++){
+            pixel_Group_r[x_Minor]=initial_r[x_Major+x_Minor];
+            pixel_Group_i[x_Minor]=prefetched_Initial_i;
+         }
 
-/*
- * Program argument: height and width of the image
- */
-int N;
+         // Assume all pixels are in the Mandelbrot set initially.
+         uint8_t eight_Pixels=0xff;
 
-/*
- * Lookup table for initial real-axis value
- */
-v2df *Crvs;
+         intnative_t iteration=MAXIMUM_ITERATIONS;
+         do{
+            uint8_t current_Pixel_Bitmask=0x80;
+            for(intnative_t x_Minor=0; x_Minor<8; x_Minor++){
+               const double r=pixel_Group_r[x_Minor];
+               const double i=pixel_Group_i[x_Minor];
 
-/*
- * Mandelbrot bitmap
- */
-uint8_t *bitmap;
+               pixel_Group_r[x_Minor]=r*r - i*i +
+                 initial_r[x_Major+x_Minor];
+               pixel_Group_i[x_Minor]=2.0*r*i + prefetched_Initial_i;
 
-typedef union 
-{
-  v2df    v;
-  double  f[2];
-} f2vec;
+               // Clear the bit for the pixel if it escapes from the
+               // Mandelbrot set.
+               if(r*r + i*i>LIMIT_SQUARED)
+                  eight_Pixels&=~current_Pixel_Bitmask;
 
-void printv2df(v2df v) {
-  f2vec vec;
-  vec.v = v;
+               current_Pixel_Bitmask>>=1;
+            }
+         }while(eight_Pixels && --iteration);
 
-  printf("%f %f\n", vec.f[0], vec.f[1]);
+         pixels[y*image_Width_And_Height/8 + x_Major/8]=eight_Pixels;
+      }
+   }
 
-}
+   // Output the image to stdout.
+   fprintf(stdout, "P4\n%jd %jd\n", (intmax_t)image_Width_And_Height,
+     (intmax_t)image_Width_And_Height);
+   fwrite(pixels, image_Width_And_Height*image_Width_And_Height/8, 1, stdout);
 
-static void calc_row(int y) {
-    uint8_t *row_bitmap = bitmap + (bytes_per_row * y);
-    int x;
-    const v2df Civ_init = { y*inverse_h-1.0, y*inverse_h-1.0 };
+   free(pixels);
 
-    for (x=0; x<N; x+=2)
-    {
-        v2df Crv = Crvs[x >> 1];
-        v2df Civ = Civ_init;
-        v2df Zrv = zero;
-        v2df Ziv = zero;
-        v2df Trv = zero;
-        v2df Tiv = zero;
-        int i = 50;
-        int two_pixels;
-        v2df is_still_bounded;
-
-        do {
-            Ziv = (Zrv*Ziv) + (Zrv*Ziv) + Civ;
-            Zrv = Trv - Tiv + Crv;
-            Trv = Zrv * Zrv;
-            Tiv = Ziv * Ziv;
-
-            /*
-             * All bits will be set to 1 if 'Trv + Tiv' is less than 4
-             * and all bits will be set to 0 otherwise. Two elements
-             * are calculated in parallel here.
-             */
-            is_still_bounded = __builtin_ia32_cmplepd(Trv + Tiv, four);
-#if DEBUG 
-            printv2df(is_still_bounded);
-#endif
-
-            /*
-             * Move the sign-bit of the low element to bit 0, move the
-             * sign-bit of the high element to bit 1. The result is
-             * that the pixel will be set if the calculation was
-             * bounded.
-             */
-            two_pixels = __builtin_ia32_movmskpd(is_still_bounded);
-#if DEBUG 
-            printf("%d\n\n",two_pixels);
-#endif
-        } while (--i > 0 && two_pixels);
-
-        /*
-         * The pixel bits must be in the most and second most
-         * significant position
-         */
-        two_pixels <<= 6;
-
-        /*
-         * Add the two pixels to the bitmap, all bits are
-         * initially zero since the area was allocated with
-         * calloc()
-         */
-        row_bitmap[x >> 3] |= (uint8_t) (two_pixels >> (x & 7));
-    }
-}
-
-int main (int argc, char **argv)
-{
-    ///gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -std=c99 -D_GNU_SOURCE -mfpmath=sse -msse2 -fopenmp
-    int i;
-
-    N = atoi(argv[1]);
-    bytes_per_row = (N + 7) >> 3;
-
-    inverse_w = 2.0 / (bytes_per_row << 3);
-    inverse_h = 2.0 / N;
-
-    /*
-     * Crvs must be 16-bytes aligned on some CPU:s.
-     */
-    if (posix_memalign((void**)&Crvs, sizeof(v2df), sizeof(v2df) * N / 2))
-        return EXIT_FAILURE;
-
-    #pragma omp parallel for
-    for (i = 0; i < N; i+=2) {
-        v2df Crv = { (i+1.0)*inverse_w-1.5, (i)*inverse_w-1.5 };
-        Crvs[i >> 1] = Crv;
-    }
-
-#if DEBUG 
-    for (i = 0; i < N/2; i+=1) {
-        printv2df(Crvs[i]);
-    }
-#endif
-
-
-    bitmap = calloc(bytes_per_row, N);
-
-    if (bitmap == NULL)
-        return EXIT_FAILURE;
-
-    #pragma omp parallel for schedule(static,1)
-    for (i = 0; i < N; i++)
-        calc_row(i);
-
-#if DEBUG 
-    for(int i = 0; i < bytes_per_row*N; i++) {
-      uint8_t* next = bitmap + i;
-      fprintf(stderr, "%d ", *next);
-    }
-    fprintf(stderr, "\n ");
-#endif
-
-
-    printf("P4\n%d %d\n", N, N);
-    fwrite(bitmap, bytes_per_row, N, stdout);
-
-    free(bitmap);
-    free(Crvs);
-
-    return EXIT_SUCCESS;
+   return 0;
 }
