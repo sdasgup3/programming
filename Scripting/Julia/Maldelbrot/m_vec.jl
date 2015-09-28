@@ -1,4 +1,4 @@
-function  m_vec2(N::Int64)
+function  m_vec(N::Int64)
     LIMIT_SQUARED = 4.0;
     MAX_ITER = 50;
 
@@ -50,10 +50,10 @@ function  m_vec2(N::Int64)
 	broadcast!(+,Tmp,Trv,Tiv );
       end
 
-        broadcast!(<,is_still_bounded,Tmp,4.0 )
-        broadcast!(<<,bit_mask, is_still_bounded,shift[jj] )
-	 posn = Int64((jj -1)  >> 3);
-        bitmap[posn + 1,:] =  bitmap[posn + 1,:] | bit_mask';
+      broadcast!(<,is_still_bounded,Tmp,4.0 )
+      broadcast!(<<,bit_mask, is_still_bounded,shift[jj] )
+      posn = Int64((jj -1)  >> 3);
+      bitmap[posn + 1,:] =  bitmap[posn + 1,:] | bit_mask';
     end    
 #println(bitmap);
 
