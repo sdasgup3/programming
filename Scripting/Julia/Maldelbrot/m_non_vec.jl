@@ -41,7 +41,7 @@ function  m_non_vec(N::Int64)
 	  if (tr + ti)  > LIMIT_SQUARED
 	    posn = Int64((jj -1)  >> 3);
 	    bitmap[posn + 1,ii] = bitmap[posn + 1,ii] & ~ current_Pixel_Bitmask ;
-#break;
+            break;
 	  end  
 	end
 	current_Pixel_Bitmask = current_Pixel_Bitmask >> 1;
