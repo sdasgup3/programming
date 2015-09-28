@@ -30,9 +30,6 @@ int main(int argc, char ** argv){
       initial_r[xy]=2.0/image_Width_And_Height*xy - 1.5;
       initial_i[xy]=2.0/image_Width_And_Height*xy - 1.0;
    }
-   for(intnative_t xy=0; xy<image_Width_And_Height; xy++){
-      printf("%f %f\n", initial_r[xy], initial_i[xy]);
-   }
 
    #pragma omp parallel for schedule(guided)
    for(intnative_t y=0; y<image_Width_And_Height; y++){
