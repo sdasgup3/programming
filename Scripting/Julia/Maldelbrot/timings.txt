@@ -54,3 +54,30 @@ julia> @time mandelbrot_vectorization(1600)
 	julia> tic(); mandelbrot_vectorization2(16000); toc()
 	elapsed time: 269.770728079 seconds
 	269.770728079
+
+
+--------------
+
+julia> tic(); m_vec(16000); toc()
+elapsed time: 220.505433181 seconds
+220.505433181
+
+julia> tic(); m_vec(16000); toc()
+elapsed time: 199.106831721 seconds
+199.106831721
+
+julia> tic(); m_non_vec(16000); toc()
+elapsed time: 31.887574868 seconds
+31.887574868
+
+julia> include("m_vec.jl");
+
+julia> tic(); m_vec(16000); toc()
+elapsed time: 202.233343917 seconds
+202.233343917
+
+julia> tic(); m_vec2(16000); toc()
+elapsed time: 161.553164801 seconds
+161.553164801
+
+

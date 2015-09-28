@@ -49,7 +49,7 @@ function calc_row(y::Int64, N::Int64, bytes_per_row::Int64,
      end
 end
 
-function  mandelbrot_vectorization2(N::Int64)
+function  mandelbrot_vectorization(N::Int64)
 #println("N = " , N); 	
     bytes_per_row = Int64((N + 7) >>  3);
 
