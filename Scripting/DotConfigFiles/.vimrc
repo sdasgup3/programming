@@ -10,3 +10,4 @@ set complete+=kspell
 set spell spelllang=en_us
 map q :q
 se nospell
+"This is to comment a vimrc file
