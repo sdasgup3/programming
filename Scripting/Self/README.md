@@ -31,3 +31,20 @@ _AddSlots: (|g=(y: ob3 f)|)
 ```
 For more 
 http://alumni.media.mit.edu/~tpminka/PLE/self/self-tut.html
+
+
+The feature that distinguishes a method object from a data object is that it has code, whereas a data object does not. Evaluating a method object does not simply return the object itself, as with simple data objects; rather, its code is executed and the resulting value is returned.
+
+```
+5 min: 4 Max: 7
+is the single message min:Max: sent to 5 with arguments 4 and 7, whereas
+
+5 min: 4 max: 7
+involves two messages: first the message max:sent to 4 and taking 7 as its argument, and then the message min: sent to 5, taking the result of (4 max: 7) as its argument.
+
+5 min: 6 min: 7 Max: 8 Max: 9 min: 10 Max: 11
+is interpreted as
+5 min: (6 min: 7 Max: 8 Max: (9 min: 10 Max: 11))
+The association order and capitalization requirements are intended to reduce the number of parentheses necessary in Self code. For example, taking the minimum of two slots mand nand storing the result into a data slot i may be written as
+i: m min: n
+```
