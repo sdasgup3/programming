@@ -17,4 +17,15 @@ _AddSlots: (|prototypes*=()|).
 prototypes _AddSlots: (|ob3= (|s1=0. s2<-0. s3. s4<-nil|)|)
 ob3 s2: 7.
 ob3 s2 // Or prototypes ob3 s2
+_Addslots: (|x|)
+x: 3
+ob3 x:10
+ob3 x:x+1   // 4, as x is the one in the shell object
+ob3 x:10
+ob3 x:ob3 x  + 1  //11
+ob3 s4:100
+ob3 _AddSlots: (|f=(s4: s4 + 100))
+ob3 s4
+_AddSlots (|y|)
+_AddSlots(g=(y: f+1)
 ```
