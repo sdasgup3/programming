@@ -34,7 +34,7 @@ printOn: aStream
 ! !
 
 
-!Mandelbrot methodsFor: 'initialize' stamp: 'SandeepDasgupta 10/11/2015 00:16'!
+!Mandelbrot methodsFor: 'computing' stamp: 'SandeepDasgupta 10/11/2015 00:16'!
 compute: arg_n
 |image_Width_And_Height inverse_w inverse_h bytes_per_row bitmap_size cr ci zr zi tr ti prefetched_Initial_i  initial_r initial_i   |
 	

@@ -24,8 +24,9 @@ export GRAPHAL_HOME=$HOME/Install/graphal-1.0.0/build/
 export MAIL_HOME=$HOME/Install/
 export CMAKE_HOME=$HOME/Install/cmake-3.3.2
 export SELF_HOME=$HOME/Install/self.install
+export SMALLTALK_HOME=$HOME/Install/pharo4.0/
 
-export PATH=$MAIL_HOME:$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$PATH:$CMAKE_HOME/bin/:$SELF_HOME/vm
+export PATH=$MAIL_HOME:$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$PATH:$CMAKE_HOME/bin/:$SELF_HOME/vm:$SMALLTALK_HOME/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LIBFFI_HOME/lib64:$GRAPHAL_HOME/libgraphal/
 
 if [ -f ~/.aliases ]; then
