@@ -11,6 +11,7 @@ To compute the mandelbrot set for n*n matrix.!
 
 
 !Mandelbrot methodsFor: 'compute' stamp: 'SandeepDasgupta 10/12/2015 00:54'!
+
 compute_n_print: arg_n
 	"Compute and Print the Mandelbrot bitmap"
 	
@@ -75,3 +76,7 @@ image_Width_And_Height  printOn: aStream.
 aStream cr.
 aStream nextPutAll: bitmap.
 aStream close.! !
+
+
+
+
