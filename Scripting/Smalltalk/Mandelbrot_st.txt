@@ -1,5 +1,4 @@
-'From Pharo4.0 of 18 March 2013 [Latest update: #40609] on 12 October 2015 at 12:56:28.250549 am'!
-
+'From Pharo4.0 of 18 March 2013 [Latest update: #40609] on 12 October 2015 at 11:30:07.355464 am'!
 Object subclass: #Mandelbrot
 	instanceVariableNames: 'n bitmap'
 	classVariableNames: ''
@@ -8,9 +7,7 @@ Object subclass: #Mandelbrot
 !Mandelbrot commentStamp: 'SandeepDasgupta 10/10/2015 23:45' prior: 0!
 To compute the mandelbrot set for n*n matrix.!
 
-
-
-!Mandelbrot methodsFor: 'compute' stamp: 'SandeepDasgupta 10/12/2015 00:54'!
+!Mandelbrot methodsFor: 'compute' stamp: 'SandeepDasgupta 10/12/2015 11:02'!
 
 compute_n_print: arg_n
 	"Compute and Print the Mandelbrot bitmap"
@@ -31,9 +28,10 @@ compute_n_print: arg_n
 	initial_r := Array new:  image_Width_And_Height.
 	initial_i := Array new:  image_Width_And_Height.
 
-	(1 to: image_Width_And_Height) do: [ :ii | 
-            initial_r at: ii put: inverse_w* (ii - 1 ) - 1.5.
-            initial_i at: ii put: inverse_h* (ii - 1) - 1.0.
+	(1 to: image_Width_And_Height) do: 
+	[ :ii | 
+      initial_r at: ii put: inverse_w* (ii - 1 ) - 1.5.
+      initial_i at: ii put: inverse_h* (ii - 1) - 1.0.
 	].
 	
 	1 to: image_Width_And_Height  do: [ :ii |
@@ -46,6 +44,7 @@ compute_n_print: arg_n
 			tr := 0.0.
 			ti := 0.0.
 		
+			[ :break | 
 			(1 to: 50) do: [  :kk | 
 	   			zi := 2.0 * (zr * zi) + ci.
 	  			zr := tr - ti + cr.
@@ -59,15 +58,16 @@ compute_n_print: arg_n
 						bit := 8 - ((jj - 1) % 8).
 						byte := bitmap basicAt:posn asInteger.
 						byte := (byte bitAt:bit  put: 0).
-						bitmap basicAt:posn  put: byte.  
+						bitmap basicAt:posn  put: byte.
+						break value.  
 					] 
 					ifFalse: [].
-			].		
+			].	
+			] valueWithExit.	
 	 ].
 ].
 
 "File Printing"
-
 aStream := FileStream newFileNamed: 'output.pbm'.
 aStream nextPutAll: 'P4';cr.
 image_Width_And_Height  printOn: aStream.
@@ -76,6 +76,7 @@ image_Width_And_Height  printOn: aStream.
 aStream cr.
 aStream nextPutAll: bitmap.
 aStream close.! !
+
 
 
 

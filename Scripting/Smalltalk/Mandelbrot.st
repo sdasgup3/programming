@@ -1,77 +1,1 @@
-'From Pharo4.0 of 18 March 2013 [Latest update: #40609] on 12 October 2015 at 12:56:28.250549 am'!
-
-Object subclass: #Mandelbrot
-	instanceVariableNames: 'n bitmap'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MyTest'!
-!Mandelbrot commentStamp: 'SandeepDasgupta 10/10/2015 23:45' prior: 0!
-To compute the mandelbrot set for n*n matrix.!
-
-
-
-!Mandelbrot methodsFor: 'compute' stamp: 'SandeepDasgupta 10/12/2015 00:54'!
-compute_n_print: arg_n
-	"Compute and Print the Mandelbrot bitmap"
-	
-|image_Width_And_Height inverse_w inverse_h bytes_per_row bitmap_size cr ci zr zi tr ti prefetched_Initial_i  initial_r initial_i   aStream|
-	
-	n := arg_n.
-	image_Width_And_Height := (((n + 7) >>  3) << 3 ).
-	
-	inverse_w  := 2.0 / image_Width_And_Height.
-	inverse_h  := 2.0 / image_Width_And_Height.
-	bytes_per_row := (n + 7) >>  3.
-	bitmap_size := bytes_per_row*image_Width_And_Height.
-
-	bitmap := ByteArray new: bitmap_size.
-	bitmap from: 1 to: bitmap_size put: 255.
-
-	initial_r := Array new:  image_Width_And_Height.
-	initial_i := Array new:  image_Width_And_Height.
-
-	(1 to: image_Width_And_Height) do: [ :ii | 
-            initial_r at: ii put: inverse_w* (ii - 1 ) - 1.5.
-            initial_i at: ii put: inverse_h* (ii - 1) - 1.0.
-	].
-	
-	1 to: image_Width_And_Height  do: [ :ii |
-		prefetched_Initial_i := initial_i  at: ii. 
-		1 to: image_Width_And_Height do: [ :jj | 
- 			cr := initial_r at:jj.
-			ci := prefetched_Initial_i.
-			zr := 0.0.
-			zi := 0.0.
-			tr := 0.0.
-			ti := 0.0.
-		
-			(1 to: 50) do: [  :kk | 
-	   			zi := 2.0 * (zr * zi) + ci.
-	  			zr := tr - ti + cr.
-	  			tr := zr * zr.
-	  			ti := zi *zi.
-		
-		   		((tr + ti) > 4.0) 
-					ifTrue:[
-						|posn bit byte| 
-						posn := ( ( ((ii-1)*(image_Width_And_Height/8)) + 1) + ((jj-1)/8)) asInteger.
-						bit := 8 - ((jj - 1) % 8).
-						byte := bitmap basicAt:posn asInteger.
-						byte := (byte bitAt:bit  put: 0).
-						bitmap basicAt:posn  put: byte.  
-					] 
-					ifFalse: [].
-			].		
-	 ].
-].
-
-"File Printing"
-
-aStream := FileStream newFileNamed: 'output.pbm'.
-aStream nextPutAll: 'P4';cr.
-image_Width_And_Height  printOn: aStream.
-aStream nextPutAll: ' '.
-image_Width_And_Height  printOn: aStream.
-aStream cr.
-aStream nextPutAll: bitmap.
-aStream close.! !
+'From Pharo4.0 of 18 March 2013 [Latest update: #40609] on 12 October 2015 at 11:30:07.355464 am'!Object subclass: #Mandelbrot	instanceVariableNames: 'n bitmap'	classVariableNames: ''	poolDictionaries: ''	category: 'MyTest'!!Mandelbrot commentStamp: 'SandeepDasgupta 10/10/2015 23:45' prior: 0!To compute the mandelbrot set for n*n matrix.!!Mandelbrot methodsFor: 'printing' stamp: 'SandeepDasgupta 10/11/2015 00:16'!printOn: aStream		| image_Width_And_Height  bytes_per_row bitmap_size|.		image_Width_And_Height := (((n + 7) >>  3) << 3 ).	bytes_per_row := (n + 7) >>  3.		aStream nextPutAll: 'P4';cr.	image_Width_And_Height printOn: aStream.	aStream nextPutAll: ' '.	image_Width_And_Height printOn: aStream.	aStream cr.	aStream binary.	bitmap_size := bytes_per_row*image_Width_And_Height.	1 to: bitmap_size do: [ :ii |		(bitmap basicAt: ii) printOn: aStream.	].		 ! !!Mandelbrot methodsFor: 'initialize' stamp: 'SandeepDasgupta 10/12/2015 11:02'!compute_n_print: arg_n	"Compute and Print the Mandelbrot bitmap"	|image_Width_And_Height inverse_w inverse_h bytes_per_row bitmap_size cr ci zr zi tr ti prefetched_Initial_i  initial_r initial_i   aStream|		n := arg_n.	image_Width_And_Height := (((n + 7) >>  3) << 3 ).		inverse_w  := 2.0 / image_Width_And_Height.	inverse_h  := 2.0 / image_Width_And_Height.	bytes_per_row := (n + 7) >>  3.	bitmap_size := bytes_per_row*image_Width_And_Height.	bitmap := ByteArray new: bitmap_size.	bitmap from: 1 to: bitmap_size put: 255.	initial_r := Array new:  image_Width_And_Height.	initial_i := Array new:  image_Width_And_Height.	(1 to: image_Width_And_Height) do: 	[ :ii |       initial_r at: ii put: inverse_w* (ii - 1 ) - 1.5.      initial_i at: ii put: inverse_h* (ii - 1) - 1.0.	].		1 to: image_Width_And_Height  do: [ :ii |		prefetched_Initial_i := initial_i  at: ii. 		1 to: image_Width_And_Height do: [ :jj |  			cr := initial_r at:jj.			ci := prefetched_Initial_i.			zr := 0.0.			zi := 0.0.			tr := 0.0.			ti := 0.0.					[ :break | 			(1 to: 50) do: [  :kk | 	   			zi := 2.0 * (zr * zi) + ci.	  			zr := tr - ti + cr.	  			tr := zr * zr.	  			ti := zi *zi.				   		((tr + ti) > 4.0) 					ifTrue:[						|posn bit byte| 						posn := ( ( ((ii-1)*(image_Width_And_Height/8)) + 1) + ((jj-1)/8)) asInteger.						bit := 8 - ((jj - 1) % 8).						byte := bitmap basicAt:posn asInteger.						byte := (byte bitAt:bit  put: 0).						bitmap basicAt:posn  put: byte.						break value.  					] 					ifFalse: [].			].				] valueWithExit.		 ].]."File Printing"aStream := FileStream newFileNamed: 'output.pbm'.aStream nextPutAll: 'P4';cr.image_Width_And_Height  printOn: aStream.aStream nextPutAll: ' '.image_Width_And_Height  printOn: aStream.aStream cr.aStream nextPutAll: bitmap.aStream close.! !
