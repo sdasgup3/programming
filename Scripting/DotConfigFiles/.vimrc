@@ -11,3 +11,6 @@ set spell spelllang=en_us
 map q :q
 se nospell
 "This is to comment a vimrc file
+set mouse=a
+map <ScrollWheelUp> <C-Y>
+map <ScrollWheelDown> <C-E>
