@@ -1,0 +1,26 @@
+pqr=xyz
+abc=$(pqr)
+X=$(pqr)
+X?=notset
+X+=notset
+
+
+#Lazy Set
+#VARIABLE = value
+#Normal setting of a variable - values within it are recursively expanded when the variable is used, not when it's declared	  
+#  
+#Immediate Set
+#VARIABLE := value
+#Setting of a variable with simple expansion of the values inside - values within it are expanded at declaration time.
+
+#Set If Absent
+#VARIABLE ?= value
+#Setting of a variable only if it doesn't have a value
+#
+#Append
+#VARIABLE += value
+#Appending the supplied value to the existing value (or setting to that value if the variable didn't exist)
+
+all:
+	@echo $(abc)
+	@echo $(X)

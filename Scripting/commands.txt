@@ -203,3 +203,4 @@ cscope lib/*/*.h lib/*/*/*.h lib/*/*/*/*.h lib/*/*.cpp lib/*/*/*.cpp lib/*/*/*/*
 
 ../llvm.src/configure CC=clang CXX=clang++ --with-gcc-toolchain=/home/kasampa2/Documents/gcc/gcc-4.8.2.inst --with-extra-ld-options="-Wl,-rpath,/home/kasampa2/Documents/gcc/gcc-4.8.2.inst/lib64" --prefix=/home/kasampa2/Documents/llvm/llvm.inst --enable-jit --enable-targets=all --disable-optimized --enable-assertions
 
+last commit : 601
