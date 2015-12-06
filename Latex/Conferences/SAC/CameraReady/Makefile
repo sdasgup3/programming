@@ -26,7 +26,7 @@ clean:
 	-$(RM) -f $(TGT).dvi $(TGT).aux $(TGT).log
 	-$(RM) -f $(TGT).toc $(TGT).idx $(TGT).bbl
 	-$(RM) -f $(TGT).toc $(TGT).ind $(TGT).blg 
-	-$(RM) -f $(TGT).ps $(TGT).ind $(TGT).pdf 
+	-$(RM) -f $(TGT).ps $(TGT).ind 
 	-$(RM) -f missfont.log *~
 
 clobber: clean
