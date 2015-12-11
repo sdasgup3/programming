@@ -15,6 +15,6 @@ set mouse=a
 map <ScrollWheelUp> <C-Y>
 map <ScrollWheelDown> <C-E>
 
-:set formatoptions+=w
-:set tw=80
+":set formatoptions+=w
+":set tw=80
 map f gggqG

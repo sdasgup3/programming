@@ -13,6 +13,7 @@ module load matlab/R2015a
 export SVN_EDITOR=vim
 export LIBFFI_HOME=/home/sdasgup3/Documents/libffi.inst
 export LLVM_HOME=$HOME/Documents/llvm/llvm.inst
+export LLVM_3_1_HOME=$HOME/Documents/llvm/llvm-3.1.inst/
 export LLVM_2_9_HOME=$HOME/llvm/llvm-2.9/
 export ZESTI_HOME=$HOME/Documents/klee-zesti/zesti.obj/Release+Asserts/bin/
 export KLEE_HOME=$HOME/Work/klee.3.4/Release+Asserts/
@@ -29,8 +30,9 @@ export GDB_HOME=$HOME/Install/gdb-7.10
 export QT_HOME=$HOME/Qt/5.5/gcc_64/ 
 export GRI_HOME=$HOME/GRI/source
 export IMAKE_HOME=$HOME/Install/imake.obj
+export NG_HOME=$HOME/Documents/klee-zesti/neongoby.inst/
 
-export PATH=$IMAKE_HOME/bin/:$QT_HOME/bin:$MAIL_HOME:$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$CMAKE_HOME/bin/:$SELF_HOME/vm:$SMALLTALK_HOME/:$GDB_HOME/gdb/:$PATH
+export PATH=$IMAKE_HOME/bin/:$QT_HOME/bin:$MAIL_HOME:$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$NG_HOME/bin/:$LLVM_3_1_HOME/bin:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$CMAKE_HOME/bin/:$SELF_HOME/vm:$SMALLTALK_HOME/:$GDB_HOME/gdb/:$PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LIBFFI_HOME/lib64:$GRAPHAL_HOME/libgraphal/:$FLEX_HOME/lib/:$GRI_HOME/build/lib/
 
 if [ -f ~/.aliases ]; then
