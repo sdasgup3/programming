@@ -1,0 +1,432 @@
+
+=================================================================
+Install gcc-4.5.0/gcc-4.7.2 [[ See instructions below ]]
+Install gmp-6.0.0
+Install buddy-2.4
+
+=================================================================
+INSTALL FOR GCC 4.7.2; Tue Jul 21 10:18:44 IST 2015
+=================================================================
+1. configure:
+$ ../gcc-4.7.2/configure --prefix=/home/karkare/Work/gcc-4.7.2/install \
+      --enable-languages=c,c++ --enable-lto
+
+2. run make.  In case of error
+  a. Replace any @itemx by @item.
+  b. crti.o not found?
+      $ export LIBRARY_PATH=<path-to-dir-containing-crti.o>:$LIBRARY_PATH 
+
+  c. libmpc.so.2 not found?
+      $ sudo ln -s /usr/lib/x86_64-linux-gnu/libmpc.so.3 \
+             /usr/lib/x86_64-linux-gnu/libmpc.so.2
+  d. sys/cdef.h not found?
+      $ sudo apt-get install libc6-dev-i386
+
+  e. Compilation Error for GCC?
+--- a/gcc/config/i386/linux-unwind.h    2011-01-03 20:52:22.000000000 +0000
++++ b/gcc/config/i386/linux-unwind.h    2012-07-06 12:23:51.562859470 +0100
+@@ -133,9 +133,9 @@
+     {
+       struct rt_sigframe {
+        int sig;
+-       struct siginfo *pinfo;
++       siginfo_t *pinfo;
+        void *puc;
+-       struct siginfo info;
++       siginfo_t info;
+        struct ucontext uc;
+       } *rt_ = context->cfa;
+       /* The void * cast is necessary to avoid an aliasing warning.
+
+3. make install
+==================================================================================================================================
+//Algorithm as far as I understood
+
+Each cgraph_node has a worklist  which contains the blocks in it..Initially nothing
+Another one is a global worklist,this is for functions.
+
+At the start global worklist will contain main,  and main's worklist will contain its first block.
+
+Untill the global worklist is empty
+   get a function from global worklist
+     untill this functions worklist is empty
+          get a bb from this worklist 
+             process that bb (which may add functions to global worklist or bb to this functions worklist)
+
+
+
+What about callstrings in them???
+//---------------------------------------------------------------------------------------------------------------
+
+
+Feb 13:
+
+At the function call
+
+main()
+{
+
+fun(p,q);
+
+}
+
+void func(struct abcd *a,struct abcd *b)
+{
+
+}
+
+replacing all the entries in direction,interference  of p,q by a,b
+similarly for the equations  and boolean variables!!!!!!!!
+
+Those variables which are present on main ,not present in function!!!!!!!!!11
+What about them????????????
+how are matrices ,bolean equations modified????????????
+
+
+Assume that functions have no variables initially!!!!!!!!!!!!!!!!!!!!!!!!!!!!IMPPPPPP
+
+1)Direction Matrix:
+    The size of the matrix should change  accordingly  depending of the scope the variables in new context!!!!
+    
+2)The equations:
+    ??????????????????/
+
+
+NOTE:: OBSERVATION
+
+size of the matrix is the number of pointer variables combined
+in all the functions of the program!!!!!!!!!!
+
+
+TODO:  problem with the function isItIn8stmts?????????????
+       Why the stmts are printed as p_2=........????????????????/
+
+Feb 14:
+in the above to_do list we were dealinf with SSA_NAME treecode
+if(TREE_CODE(var)==SSA_NAME)
+  get_name (  SSA_NAME_VAR(var))---  gives the actual var name i.e p
+
+Callstring MAPPPPPPPPPPPPPPPPPPPPPPP:::::
+
+When 2 cqllstring has same dataflow values then the cs map will contain a entry (cs1-->cs2,cs3)  saying that 
+cs2,cs3 have same df values as that of cs1
+IS it really necessary????????????
+ 
+   A callstring map (cs_map_def)      is stored at Sp (start of each procedure p). This contains a 
+   representative callstring index at LHS, and the callstring indices of all 
+   pointsto values at RHS that have the same must-may info as the representative
+   callstring. For example, if callstrings W, X, Y, Z have the same pointsto value
+   associated with them, and we choose W to be the representative callstring, the
+   lhs of cs_map_def will be the index of W in callstring pool, and the rhs
+   will be the csmap_rhs consisting of the linked list of indices of X, Y and Z.
+
+
+Feb 25:
+What about the variable cpinfo????????????????????
+  
+
+Concerning field pfbv_dfi in csdfa_info
+ pfbv_dfi * shape_info;   // this means in,out,kill,gen   ..
+   //not all may be reqd at a time..ex:out_of_bb(cbb) retrieves the csdfa_info struct
+   //we can say out as default in those cases i.e even for in_of_bb(cbb)
+   //out field is only used
+   
+************************************
+TO DO:
+1)read the algorithm clearly??????????????????????!**********************************************
+2)see the function process_intra_block
+insert shape anlysis related functions in a new copy and try them...
+3)
+*************************
+
+
+************************************
+TO DO:
+1)read the algorithm clearly??????????????????????!**********************************************
+2)see the function process_intra_block   (perform_csipdfa_on_intrablock)
+3)study the callstringsin detail
+4)insert shape anlysis related functions in a new copy and try them...
+
+
+Feb 27::::::::::
+compute_mapped_out_at_startblock  --------THis function not understood yet...
+modify_pcsmap_at_startblock----- In this when a new csdfa_info obj comes we modify it if already present or add it to the corresponding pcsmap
+
+pcsmap---What this means
+Consider two csdfa_info struct with different callstrings but same pinfo values...say(c1,c2,c3,c4) are different callstrings with same
+df value at start of any function
+then the pcsmap will have entry of the form
+c1->c2,c3,c4
+
+___________________________________________________________________________________
+What happens at start block??
+
+When the block encountered is some intrablock,or a callblock and is also a startblock..
+then to the out_of_bb(startblock)  the lhs  contents of the pcsmap of that cnode are appended 
+(this functionality is ddone by function compute_mapped_out_at_startblock()
+
+this makes sure that dfvalues are carried forward in that new function call (?) 
+------------------------------------------------------------------------------------
+What happens at a callblock??
+
+If the callblock is a start block first the above thing occurs  and after that
+
+dataflow values are to be transfered to the startblock of the called node..
+In this process pcsmap of that called node is created or modified or appended
+__________________________________________________________________________
+
+
+Feb 27::
+
+Hiding the function compute_liveness ........results in no o/p at all 
+DOUBT::::::::::::::::
+1)in compute_mapped_out_at_startblock function why is 
+set_bb_to_process_pta() function called when pcsmap_required is true??
+????????????????????????  (understood)  see the comments of that functiion
+
+Feb 28:
+propagate_shape_to_all_succs -------its causing seg fault (reason specified in its code)
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$      (IMPORTANT)     $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Feb 29:
+Importance of pcsmap (calstring map)
+
+Consider a c code
+
+#include<stdio.h>
+
+int *p,*q;
+int a,b,c;
+
+int hello()
+{
+
+return *p +hello();
+
+}
+int main()
+{
+a=10;
+p=&a;
+q=&b;
+*q=120;
+c=hello();
+p=&c;
+c=180;
+*q=*p;
+
+}
+
+----------------------main ()    converted to
+--block 2--
+a = 10;
+p = &a;
+q = &b;
+q.0_1 = q;
+*q.0_1 = 120;
+
+--block 3--
+c.1_2 = hello ();
+
+--block 5--
+
+--block 4--
+c = c.1_2;
+p = &c;
+c = 180;
+q.2_3 = q;
+p.3_4 = p;
+D.2531_5 = *p.3_4;
+*q.2_3 = D.2531_5;
+--block 6--
+return
+
+------------------------hello() converted to
+block 2
+p.4_1 = p;
+D.2534_2 = *p.4_1;
+
+block 3
+D.2535_3 = hello ();
+
+block 5
+
+block 4
+D.2532_4 = D.2534_2 + D.2535_3;
+
+block 6
+return D.2531_4
+
+in this the callstring at start of hello node is main.3
+next time it will be  hello.3,main.3
+next time it will be  hello.3,hello.3,main.3
+
+but the df value for {hello.3,main.3},{hello.3,hello.3,main.3} are equal
+so there will be an entry like
+
+{hello.3,main.3}---> {hello.3,hello.3,main.3}   in the pcsmap
+
+As its a recursive function this can continue forever but what they are doing is that
+everytime whatever is present in pcsmap has to be sent to the out_of_bb(start_bb(cnode))
+so while doing that ,even when we are at callstring {hello.3,hello.3,main.3}
+since {hello.3,hello.3,main.3} and {hello.3,main.3} have same df value  {hello.3,main.3}  is passed to it.
+
+This info is sent to its succ i.e block 3 by function  propagate_pointsto_to_all_succs..In this function
+a varianle set_succ_for_processing is set to TRUE or FALSE accordingly(see the code for clarity)..
+which in this case doesnot add hello.3 to worklist,hence handling the recursive function analysis
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+Mar 3:
+Intra block is working fine...
+Next to look at process_callblock function
+
+Mar 4:
+copy_in_to_out_1  and copy_in_to_out()   are both reqd or 1 suff
+????????????
+and about compute_in_confluence and compute_out_confluence
+
+DOUBT))
+get_representative_csdfa  ?????????????  It doesnot work when
+(Iam modifying this function)
+the in_of_bb is empty??????????????
+
+DOUBT)) look at func next_node_from_shape_worklist()
+
+PROBLEM-----------------------------------------------------
+k->f=llll;
+  llll->f=k;
+  
+  in the abv stmts llll is global,k is local..
+  this is converted to
+  llll.0_3 = llll;
+k_2->f = llll.0_3;
+llll.1_4 = llll;
+llll.1_4->f = k_2;???????????????????????????????????? how to deal
+----------------------------------------------------------
+  
+UPDATE::
+shape_bypass_block is removed completely !!!!!!!!!!!!!!!!!!!!!
+
+--------------------------------^^^^^^^^^^^^^^^^^^^^^^^^------------------------------------
+				    nice result:
+reached fixed point for this RECURSIVE   code     (shape info is wrong (Not sure need to be checked))
+(length of boolean equation was 45 000  !!!)
+struct abcd {
+
+  struct abcd *g;
+  struct abcd *f;
+};
+
+struct abcd *llll;
+
+void hello();
+int main()
+{
+struct abcd *p,*n1,*n2;
+p= (struct abcd *)malloc(sizeof(struct abcd));
+n1= (struct abcd *)malloc(sizeof(struct abcd));
+n2= malloc(sizeof(struct abcd));
+ p->f=n1;
+ n1->f=n2;
+ hello();
+n2->f=p; 
+
+}
+
+
+void hello()
+{
+  struct abcd *k,*m;
+   k= (struct abcd *)malloc(sizeof(struct abcd));
+   m= (struct abcd *)malloc(sizeof(struct abcd));
+   k->f=m;
+   m->f=k;
+   hello();
+   k->f=llll;
+   llll->f=k;
+}
+
+
+--------------------------------^^^^^^^^^^^^^^^^^^^^^^^^------------------------------------
+March 5:
+Fixed point not reached for test9.c due to the infinite growth of
+k in  f(Ik)   need to look into that
+
+this is handled by function limit_dfvalue_to_K called in
+the function is_new_dfvalue and above  generateGENKILLvalue funciton call
+
+March 6:
+Deal with the parameters...
+implicit assumption of stmt of type p=q;
+
+For the arguments of functions we need to add code in the functions 
+	perform_csipdfa_on_intrablock,
+	perform_csipdfa_on_callblock......
+If that block is a startblock of that function then this mapping of information must be performed
+
+Similarly how to deal with the return statements
+
+NOTEEE
+most of the code of append_bb_callstring_1 is removed and the function is cleaned
+
+
+March 7:
+problem with memory!!!
+handle free_pfbv_dfi
+check the location of ggc_free()
+
+THe memory is going of limits!!!!
+iswap partition is not working!!
+
+-------------------------IMPORTANT-------------
+Check whether the code is increasing the size of equations unnecessarily!!!
+
+
+March 10:
+change_ai_wrt_call_args  is created which takes care of arguments!!!!!!
+
+March 11:
+assigning of actual args to formal will include GEN,KILL,IN,OUT
+in the useual way ..
+
+The kill information of boolean variables is not considered for equations
+p=q  thats coded..
+
+March 11:
+IMPORTANT_______________________________
+Changes are made to adjust to the situation of local variables with same name as 
+global variables....
+ANd also two different structs which have same field name is also
+incorporated
+
+
+MODIFIED:
+findShapeInsideEvaluate
+print_Shape_at_Stmt
+getID --parameter added
+getFieldIdGivenName----parameter added
+getFieldIdInItsStructGivenName----parameter added
+
+generateGENKILLvalue is modified to incorporate the above function changes
+
+Functions added:
+getStructName
+
+also  in the below function 2nd parameter(char *ptrNmae) is replaced by int pId
+findShapeOfHeapPtrAtStatement(gimple stmt,int pId,int beforeOrAfter,int dagOrCycle);
+findShapeInsideEvaluate(int stmtId,int pId,int beforeOrAfter,int dagOrCycle);
+
+
+March 12:
+Check subsetBased2.c  .run this code
+
+March 13:
+Search for "March 13" in dfa_util.h ..At two places we added code
+where out=gen when in=kill in the case of boolean equations
+
+
+
