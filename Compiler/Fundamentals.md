@@ -22,3 +22,12 @@ T. Reps, G. Balakrishnan, and J. Lim. Intermediate representation recovery from 
 code. In PEPM, 2006.
 G. Balakrishnan and T. Reps. Analyzing memory accesses in x86 executables. In Comp.
 Construct., 2004.
+
+Why dissambly
+--------------
+Recovering functional IR is also valuable for legacy code for
+which the source code has been lost. With a tool to recover IR,
+users of legacy code can fix bugs in such codes, modify the IR functionality
+or even port the code to new hardware systems. They may
+also optimize old code by doing more aggressive optimizations or
+making portions of the code parallel.
