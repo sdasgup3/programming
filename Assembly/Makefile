@@ -15,6 +15,10 @@ all: $(EXEC) $(OBJ)
 %:%.o
 	$(CC) -o $@ $<
 
+	
+maxofthree: maxofthree.o callmaxofthree.c	
+	$(CC) $^ -o $@
+
 .PHONY: clean	
 clean:
 	rm -rf $(OBJ) $(EXEC)

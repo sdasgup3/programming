@@ -1,3 +1,5 @@
+; Print hello world
+
 global main
 extern puts
 
