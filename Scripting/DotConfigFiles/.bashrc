@@ -5,7 +5,7 @@ fi
 
 module load gcc/4.8.2
 #For meld to work
-#module load python/2.7.3-x86_64
+module load python/2.7.3-x86_64
 module load matlab/R2015a
 
 export SVN_EDITOR=vim
@@ -29,9 +29,10 @@ export QT_HOME=$HOME/Qt/5.5/gcc_64/
 export GRI_HOME=$HOME/GRI/source
 export IMAKE_HOME=$HOME/Install/imake.obj
 export NG_HOME=$HOME/Documents/klee-zesti/neongoby.inst/
+export VALTOOL_HOME=/home/sdasgup3/Projects/mcsema/mc-sema/validator/x86_64/valTest/../valTool/
 
-export PATH=$IMAKE_HOME/bin/:$QT_HOME/bin:$MAIL_HOME:$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$NG_HOME/bin/:$LLVM_3_1_HOME/bin:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$CMAKE_HOME/bin/:$SELF_HOME/vm:$SMALLTALK_HOME/:$GDB_HOME/gdb/:$PATH
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LIBFFI_HOME/lib64:$GRAPHAL_HOME/libgraphal/:$FLEX_HOME/lib/:$GRI_HOME/build/lib/
+export PATH=$IMAKE_HOME/bin/:$QT_HOME/bin:$MAIL_HOME:$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$NG_HOME/bin/:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$CMAKE_HOME/bin/:$SELF_HOME/vm:$SMALLTALK_HOME/:$GDB_HOME/gdb/:$PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LIBFFI_HOME/lib64:$GRAPHAL_HOME/libgraphal/:$FLEX_HOME/lib/:$GRI_HOME/build/lib/:$VALTOOL_HOME
 
 if [ -f ~/.aliases ]; then
   . ~/.aliases

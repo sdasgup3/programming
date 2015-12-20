@@ -13,5 +13,5 @@ if [ $R = "y" ] || [ $R = "Y" ] ; then
   #M="$1"; 
   echo "Enter Message (with quotes)?";
   read M
-  git pull && git commit -m "$M"  $file_to_commit && git push;
+  git pull origin master && git commit -m "$M"  $file_to_commit && git push origin master;
 fi

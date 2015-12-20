@@ -1,5 +1,4 @@
-Tips
-=====
+###Tips
 
 ```
 To compile all the files like
@@ -19,4 +18,10 @@ To autofill command from the  command histofry` add the  following line in ~/.in
 "\e[B": history-search-forward
 "\eOA": history-search-backward
 "\eOB": history-search-forward
+```
+
+###Misc Commands
+```
+LLVM_PATH=$(<./LLVM_PATH.linux) _Setting an ev var from a file_
+
 ```
