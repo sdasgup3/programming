@@ -1,16 +1,30 @@
-AS=nasm
-AS_OPT=-f elf64
+NASM=nasm
+AS=as
+NASM_OPT=-f elf64
+AS_OPT=--gstabs+
+
+
 CC=gcc
 
-ASM=$(wildcard *.asm)
-OBJ=$(ASM:%.asm=%.o)
-EXEC=$(ASM:%.asm=%)
+ASM_NASM=$(wildcard *.asm)
+ASM_AS=$(wildcard *.s)
+
+ASM=$(ASM_NASM) $(ASM_AS)  
+
+OBJ_I=$(ASM:%.asm=%.o) 
+OBJ=$(OBJ_I:%.s=%.o) 
+
+EXEC=$(OBJ:%.o=%)
 
 all: $(EXEC) $(OBJ)	
+%:%.s  
 
 %.o: %.asm
-	$(AS) $(AS_OPT) -o $@ $<
+	$(NASM) $(NASM_OPT) -o $@ $<
 
+%: %.s
+	$(AS) $(AS_OPT) -o $@.o $<
+	ld $@.o	-o $@
 
 %:%.o
 	$(CC) -o $@ $<
@@ -28,4 +42,4 @@ printvars:
 	@echo "CC : $(CC)" 
 	@echo "ASM : $(ASM)" 
 	@echo "OBJ : $(OBJ)" 
-	@echo "OBJ : $(EXEC)" 
+	@echo "EXEC : $(EXEC)" 
