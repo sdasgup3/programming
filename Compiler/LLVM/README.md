@@ -17,5 +17,6 @@ $ cd build
 $ ../LLVMProjects/configure --with-llvmsrc=/home/sdasgup3/Documents/llvm/llvm.src/ --with-llvmobj=/home/sdasgup3/Documents/llvm/llvm.obj/
 $ make ENABLE_OPTIMIZED=1   
 
-For more about various LLVM tools: http://llvm.org/docs/CommandGuide/index.html
+For more about various LLVM tools: http://llvm.org/docs/CommandGuide/index.html
+For moe information about creating a LLVM project :  http://llvm.org/releases/3.7.1/docs/Projects.html
 ```
