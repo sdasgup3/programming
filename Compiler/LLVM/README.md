@@ -11,5 +11,11 @@ vice versa using some LLVM tools:
 $ llvm-dis myfile.bc -o myfile.ll
 $ llvm-as myfile.ll -o myfile.bc
 
+For building a llvm based project outside the llvm build framework
+$ mkdir build
+$ cd build
+$ ../LLVMProjects/configure --with-llvmsrc=/home/sdasgup3/Documents/llvm/llvm.src/ --with-llvmobj=/home/sdasgup3/Documents/llvm/llvm.obj/
+$ make ENABLE_OPTIMIZED=1   
+
 For more about various LLVM tools: http://llvm.org/docs/CommandGuide/index.html
 ```
