@@ -11,7 +11,7 @@ vice versa using some LLVM tools:
 `$ llvm-as myfile.ll -o myfile.bc`
 
 - For building a llvm based project outside the llvm build framework
- ## Copy llvm-src/projects/sample
+  - Copy llvm-src/projects/sample
 ```
 $ mkdir build
 $ cd build
