@@ -22,6 +22,7 @@ $ make ENABLE_OPTIMIZED=1
 ## Links ##
 - For more about various LLVM tools: http://llvm.org/docs/CommandGuide/index.html
 - For moe information about creating a LLVM project :  http://llvm.org/releases/3.7.1/docs/Projects.html
-- http://llvm.org/releases/3.1/docs/FAQ.html
-- http://btorpey.github.io/blog/2015/01/02/building-clang/
+- Frequently asked Questions: http://llvm.org/releases/3.1/docs/FAQ.html
+- Building llvm with using clang: http://btorpey.github.io/blog/2015/01/02/building-clang/
+- Using cmake to build llvm:  http://llvm.org/docs/CMake.html#embedding-llvm-in-your-project
 
