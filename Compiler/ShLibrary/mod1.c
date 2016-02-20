@@ -10,6 +10,9 @@ int test1[250000] = { 1, 2, 3 };
 
 void 
 x1(void) { 
-    printf("Called mod1.c:x1 \n"); 
+    printf("Callee mod1.c:x1 \n"); 
+    printf("Caller mod1.c:x1\n"); 
+    printf("Calling x2\n"); 
+    x2();
     printf("exiting mod1.c:x1\n");
 } 
