@@ -10,6 +10,6 @@ int test2[100000] = { 1, 2, 3 };
 
 void 
 x2(void) { 
-    printf("Called mod2-x2 " VERSION "\n"); 
-    printf("exiting x2\n");
+    printf("Called mod2.c:x2 \n"); 
+    printf("exiting mod2.c:x2\n");
 } 

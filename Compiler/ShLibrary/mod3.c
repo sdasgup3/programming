@@ -5,11 +5,11 @@
 int test3[10000] = { 1, 2, 3 };
 
 #ifndef VERSION
-#define VERSION ""
+#define VERSION "x1 . 2"
 #endif
 
 void 
-x3(void) { 
-    printf("Called mod3-x3 " VERSION "\n"); 
-    printf("exiting x3\n");
+x1(void) { 
+    printf("Called mod3.c:x1 \n"); 
+    printf("exiting mod3.c:x1\n");
 } 
