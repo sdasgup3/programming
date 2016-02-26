@@ -20,7 +20,7 @@ $ make ENABLE_OPTIMIZED=1
 ```
 - Run an LLVM Pass With Clang
   - `clang -Xclang -load -Xclang mypass.so *.c`
-  - An example is in [https://github.com/sdasgup3/Programming/tree/master/Compiler/LLVM/LLVMProjects/lib/Analysis/opModifier]
+  - An [example](https://github.com/sdasgup3/Programming/tree/master/Compiler/LLVM/LLVMProjects/lib/Analysis/opModifier)
 
 ## Links ##
 - For more about various LLVM tools: http://llvm.org/docs/CommandGuide/index.html
@@ -28,4 +28,6 @@ $ make ENABLE_OPTIMIZED=1
 - Frequently asked Questions: http://llvm.org/releases/3.1/docs/FAQ.html
 - Building llvm with using clang: http://btorpey.github.io/blog/2015/01/02/building-clang/
 - Using cmake to build llvm:  http://llvm.org/docs/CMake.html#embedding-llvm-in-your-project
+- Run an LLVM Pass Automatically with Clang: http://adriansampson.net/blog/clangpass.html
+- LLVM for Grad Students: http://adriansampson.net/blog/llvm.html
 
