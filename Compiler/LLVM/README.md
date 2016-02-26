@@ -18,6 +18,9 @@ $ cd build
 $ ../sample/configure --with-llvmsrc=/home/sdasgup3/Documents/llvm/llvm.src/ --with-llvmobj=/home/sdasgup3/Documents/llvm/llvm.obj/
 $ make ENABLE_OPTIMIZED=1   
 ```
+- Run an LLVM Pass With Clang
+  - `clang -Xclang -load -Xclang mypass.so *.c`
+  - An example is in [https://github.com/sdasgup3/Programming/tree/master/Compiler/LLVM/LLVMProjects/lib/Analysis/opModifier]
 
 ## Links ##
 - For more about various LLVM tools: http://llvm.org/docs/CommandGuide/index.html
