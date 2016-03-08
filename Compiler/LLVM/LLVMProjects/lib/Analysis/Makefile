@@ -8,6 +8,6 @@ LEVEL=../..
 #
 # List all of the subdirectories that we will compile.
 #
-DIRS=gptrIndexSize stmtIterator
+DIRS=gptrIndexSize stmtIterator opModifier readMetadata
 
 include $(LEVEL)/Makefile.common
