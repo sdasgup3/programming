@@ -6,7 +6,7 @@ execute: prog1 prog2
 
 prog1: prog.c shlib
 	echo
-	gcc prog.c ./lDir/libfoo.so mod2.o  -o $@
+	g++ -std=c++11 prog.c ./lDir/libfoo.so mod2.o  -o $@
 	LD_LIBRARY_PATH=./lDir:$$LD_LIBRARY_PATH ./$@
 	#Setting LD_LIBRARY_PATH is necessary
 	echo
@@ -42,7 +42,7 @@ prog2:	prog.c ars
 
 
 %.o: %.c
-	gcc -c -fPIC  $^ -o $@
+	g++ -std=c++11  -c -fPIC  $^ -o $@
 lib%.a:%.o
 	ar cr $@ $<
 
@@ -51,13 +51,13 @@ ars:	libmod1.a libmod2.a libmod3.a
 shlib: mod1.o mod2.o mod3.o
 	rm -rf lDir && mkdir lDir
 	echo
-	gcc -shared -Wl,-soname,libbar.so -o lDir/libfoo.so mod1.o 
+	g++ -std=c++11 -shared -Wl,-soname,libbar.so -o lDir/libfoo.so mod1.o 
 	# Cannot do gcc -shared -Wl,-soname,libbar.so -o lDir/libfoo.so mod1.o mod2.o mod3.o
 	# Otherwise will get multiple definition of `x1' error 
 	cd lDir && ln -s libfoo.so libbar.so && cd ..
 
 clean:
-	rm -rf lDir *.o *.so prog a.out
+	rm -rf lDir *.o *.so prog a.out *.a
 
 .PHONY: clean lib
 
