@@ -15,7 +15,7 @@ identifiable location in memory.
 
   ```
   int &r = 10;    //Error: invalid initialization of non-const reference of type 
-  //‘int&’ from an rvalue of type ‘int’
+                  //‘int&’ from an rvalue of type ‘int’
   const &r = 10;  //OK
   ```
 
@@ -76,12 +76,11 @@ identifiable location in memory.
   const POD p4; //uninitialized  - error - as we cannot change it later on!
   ```
   - Every method of an object receives an implicit this pointer to the object; 
-  const methods effectively receive a ```const T* this``` pointer.   
+  const methods effectively receive a ```const T* const this``` pointer. The secondconst qualifieris due to the property of this.   
 
   - Const functions can always be called
   - Non-const functions can only be called by non-const objects
   - When const functions return references or pointers to members of the class, they must also be const.
-  - A pointer to a non- const object cannot  be initialized with a pointer to an object that is const.
   - Pointing at y with a const int* does not make y const, it just means that you can't change y using that pointer.
   ```
   int y;
@@ -126,7 +125,7 @@ identifiable location in memory.
   cout << x << endl;        // who knows what it prints? undefined. The compiler 
                             //may still print 4 as x is const. 
   ```
-
+  - use ```int* pX2 = const_cast<int *>pX;```  instead.
 
 ##Constructor 
   -  
