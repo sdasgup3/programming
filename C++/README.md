@@ -13,7 +13,7 @@ rvalue is an expression that does not represent an object occupying some
 identifiable location in memory.
 - Consider the code
 
-  ```
+  ```c++
   int &r = 10;    //Error: invalid initialization of non-const reference of type 
                   //‘int&’ from an rvalue of type ‘int’
   const &r = 10;  //OK
@@ -28,7 +28,7 @@ identifiable location in memory.
   no problem of modifying an rvalue.
 
 ###Const Pointers
-  ```
+  ```c++
   const int *p_int;
   p_int = &x;
   *p_int = 10;  //Error
@@ -40,7 +40,7 @@ identifiable location in memory.
 
 ###Const Member functions
   - Does not makes any sense for non member function
-  ```
+  ```c++
   class A {
     int y;
     public:
@@ -61,7 +61,7 @@ identifiable location in memory.
   const-qualified type T, T shall be a class type with a user-provided default 
   constructor.
   
-  ```
+  ```c++
   class POD {
     int i;
   };
@@ -82,13 +82,13 @@ identifiable location in memory.
   - Non-const functions can only be called by non-const objects
   - When const functions return references or pointers to members of the class, they must also be const.
   - Pointing at y with a const int* does not make y const, it just means that you can't change y using that pointer.
-  ```
+  ```c++
   int y;
   const int* pConstY = &y;  // legal - but can't use pConstY to modify y
   int* pMutableY = &y;      // legal - can use pMutableY to modify y
   *pMutableY = 42;
   ```
-  ```
+  ```c++
   class T {
       int y;
       int *p;
@@ -113,7 +113,7 @@ identifiable location in memory.
 
 ###casting away const-ness
   -   Bad practice
-  ```
+  ```c++
   const int x = 4;           // x is const, it can't be modified
   const int* pX = &x;        // you can't modify x through the pX pointer
 
@@ -129,7 +129,7 @@ identifiable location in memory.
 
 ##Constructor 
   -  
-  ```
+  ```c++
   T a();
   a.mem\_function();  //Error: a is connsodered a function declaration with 
                       //return type T 
