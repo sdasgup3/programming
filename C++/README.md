@@ -138,4 +138,6 @@ identifiable location in memory.
 ##References
   - [Understanding lvalues and rvalues in C and 
   C++](http://eli.thegreenplace.net/2011/12/15/understanding-lvalues-and-rvalues-in-c-and-c)
+  - [Alex Allain](http://www.cprogramming.com/tutorial/const_correctness.html)
+  - [Const-correctness in C++](http://www.possibility.com/Cpp/const.html)
 
