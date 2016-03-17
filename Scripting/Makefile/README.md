@@ -7,3 +7,7 @@ end properly and tabs mark the action for the rules so that they are easily iden
     - You can cancel a built-in implicit rule by defining a pattern rule with the same target and prerequisites, but no recipe. For example, the following would cancel the rule that runs the assembler:  %.o : %.s
 -   To prevent deletion of temporary files (as determined by Makefile system), add `PRECIOUS: %.o`
 -   make VERBOSE=1. In cmake, You can set CMAKE_VERBOSE_MAKEFILE to ON.
+
+## Debuging
+-  $(warning dsand $(LCC))
+-  @echo $(LCC)
