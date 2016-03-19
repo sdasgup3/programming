@@ -9,6 +9,6 @@ Resume_Job: Resume_Job.pdf
 	$(CMD) $<
 
 clean:
-	rm -rf *.dvi  *.log *.ps *.aux *.out *.pdf
+	rm -rf *.dvi  *.log *.ps *.aux *.out 
 remjunk:
 	rm -rf *.dvi  *.log *.ps *.aux *.out 
