@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # location where clang should be installed
-INSTALL_PREFIX=$HOME/Install/llvm-trunk-install
+#INSTALL_PREFIX=$HOME/Install/llvm-trunk-with-gcc-install
+INSTALL_PREFIX=$HOME/Install/llvm-3.4.2.install
+SRC_DIR=$HOME/Install/llvm-3.4.2.src
 
 # location of gcc used to build clang
 HOST_GCC=/software/gcc-4.8.2/
@@ -36,6 +38,6 @@ cmake                     -DCMAKE_C_COMPILER=$C \
                           -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} \
                           -DLLVM_ENABLE_ASSERTIONS=ON \
                           -DCMAKE_BUILD_TYPE="Release" -DLLVM_TARGETS_TO_BUILD="all" \
-                          ../llvm-trunk-src
+                          $SRC_DIR
 #make -j ${CPUS} ${VERBOSE}
 #make install
