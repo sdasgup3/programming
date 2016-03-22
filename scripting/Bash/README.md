@@ -1,4 +1,10 @@
-###Tips
+###Cheatsheet
+- To expand all variables and prints the full commands before output of the command.
+```
+#!/bin/bash
+set -x 
+```
+
 
 ```
 To compile all the files like
