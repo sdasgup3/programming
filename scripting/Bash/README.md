@@ -2,7 +2,10 @@
 - To expand all variables and prints the full commands before output of the command.
 ```
 #!/bin/bash
-set -x 
+set -x #start teh expansion  
+cmd ..
+cmd ..
+set +x #end 
 
 or
 
