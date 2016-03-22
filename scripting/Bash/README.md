@@ -3,6 +3,10 @@
 ```
 #!/bin/bash
 set -x 
+
+or
+
+$bash -x script.sh
 ```
 
 
