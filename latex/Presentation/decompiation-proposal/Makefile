@@ -11,7 +11,7 @@ $(TGT): $(TGT).pdf
 
 $(TGT).pdf: $(TGT).tex
 	pdflatex $<
-#	ps2pdf $(TGT).ps $(TGT).pdf
+	./convertpdf.sh ${TGT}
 
 #$(TGT).ps: $(TGT).dvi
 #	dvips -o $(TGT).ps $(TGT)
@@ -25,7 +25,7 @@ clean:
 	-$(RM) -f $(TGT).dvi $(TGT).aux $(TGT).log
 	-$(RM) -f $(TGT).toc $(TGT).idx $(TGT).bbl
 	-$(RM) -f $(TGT).toc $(TGT).ind $(TGT).blg 
-	-$(RM) -f $(TGT).ps $(TGT).ind $(TGT).pdf 
+	-$(RM) -f $(TGT).ps $(TGT).ind 
 	-$(RM) -f $(TGT).snm $(TGT).out $(TGT).nav 
 	-$(RM) -f missfont.log *~
 

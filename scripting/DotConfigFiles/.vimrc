@@ -9,12 +9,13 @@ set ic
 set complete+=kspell
 set spell spelllang=en_us
 map q :q
+map N :n
 se nospell
 "This is to comment a vimrc file
 set mouse=a
 map <ScrollWheelUp> <C-Y>
 map <ScrollWheelDown> <C-E>
 
-:set formatoptions+=w
-:set tw=80
+":set formatoptions+=w
+":set tw=80
 map f gggqG
