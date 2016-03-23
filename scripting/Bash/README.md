@@ -1,4 +1,17 @@
-###Tips
+###Cheatsheet
+- To expand all variables and prints the full commands before output of the command.
+```
+#!/bin/bash
+set -x #start teh expansion  
+cmd ..
+cmd ..
+set +x #end 
+
+or
+
+$bash -x script.sh
+```
+
 
 ```
 To compile all the files like
