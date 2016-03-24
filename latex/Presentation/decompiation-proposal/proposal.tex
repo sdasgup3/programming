@@ -1,42 +1,128 @@
-\documentclass[xcolor=dvipsnames]{beamer}
+%\documentclass[xcolor=dvipsnames]{beamer}
+\documentclass[mathserif,10pt]{beamer}
 
 \mode<presentation>
 {
   \usetheme{UIUC}
 } 
 
-\usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
+\newcommand{\cmt}[1]{}
+\setbeamercovered{transparent=50}
 
-\title[YTH!]{allvm - Binary Decompilation}
+\title[allvm]{allvm - Binary Decompilation}
 \author{Sandeep Dasgupta}
 \institute[UIUC]{University of Illinois Urbana Champaign}
 \date{\today}
 
 
+%if u want to show off the sections only
+\setcounter{tocdepth}{1}
+
+
+% If you want to come back to the subsection in outline everytime:
+%\AtBeginSubsection
+%{
+%  \begin{frame}<beamer>{Outline}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
+
+\AtBeginSection
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+
 \begin{document}
 
-{\nologo
 \begin{frame}
 \titlepage
 \end{frame}
+
+
+
+\section{Motivation}
+\subsection{Motivation}
+\frame
+{
+  \frametitle{\subsecname}
 }
 
-% Uncomment these lines for an automatically generated outline.
-%\begin{frame}{Outline}
-%  \tableofcontents
-%\end{frame}
+\section{Challenges}
+  \subsection{Data embedded in the code regions}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
 
-\section*{Good for numbering}
+  \subsection{Indirect branch instructions}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
 
-\begin{frame}{A slide}
+  \subsection{Variable instruction size}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
 
-\begin{itemize}
-	\item Beamer is fun!
-	\item And educational!
-\end{itemize}
+  \subsection{Position independent code (PIC) sequences}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
 
-\end{frame}
+  \subsection{Hand crafted assembly code}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
+
+  \subsection{Variable instruction size}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
+
+\section{Variable Recovery}
+  \subsection{Importance}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
+
+  \subsection{Existing Approaches}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
+
+\section{Progress}
+  \subsection{Using Mcsema}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
+
+  \subsection{mcsema: current support}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
+
+  \subsection{mcsema: limitations}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
 
 
+  \subsection{mcsema: demo}
+  \frame
+  {
+    \frametitle{\subsecname}
+  }
 \end{document}
