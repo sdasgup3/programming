@@ -149,6 +149,26 @@ below:
     }
   }
 
+
+  \subsection{``Annotated'' \MC \ $\rightarrow$ \LIR}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item Challenge: Annotations must be ``minimal'' \& sufficient.
+    \end{itemize}
+  }
+
+  \subsection{Ship \LIR}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item Challenges: Adoption, risks to intellectual property
+    \end{itemize}
+  }
+
+\section{Decompile \MC \ $\rightarrow$ \LIR}
   \subsection{Variable \& Function parameter recovery}
   \frame
   {
@@ -156,8 +176,8 @@ below:
     \begin{itemize}
       \item Benefit
         \begin{itemize}
-          \item Important for many fundamental analysis like Dependence and Pointer analysis.
-          \item Make the recovered IR functional. 
+          \item Enables many fundamental analysis (Dependence, Pointer analysis)
+          \item Functional IR
         \end{itemize}
       \item State of the art
         \begin{itemize}
@@ -179,24 +199,6 @@ below:
 
   }
 
-  \subsection{``Annotated'' \MC \ $\rightarrow$ \LIR}
-  \frame
-  {
-    \frametitle{\subsecname}
-    \begin{itemize}
-      \item Challenge: Annotations must be ``minimal'' \& sufficient.
-    \end{itemize}
-  }
-
-  \subsection{Ship \LIR}
-  \frame
-  {
-    \frametitle{\subsecname}
-    \begin{itemize}
-      \item Challenges: Adoption, risks to intellectual property
-    \end{itemize}
-  }
-
 \section{Our Approach}
   \subsection*{Our Approach}
   \frame
@@ -210,6 +212,8 @@ below:
 
   }
 
+
+\section{mcsema}
   \subsection{Choosing mcsema}
   \frame
   {
@@ -228,7 +232,7 @@ below:
     \end{figure}
   }
 
-  \subsection{mcsema: Support \& Limitations}
+  \subsection{Support \& Limitations}
   \frame
   {
     \frametitle{\subsecname}
@@ -248,7 +252,8 @@ below:
     \end{itemize}
   }
 
-  \subsection{mcsema: demo}
+\section{Demo}
+  \subsection{mcsema: Demo}
   \frame
   {
     \frametitle{\subsecname}
