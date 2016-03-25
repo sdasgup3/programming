@@ -3,13 +3,14 @@
 Traditional Traditional source-code analysis frameworks have limited
 applicability in several scenarios which can be eliminated by  executable-level
 tools.  Some scenarios are:
-- Absence of source-code There are several circumstances where the original
+- Absence of source-code 
+There are several circumstances where the original
 source-code is not accessible. Some of the most prevalent reasons are listed
 below: 
-- IP-protected software 
-- Third-party library and software components
-- Malicious executables 
-- Legacy executables 
+  - IP-protected software 
+  - Third-party library and software components
+  - Malicious executables 
+  - Legacy executables 
 
 All such situations require executable-level tools for distinct applications.
 For example, due to a rapid rise in cyber attacks, there is an increasing need
@@ -28,7 +29,7 @@ can recover functionally correct source-code components from such legacy
 software, so that such legacy systems can be ported to secure configurations.
 Source-code
 
-    - Source-code analysis not sufficient 
+- Source-code analysis not sufficient 
 
     There are several scenarios where the source-code analysis is not
     sufficient.  An executable code might demonstrate differ- ent behavior from
