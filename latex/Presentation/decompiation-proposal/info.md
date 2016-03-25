@@ -47,7 +47,7 @@ Source-code
 
 ###Advantages of executable analysis 
 
-    - End-user security enforcement. 
+- End-user security enforcement. 
 
     Despite considerable research work on several computing hierarchies,
     low-level software vulnerabilities remain an important source of
@@ -68,7 +68,7 @@ Source-code
     retrofit custom security schemes into untrusted binaries, to prevent them
     from taking unauthorized actions.  
     
-    -Platform aware optimizations 
+-Platform aware optimizations 
     
     Binaries compiled for wide distribution are often targeted for one
     particular ISA and are rarely optimized for a particular processor.  Binary
@@ -76,7 +76,7 @@ Source-code
     advantage of platform-specific information like exact knowledge of the
     memory hierarchy or the precise version of multimedia instructions.  
     
-    - Whole-program analysis/optimizations. 
+- Whole-program analysis/optimizations. 
     
     Development toolchains typi- cally employ separate compilation framework to
     minimize the compilation time.  Hence, even though the compilers can
@@ -88,7 +88,7 @@ Source-code
     object code without the benefit of the extensive IR features available in
     the compiler.  
     
-    - Economic feasibility. 
+- Economic feasibility. 
     
     An executable-level tool works for the code produced from any source
     language and by any compiler. Hence, it is more efficient to implement the
@@ -96,9 +96,9 @@ Source-code
     compiler. The high expense of repeated compiler implementation often cannot
     be supported by a small fraction of the demand.
 
-###About the problem    
+###About static disassembly 
     
-    undecidable nature of static disassembly 
+- Undecidable
     
     1. R. N.  Horspool and N. Marovac. An approach to the problem of
     detranslation of computer programs. Comput. J., 23(3):223–229, 1980.  
