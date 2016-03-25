@@ -123,28 +123,17 @@ below:
 }
 
 \section{Possible Directions}
-  \subsection*{Possible Directions}
+  \subsection{Decompile \MC \ $\rightarrow$ \LIR}
   \frame
   {
     \frametitle{\subsecname}
     \begin{itemize}
-      \item Decompile \MC \ $\rightarrow$ \LIR 
-        \begin{itemize}
-          \item Challenge: Quality     
-            \begin{itemize}
-              \item Reconstructing code and control flow - Much researched.
-              \item Variable recovery
-              \item Function \& ABI rules recovery
-            \end{itemize}
-        \end{itemize}
-      \item Add annotations on \MC \ and then  Decompile \MC \ $\rightarrow$ \LIR 
-        \begin{itemize}
-          \item Challenge: Annotations must be ``minimal'' \& sufficient.
-        \end{itemize}
-      \item Ship \LIR
-        \begin{itemize}
-          \item Challenges: Adoption, risks to itellectual property
-        \end{itemize}
+      \item Challenge: Quality     
+      \begin{itemize}
+        \item Reconstructing code and control flow - Much researched.
+        \item Variable recovery
+        \item Function \& ABI rules recovery
+      \end{itemize}
     \end{itemize}
 
     \cmt{
@@ -152,21 +141,61 @@ below:
         ease of shipping, and quality of the resulting LLVMIR, which directly
           affects the benefits that allvm provides.
 
-    \begin{itemize}
-      \item Reconstructing code and control flow
-        \begin{itemize}
           \item Diffrentiate data \& code.
           \item Indirect branch/call.
           \item Variable instruction size
           \item Position independent code (PIC) sequences
           \item Hand crafted assembly code
-        \end{itemize}
-      \item Variable recovery
-      \item Function \& ABI rules recovery 
-    \end{itemize}
     }
   }
 
+  \subsection{Variable \& Function parameter recovery}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item Benefit
+        \begin{itemize}
+          \item Important for many fundamental analysis like Dependence and Pointer analysis.
+          \item Make the recovered IR functional. 
+        \end{itemize}
+      \item State of the art
+        \begin{itemize}
+          \item Grammatech
+            \begin{itemize}
+              \item value set analysis (VSA) \& structure aggregate identification.
+            \end{itemize}     
+          \item Second Write 
+            \begin{itemize}
+              \item Heuristics for function parameter detection
+              \item Scalable VSA
+            \end{itemize}     
+          \item TIE
+            \begin{itemize}
+              \item Type Recovery
+            \end{itemize}     
+        \end{itemize}
+    \end{itemize}
+
+  }
+
+  \subsection{``Annotated'' \MC \ $\rightarrow$ \LIR}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item Challenge: Annotations must be ``minimal'' \& sufficient.
+    \end{itemize}
+  }
+
+  \subsection{Ship \LIR}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item Challenges: Adoption, risks to intellectual property
+    \end{itemize}
+  }
 
 \section{Our Approach}
   \subsection*{Our Approach}
@@ -174,30 +203,50 @@ below:
   {
     \frametitle{\subsecname}
     \begin{itemize}
-      \item Studied state of the art strategies for Variable Recovery
-      \item Function \& ABI rules recovery 
+      \item Choose an existing decompilation framework.
+      \item Experimentation with various variable and type recovery strategies
+      \item Use the knowledge to infer ``minimal annotation''
     \end{itemize}
 
   }
 
-  \subsection{Using Mcsema}
+  \subsection{Choosing mcsema}
   \frame
   {
     \frametitle{\subsecname}
+    \begin{itemize}
+      \item Functional \LIR
+      \item Separation of modules: CFG recovery and CFG $\rightarrow$ \LIR
+      \item Actively supported and open sourced
+    \end{itemize}
+
+    \begin{figure}[h]
+      \centering
+        \scalebox{0.45}{
+          \includegraphics{Figs/1.eps}
+        }
+    \end{figure}
   }
 
-  \subsection{mcsema: current support}
+  \subsection{mcsema: Support \& Limitations}
   \frame
   {
     \frametitle{\subsecname}
+    \begin{itemize}
+      \item What Works
+        \begin{itemize}
+          \item Integer Instructions
+          \item FPU and SSE registers
+          \item Callbacks, External Call, Jump tables 
+        \end{itemize}
+      \item In Progress
+        \begin{itemize}
+          \item FPU and SSE Instructions: Not fully supported
+          \item Exceptions
+          \item Better Optimizations
+        \end{itemize}
+    \end{itemize}
   }
-
-  \subsection{mcsema: limitations}
-  \frame
-  {
-    \frametitle{\subsecname}
-  }
-
 
   \subsection{mcsema: demo}
   \frame
