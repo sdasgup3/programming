@@ -68,7 +68,7 @@ Source-code
     retrofit custom security schemes into untrusted binaries, to prevent them
     from taking unauthorized actions.  
     
--Platform aware optimizations 
+- Platform aware optimizations 
     
     Binaries compiled for wide distribution are often targeted for one
     particular ISA and are rarely optimized for a particular processor.  Binary
@@ -100,11 +100,10 @@ Source-code
     
 - Undecidable
     
-    1. R. N.  Horspool and N. Marovac. An approach to the problem of
+  1. R. N.  Horspool and N. Marovac. An approach to the problem of
     detranslation of computer programs. Comput. J., 23(3):223–229, 1980.  
-                                         
-                                         2. A. King, A.  Mycroft, T. W. Reps,
-                                         and A. Simon.  Analysis of
+                                        
+  2. A. King, A.  Mycroft, T. W. Reps, and A. Simon.  Analysis of
                                          executables: Benefits and challenges
                                          (dagstuhl seminar 12051).  Dagstuhl
                                          Reports, 2(1):100– 116, 2012.***
@@ -123,19 +122,23 @@ Hollingsworth, B. P. Miller, and J. Cargille. Dynamic program instru- mentation
 for scalable performance tools. Scalable High Performance Com- puting
 Conference, May 1994.
 
-            3. D. Bruening. Efficient, Transparent, and Comprehensive Runtime
+3. D. Bruening. Efficient, Transparent, and Comprehensive Runtime
             Code Ma- nipulation. PhD thesis, MIT, 2004.
 
-            4. C.-K. Luk, R. Muth, H. Patil, R. Cohn, and G. Lowney. Ispike: A
+4. C.-K. Luk, R. Muth, H. Patil, R. Cohn, and G. Lowney. Ispike: A
             post-link optimizer for the Intel Itanium architecture. In In
             IEEE/ACM International Symposium on Code Generation and
             Optimization, pages 15–26, 2004.
 
 
 
-###Extra metadata info 1. B. Schwarz, S. Debray, G. Andrews, and M. Legendre.
+###Extra metadata info 
+            
+1. B. Schwarz, S. Debray, G. Andrews, and M. Legendre.
             PLTO: A Link-Time Optimizer for the Intel IA-32 Architecture. In In
-            Proc. Workshop on Binary Translation, 2001.  2. L. van Put, D.
+            Proc. Workshop on Binary Translation, 2001.  
+            
+2. L. van Put, D.
             Chanet, B. De Bus, B. De Sutler, and K. De Bosschere. DIA- BLO: a
             reliable, retargetable and extensible link-time rewriting
             framework. In Proceedings of the 2005 IEEE International Symposium
