@@ -54,6 +54,7 @@
     \item Research Goal
       \begin{itemize}
         \item Obtain ``richer'' LLVM IR than native machine code.
+        \item Enable advanced compiler techniques ( e.g. pointer analysis, information flow tracking, automatic vectorization)
       \end{itemize}
     \item Motivation     
       \begin{itemize}
@@ -122,7 +123,30 @@ below:
   }
 }
 
-\section{Possible Directions}
+\section{Possible Approaches}
+  \subsection{The 3 Possible Approaches}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item Decompile \MC \ $\rightarrow$ \LIR
+        \begin{itemize}
+          \item Easy to adopt
+          \item No compiler support needed
+        \end{itemize}
+      \item ``Annotated'' \MC \ $\rightarrow$ \LIR
+        \begin{itemize}
+          \item Effective reconstruction of higher level IR
+          \item Minimal compiler support needed
+        \end{itemize}
+      \item Ship \LIR
+        \begin{itemize}
+          \item Benefit:  \emph{No loss} of information via conversion to and from binary code.
+        \end{itemize}
+    \end{itemize}
+
+  }
+
   \subsection{Decompile \MC \ $\rightarrow$ \LIR}
   \frame
   {
@@ -130,7 +154,7 @@ below:
     \begin{itemize}
       \item Challenge: Quality     
       \begin{itemize}
-        \item Reconstructing code and control flow - Much researched.
+        \item Reconstructing code and control flow - much researched.
         \item Variable recovery
         \item Function \& ABI rules recovery
       \end{itemize}
@@ -155,8 +179,23 @@ below:
   {
     \frametitle{\subsecname}
     \begin{itemize}
-      \item Challenge: Annotations must be ``minimal'' \& sufficient.
+      \item Challenge: 
+        \begin{itemize}
+          \item Annotations must be ``minimal'' \& sufficient
+          \item Annotations must be compiler and IR-independent
+          \item Adoption
+        \end{itemize}
     \end{itemize}
+
+\cmt{ Another challenge is that the annotations should be compiler- and
+  IR-independent, e.g., a non-LLVM commercial compiler such as Windows Visual
+    C++ or Intel’s ICC should be able to produce them 
+    
+    * Add another bullet
+    here saying that we will learn from our experience with the first approach
+    before we decide what the annotations need to be
+}
+
   }
 
   \subsection{Ship \LIR}
@@ -164,12 +203,47 @@ below:
   {
     \frametitle{\subsecname}
     \begin{itemize}
-      \item Challenges: Adoption, risks to intellectual property
+      \item Challenge:
+        \begin{itemize}
+          \item Adoption
+          \item Risks to intellectual property
+          \item Code size bloat
+        \end{itemize}
     \end{itemize}
   }
 
+\section{Our Approach}
+  \subsection*{Our Approach}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item Long term goal
+        \begin{itemize}
+          \item Minimal compiler-independent annotations to reconstruct high-quality IR
+        \end{itemize}    
+      \item Short term goals
+        \begin{enumerate}
+          \item Experiment with \MC\ $\rightarrow$ \LIR, to \textbf{understand} the challenges better
+            \begin{itemize}
+              \item To select an existing decompilation framework.
+              \item Experiment with different variable and type recovery strategies
+            \end{itemize}    
+          \item Design suitable annotations for what cannot be inferred without them
+        \end{enumerate}    
+    \end{itemize}
+
+      \cmt{
+
+** Note: "Ship LLVM IR with machine code" already exists!  But requires source code and an LLVM-based compiler
+      }
+
+
+  }
+
+
 \section{Decompile \MC \ $\rightarrow$ \LIR}
-  \subsection{Variable \& Function parameter recovery}
+  \subsection{Variable \& Function Parameter Recovery}
   \frame
   {
     \frametitle{\subsecname}
@@ -183,31 +257,18 @@ below:
         \begin{itemize}
           \item Grammatech
             \begin{itemize}
-              \item value set analysis (VSA) \& structure aggregate identification.
+              \item State of the art variable recovery
             \end{itemize}     
           \item Second Write 
             \begin{itemize}
               \item Heuristics for function parameter detection
-              \item Scalable VSA
+              \item Scalable variable and type recovery
             \end{itemize}     
           \item TIE
             \begin{itemize}
-              \item Type Recovery
+              \item Type recovery
             \end{itemize}     
         \end{itemize}
-    \end{itemize}
-
-  }
-
-\section{Our Approach}
-  \subsection*{Our Approach}
-  \frame
-  {
-    \frametitle{\subsecname}
-    \begin{itemize}
-      \item Choose an existing decompilation framework.
-      \item Experimentation with various variable and type recovery strategies
-      \item Use the knowledge to infer ``minimal annotation''
     \end{itemize}
 
   }
