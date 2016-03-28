@@ -44,9 +44,9 @@
 \end{frame}
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Goal \& Motivation}
-\subsection*{Research Goal}
+\subsection*{Research Goal} %3:25 
 \frame
 {
   \frametitle{\subsecname}
@@ -66,52 +66,78 @@
   \end{itemize}
 
   \cmt{ 
+    Today I will be presenting our work on binary dec ... 
+      First I will start with the research goal which is to 
+      obtain a richer version of llvm IR than the machine code 
+      which entails more source level information (like variable , type , agregate structures,
+       control flow,    ) than the native binary
 
-    Goal involves experimental understanding of the trade-offs between
-      different approaches to reconstructing LLVM IR.
+      A related goal is that having such a  rich IR 
+      we can do many sophisticated analyis, optimizations and code generation on them
+      enable various compiler 
+      analysis like pointer analysis, ...
 
-    why llvm ir: We will use the LLVM Internal Representation (IR) [26] as this
-      code format because the LLVM IR enables sophisticated analysis,
-           optimization, and code generation for code from arbitrary languages
-             at ar- bitrary points in the lifetime of software [24]. For
-             example, a program in LLVM form can be optimized at traditional
+      [Information flow in an information theoretical context is the transfer of information from a variable x to a variable y in a given process.
+Not all flows may be desirable. For example, a system should not leak any secret (explicitly or implicitly) to public observers. ]
+
+    /*
+       Goal involves experimental understanding of the trade-offs between
+      different approaches to reconstructing a richer IR.
+      */
+
+    why llvm ir: 
+      sophisticated analysis, optimization, and code generation for code from arbitrary languages
+             at arbitrary points in the lifetime of software. The diff points could be 
              compile time, link time, install time, load time, run-time,
-           “idle-time” (i.e., between runs on an end-user’s machine), or any
-             combination of these.
+           “idle-time” 
     
-    Can we obtain a richer code representation than native machine code for
-    ap- plication software on an end-user’s system, in particular, one that
-      makes the software amenable to sophisticated analysis, optimization and
-      code generation?  
-  Why needed:
-  Absence of source-code: There are several circumstances where the original
-source-code is not accessible. Some of the most prevalent reasons are listed
+  Motivation
+  Absence of source-code: There are several scenariojs where the original
+source-code is not accessible. 
 below: 
   - IP-protected software 
   - Third-party library and software components
   - Malicious executables 
   - Legacy executables 
 
+  All such situations analysis of a HLIR is more beneficial than execuatble analyis
+  For example, in case of IP protected sf or a known Malicious software, 
+  in order to certify the behavior and uncover vulnerabilities HLIR analysis is 
+  more benefial than exec analysis because the former contain HL source code semantics.  
+    
+    Also for legacy executable for which no 
+    source code is avalailable aand running on outdated config.... executable 
+    analysis is required which can recover functionally correct
+      source-code components from such legacy software, so that such legacy
+      systems can be ported to secure configurations. 
+
   even if we have the source code, exectatble analysis after 
   converting it to IR is more beneficial than source code analysis.
 
   Source-code analysis not sufficient
-    There are several scenarios where the source-code analysis is not
-    sufficient.  An executable code might demonstrate differ- ent behavior from
+    There are several scenarios An executable code might demonstrate differ- ent behavior from
     the original source code. This phenomenon is popularly known as
     What-you-see-is-not-what-you-execute 
     Modifications can happen to the source code during compilation
     (optimizations) or after the compilation process (bad code injection).
     These modifications can significantly alter the program behavior. Con-
     sequently, the exact behavior of any program can only be uncovered by
-    analyzing the executable code.
+    analyzing the executable code and the analysis of the exec is much more effective if
+    done at the hihger level
 
-    Moreover, several components of a typical software might be developed in
-    multiple languages (Fortran, C and C++). The presence of different
-    languages complicate the task of analyzing the source-code. In such
-    scenarios, a consistent representation
+    /*
+       Moreover, several components of a typical software might be developed in
+    multiple languages (Fortran, C and C++). 
+    The analysis of the source code with diff lang is more diff
+    that the analysis of the exec havinga consistent rep.
+  */
 
   End-user security enforcement.: proposal pdf
+  The software available to the end user is often in eec format w/o the source code
+  and enforcing security features at that level is 
+  difficult beciase of the absence of any semantic knowledge about the program,
+
+  so extracting a high level IR is beneficial i this scenario
 
   Platform aware optimizations
     Binaries compiled for wide distribution are often targeted for one
@@ -123,8 +149,9 @@ below:
   }
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Possible Approaches}
-  \subsection{The 3 Possible Approaches}
+  \subsection{The 3 Possible Approaches} % 4:37 (+7.62)
   \frame
   {
     \frametitle{\subsecname}
@@ -144,6 +171,23 @@ below:
           \item Benefit:  \emph{No loss} of information via conversion to and from binary code.
         \end{itemize}
     \end{itemize}
+
+
+    \cmt{
+There are 3 possible approaches to achive the goal;
+to <read> .. his is easy to adopt adn mos of the programstoday are shipped as native binaries
+  also no extra compiler support is needed
+
+  Seconf is to generate the binaru woth some annotations on it, which help help in
+  recpnsruct the hogh kevel ir
+  This requires compiler support but the goal here to to genetate minimal annotions
+  which is sufficient to generate an high leve ir
+
+  Thrisd is to ship ir directly; Obviously there will be no info loss
+
+  As u can see all of them are having atradeoff between odoption and quality of llvm ir
+
+    }
 
   }
 
@@ -170,7 +214,11 @@ below:
           \item Variable instruction size
           \item Position independent code (PIC) sequences
           \item Hand crafted assembly code
+
+    This point is very well researched and exists varisus tools QEMU[8], BAP [7], Dagger [6], and Fracture [23].
     }
+
+
   }
 
 
@@ -190,6 +238,11 @@ below:
 \cmt{ Another challenge is that the annotations should be compiler- and
   IR-independent, e.g., a non-LLVM commercial compiler such as Windows Visual
     C++ or Intel’s ICC should be able to produce them 
+
+    what is the minimal information sufficient to reconstruct LLVM IR, so that
+    redundant information is not encoded. A third question is how to encode the
+    information compactly on native code, so that it does not blow up the size
+    of executables.  1.2.3
     
     * Add another bullet
     here saying that we will learn from our experience with the first approach
@@ -205,13 +258,45 @@ below:
     \begin{itemize}
       \item Challenge:
         \begin{itemize}
-          \item Adoption
+          \item Adoption in Non LLVM based compilers
+          \item Stable distribution format for shipping  
           \item Risks to intellectual property
           \item Code size bloat
         \end{itemize}
     \end{itemize}
-  }
+\cmt{
 
+  There are compilers that do not use LLVM IR as an internal representation.
+
+    The best solution for such compilers would be to treat LLVM IR as a target
+    for producing code, such as the Dragonegg plugin that takes code compiled
+      by GCC and converts it to LLVM IR instead. 
+      
+        LLVM IR is a relatively simple, orthogonal instruction set with
+        an unlimited number of registers and targeting LLVM IR should be much
+        easier than a back end for a native hardware architecture. 
+        
+
+        LLVMIR is not a fully frozen and stable ABI
+     However, two commercial projects – Portable
+     Native Client and Renderscript – are already shipping LLVM IR in modified
+     form, so it is not an insurmountable barrier. 
+     
+
+     many commercial Java and .NET applications are shipped in rich bytecode
+     languages (JVM or MSIL) that reveal extensive source-level semantic
+     information. The way they reduce the risk to their intellectual property
+     is to use deliberate obfuscation tools, e.g., ProGuard or DexGuard, which
+     are far more effective than relying on standard binary code to prevent
+     reverse engineering. If such tools can protect applications shipped in
+     relatively high-level representations like JVM or MSIL, the techniques
+     they use could be applied equally effectively to LLVM bitcode as well.
+        
+** Note: "Ship LLVM IR with machine code" already exists!  But requires source code and an LLVM-based compiler
+  }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Approach}
   \subsection*{Our Approach}
   \frame
@@ -255,21 +340,25 @@ below:
         \end{itemize}
       \item State of the art
         \begin{itemize}
-          \item Grammatech
+          \item Divine
             \begin{itemize}
-              \item State of the art variable recovery
+              \item State of the art variable recovery %Not scalable 
             \end{itemize}     
           \item Second Write 
             \begin{itemize}
-              \item Heuristics for function parameter detection
+              \item Heuristics for function parameter  detection
               \item Scalable variable and type recovery
             \end{itemize}     
-          \item TIE
+          \item TIE %(Type Inference On Execuatbles)
             \begin{itemize}
               \item Type recovery
             \end{itemize}     
         \end{itemize}
     \end{itemize}
+
+    \cmt{
+      Not scalable
+    }
 
   }
 
@@ -320,3 +409,9 @@ below:
     \frametitle{\subsecname}
   }
 \end{document}
+
+\cmt {
+read the challenge paper
+
+
+}
