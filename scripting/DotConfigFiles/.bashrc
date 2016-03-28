@@ -36,7 +36,7 @@ export DDD_HOME=$HOME/Install/ddd-3.3.12-install
 #export IMAKE_HOME=$HOME/Install/imake.obj
 
 export PATH=$DDD_HOME/bin:$IMAKE_HOME/bin/:$QT_HOME/bin:$MAIL_HOME:$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$NG_HOME/bin/:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$CMAKE_HOME/bin/:$SELF_HOME/vm:$SMALLTALK_HOME/:$GDB_HOME/gdb/:$PATH
-export LD_LIBRARY_PATH=//home/sdasgup3/Install/llvm-3.5.0.install/lib/:/home/sdasgup3/Install/llvm-3.4.2.install/lib/:/home/sdasgup3/GitHub/LLVMSlicer.obj/src/:$LD_LIBRARY_PATH:$LIBFFI_HOME/lib64:$GRAPHAL_HOME/libgraphal/:$FLEX_HOME/lib/:$GRI_HOME/build/lib/:$VALTOOL_HOME
+export LD_LIBRARY_PATH=$LLVM_HOME/lib/:/home/sdasgup3/GitHub/LLVMSlicer.obj/src/:$LIBFFI_HOME/lib64:$LD_LIBRARY_PATH
 
 if [ -f ~/.aliases ]; then
   . ~/.aliases
