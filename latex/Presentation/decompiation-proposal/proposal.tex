@@ -10,6 +10,8 @@
 \setbeamercovered{transparent=50}
 \newcommand{\LIR}{{\tt LLVM IR}}
 \newcommand{\MC}{{\tt Machine Code}}
+\usepackage{listings}
+\usepackage{amsmath}
 
 \title[allvm]{allvm - Binary Decompilation}
 \author{Sandeep Dasgupta}
@@ -19,6 +21,20 @@
 
 %if u want to show off the sections only
 \setcounter{tocdepth}{1}
+
+\lstset{language=[ANSI]C}
+\lstset{% general command to set parameter(s)
+  basicstyle=\footnotesize\tt, % print whole listing small
+    identifierstyle=, % nothing happens
+    commentstyle=\color{red}, % white comments
+    showstringspaces=false, % no special string spaces
+    lineskip=1pt,
+    captionpos=b,
+    frame=single,
+    breaklines=true
+      %\insertauthor[width={3cm},center,respectlinebreaks]
+}
+
 
 
 % If you want to come back to the subsection in outline everytime:
@@ -46,7 +62,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Goal \& Motivation}
-\subsection*{Research Goal} %3:25 
+\subsection{Research Goal} %3:25 
 \frame
 {
   \frametitle{\subsecname}
@@ -55,13 +71,6 @@
       \begin{itemize}
         \item Obtain ``richer'' LLVM IR than native machine code.
         \item Enable advanced compiler techniques ( e.g. pointer analysis, information flow tracking, automatic vectorization)
-      \end{itemize}
-    \item Motivation     
-      \begin{itemize}
-        \item Absence of source-code
-        \item What-you-see-is-not-what-you-execute
-        \item End-user security enforcement
-        \item Platform aware optimizations
       \end{itemize}
   \end{itemize}
 
@@ -90,8 +99,29 @@ Not all flows may be desirable. For example, a system should not leak any secret
              at arbitrary points in the lifetime of software. The diff points could be 
              compile time, link time, install time, load time, run-time,
            ‚Äúidle-time‚Äù 
-    
-  Motivation
+  }
+}
+
+\subsection{Why ``richer'' LLVM IR} 
+\frame
+{
+  \frametitle{\subsecname}
+   \begin{itemize}
+      \item Source code analysis not possible
+        \begin{itemize}
+          \item IP-protected software 
+          \item Malicious executables 
+          \item Legacy executables
+        \end{itemize}
+      \item Source code analysis not sufficient
+        \begin{itemize}
+          \item What-you-see-is-not-what-you-execute
+        \end{itemize}
+      \item End-user security enforcement
+      \item Platform aware optimizations
+    \end{itemize}
+
+  \cmt{ 
   Absence of source-code: There are several scenariojs where the original
 source-code is not accessible. 
 below: 
@@ -408,10 +438,47 @@ to <read> .. his is easy to adopt adn mos of the programstoday are shipped as na
   {
     \frametitle{\subsecname}
   }
+
+\section{Backup} 
+  \subsection{What-you-see-is-not-what-you-execute} 
+  \frame
+  {
+    \frametitle{\subsecname} 
+    The following compiler (Microsoft C++ .NET) induced vulnerability was discovered
+               during the Windows security push in 2002
+      $memset(password, '\0', len);  \rightarrow free(password);$
+      $free(password);$
+    %\cmt{
+     %          fragment shown in the following on the left never uses the
+     %          values written by memset (intended to scrub the buffer pointed
+      %%             to by password), the memset call could be removed, thereby
+      %         leaving sensitive information exposed in the freelist at
+      %         runtime.  
+      %         
+      %         memset(password, ø\0ø, len); free(password); =ø
+      %         free(password); 
+    %}
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
 
-\cmt {
-read the challenge paper
 
-
-}
