@@ -446,8 +446,12 @@ to <read> .. his is easy to adopt adn mos of the programstoday are shipped as na
     \frametitle{\subsecname} 
     The following compiler (Microsoft C++ .NET) induced vulnerability was discovered
                during the Windows security push in 2002
-      $memset(password, '\0', len);  \rightarrow free(password);$
-      $free(password);$
+    \begin{figure}[h]
+      \centering
+        \scalebox{0.75}{
+          \includegraphics{Figs/2.eps}
+        }
+    \end{figure}
     %\cmt{
      %          fragment shown in the following on the left never uses the
      %          values written by memset (intended to scrub the buffer pointed
