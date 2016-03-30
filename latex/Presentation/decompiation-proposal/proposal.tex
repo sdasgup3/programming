@@ -78,11 +78,11 @@
     Today I will be presenting our work on binary dec ... 
       First I will start with the research goal which is to 
       obtain a richer version of llvm IR than the machine code 
-      which entails more source level information (like variable , type , agregate structures,
+      which entails more source level information (like variable , type , aggregate structures,
        control flow,    ) than the native binary
 
       A related goal is that having such a  rich IR 
-      we can do many sophisticated analyis, optimizations and code generation on them
+      we can do many sophisticated analysis, optimizations and code generation on them
       enable various compiler 
       analysis like pointer analysis, ...
 
@@ -110,8 +110,8 @@ Not all flows may be desirable. For example, a system should not leak any secret
       \item Source code analysis not possible
         \begin{itemize}
           \item IP-protected software 
-          \item Malicious executables 
-          \item Legacy executables
+          \item Malicious executable 
+          \item Legacy executable
         \end{itemize}
       \item Source code analysis not sufficient
         \begin{itemize}
@@ -122,13 +122,13 @@ Not all flows may be desirable. For example, a system should not leak any secret
     \end{itemize}
 
   \cmt{ 
-  Absence of source-code: There are several scenariojs where the original
+  Absence of source-code: There are several scenarios where the original
 source-code is not accessible. 
 below: 
   - IP-protected software 
   - Third-party library and software components
-  - Malicious executables 
-  - Legacy executables 
+  - Malicious executable 
+  - Legacy executable 
 
   All such situations analysis of a HLIR is more beneficial than execuatble analyis
   For example, in case of IP protected sf or a known Malicious software, 
@@ -192,7 +192,7 @@ below:
     \end{itemize}
 
 
-    \cmt{ There are 3 possible approaches to achive the goal; As u can see all
+    \cmt{ There are 3 possible approaches to achieve the goal; As u can see all
       of them are having atradeoff between odoption and quality of llvm ir }
 
   }
@@ -474,10 +474,10 @@ in the future, without the app developers resubmitting to the store.
         and furthest along of the other projects.
     
       The translator is broken into two components: control flow recovery and
-      translation. These components are two separate appliactions and can operate
+      translation. These components are two separate applications and can operate
         independently of each other. 
         
-        Folloing is a typical usage diagram of  the tool:
+        Following is a typical usage diagram of  the tool:
         In typical usage, a program's control flow
         graph (CFG) is recovered and then the CFG is immediately transcribed into
         LLVM. 
