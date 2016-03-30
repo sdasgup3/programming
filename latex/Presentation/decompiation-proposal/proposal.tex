@@ -566,10 +566,7 @@ in the future, without the app developers resubmitting to the store.
           \includegraphics{Figs/4.eps}
         }
     \end{figure}
-
-    \vfill
       
-    *: This is a functional view of the extracted code, NOT the actual recovered \LIR
 
   }
 
@@ -577,6 +574,26 @@ in the future, without the app developers resubmitting to the store.
   \frame
   {
     \frametitle{\subsecname}
+  }
+
+  \subsection{Support \& Limitations}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item What Works
+        \begin{itemize}
+          \item Integer Instructions
+          \item FPU and SSE registers
+          \item Callbacks, External Call, Jump tables 
+        \end{itemize}
+      \item In Progress
+        \begin{itemize}
+          \item FPU and SSE Instructions: Not fully supported
+          \item Exceptions
+          \item Better Optimizations
+        \end{itemize}
+    \end{itemize}
   }
 
 \section{Ongoing Work}
@@ -616,28 +633,9 @@ in the future, without the app developers resubmitting to the store.
 
 
 
-  \subsection{Support \& Limitations}
-  \frame
-  {
-    \frametitle{\subsecname}
-    \begin{itemize}
-      \item What Works
-        \begin{itemize}
-          \item Integer Instructions
-          \item FPU and SSE registers
-          \item Callbacks, External Call, Jump tables 
-        \end{itemize}
-      \item In Progress
-        \begin{itemize}
-          \item FPU and SSE Instructions: Not fully supported
-          \item Exceptions
-          \item Better Optimizations
-        \end{itemize}
-    \end{itemize}
-  }
 
 
-\section{Backup} 
+\section*{Backup} 
   \subsection{What-you-see-is-not-what-you-execute} 
   \frame
   {
