@@ -415,7 +415,7 @@ to <read> .. his is easy to adopt adn mos of the programstoday are shipped as na
 http://thenextweb.com/apple/2015/06/17/apples-biggest-developer-news-at-wwdc-that-nobodys-talking-about-bitcode/
 IN world wide developer conference 2015, apple mentions how shipping llvm
 bytecode optimize the installation of iOS, tvOS, and watchOS apps.  apps can
-automatically take advantage of new processor capabilities we might be adding
+automatically take advantage of new processor capabilities they might be adding
 in the future, without the app developers resubmitting to the store.
 
   }
@@ -453,10 +453,10 @@ in the future, without the app developers resubmitting to the store.
   {
     \frametitle{\subsecname}
     \begin{itemize}
-      \item Separation of modules: CFG recovery and CFG $\rightarrow$ \LIR
       \item Actively supported and open sourced
-      \item Well docmented
+      \item Well documented
       \item Functional \LIR
+      \item Separation of modules: CFG recovery and CFG $\rightarrow$ \LIR
     \end{itemize}
 
     \begin{figure}[h]
@@ -467,15 +467,23 @@ in the future, without the app developers resubmitting to the store.
     \end{figure}
 
     \cmt{ 
+
+      we briefly looked at several of the
+        existing x86-to-LLVM projects before deciding on mcsema. This decision
+        was made largely on the basis that mcsema is the most well-maintained
+        and furthest along of the other projects.
     
       The translator is broken into two components: control flow recovery and
       translation. These components are two separate appliactions and can operate
-        independently of each other. In typical usage, a program's control flow
+        independently of each other. 
+        
+        Folloing is a typical usage diagram of  the tool:
+        In typical usage, a program's control flow
         graph (CFG) is recovered and then the CFG is immediately transcribed into
         LLVM. 
 
 
-    Control Flow Recovery
+    Control Flow Recovery:
 
     Control flow recovery is performed by a recursive descent work list driven
     algorithm that starts from an entry point and decodes blocks and functions. New
@@ -491,6 +499,7 @@ in the future, without the app developers resubmitting to the store.
 
     Instruction Translation
 
+    /*
     Native instructions operate on registers, memory, internal processors state, or
     some combination of the three. These instructions may perform complex
     operations with numerous side-effects. Each LLVM instruction, or statement, is
@@ -503,6 +512,7 @@ in the future, without the app developers resubmitting to the store.
     processor state. LLVM has unlimited registers and no flags. To model native
     processors in LLVM, the translated instructions operate on a register context
     structure that models the native processor.
+    */
 
     Each function is given, as input, a structure that represents the current
     register context. Each function then has a prologue that will copy from the
@@ -510,7 +520,14 @@ in the future, without the app developers resubmitting to the store.
     function, local state is written back into the state structure and then either
     passed to return, or passed to child functions.
 
-    This translation can be thought of as reducing each function into a series of statements in LLVM describing that functions effects on memory and registers.
+    These optimizations are beneficial to the translator because translating
+    semantics is very noisy. To accurately represent each instruction, all of its
+    side-effects must be represented as well. Many side effects are dead on
+    arrival, commonly flag writes which are dominated by another flag write. It
+    would be prohibitive for a translator to also maintain flow-sensitivity while
+    translating, so instead, we have a very noisy first pass that emits every
+    possible side effect and then use a standard compiler optimization to remove
+    dead or meaningless side effects.
 
     Every general-purpose register (GPR) on the supported platform is represented
     as a local variable of an integer type of the appropriate bit-width.
@@ -526,14 +543,6 @@ in the future, without the app developers resubmitting to the store.
     is in SSA form, common optimizations like merging, constant folding, and dead
     code elimination, can be used on the translated code.
 
-    These optimizations are beneficial to the translator because translating
-    semantics is very noisy. To accurately represent each instruction, all of its
-    side-effects must be represented as well. Many side effects are dead on
-    arrival, commonly flag writes which are dominated by another flag write. It
-    would be prohibitive for a translator to also maintain flow-sensitivity while
-    translating, so instead, we have a very noisy first pass that emits every
-    possible side effect and then use a standard compiler optimization to remove
-    dead or meaningless side effects.
 
     This has a few advantages and disadvantages. The chief disadvantage is that
     this does not represent stack-passed parameters in the LLVM. However, this
