@@ -497,68 +497,6 @@ in the future, without the app developers resubmitting to the store.
     traces, or, some kind of iterative data flow analysis. While an interative
     analysis would be possible in this framework, it is not currently supported.
 
-    Instruction Translation
-
-    /*
-    Native instructions operate on registers, memory, internal processors state, or
-    some combination of the three. These instructions may perform complex
-    operations with numerous side-effects. Each LLVM instruction, or statement, is
-    pure and has no side effects. LLVM instructions may change either register
-    state or memory state, but not both at once. Therefore, there is not a
-    one-to-one mapping between native instructions and LLVM. During translation,
-    each native instruction is translated into one or more LLVM instructions.
-
-    Native processors have a limited number or registers and flags that represent
-    processor state. LLVM has unlimited registers and no flags. To model native
-    processors in LLVM, the translated instructions operate on a register context
-    structure that models the native processor.
-    */
-
-    Each function is given, as input, a structure that represents the current
-    register context. Each function then has a prologue that will copy from the
-    input state to local state. Every time control would transfer out of the
-    function, local state is written back into the state structure and then either
-    passed to return, or passed to child functions.
-
-    These optimizations are beneficial to the translator because translating
-    semantics is very noisy. To accurately represent each instruction, all of its
-    side-effects must be represented as well. Many side effects are dead on
-    arrival, commonly flag writes which are dominated by another flag write. It
-    would be prohibitive for a translator to also maintain flow-sensitivity while
-    translating, so instead, we have a very noisy first pass that emits every
-    possible side effect and then use a standard compiler optimization to remove
-    dead or meaningless side effects.
-
-    Every general-purpose register (GPR) on the supported platform is represented
-    as a local variable of an integer type of the appropriate bit-width.
-    Sub-registers (such as ax, bx, cx, dx, ah, al, etc) are not represented by
-    their own variables. When a sub-register is read or written, bit-shifting
-    operations are produced that will read or write the selected bits from each
-    local variable.
-
-    The inspiration behind representing registers as LLVM local variables is the
-    memory to register transformation pass in LLVM. This pass can take code that
-    has variables, in the form of locally allocated memory cells that are loaded
-    from and stored to, and promotes those variables into SSA values. Once the code
-    is in SSA form, common optimizations like merging, constant folding, and dead
-    code elimination, can be used on the translated code.
-
-
-    This has a few advantages and disadvantages. The chief disadvantage is that
-    this does not represent stack-passed parameters in the LLVM. However, this
-    information is lost during compilation from source language to native
-    instructions and is only available by recovery and analysis of memory loads
-    relative to the stack / base pointer. Since all of the semantics are captured
-    by translation, it is conceivable that an analysis pass can consume the LLVM
-    bitcode, discern parameter slots on the stack, and promote those into arguments
-    that are passed to the function.
-
-    An advantage, related to parameter passing, is that this representation is
-    capable of capturing parameter-passing schemes that use registers. Callers can
-    use those schemes by simply writing the parameters into the appropriate
-    register structure before calling the child function.
-
-
     }
   }
 
@@ -576,6 +514,29 @@ in the future, without the app developers resubmitting to the store.
         }
     \end{figure}
       
+    \cmt{
+    Instruction Translation
+
+    Each function is given, as input, a structure that represents the current
+    register context. 
+    Every general-purpose register (GPR) on the supported platform is represented
+    as a local variable of an integer type of the appropriate bit-width.
+    
+    Each function then has a prologue that will copy from the
+    input state to local state. 
+    
+    Every time control would transfer out of the
+    function, local state is written back into the state structure and then either
+    passed to return, or passed to child functions.
+
+
+
+    Sub-registers (such as ax, bx, cx, dx, ah, al, etc) are not represented by
+    their own variables. When a sub-register is read or written, bit-shifting
+    operations are produced that will read or write the selected bits from each
+    local variable.
+
+    }
 
   }
 
@@ -583,6 +544,38 @@ in the future, without the app developers resubmitting to the store.
   \frame
   {
     \frametitle{\subsecname}
+    \cmt{
+    The inspiration behind representing registers as LLVM local variables is the
+    memory to register transformation pass in LLVM. This pass can take code that
+    has variables, in the form of locally allocated memory cells that are loaded
+    from and stored to, and promotes those variables into SSA values. Once the code
+    is in SSA form, common optimizations like merging, constant folding, and dead
+    code elimination, can be used on the translated code.
+
+    These optimizations are beneficial to the translator because translating
+    semantics is very noisy. To accurately represent each instruction, all of its
+    side-effects must be represented as well. Many side effects are dead on
+    arrival, commonly flag writes which are dominated by another flag write. It
+    would be prohibitive for a translator to also maintain flow-sensitivity while
+    translating, so instead, we have a very noisy first pass that emits every
+    possible side effect and then use a standard compiler optimization to remove
+    dead or meaningless side effects.
+
+    This has a few advantages and disadvantages. The chief disadvantage is that
+    this does not represent stack-passed parameters in the LLVM. However, this
+    information is lost during compilation from source language to native
+    instructions and is only available by recovery and analysis of memory loads
+    relative to the stack / base pointer. Since all of the semantics are captured
+    by translation, it is conceivable that an analysis pass can consume the LLVM
+    bitcode, discern parameter slots on the stack, and promote those into arguments
+    that are passed to the function.
+
+    An advantage, related to parameter passing, is that this representation is
+    capable of capturing parameter-passing schemes that use registers. Callers can
+    use those schemes by simply writing the parameters into the appropriate
+    register structure before calling the child function.
+    }
+
   }
 
   \subsection{Support \& Limitations}
