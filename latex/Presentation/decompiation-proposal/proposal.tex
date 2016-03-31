@@ -1,5 +1,5 @@
 %\documentclass[xcolor=dvipsnames]{beamer}
-\documentclass[mathserif,10pt]{beamer}
+\documentclass[mathserif,12pt]{beamer}
 
 \mode<presentation>
 {
@@ -66,13 +66,10 @@
 \frame
 {
   \frametitle{\subsecname}
-  \begin{itemize}
-    \item Research Goal
       \begin{itemize}
         \item Obtain ``richer'' LLVM IR than native machine code.
         \item Enable advanced compiler techniques ( e.g. pointer analysis, information flow tracking, automatic vectorization)
       \end{itemize}
-  \end{itemize}
 
   \cmt{ 
     Today I will be presenting our work on binary dec ... 
@@ -118,7 +115,7 @@ Not all flows may be desirable. For example, a system should not leak any secret
           \item What-you-see-is-not-what-you-execute
         \end{itemize}
   %    \item End-user security enforcement
-      \item Platform aware optimizations
+      \item Platform aware and dynamic optimizations
     \end{itemize}
 
   \cmt{ 
@@ -181,10 +178,16 @@ below:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Possible Approaches}
-  \subsection{The 3 Possible Approaches} % 4:37 (+7.62)
+  \subsection{3 Possible Approaches} % 4:37 (+7.62)
   \frame
   {
     \frametitle{\subsecname}
+
+    \underline{Research Goal} \vspace{1mm} \\
+      Obtain ``richer'' LLVM IR than native machine code.
+
+    \vspace{5mm}
+    \underline{Possible Approaches} \vspace{1mm} \\
     \begin{itemize}
       \item Decompile \MC \ $\rightarrow$ \LIR
       \item ``Annotated'' \MC \ $\rightarrow$ \LIR
@@ -216,6 +219,7 @@ below:
     \begin{itemize}
       \item Reconstructing code and control flow
       \item Variable recovery
+      \item Type recovery
       \item Function \& ABI rules recovery
     \end{itemize}  
       
@@ -282,7 +286,7 @@ to <read> .. his is easy to adopt adn mos of the programstoday are shipped as na
     \end{itemize}  
     &            
     \begin{itemize}
-      \item Annotations must be
+      \item Annotations to be 
       \begin{itemize}
         \item Minimal   
         \item Compiler \& IR independent
@@ -360,7 +364,7 @@ to <read> .. his is easy to adopt adn mos of the programstoday are shipped as na
   \end{table}
 
   \begin{itemize}
-    \item Tools Available: Portable Native Client, Renderscript, iOS, watchOS and tvOS apps.
+    \item Tools Available: Portable Native Client, Renderscript, iOS, watchOS, tvOS apps, ThinLTO
   \end{itemize}
 
 
@@ -446,6 +450,26 @@ in the future, without the app developers resubmitting to the store.
 
 ** Note: "Ship LLVM IR with machine code" already exists!  But requires source code and an LLVM-based compiler
       }
+  }
+
+\section{Present Status}
+  \subsection*{Present Status}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{itemize}
+      \item Selected ``mcsema'' among the existing \MC\ $\rightarrow$ \LIR\ solution.  
+        \begin{itemize}
+          \item Analysing the quality of IR recovery.
+          \item Current support and limitations.
+        \end{itemize}
+      \item Literature survey on variable \& type recovery research
+      \item (Under Progress) Implementing a variable and type recovery model using mcsema
+    \end{itemize}
+
+    \cmt{ 
+
+    }
   }
 
   \subsection{Selecting mcsema}
@@ -598,8 +622,7 @@ in the future, without the app developers resubmitting to the store.
     \end{itemize}
   }
 
-\section{Ongoing Work}
-  \subsection{Variable \& Function Parameter Recovery}
+  \subsection{Variable, Type \& Function Parameter Recovery}
   \frame
   {
     \frametitle{\subsecname}
@@ -634,7 +657,7 @@ in the future, without the app developers resubmitting to the store.
   }
 
 \section*{Questions ?}
-  \subsection{Questions ?}
+  \subsection*{Questions ?}
   \frame
   {
     \frametitle{\subsecname}
@@ -680,26 +703,15 @@ in the future, without the app developers resubmitting to the store.
 
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \end{document}
 
+\cmt{
+
+- font size : done
+- What is annotated
+- How ThinLTO is diff than others
+- demo: show the dif bet llvm it from clang vs recovered
+
+
+}
 
