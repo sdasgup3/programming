@@ -195,7 +195,6 @@ below:
   {
     \frametitle{\subsecname}
 
-    %\underline{Research Goal} \vspace{1mm} \\
     \underline{Research Goal}:   Obtain ``richer'' LLVM IR than native machine code.
 
     \qquad \qquad \qquad \qquad\underline{Possible Approaches}
@@ -210,12 +209,16 @@ below:
       
     \cmt{ There are 3 possible approaches to achieve the goal;
       
-      A more general version of this question would be to develop different
-        levels of annotations that yield different amounts of higher-level
-        information in the LLVM IR, as discussed in Section 1.2. 
         
         what is annotations: 
         By annottaions we means some metadata which is be used to extracting the high level source code informations:
+        different levels of annottaions will produce different amount or different categry of high level IR
+
+        For example, if the metadata informatio help if recovering the function entry points, indirect 
+        brancg targets or data embedded in the code, then the recovered IR will be rich in erns of control flow information
+        Again if the annottaions help in recovering the variable layout, daata tyoes, or function signation then the 
+        recovered IR will be rich in high level semantic information which will enable a wide set of analysis and optimizations.
+
 
         It could be information whicbh will help figuring out the function entry points, indirect
         branch targets, and data embedded in code which will help in precide cfg recovery, or
@@ -451,6 +454,9 @@ bytecode optimize the installation of iOS, tvOS, and watchOS apps.  apps can
 automatically take advantage of new processor capabilities they might be adding
 in the future, without the app developers resubmitting to the store.
 
+In project ThinLTO, after the LTO the llvm ir is wrapped inside elf exec ina separate section
+This strategy of shipping both exec and IR is different from other already mentioned prject which just ships the ir
+
   }
 }
 
@@ -490,7 +496,7 @@ in the future, without the app developers resubmitting to the store.
     \begin{itemize}
       \item Selected ``mcsema'' among the existing \MC\ $\rightarrow$ \LIR\ solutions.  
         \begin{itemize}
-          \item Comapred the existing tools (mcsema, Dagger, BAP, Fracture, QEMU)
+          \item Compared the existing tools (mcsema, Dagger, BAP, Fracture, QEMU)
           \item Current support and limitations.
         \end{itemize}
       \item Literature survey on variable \& type recovery research
@@ -729,7 +735,7 @@ in the future, without the app developers resubmitting to the store.
 
 
 \section*{Backup} 
-  \subsection{EXTRA SLIDES: What-you-see-is-not-what-you-execute} 
+  \subsection{EXTRA SLIDES: WYSNYX} 
   \frame
   {
     \frametitle{\subsecname} 
