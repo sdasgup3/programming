@@ -10,6 +10,7 @@
 \setbeamercovered{transparent=50}
 \newcommand{\LIR}{{\tt LLVM IR}}
 \newcommand{\MC}{{\tt Machine Code}}
+\newcommand{\CFG}{{\tt CFG}}
 \usepackage{listings}
 \usepackage{amsmath}
 
@@ -480,7 +481,7 @@ in the future, without the app developers resubmitting to the store.
       \item Actively supported and open sourced
       \item Well documented
       \item Functional \LIR
-      \item Separation of modules: CFG recovery and CFG $\rightarrow$ \LIR
+      \item Separation of modules: CFG recovery and Instruction translation ( \CFG\ $\rightarrow$ \LIR )
     \end{itemize}
 
     \begin{figure}[h]
