@@ -13,6 +13,7 @@
 \newcommand{\CFG}{{\tt CFG}}
 \usepackage{listings}
 \usepackage{amsmath}
+\usepackage{etoolbox}
 
 \title[allvm]{allvm - Binary Decompilation}
 \author{Sandeep Dasgupta}
@@ -46,12 +47,22 @@
 %  \end{frame}
 %}
 
-\AtBeginSection
-{
-  \begin{frame}<beamer>{Outline}
-    \tableofcontents[currentsection,currentsubsection]
+\AtBeginSection[] {
+\ifnumcomp{\value{section}}{=}{5}{}
+  {
+  \begin{frame}[t]
+    \frametitle{Outline}
+      \tableofcontents[sectionstyle=show/shaded,hideothersubsections]
   \end{frame}
+  }
 }
+
+%\AtBeginSection
+%{
+%  \begin{frame}<beamer>{Outline}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
 
 
 \begin{document}
@@ -191,14 +202,30 @@ below:
 
      \begin{figure}[h]
       \centering
-        \scalebox{0.45}{
+        \scalebox{0.47}{
           \includegraphics{Figs/5.eps}
         }
     \end{figure}
 
       
-    \cmt{ There are 3 possible approaches to achieve the goal; As u can see all
-      of them are having atradeoff between odoption and quality of llvm ir }
+    \cmt{ There are 3 possible approaches to achieve the goal;
+      
+      A more general version of this question would be to develop different
+        levels of annotations that yield different amounts of higher-level
+        information in the LLVM IR, as discussed in Section 1.2. 
+        
+        what is annotations: 
+        By annottaions we means some metadata which is be used to extracting the high level source code informations:
+
+        It could be information whicbh will help figuring out the function entry points, indirect
+        branch targets, and data embedded in code which will help in precide cfg recovery, or
+        it could be information to determine the Variable layouts, data types, function
+        signatures which will help will enbaling many analysis/optimizations on the recover IR 
+
+        
+        As u can see
+        all of them are having atradeoff between odoption and quality of llvm
+        ir }
 
   }
 
@@ -459,19 +486,39 @@ in the future, without the app developers resubmitting to the store.
   \frame
   {
     \frametitle{\subsecname}
+    \cmt{
     \begin{itemize}
-      \item Selected ``mcsema'' among the existing \MC\ $\rightarrow$ \LIR\ solution.  
+      \item Selected ``mcsema'' among the existing \MC\ $\rightarrow$ \LIR\ solutions.  
         \begin{itemize}
-          \item Analysing the quality of IR recovery.
+          \item Comapred the existing tools (mcsema, Dagger, BAP, Fracture, QEMU)
           \item Current support and limitations.
         \end{itemize}
       \item Literature survey on variable \& type recovery research
       \item (Under Progress) Implementing a variable and type recovery model using mcsema
     \end{itemize}
-
-    \cmt{ 
-
     }
+  \begin{table}[]
+    \centering
+    \label{my-label}
+    \begin{tabular}{|p{0.8\textwidth}|p{0.13\textwidth}|}
+    \hline
+      \multicolumn{1}{|c|}{Action Items} & \multicolumn{1}{|c|}{Status} \\ \hline
+      Selected ``mcsema'' among the existing \MC\ $\rightarrow$ \LIR\ solutions.
+      \begin{itemize}
+        \item Comparison of mcsema with existing tools
+        \item Evaluation of mcsema 
+      \end{itemize}  
+      &            
+        Done \\ 
+    \hline
+    Literature survey on variable, type, function param recovery & Done \\
+    \hline
+    Implementing a variable and type recovery model using mcsema & Ongoing \\
+    \hline
+
+    \end{tabular}
+  \end{table}
+
   }
 
   \subsection{Selecting mcsema}
@@ -534,8 +581,8 @@ in the future, without the app developers resubmitting to the store.
     \frametitle{\subsecname}
 
     \begin{itemize}
-      \item Processor state: Modelled as struct of {\tt ints}
-      \item Processor memory: Modelled as flat array of bytes
+      \item Processor state: Modeled as struct of {\tt ints}
+      \item Processor memory: Modeled as flat array of bytes
     \end{itemize}
     \begin{figure}[h]
       \centering
@@ -628,7 +675,7 @@ in the future, without the app developers resubmitting to the store.
     \end{itemize}
   }
 
-  \subsection{Variable, Type \& Function Parameter Recovery}
+  \subsection{Variable, Type, Function  Param Recovery}
   \frame
   {
     \frametitle{\subsecname}
@@ -644,14 +691,14 @@ in the future, without the app developers resubmitting to the store.
             \begin{itemize}
               \item State of the art variable recovery %Not scalable 
             \end{itemize}     
+          \item TIE %(Type Inference On Execuatbles)
+            \begin{itemize}
+              \item Type recovery
+            \end{itemize}     
           \item Second Write 
             \begin{itemize}
               \item Heuristics for function parameter  detection
               \item Scalable variable and type recovery
-            \end{itemize}     
-          \item TIE %(Type Inference On Execuatbles)
-            \begin{itemize}
-              \item Type recovery
             \end{itemize}     
         \end{itemize}
     \end{itemize}
@@ -667,6 +714,12 @@ in the future, without the app developers resubmitting to the store.
   \frame
   {
     \frametitle{\subsecname}
+
+    \underline{Summary:}
+    \begin{itemize}
+      \item Today: ??
+      \item Variable, Type, Function Parameter Recovery seems to be beneficial.
+    \end{itemize}
   }
 
 
