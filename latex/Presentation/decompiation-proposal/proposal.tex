@@ -184,18 +184,21 @@ below:
   {
     \frametitle{\subsecname}
 
-    \underline{Research Goal} \vspace{1mm} \\
-      Obtain ``richer'' LLVM IR than native machine code.
+    %\underline{Research Goal} \vspace{1mm} \\
+    \textbf{Research Goal}:   Obtain ``richer'' LLVM IR than native machine code.
 
-    \vspace{5mm}
-    \underline{Possible Approaches} \vspace{1mm} \\
-    \begin{itemize}
-      \item Decompile \MC \ $\rightarrow$ \LIR
-      \item ``Annotated'' \MC \ $\rightarrow$ \LIR
-      \item Ship \LIR
-    \end{itemize}
+    \begin{center}
+    Possible Approaches
+    \end{center}
 
+     \begin{figure}[h]
+      \centering
+        \scalebox{0.45}{
+          \includegraphics{Figs/5.eps}
+        }
+    \end{figure}
 
+      
     \cmt{ There are 3 possible approaches to achieve the goal; As u can see all
       of them are having atradeoff between odoption and quality of llvm ir }
 
