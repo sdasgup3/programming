@@ -527,11 +527,15 @@ in the future, without the app developers resubmitting to the store.
 
 
 
-  \subsection{Instruction Translation: Memory Model}
+  \subsection{Instruction Translation}
   \frame
   {
     \frametitle{\subsecname}
 
+    \begin{itemize}
+      \item Processor state: Modelled as struct of {\tt ints}
+      \item Processor memory: Modelled as flat array of bytes
+    \end{itemize}
     \begin{figure}[h]
       \centering
         \scalebox{0.45}{
