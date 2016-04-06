@@ -1,4 +1,4 @@
-### high level assembly syntax
+### High level assembly syntax
 -  AT&T syntax (used by as,gas) & Intel (use by nasm,tasm, masm)
 - [Good read](http://www.imada.sdu.dk/Courses/DM18/Litteratur/IntelnATT.htm)
 
