@@ -12,6 +12,6 @@ if [ $R = "y" ] || [ $R = "Y" ] ; then
   #This also works; the command line arg should be in quotes
   #M="$1"; 
   echo "Enter Message (with quotes)?";
-  read M
+  read M;
   git pull origin master && git commit -m "$M"  $file_to_commit && git push origin master;
 fi

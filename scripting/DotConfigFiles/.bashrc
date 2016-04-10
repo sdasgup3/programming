@@ -9,17 +9,18 @@ module load python/2.7.10
 #module avail
 
 export SVN_EDITOR=vim
-export LIBFFI_HOME=/home/sdasgup3/Documents/libffi.inst
-export LLVM_3_4_2_HOME=$HOME/Install/llvm-3.4.2.install
-export LLVM_3_5_0_HOME=$HOME/Install/llvm-3.5.0.install
-export LLVM_HOME=$LLVM_3_5_0_HOME
-export LLVM_3_1_HOME=$HOME/Documents/llvm/llvm-3.1.inst/
-export LLVM_2_9_HOME=$HOME/llvm/llvm-2.9/
-export ZESTI_HOME=$HOME/Documents/klee-zesti/zesti.obj/Release+Asserts/bin/
-export KLEE_HOME=$HOME/Work/klee.3.4/Release+Asserts/
-export CMAKE_HOME=$HOME/Install/cmake-3.3.2
-export GDB_HOME=$HOME/Install/gdb-7.10
-export DDD_HOME=$HOME/Install/ddd-3.3.12-install
+LIBFFI_HOME=/home/sdasgup3/Documents/libffi.inst
+LLVM_3_4_2_HOME=$HOME/Install/llvm-3.4.2.install
+LLVM_3_5_0_HOME=$HOME/Install/llvm-3.5.0.install
+LLVM_HOME=$LLVM_3_5_0_HOME
+LLVM_3_1_HOME=$HOME/Documents/llvm/llvm-3.1.inst/
+LLVM_2_9_HOME=$HOME/llvm/llvm-2.9/
+ZESTI_HOME=$HOME/Documents/klee-zesti/zesti.obj/Release+Asserts/bin/
+KLEE_HOME=$HOME/Work/klee.3.4/Release+Asserts/
+CMAKE_HOME=$HOME/Install/cmake-3.3.2
+GDB_HOME=$HOME/Install/gdb-7.10
+DDD_HOME=$HOME/Install/ddd-3.3.12-install
+NASM_HOME=$HOME/Install/nasm-2.12.01.install/
 
 #export SELF_HOME=$HOME/Install/self.install
 #export SMALLTALK_HOME=$HOME/Install/pharo4.0/
@@ -35,8 +36,8 @@ export DDD_HOME=$HOME/Install/ddd-3.3.12-install
 #export GRI_HOME=$HOME/GRI/source
 #export IMAKE_HOME=$HOME/Install/imake.obj
 
-export PATH=$DDD_HOME/bin:$IMAKE_HOME/bin/:$QT_HOME/bin:$MAIL_HOME:$BISON_HOME/bin/:$M4_HOME/bin/:$FLEX_HOME/bin/:$NG_HOME/bin/:$LLVM_HOME/bin:$ZESTI_HOME:$KLEE_HOME/bin/:$CMAKE_HOME/bin/:$SELF_HOME/vm:$SMALLTALK_HOME/:$GDB_HOME/gdb/:$PATH
-export LD_LIBRARY_PATH=$LLVM_HOME/lib/:/home/sdasgup3/GitHub/LLVMSlicer.obj/src/:$LIBFFI_HOME/lib64:$LD_LIBRARY_PATH
+export PATH=$NASM_HOME/bin:$DDD_HOME/bin:$LLVM_HOME/bin:$CMAKE_HOME/bin/:$GDB_HOME/gdb/:$PATH
+export LD_LIBRARY_PATH=$LLVM_HOME/lib/:$LIBFFI_HOME/lib64:$LD_LIBRARY_PATH
 
 if [ -f ~/.aliases ]; then
   . ~/.aliases
