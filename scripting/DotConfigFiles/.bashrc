@@ -9,7 +9,7 @@ module load python/2.7.10
 #module avail
 
 export SVN_EDITOR=vim
-LIBFFI_HOME=/home/sdasgup3/Documents/libffi.inst
+LIBFFI_HOME=${HOME}/Documents/libffi.inst
 LLVM_3_4_2_HOME=$HOME/Install/llvm-3.4.2.install
 LLVM_3_5_0_HOME=$HOME/Install/llvm-3.5.0.install
 LLVM_HOME=$LLVM_3_5_0_HOME
