@@ -2,7 +2,9 @@
 - To get the file name and extension
 ```
 fname=ab.cd.ef.gh
-head=$(echo $fname | sed -s 's/\(.*\)\.\([^.]*\)/\1/g')
+head=$(echo $fname | sed -s 's/\(.*\)\.\([^.]*\)/\1/g')   
+or
+head=$(echo $fname | sed -s 's/\.[^.]*$//g')          // replace .ext with null
 ext=$(echo $fname | sed -s 's/\(.*\)\.\([^.]*\)/\2/g')
 ```
 
