@@ -1,4 +1,15 @@
 ###Cheatsheet
+- To execute any shell command use ``` ret=$(cmd)```
+
+- To get the file name and extension
+```
+fname=ab.cd.ef.gh
+head=$(echo $fname | sed -s 's/\(.*\)\.\([^.]*\)/\1/g')   
+or
+head=$(echo $fname | sed -s 's/\.[^.]*$//g')          // replace .ext with null
+ext=$(echo $fname | sed -s 's/\(.*\)\.\([^.]*\)/\2/g')
+```
+
 - To expand all variables and prints the full commands before output of the command.
 ```
 #!/bin/bash
