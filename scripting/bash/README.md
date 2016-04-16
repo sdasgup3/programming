@@ -1,4 +1,6 @@
 ###Cheatsheet
+- To execute any shell command use ``` ret=$(cmd)```
+
 - To get the file name and extension
 ```
 fname=ab.cd.ef.gh
