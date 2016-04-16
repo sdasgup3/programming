@@ -1,4 +1,11 @@
 ###Cheatsheet
+- To get the file name and extension
+```
+fname=ab.cd.ef.gh
+head=$(echo $fname | sed -s 's/\(.*\)\.\([^.]*\)/\1/g')
+ext=$(echo $fname | sed -s 's/\(.*\)\.\([^.]*\)/\2/g')
+```
+
 - To expand all variables and prints the full commands before output of the command.
 ```
 #!/bin/bash
