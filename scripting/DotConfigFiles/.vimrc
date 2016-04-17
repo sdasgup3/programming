@@ -21,3 +21,11 @@ map <ScrollWheelDown> <C-E>
 map fa gggqG
 map fp gqip
 map fl gqq
+
+"This is for llvm syntax highlighting
+"copy `src/utils/vim/syntax/llvm.vim' to
+" ~/.vim/syntax and add this code to your ~/.vimrc :
+augroup filetype
+  au! BufRead,BufNewFile *.ll     set filetype=llvm
+augroup END
+
