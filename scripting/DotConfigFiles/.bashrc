@@ -39,6 +39,9 @@ NASM_HOME=$HOME/Install/nasm-2.12.01.install/
 export PATH=$NASM_HOME/bin:$DDD_HOME/bin:$LLVM_HOME/bin:$CMAKE_HOME/bin/:$GDB_HOME/gdb/:$PATH
 export LD_LIBRARY_PATH=$LLVM_HOME/lib/:$LIBFFI_HOME/lib64:$LD_LIBRARY_PATH
 
+## Setting env vars for ICC
+source ${HOME}/Install/intel/bin/compilervars.sh intel64
+
 if [ -f ~/.aliases ]; then
   . ~/.aliases
 fi
