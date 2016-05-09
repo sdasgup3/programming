@@ -1,1 +1,0 @@
-gcc -Wall -O0 -fopenmp *.c
