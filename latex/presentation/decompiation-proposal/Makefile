@@ -1,7 +1,7 @@
 TGT=proposal
 DEPS= 
 
-LATEX=pslatex
+LATEX=latex
 BIBTEX=bibtex
 
 all: $(TGT)
