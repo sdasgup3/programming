@@ -41,8 +41,8 @@ augroup filetype
 augroup END
 
 " Markdown syntax highlighting
-"filetype on
-"au BufNewFile,BufRead *.{md,mdown,mkd,mkdn,markdown,mdwn} set     filetype=markdown
+filetype on
+au BufNewFile,BufRead *.{md,mdown,mkd,mkdn,markdown,mdwn} set     filetype=markdown
 
 " Set not compatible mode to enable Vim features.
 "set nocp
