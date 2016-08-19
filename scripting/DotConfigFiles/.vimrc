@@ -1,4 +1,4 @@
-set background=dark
+colorscheme torte
 
 set autoindent
 set smartindent
