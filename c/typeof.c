@@ -1,10 +1,6 @@
-#include<stdio.h>
+#include <stdio.h>
 
-
-int main()
-{
+int main() {
   int a;
-  typeof (a) b = a;
-
-
+  typeof(a) b = a;
 }

@@ -49,3 +49,8 @@ To autofill command from the  command histofry` add the  following line in ~/.in
 LLVM_PATH=$(<./LLVM_PATH.linux) _Setting an ev var from a file_
 
 ```
+
+### remove the ext of a filepath
+```
+for x in $(find . -name "*.cfg"); do z=${x%.*} ;  tail -n 1 $z.log; done
+```
